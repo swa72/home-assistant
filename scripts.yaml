@@ -1,0 +1,8 @@
+haustur_offen:
+  alias: Haustür offen
+  sequence:
+  - service: notify.mobile_app_swaiphone
+    data:
+      title: Haustür
+      message: Steht seit 30s offen.
+  mode: single

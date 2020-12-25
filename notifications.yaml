@@ -1,0 +1,26 @@
+- platform: group
+  name: all_ios_devices
+  services:
+# omit the "notify." here
+  - service: mobile_app_jphone
+  - service: mobile_app_iphonebwi
+  - service: mobile_app_stefans_ipad
+  - service: mobile_app_swaiphone
+  - service: mobile_app_iphone_von_anna
+
+#
+#
+#
+- platform: group
+  name: urgent_notification
+  services:
+    - service: mobile_app_swaiphone
+      data:
+        title: "Hinweis"
+# dont use message here, will be configured in alert itself
+        data:
+          push:
+            sound: 
+              name: default
+              critical: 1
+              volume: 1.0

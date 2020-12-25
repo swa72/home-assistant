@@ -1,0 +1,111 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+notify: !include notifications.yaml
+sensor: !include sensors.yaml
+
+#
+# duckdns
+# 
+duckdns:
+  domain: !secret duckdns_domain
+  access_token: !secret duckdns_token
+http:
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+# dont forget the next line or https will not work :-/
+# later: maybe not, log bitches about base_url being deprecated
+  base_url: https://swa.duckdns.org
+ 
+#
+# Alle Rolladen im Schlafzimmer
+#
+cover:
+  - platform: group
+    name: Eltern-Schlafzimmer
+    entities:
+     - cover.shellyswitch25_10521cf997bf
+     - cover.shellyswitch25_483fda4d0633
+#
+# garage door
+#
+# there is only one button (!) so we only use turn_on
+  - platform: template
+    covers:
+      garage_door:
+        device_class: garage
+        friendly_name: "Garage Door"
+# old        
+#        value_template: "{{ states('binary_sensor.garagentor_input') }}"
+        value_template: "{% if is_state('binary_sensor.garagentor_input', 'on') %}closed{% else %}open{% endif %}"
+        open_cover:
+          service: switch.turn_on
+          data:
+            entity_id: switch.garagentor
+        close_cover:
+          service: switch.turn_on
+          data:
+            entity_id: switch.garagentor
+        stop_cover:
+          service: switch.turn_on
+          data:
+            entity_id: switch.garagentor
+        icon_template: >-
+          {% if is_state('binary_sensor.garagentor_input','off') %}
+            mdi:garage-open
+          {% else %}
+            mdi:garage
+          {% endif %}
+
+#
+# alerts
+#
+alert:
+  garage_alert:
+    name: Garage ist (zu lange) offen
+    done_message: Garage ist geschlossen
+    entity_id: binary_sensor.garagentor_input
+    state: 'off' # Optional, 'on' is the default value
+    repeat: 
+      - 30
+      - 15
+    can_acknowledge: true # Optional, default is true
+    skip_first: true # Optional, false is the default
+# message is automagically set to name above
+#    message: 
+    notifiers:
+      - urgent_notification
+
+  haustur_alert:
+    name: "Haustür ist (zu lange) offen. Es hat {{ state_attr('weather.homeassistant', 'temperature') }} Grad draußen."
+    done_message: Haustür ist geschlossen
+    entity_id: binary_sensor.haustur
+    state: 'on' # Optional, 'on' is the default value
+    repeat: 
+      - 3
+      - 5
+    can_acknowledge: true # Optional, default is true
+    skip_first: true # Optional, false is the default
+    notifiers:
+      - urgent_notification
+
+  dachfenster_alert:
+    name: "Dachfenster offen und Vorhersage sagt {{ state_attr('weather.homeassistant','forecast')[0].precipitation }}mm Regen."
+    done_message: Dachfenster sind geschlossen
+    entity_id: binary_sensor.dachfenster_offen_regentag
+    state: 'on' # Optional, 'on' is the default value
+    repeat: 
+      - 3
+    can_acknowledge: true # Optional, default is true
+#    skip_first: true # Optional, false is the default
+    notifiers:
+      - urgent_notification

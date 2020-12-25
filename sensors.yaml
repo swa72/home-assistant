@@ -1,0 +1,46 @@
+# Example, called from configuration.yaml
+# gives a new entity after restart
+platform: template
+sensors:
+#
+#
+  sun_up:
+    friendly_name: "Sun is up"
+    value_template: >-
+     {{ state_attr('sun.sun', 'elevation')|float > 0 }}
+#
+# Using openweathermap forecast
+#
+  rainy_day:
+    friendly_name: "Rain in next 4 Hours"
+    value_template: >-
+      {% set p0 = state_attr('weather.openweathermap', 'forecast')[0].condition == "rainy" %}
+      {% set p1 = state_attr('weather.openweathermap', 'forecast')[1].condition == "rainy" %}
+      {% set p2 = state_attr('weather.openweathermap', 'forecast')[2].condition == "rainy" %}
+      {% set p3 = state_attr('weather.openweathermap', 'forecast')[3].condition == "rainy" %}
+      {{ 'true' if p0 or p1 or p2 or p3 else 'false' }}
+
+# #
+# # sunny and hot day coming up
+# #
+#   sunny_hot_day:
+#     friendly_name: "Sunny and hot day coming up"
+#     value_template: >-
+#       {% set p0 = state_attr('weather.openweathermap', 'forecast')[0].condition == None %}
+#       {% set p1 = state_attr('weather.openweathermap', 'forecast')[1].condition == None %}
+#       {{ 'false' if p0 and p1 else 'true' }}
+#
+# fake sensor
+#
+  swa_fake:
+    friendly_name: Fake sensor
+    value_template: "off"
+#
+# 
+#
+  dachfenster_offen_regentag:
+    friendly_name: Sensor on, wenn Regen kommt und Dachfenster offen
+    value_template: >-
+      {% set p0 = states('group.dachfenster') == 'on' %}
+      {% set p1 = states('sensor.rainy_day') == 'true' %}
+      {{ 'on' if p0 and p1 else 'off' }}

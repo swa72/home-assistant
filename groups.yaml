@@ -1,0 +1,28 @@
+# dachfenster
+dachfenster:
+  name: Dachfenster
+  icon: mdi:window-open
+  entities:
+  - binary_sensor.fenster_no
+  - binary_sensor.fenster_nw
+  - binary_sensor.fenster_o
+  - binary_sensor.fenster_sw
+# meine familie
+family:
+  name: Familie
+  entities:
+  - person.stefan
+  - person.julia
+  - person.anna
+# alle fenster
+fenster:
+  name: Fenster
+  icon: mdi:window-open
+  entities:
+  - group.dachfenster
+# alle türen
+tueren:
+  name: Türen
+  icon: mdi:door
+  entities:
+  - binary_sensor.haustur

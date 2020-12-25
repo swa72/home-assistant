@@ -1,0 +1,188 @@
+- id: '1607708735152'
+  alias: Wenn EG Statuswechsel
+  description: send me a fucking message
+  trigger:
+  - platform: state
+    entity_id: switch.eg_flur_licht
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: notify.mobile_app_swaiphone
+    data:
+      title: EG Flur
+      message: Licht an
+  mode: single
+- id: '1608063965030'
+  alias: Wenn neue Version dann Nachricht an Stefan
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.updater
+    from: 'off'
+    to: 'on'
+  action:
+  - service: notify.mobile_app_swaiphone
+    data:
+      title: New Home Assistant Release
+      message: Home Assistant  {{ state_attr('binary_sensor.updater', 'newest_version')
+        }}  is now available.
+  mode: single
+- id: '1608064894809'
+  alias: Wenn Haustür zu lange offen, dann Nachricht an alle.
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.haustur
+    from: 'off'
+    for: 0:03:00
+    to: 'on'
+  condition: []
+  action:
+  - service: notify.all_ios_devices
+    data:
+      title: Haustür
+      message: Steht zu lange offen. Es hat {{ state_attr('weather.homeassistant',
+        'temperature') }} Grad draußen.
+  - service: system_log.write
+    data:
+      message: Haustür steht zu lange offen
+      level: warning
+      logger: swa-automations
+  mode: single
+- id: '1608480614730'
+  alias: Wenn Haustür geöffnet wird und dunkel draußen, dann Flur-EG Licht an.
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.haustur
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: template
+    value_template: '{{ state_attr(''sun.sun'', ''elevation'') < -6 }}'
+  action:
+  - type: turn_on
+    device_id: d824de0a6c667da98e0f508d5d4129e5
+    entity_id: switch.eg_flur_licht
+    domain: switch
+  mode: single
+- id: '1608494074501'
+  alias: Dummy
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: automation.new_automation
+  condition: []
+  action:
+  - service: notify.mobile_app_swaiphone
+    data:
+      title: Dummy
+      message: foobar
+  mode: single
+- id: '1608549888374'
+  alias: Wenn ein Dachfenster offen ist und Regen zu erwarten ist, dann Nachricht
+    an alle.
+  description: ''
+  trigger:
+  - platform: state
+    from: 'off'
+    to: 'on'
+    entity_id: group.dachfenster
+  condition:
+  - condition: state
+    entity_id: sensor.rainy_day
+    state: 'false'
+  action:
+  - service: notify.all_ios_devices
+    data:
+      title: Dachfenster
+      message: Dachfenster offen und Vorhersage sagt {{ state_attr('weather.homeassistant',
+        'forecast')[0].precipitation }}mm Regen.
+  - service: system_log.write
+    data:
+      message: Dachfenster bei Regenvorhersage geoeffnet.
+      level: warning
+      logger: swa-automations
+  mode: single
+- id: '1608567664971'
+  alias: Dummy to logfile
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: automation.dummy
+    attribute: last_triggered
+  condition: []
+  action:
+  - service: system_log.write
+    data:
+      message: Dummy to logfile
+      level: warning
+      logger: swa-automation
+  mode: single
+- id: '1608629961357'
+  alias: Send notification when sun rises
+  description: Send notification when sun rises
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: +00:30:00
+  action:
+  - service: notify.mobile_app_swaiphone
+    data:
+      title: Sonne
+      message: The sun is up.
+  mode: single
+- id: '1608630048283'
+  alias: Send notification when sun sets
+  description: Send notification when sun sets
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: +00:30:00
+  condition: []
+  action:
+  - service: notify.mobile_app_swaiphone
+    data:
+      title: Sonne
+      message: The sun is down.
+  mode: single
+- id: '1608633463304'
+  alias: Schlafzimmer Rolladen runter nach Sonnenuntergang
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: 00:30:00
+  condition: []
+  action:
+  - service: cover.close_cover
+    data: {}
+    entity_id: cover.eltern_schlafzimmer
+  - service: system_log.write
+    data:
+      message: Schlafzimmer Rolladen runter nach Sonnenuntergang
+      level: warning
+      logger: swa-automations
+  mode: single
+- id: '1608636183988'
+  alias: Wenn Fenster zu lange offen, dann Nachricht an alle
+  description: ''
+  trigger:
+  - platform: state
+    from: 'off'
+    for: 0:10:00
+    to: 'on'
+    entity_id: group.fenster
+  condition: []
+  action:
+  - service: notify.all_ios_devices
+    data:
+      title: Fenster
+      message: Steht zu lange offen. Es hat {{ state_attr('weather.homeassistant',
+        'temperature') }} Grad draußen.
+  - service: system_log.write
+    data:
+      message: Wenn Fenster zu lange offen, dann Nachricht an alle
+      level: warning
+      logger: swa-automations
+  mode: single
