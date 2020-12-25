@@ -44,3 +44,11 @@ sensors:
       {% set p0 = states('group.dachfenster') == 'on' %}
       {% set p1 = states('sensor.rainy_day') == 'true' %}
       {{ 'on' if p0 and p1 else 'off' }}
+# #
+# #
+  # garage_offen_nach_sonnenuntergang:
+    # friendly_name: Sensor on, wenn Garage nach Sonnenuntergang offen
+    # value_template: >-
+      # {% set p0 = states('binary_sensor.garagentor_input') == "off" %}
+      # {% set p1 = states('sun_up') == "False" %}
+      # {{ 'true' if p0 and p1 else 'false' }}

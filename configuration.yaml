@@ -81,7 +81,9 @@ alert:
 #    message: 
     notifiers:
       - urgent_notification
-
+#
+#
+#
   haustur_alert:
     name: "Haustür ist (zu lange) offen. Es hat {{ state_attr('weather.homeassistant', 'temperature') }} Grad draußen."
     done_message: Haustür ist geschlossen
@@ -94,7 +96,9 @@ alert:
     skip_first: true # Optional, false is the default
     notifiers:
       - urgent_notification
-
+#
+#
+#
   dachfenster_alert:
     name: "Dachfenster offen und Vorhersage sagt {{ state_attr('weather.homeassistant','forecast')[0].precipitation }}mm Regen."
     done_message: Dachfenster sind geschlossen
@@ -106,6 +110,17 @@ alert:
 #    skip_first: true # Optional, false is the default
     notifiers:
       - urgent_notification
-
-
-
+#
+#
+#
+  fake_alert:
+    name: "fake name"
+    done_message: fake done
+    entity_id: sensor.swa_fake
+    state: 'on' # Optional, 'on' is the default value
+    repeat: 
+      - 1
+    can_acknowledge: true # Optional, default is true
+#    skip_first: true # Optional, false is the default
+    notifiers:
+      - urgent_notification

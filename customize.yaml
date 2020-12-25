@@ -1,6 +1,15 @@
+#
+#
+#
 garage_door:
   device_class: garage
+#
+#
+#
 cover.eltern_schlafzimmer:
   icon: mdi:window-shutter
+#
+#
+#
 binary_sensor.haustur:
   icon: mdi:door

@@ -1,18 +1,3 @@
-- id: '1607708735152'
-  alias: Wenn EG Statuswechsel
-  description: send me a fucking message
-  trigger:
-  - platform: state
-    entity_id: switch.eg_flur_licht
-    from: 'off'
-    to: 'on'
-  condition: []
-  action:
-  - service: notify.mobile_app_swaiphone
-    data:
-      title: EG Flur
-      message: Licht an
-  mode: single
 - id: '1608063965030'
   alias: Wenn neue Version dann Nachricht an Stefan
   trigger:
@@ -130,7 +115,7 @@
   - service: notify.mobile_app_swaiphone
     data:
       title: Sonne
-      message: The sun is up.
+      message: 30mins ago the sun went up.
   mode: single
 - id: '1608630048283'
   alias: Send notification when sun sets
@@ -144,7 +129,7 @@
   - service: notify.mobile_app_swaiphone
     data:
       title: Sonne
-      message: The sun is down.
+      message: 30mins ago the sun went down.
   mode: single
 - id: '1608633463304'
   alias: Schlafzimmer Rolladen runter nach Sonnenuntergang
@@ -186,18 +171,13 @@
       level: warning
       logger: swa-automations
   mode: single
-
-#Put this in automations.yaml
 - id: l1k3
   alias: push HA configuration to GitHub repo
   trigger:
-  # Everyday at 23:23:00 time
-  - at: "23:23:00"
+  - at: '23:23:00'
     platform: time
   action:
   - data:
       addon: a0d7b954_ssh
       input: /config/gitpush.sh
     service: hassio.addon_stdin
-    
-    
