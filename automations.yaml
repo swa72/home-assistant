@@ -186,3 +186,18 @@
       level: warning
       logger: swa-automations
   mode: single
+
+#Put this in automations.yaml
+- id: l1k3
+  alias: push HA configuration to GitHub repo
+  trigger:
+  # Everyday at 23:23:00 time
+  - at: "23:23:00"
+    platform: time
+  action:
+  - data:
+      addon: a0d7b954_ssh
+      input: /config/gitpush.sh
+    service: hassio.addon_stdin
+    
+    
