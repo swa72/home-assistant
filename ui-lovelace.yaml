@@ -1,0 +1,162 @@
+title: HomeAssistant
+views:
+  - path: default_view
+    title: Home
+    badges:
+      - entity: binary_sensor.updater
+      - entity: sun.sun
+    cards:
+      - type: entities
+        entities:
+          - person.stefan
+          - person.julia
+          - person.anna
+        title: Familie
+        show_header_toggle: true
+      - type: weather-forecast
+        entity: weather.openweathermap
+        name: OpenWeathermap
+        show_forecast: true
+        secondary_info_attribute: wind_speed
+      - type: entities
+        entities:
+          - entity: group.fenster
+          - entity: group.tueren
+        title: Fenster und Türen
+        show_header_toggle: false
+        state_color: true
+      - type: entities
+        entities:
+          - cover.eltern_schlafzimmer
+        title: Rolladen
+      - type: entities
+        entities:
+          - cover.garage_door
+        title: Garage
+        state_color: true
+      - type: entity
+        entity: binary_sensor.haustur
+        name: Haustür
+        attribute: temperature
+        unit: Grad
+      - type: entities
+        entities:
+          - binary_sensor.fenster_no
+          - binary_sensor.fenster_nw
+          - binary_sensor.fenster_o
+          - binary_sensor.fenster_sw
+        title: Dachfenster
+        show_header_toggle: true
+        state_color: true
+      - type: entity
+        entity: group.oeffnungen
+  - title: EG
+    path: eg
+    badges: []
+    cards:
+      - type: entities
+        entities:
+          - sensor.eg_flur_licht_power
+          - sensor.kellerabgang_licht_power
+          - switch.eg_flur_licht
+          - switch.kellerabgang_licht
+          - binary_sensor.haustur
+        title: EG-Flur
+      - type: entities
+        entities:
+          - sensor.fritz_box_7490_kib_s_received
+          - sensor.fritz_box_7490_kib_s_sent
+        title: EG-Kueche
+      - type: entities
+        entities:
+          - sensor.shellyplug_s_9d90b0_power
+          - switch.shellyplug_s_9d90b0
+          - switch.wintergarten
+        title: EG-Wintergarten
+  - title: OG
+    path: og
+    badges: []
+    cards:
+      - type: entities
+        entities:
+          - binary_sensor.shellyswitch25_10521cf997bf_overheating
+          - cover.shellyswitch25_10521cf997bf
+          - sensor.shellyswitch25_10521cf997bf_power
+          - sensor.shellyswitch25_10521cf997bf_energy
+        title: OG-Elternbad
+      - type: entities
+        entities:
+          - sensor.fritz_dect_repeater_100_3
+        title: OG-Flur
+      - type: entities
+        entities:
+          - binary_sensor.shellyswitch25_483fda4d0633_overheating
+          - cover.shellyswitch25_483fda4d0633
+          - sensor.shellyswitch25_483fda4d0633_power
+          - sensor.shellyswitch25_483fda4d0633_energy
+        title: OG-Schlaf
+  - title: DG
+    path: dg
+    badges: []
+    cards:
+      - type: entities
+        entities:
+          - binary_sensor.fenster_no
+        title: Dach-Bad
+      - type: entities
+        entities:
+          - sensor.hp_laserjet_200_colormfp_m276nw_black_cartridge_hp_cf210x
+          - sensor.hp_laserjet_200_colormfp_m276nw_cyan_cartridge_hp_cf211a
+          - sensor.hp_laserjet_200_colormfp_m276nw_magenta_cartridge_hp_cf213a
+          - sensor.hp_laserjet_200_colormfp_m276nw_yellow_cartridge_hp_cf212a
+          - sensor.hp_laserjet_200_colormfp_m276nw
+          - binary_sensor.fenster_sw
+          - binary_sensor.fenster_o
+          - light.range_extender_2
+        title: Dach-Stefan
+      - type: entities
+        entities:
+          - binary_sensor.shellyswitch25_10521cf11d6b_overheating
+          - cover.shellyswitch25_10521cf11d6b
+          - sensor.shellyswitch25_10521cf11d6b_power
+          - sensor.shellyswitch25_10521cf11d6b_energy
+          - binary_sensor.fenster_nw
+        title: Dach-Anna
+  - title: Outdoor
+    path: outdoor
+    badges: []
+    cards:
+      - type: entities
+        entities:
+          - switch.garagentor
+          - binary_sensor.garagentor_cloud
+          - binary_sensor.garagentor_firmware_update
+          - binary_sensor.garagentor_input
+          - sensor.garagentor_rssi
+          - sensor.garagentor_uptime
+        title: Garage
+#
+#
+#
+  # - title: Misc
+    # path: misc
+    # badges: []
+    # cards:
+      # - type: 'custom:auto-entities'
+        # card:
+          # type: entities
+          # title: Devices with battery
+        # filter:
+          # # exclude: #excluding some devices that are reported twice
+            # # - entity_id: switch.plug_
+            # # - entity_id: sensor.humidity_
+            # # - entity_id: sensor.humidity_
+          # include:
+             # - attributes:
+                # battery_level: <101 #make sure all your devices report battery level like this or include any different attributes accordingly
+                # options: #added this so that the battery level is reported as secondary_info
+                  # type: 'custom:secondaryinfo-entity-row'
+                  # secondary_info: '[[ {entity}.attributes.battery_level ]]%'
+        # sort:
+          # method: attribute
+          # attribute: battery_level

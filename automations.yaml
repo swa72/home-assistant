@@ -181,3 +181,25 @@
       addon: a0d7b954_ssh
       input: /config/gitpush.sh
     service: hassio.addon_stdin
+- id: '1609014775930'
+  alias: Notify when someone enters or leaves a zone
+  description: Notify when someone enters or leaves a zone
+  trigger:
+  - platform: state
+    entity_id: person.stefan
+  - platform: state
+    entity_id: person.anna
+  - platform: state
+    entity_id: person.julia
+  condition:
+  - condition: template
+    value_template: '{{ trigger.from_state.state != trigger.to_state.state }}'
+  action:
+  - service: notify.mobile_app_swaiphone
+    data:
+      title: Location update {{ states.sensor.time.state }}
+      message: '{{ trigger.to_state.attributes.friendly_name }} {% if trigger.to_state.state
+        == ''not_home'' %} has left {{ trigger.from_state.state }}{% endif %}{% if
+        trigger.from_state.state == ''not_home'' %}arrived at {{ trigger.to_state.state
+        }}{% endif %}'
+  mode: single

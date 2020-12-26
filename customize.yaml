@@ -1,8 +1,9 @@
 #
 #
+# see also https://www.home-assistant.io/integrations/binary_sensor/#device-class
 #
-garage_door:
-  device_class: garage
+#garage_door:
+#  device_class: garage
 #
 #
 #
@@ -11,5 +12,28 @@ cover.eltern_schlafzimmer:
 #
 #
 #
+sensor.people_home:
+  device_class: presence
+#
+#
+#
 binary_sensor.haustur:
-  icon: mdi:door
+  device_class: door
+#
+#
+#
+group.fenster:
+  device_class: window
+#
+#
+#
+group.tueren:
+  device_class: door
+#
+#
+#
+group.oeffnungen:
+  device_class: opening
+#
+#
+#

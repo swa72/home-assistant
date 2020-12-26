@@ -23,7 +23,7 @@ family:
 #
 fenster:
   name: Fenster
-  icon: mdi:window-open
+#  icon: mdi:window-open
   entities:
   - group.dachfenster
 #
@@ -31,6 +31,16 @@ fenster:
 #
 tueren:
   name: Türen
-  icon: mdi:door
+#  icon: mdi:door
   entities:
   - binary_sensor.haustur
+#
+#
+#
+oeffnungen:
+  name: Alle Türen und Fenster
+#  icon: mdi:home-alert
+  entities:
+  - group.fenster
+  - group.tueren
+  

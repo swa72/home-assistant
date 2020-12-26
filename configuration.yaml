@@ -2,10 +2,37 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
+homeassistant:
+  customize: !include customize.yaml
+  customize_glob:
+    "binary_sensor.fenster*":
+      device_class: window
+
+#
+# check out https://www.home-assistant.io/lovelace/dashboards-and-views/
+#
+lovelace:
+  mode: yaml
+  # resources:
+    # - url: /hacsfiles/lovelace-auto-entities/auto-entities.js
+      # type: module
+#
 # Text to speech
+#
 tts:
   - platform: google_translate
-
+#
+# check out https://www.home-assistant.io/integrations/fritz/
+#
+# known_devices.yaml automagically populated; names, icons added manually
+#
+device_tracker:
+  - platform: fritz
+    host: 192.168.178.1
+    consider_home: 180
+    interval_seconds: 12
+#
+#
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
@@ -62,6 +89,21 @@ cover:
           {% else %}
             mdi:garage
           {% endif %}
+
+# #
+# # Haustür, nur fürs UI
+# #
+  # - platform: template
+    # sensors:
+      # ui_haustuer:
+      # value_template: >-
+        # {{ is_state("sun.sun", "above_horizon") }}
+      # icon_template: >-
+        # {% if is_state('binary_sensor.garagentor_input','off') %}
+        # mdi:door-open
+        # {% else %}
+        # mdi:door
+        # {% endif %}
 
 #
 # alerts
@@ -120,6 +162,20 @@ alert:
     state: 'on' # Optional, 'on' is the default value
     repeat: 
       - 1
+    can_acknowledge: true # Optional, default is true
+#    skip_first: true # Optional, false is the default
+    notifiers:
+      - urgent_notification
+#
+#
+#
+  haus_offen_alert:
+    name: "Irgendeine Außentür/Fenster offen und keiner zuhause."
+    done_message: Problem mit offenem Haus gelöst.
+    entity_id: binary_sensor.haus_offen_keiner_zuhause
+    state: 'on' # Optional, 'on' is the default value
+    repeat: 
+      - 5
     can_acknowledge: true # Optional, default is true
 #    skip_first: true # Optional, false is the default
     notifiers:
