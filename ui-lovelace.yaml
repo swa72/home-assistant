@@ -160,3 +160,144 @@ views:
         # sort:
           # method: attribute
           # attribute: battery_level
+  - title: Location (Stefan)
+    icon: mdi:cellphone-iphone
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: glance
+            title: Location Info - Stefan
+            column_width: 20%
+            entities:
+              - entity: device_tracker.swaiphone
+                name: Stefan
+              - entity: sensor.swaiphone_interval
+                name: Interval
+                icon: mdi:clock-start
+              - entity: sensor.swaiphone_travel_time
+                name: TravTime
+                icon: mdi:clock-outline
+              - entity: sensor.swaiphone_zone_distance
+                name: Home
+                icon: mdi:map-marker-distance 
+              - entity: sensor.swaiphone_next_update
+                name: NextUpdt
+                icon: mdi:update
+
+          - type: glance
+            column_width: 20%
+            entities:
+              - entity: sensor.swaiphone_waze_distance
+                name: WazeDist
+                icon: mdi:map-marker-distance
+              - entity: sensor.swaiphone_calc_distance
+                name: CalcDist
+                icon: mdi:map-marker-distance
+              - entity: sensor.swaiphone_dir_of_travel
+                name: Direction
+                icon: mdi:compass-outline
+              - entity: sensor.swaiphone_last_located
+                name: Located
+                icon: mdi:map-clock
+              - entity: sensor.swaiphone_last_update
+                name: LastUpdt
+                icon: mdi:history
+
+          - type: horizontal-stack
+            cards:
+            - type: entities
+              entities:
+                - entity: sensor.swaiphone_info
+                  name: Info
+                  icon: mdi:information-outline 
+
+#-------------------------------------------------------------------------              
+      - type: vertical-stack
+        cards:
+          - type: glance
+            title: Location Info - Julia
+            column_width: 20%
+            entities:
+              - entity: device_tracker.jphone
+                name: Stefan
+              - entity: sensor.jphone_interval
+                name: Interval
+                icon: mdi:clock-start
+              - entity: sensor.jphone_travel_time
+                name: TravTime
+                icon: mdi:clock-outline
+              - entity: sensor.jphone_zone_distance
+                name: HomeDist
+                icon: mdi:map-marker-distance 
+              - entity: sensor.jphone_next_update
+                name: NextUpdt
+                icon: mdi:update
+
+          - type: glance
+            column_width: 20%
+            entities:
+              - entity: sensor.jphone_waze_distance
+                name: WazeDist
+                icon: mdi:map-marker-distance
+              - entity: sensor.jphone_calc_distance
+                name: CalcDist
+                icon: mdi:map-marker-distance
+              - entity: sensor.jphone_dir_of_travel
+                name: Direction
+                icon: mdi:compass-outline
+              - entity: sensor.jphone_last_located
+                name: Located
+                icon: mdi:map-clock
+              - entity: sensor.jphone_last_update
+                name: LastUpdt
+                icon: mdi:history
+          - type: entities
+            entities:
+              - entity: sensor.jphone_info
+                name: Info
+                icon: mdi:information-outline 
+#-------------------------------------------------------------------------              
+      - type: vertical-stack
+        cards:
+          - type: glance
+            title: Location Info - Anna
+            column_width: 20%
+            entities:
+              - entity: device_tracker.iphone_von_anna
+                name: Anna
+              - entity: sensor.iphone_von_anna_interval
+                name: Interval
+                icon: mdi:clock-start
+              - entity: sensor.iphone_von_anna_travel_time
+                name: TravTime
+                icon: mdi:clock-outline
+              - entity: sensor.iphone_von_anna_zone_distance
+                name: HomeDist
+                icon: mdi:map-marker-distance 
+              - entity: sensor.iphone_von_anna_next_update
+                name: NextUpdt
+                icon: mdi:update
+
+          - type: glance
+            column_width: 20%
+            entities:
+              - entity: sensor.iphone_von_anna_waze_distance
+                name: WazeDist
+                icon: mdi:map-marker-distance
+              - entity: sensor.iphone_von_anna_calc_distance
+                name: CalcDist
+                icon: mdi:map-marker-distance
+              - entity: sensor.iphone_von_anna_dir_of_travel
+                name: Direction
+                icon: mdi:compass-outline
+              - entity: sensor.iphone_von_anna_last_located
+                name: Located
+                icon: mdi:map-clock
+              - entity: sensor.iphone_von_anna_last_update
+                name: LastUpdt
+                icon: mdi:history
+          - type: entities
+            entities:
+              - entity: sensor.iphone_von_anna_info
+                name: Info
+                icon: mdi:information-outline 
