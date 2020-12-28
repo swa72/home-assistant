@@ -60,6 +60,17 @@ scene: !include scenes.yaml
 notify: !include notifications.yaml
 sensor: !include sensors.yaml
 
+sensor:
+  - platform: uptime
+sensor:
+  - platform: systemmonitor
+    resources:
+    - type: memory_use_percent
+    - type: processor_temperature
+    - type: last_boot
+    - type: load_1m
+    - type: load_5m
+    - type: load_15m
 #
 # duckdns
 # 

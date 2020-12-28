@@ -50,6 +50,28 @@ views:
         state_color: true
       - type: entity
         entity: group.oeffnungen
+      - type: glance
+        entities:
+          - entity: sensor.haustur_battery_level
+          - entity: sensor.fenster_no_battery_level
+          - entity: sensor.fenster_sw_battery_level
+          - entity: sensor.fenster_nw_battery_level
+          - entity: sensor.fenster_o_battery_level
+        title: Sensoren Batterien
+        show_icon: true
+        show_state: true
+        state_color: false
+        show_name: true
+      - type: entities
+        entities:
+           - entity: sensor.memory_use_percent
+           - entity: sensor.processor_temperature
+           - entity: sensor.last_boot
+           - entity: sensor.load_1m
+           - entity: sensor.load_5m
+           - entity: sensor.load_15m
+        title: Raspberry Pi
+        state_color: false
   - title: EG
     path: eg
     badges: []
