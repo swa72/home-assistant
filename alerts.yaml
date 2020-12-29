@@ -1,0 +1,74 @@
+#
+# alerts
+#
+garage_alert:
+  name: Garage ist (zu lange) offen
+  done_message: Garage ist geschlossen
+  entity_id: binary_sensor.shelly1_garage_input
+  state: 'off' # Optional, 'on' is the default value
+  repeat: 
+    - 30
+    - 15
+  can_acknowledge: true # Optional, default is true
+  skip_first: true # Optional, false is the default
+# message is automagically set to name above
+#    message: 
+  notifiers:
+    - urgent_notification
+#
+#
+#
+haustur_alert:
+  name: "Haustür ist (zu lange) offen. Es hat {{ state_attr('weather.homeassistant', 'temperature') }} Grad draußen."
+  done_message: Haustür ist geschlossen
+  entity_id: binary_sensor.haustur
+  state: 'on' # Optional, 'on' is the default value
+  repeat: 
+    - 3
+    - 5
+  can_acknowledge: true # Optional, default is true
+  skip_first: true # Optional, false is the default
+  notifiers:
+    - urgent_notification
+#
+#
+#
+dachfenster_alert:
+  name: "Dachfenster offen und Vorhersage sagt {{ state_attr('weather.homeassistant','forecast')[0].precipitation }}mm Regen."
+  done_message: Dachfenster sind geschlossen
+  entity_id: binary_sensor.dachfenster_offen_regentag
+  state: 'on' # Optional, 'on' is the default value
+  repeat: 
+    - 3
+  can_acknowledge: true # Optional, default is true
+#    skip_first: true # Optional, false is the default
+  notifiers:
+    - urgent_notification
+#
+#
+#
+fake_alert:
+  name: "fake name"
+  done_message: fake done
+  entity_id: sensor.swa_fake
+  state: 'on' # Optional, 'on' is the default value
+  repeat: 
+    - 1
+  can_acknowledge: true # Optional, default is true
+#    skip_first: true # Optional, false is the default
+  notifiers:
+    - urgent_notification
+#
+#
+#
+haus_offen_alert:
+  name: "Irgendeine Außentür/Fenster offen und keiner zuhause."
+  done_message: Problem mit offenem Haus gelöst.
+  entity_id: binary_sensor.haus_offen_keiner_zuhause
+  state: 'on' # Optional, 'on' is the default value
+  repeat: 
+    - 5
+  can_acknowledge: true # Optional, default is true
+#    skip_first: true # Optional, false is the default
+  notifiers:
+    - urgent_notification

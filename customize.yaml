@@ -34,6 +34,19 @@ group.tueren:
 #
 group.oeffnungen:
   device_class: opening
+
 #
 #
 #
+switch.eg_flur_licht:
+  icon: mdi:ceiling-light
+switch.kellerabgang_licht:
+  icon: mdi:ceiling-light
+switch.shellyswitch25_483fda4cc1b1_channel_1:
+  icon: mdi:outdoor-lamp
+switch.shellyswitch25_483fda4cc1b1_channel_2:
+  icon: mdi:spotlight-beam
+switch.wintergarten:
+  icon: mdi:lamp
+switch.shellyplug_s_9d90b0:
+  icon: mdi:television

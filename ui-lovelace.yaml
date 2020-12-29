@@ -1,6 +1,6 @@
 title: HomeAssistant
 views:
-  - path: default_view
+  - path: foo
     title: Home
     badges:
       - entity: binary_sensor.updater
@@ -24,7 +24,7 @@ views:
           - entity: group.tueren
         title: Fenster und Türen
         show_header_toggle: false
-        state_color: true
+        state_color: false
       - type: entities
         entities:
           - cover.eltern_schlafzimmer
@@ -33,7 +33,7 @@ views:
         entities:
           - cover.garage_door
         title: Garage
-        state_color: true
+        state_color: false
       - type: entity
         entity: binary_sensor.haustur
         name: Haustür
@@ -47,31 +47,13 @@ views:
           - binary_sensor.fenster_sw
         title: Dachfenster
         show_header_toggle: true
-        state_color: true
+        state_color: false
       - type: entity
         entity: group.oeffnungen
-      - type: glance
-        entities:
-          - entity: sensor.haustur_battery_level
-          - entity: sensor.fenster_no_battery_level
-          - entity: sensor.fenster_sw_battery_level
-          - entity: sensor.fenster_nw_battery_level
-          - entity: sensor.fenster_o_battery_level
-        title: Sensoren Batterien
-        show_icon: true
-        show_state: true
-        state_color: false
-        show_name: true
-      - type: entities
-        entities:
-           - entity: sensor.memory_use_percent
-           - entity: sensor.processor_temperature
-           - entity: sensor.last_boot
-           - entity: sensor.load_1m
-           - entity: sensor.load_5m
-           - entity: sensor.load_15m
-        title: Raspberry Pi
-        state_color: false
+      - type: sensor
+        entity: sensor.solar_angle
+        graph: line
+        detail: 2
   - title: EG
     path: eg
     badges: []
@@ -82,6 +64,12 @@ views:
           - sensor.kellerabgang_licht_power
           - switch.eg_flur_licht
           - switch.kellerabgang_licht
+          - sensor.shellyswitch25_483fda4cc1b1_channel_1_power
+          - sensor.shellyswitch25_483fda4cc1b1_channel_2_power
+          - switch.shellyswitch25_483fda4cc1b1_channel_1
+          - switch.shellyswitch25_483fda4cc1b1_channel_2
+          - sensor.shelly25_egflur_links_device_temperature
+          - sensor.shellyswitch25_483fda4cc1b1_device_temperature
           - binary_sensor.haustur
         title: EG-Flur
       - type: entities
@@ -101,22 +89,24 @@ views:
     cards:
       - type: entities
         entities:
-          - binary_sensor.shellyswitch25_10521cf997bf_overheating
-          - cover.shellyswitch25_10521cf997bf
-          - sensor.shellyswitch25_10521cf997bf_power
-          - sensor.shellyswitch25_10521cf997bf_energy
-        title: OG-Elternbad
+          - binary_sensor.shelly25_rolladen_schlafzimmer_li_overheating
+          - cover.shelly25_rolladen_schlafzimmer_li
+          - sensor.shelly25_rolladen_schlafzimmer_li_power
+          - sensor.shelly25_rolladen_schlafzimmer_li_energy
+          - sensor.shelly25_rolladen_schlafzimmer_li_device_temperature
+        title: OG-Schlafzimmer
       - type: entities
         entities:
           - sensor.fritz_dect_repeater_100_3
         title: OG-Flur
       - type: entities
         entities:
-          - binary_sensor.shellyswitch25_483fda4d0633_overheating
-          - cover.shellyswitch25_483fda4d0633
-          - sensor.shellyswitch25_483fda4d0633_power
-          - sensor.shellyswitch25_483fda4d0633_energy
-        title: OG-Schlaf
+          - binary_sensor.shelly25_rolladen_elternbad_overheating
+          - cover.shelly25_rolladen_elternbad
+          - sensor.shelly25_rolladen_elternbad_power
+          - sensor.shelly25_rolladen_elternbad_energy
+          - sensor.shelly25_rolladen_elternbad_device_temperature
+        title: OG-Elternbad
   - title: DG
     path: dg
     badges: []
@@ -138,10 +128,11 @@ views:
         title: Dach-Stefan
       - type: entities
         entities:
-          - binary_sensor.shellyswitch25_10521cf11d6b_overheating
-          - cover.shellyswitch25_10521cf11d6b
-          - sensor.shellyswitch25_10521cf11d6b_power
-          - sensor.shellyswitch25_10521cf11d6b_energy
+          - binary_sensor.shelly25_rolladen_anna_overheating
+          - cover.shelly25_rolladen_anna
+          - sensor.shelly25_rolladen_anna_power
+          - sensor.shelly25_rolladen_anna_energy
+          - sensor.shelly25_rolladen_anna_device_temperature
           - binary_sensor.fenster_nw
         title: Dach-Anna
   - title: Outdoor
@@ -150,40 +141,15 @@ views:
     cards:
       - type: entities
         entities:
-          - switch.garagentor
-          - binary_sensor.garagentor_cloud
-          - binary_sensor.garagentor_firmware_update
-          - binary_sensor.garagentor_input
-          - sensor.garagentor_rssi
-          - sensor.garagentor_uptime
+          - switch.shelly1_garage
+          - binary_sensor.shelly1_garage_cloud
+          - binary_sensor.shelly1_garage_firmware_update
+          - binary_sensor.shelly1_garage_input
+          - sensor.shelly1_garage_rssi
+          - sensor.shelly1_garage_uptime
         title: Garage
-#
-#
-#
-  # - title: Misc
-    # path: misc
-    # badges: []
-    # cards:
-      # - type: 'custom:auto-entities'
-        # card:
-          # type: entities
-          # title: Devices with battery
-        # filter:
-          # # exclude: #excluding some devices that are reported twice
-            # # - entity_id: switch.plug_
-            # # - entity_id: sensor.humidity_
-            # # - entity_id: sensor.humidity_
-          # include:
-             # - attributes:
-                # battery_level: <101 #make sure all your devices report battery level like this or include any different attributes accordingly
-                # options: #added this so that the battery level is reported as secondary_info
-                  # type: 'custom:secondaryinfo-entity-row'
-                  # secondary_info: '[[ {entity}.attributes.battery_level ]]%'
-        # sort:
-          # method: attribute
-          # attribute: battery_level
   - title: Location (Stefan)
-    icon: mdi:cellphone-iphone
+    icon: 'mdi:cellphone-iphone'
     cards:
       - type: vertical-stack
         cards:
@@ -195,45 +161,41 @@ views:
                 name: Stefan
               - entity: sensor.swaiphone_interval
                 name: Interval
-                icon: mdi:clock-start
+                icon: 'mdi:clock-start'
               - entity: sensor.swaiphone_travel_time
                 name: TravTime
-                icon: mdi:clock-outline
+                icon: 'mdi:clock-outline'
               - entity: sensor.swaiphone_zone_distance
                 name: Home
-                icon: mdi:map-marker-distance 
+                icon: 'mdi:map-marker-distance'
               - entity: sensor.swaiphone_next_update
                 name: NextUpdt
-                icon: mdi:update
-
+                icon: 'mdi:update'
           - type: glance
             column_width: 20%
             entities:
               - entity: sensor.swaiphone_waze_distance
                 name: WazeDist
-                icon: mdi:map-marker-distance
+                icon: 'mdi:map-marker-distance'
               - entity: sensor.swaiphone_calc_distance
                 name: CalcDist
-                icon: mdi:map-marker-distance
+                icon: 'mdi:map-marker-distance'
               - entity: sensor.swaiphone_dir_of_travel
                 name: Direction
-                icon: mdi:compass-outline
+                icon: 'mdi:compass-outline'
               - entity: sensor.swaiphone_last_located
                 name: Located
-                icon: mdi:map-clock
+                icon: 'mdi:map-clock'
               - entity: sensor.swaiphone_last_update
                 name: LastUpdt
-                icon: mdi:history
-
+                icon: 'mdi:history'
           - type: horizontal-stack
             cards:
-            - type: entities
-              entities:
-                - entity: sensor.swaiphone_info
-                  name: Info
-                  icon: mdi:information-outline 
-
-#-------------------------------------------------------------------------              
+              - type: entities
+                entities:
+                  - entity: sensor.swaiphone_info
+                    name: Info
+                    icon: 'mdi:information-outline'
       - type: vertical-stack
         cards:
           - type: glance
@@ -244,41 +206,39 @@ views:
                 name: Stefan
               - entity: sensor.jphone_interval
                 name: Interval
-                icon: mdi:clock-start
+                icon: 'mdi:clock-start'
               - entity: sensor.jphone_travel_time
                 name: TravTime
-                icon: mdi:clock-outline
+                icon: 'mdi:clock-outline'
               - entity: sensor.jphone_zone_distance
                 name: HomeDist
-                icon: mdi:map-marker-distance 
+                icon: 'mdi:map-marker-distance'
               - entity: sensor.jphone_next_update
                 name: NextUpdt
-                icon: mdi:update
-
+                icon: 'mdi:update'
           - type: glance
             column_width: 20%
             entities:
               - entity: sensor.jphone_waze_distance
                 name: WazeDist
-                icon: mdi:map-marker-distance
+                icon: 'mdi:map-marker-distance'
               - entity: sensor.jphone_calc_distance
                 name: CalcDist
-                icon: mdi:map-marker-distance
+                icon: 'mdi:map-marker-distance'
               - entity: sensor.jphone_dir_of_travel
                 name: Direction
-                icon: mdi:compass-outline
+                icon: 'mdi:compass-outline'
               - entity: sensor.jphone_last_located
                 name: Located
-                icon: mdi:map-clock
+                icon: 'mdi:map-clock'
               - entity: sensor.jphone_last_update
                 name: LastUpdt
-                icon: mdi:history
+                icon: 'mdi:history'
           - type: entities
             entities:
               - entity: sensor.jphone_info
                 name: Info
-                icon: mdi:information-outline 
-#-------------------------------------------------------------------------              
+                icon: 'mdi:information-outline'
       - type: vertical-stack
         cards:
           - type: glance
@@ -289,37 +249,64 @@ views:
                 name: Anna
               - entity: sensor.iphone_von_anna_interval
                 name: Interval
-                icon: mdi:clock-start
+                icon: 'mdi:clock-start'
               - entity: sensor.iphone_von_anna_travel_time
                 name: TravTime
-                icon: mdi:clock-outline
+                icon: 'mdi:clock-outline'
               - entity: sensor.iphone_von_anna_zone_distance
                 name: HomeDist
-                icon: mdi:map-marker-distance 
+                icon: 'mdi:map-marker-distance'
               - entity: sensor.iphone_von_anna_next_update
                 name: NextUpdt
-                icon: mdi:update
-
+                icon: 'mdi:update'
           - type: glance
             column_width: 20%
             entities:
               - entity: sensor.iphone_von_anna_waze_distance
                 name: WazeDist
-                icon: mdi:map-marker-distance
+                icon: 'mdi:map-marker-distance'
               - entity: sensor.iphone_von_anna_calc_distance
                 name: CalcDist
-                icon: mdi:map-marker-distance
+                icon: 'mdi:map-marker-distance'
               - entity: sensor.iphone_von_anna_dir_of_travel
                 name: Direction
-                icon: mdi:compass-outline
+                icon: 'mdi:compass-outline'
               - entity: sensor.iphone_von_anna_last_located
                 name: Located
-                icon: mdi:map-clock
+                icon: 'mdi:map-clock'
               - entity: sensor.iphone_von_anna_last_update
                 name: LastUpdt
-                icon: mdi:history
+                icon: 'mdi:history'
           - type: entities
             entities:
               - entity: sensor.iphone_von_anna_info
                 name: Info
-                icon: mdi:information-outline 
+                icon: 'mdi:information-outline'
+  - title: System
+    path: system
+    badges: []
+    cards:
+      - type: entities
+        entities:
+          - entity: sensor.memory_use_percent
+          - entity: sensor.processor_temperature
+          - entity: sensor.last_boot
+          - entity: sensor.load_1m
+          - entity: sensor.load_5m
+          - entity: sensor.load_15m
+        title: Raspberry Pi
+        state_color: false
+      - type: 'custom:auto-entities'
+        card:
+          type: entities
+          title: Batteries
+        filter:
+          include:
+            - entity_id: '*battery_level*'
+      - type: 'custom:auto-entities'
+        card:
+          type: entities
+          title: Device Temperatur
+        filter:
+          include:
+            - entity_id: '*device_temperature*'

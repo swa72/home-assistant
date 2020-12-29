@@ -1,77 +1,80 @@
 # Example, called from configuration.yaml
+- platform: uptime
+#
+#
+- platform: systemmonitor
+  resources:
+    - type: memory_use_percent
+    - type: processor_temperature
+    - type: last_boot
+    - type: load_1m
+    - type: load_5m
+    - type: load_15m
+#
 # gives a new entity after restart
-platform: template
-sensors:
+#
+- platform: template
+  sensors:
 #
 #
-  sun_up:
-    friendly_name: "Sun is up"
-    value_template: >-
-     {{ state_attr('sun.sun', 'elevation')|float > 0 }}
+#
+    solar_angle:
+      friendly_name: "Sun angle"
+      unit_of_measurement: 'degrees'
+      value_template: "{{ state_attr('sun.sun', 'elevation') }}"
+#
+#
+#
+    sun_up:
+      friendly_name: "Sun is up"
+      value_template: >-
+       {{ state_attr('sun.sun', 'elevation')|float > 0 }}
 #
 # Using openweathermap forecast
 #
-  rainy_day:
-    friendly_name: "Rain in next 4 Hours"
-    value_template: >-
-      {% set p0 = state_attr('weather.openweathermap', 'forecast')[0].condition == "rainy" %}
-      {% set p1 = state_attr('weather.openweathermap', 'forecast')[1].condition == "rainy" %}
-      {% set p2 = state_attr('weather.openweathermap', 'forecast')[2].condition == "rainy" %}
-      {% set p3 = state_attr('weather.openweathermap', 'forecast')[3].condition == "rainy" %}
-      {{ 'true' if p0 or p1 or p2 or p3 else 'false' }}
-
-# #
-# # sunny and hot day coming up
-# #
-#   sunny_hot_day:
-#     friendly_name: "Sunny and hot day coming up"
-#     value_template: >-
-#       {% set p0 = state_attr('weather.openweathermap', 'forecast')[0].condition == None %}
-#       {% set p1 = state_attr('weather.openweathermap', 'forecast')[1].condition == None %}
-#       {{ 'false' if p0 and p1 else 'true' }}
+    rainy_day:
+      friendly_name: "Rain in next 4 Hours"
+      value_template: >-
+        {% set p0 = state_attr('weather.openweathermap', 'forecast')[0].condition == "rainy" %}
+        {% set p1 = state_attr('weather.openweathermap', 'forecast')[1].condition == "rainy" %}
+        {% set p2 = state_attr('weather.openweathermap', 'forecast')[2].condition == "rainy" %}
+        {% set p3 = state_attr('weather.openweathermap', 'forecast')[3].condition == "rainy" %}
+        {{ 'true' if p0 or p1 or p2 or p3 else 'false' }}
 #
 # fake sensor
 #
-  swa_fake:
-    friendly_name: Fake sensor
-    value_template: "off"
+    swa_fake:
+      friendly_name: Fake sensor
+      value_template: "off"
+
 #
 # 
 #
-  dachfenster_offen_regentag:
-    friendly_name: Sensor on, wenn Regen kommt und Dachfenster offen
-    value_template: >-
-      {% set p0 = states('group.dachfenster') == 'on' %}
-      {% set p1 = states('sensor.rainy_day') == 'true' %}
-      {{ 'on' if p0 and p1 else 'off' }}
-# #
-# #
-  # garage_offen_nach_sonnenuntergang:
-    # friendly_name: Sensor on, wenn Garage nach Sonnenuntergang offen
-    # value_template: >-
-      # {% set p0 = states('binary_sensor.garagentor_input') == "off" %}
-      # {% set p1 = states('sun_up') == "False" %}
-      # {{ 'true' if p0 and p1 else 'false' }}
-
+    dachfenster_offen_regentag:
+      friendly_name: Sensor on, wenn Regen kommt und Dachfenster offen
+      value_template: >-
+        {% set p0 = states('group.dachfenster') == 'on' %}
+        {% set p1 = states('sensor.rainy_day') == 'true' %}
+        {{ 'on' if p0 and p1 else 'off' }}
 #
 # set the device class in customize.yaml
 #
 # returns True or False
 #
-  people_home:
-    friendly_name: 'People Home'
-    value_template: >-
-       {{ is_state('person.stefan', 'home') or
-          is_state('person.julia', 'home') or
-          is_state('person.anna', 'home') }}
+    people_home:
+      friendly_name: 'People Home'
+      value_template: >-
+         {{ is_state('person.stefan', 'home') or
+            is_state('person.julia', 'home') or
+            is_state('person.anna', 'home') }}
 
 #
 #
 #
-  haus_offen_keiner_zuhause:
-    friendly_name: Sensor on, wenn keiner Zuhause ist und ein Fenster oder eine Außentür offen ist.
-    value_template: >-
-       {% set p0 = states('sensor.people_home') == "False" %}
-       {% set p1 = states('group.oeffnungen') == "on" %}
-       {{ 'true' if p0 and p1 else 'false' }}
+    haus_offen_keiner_zuhause:
+      friendly_name: Sensor on, wenn keiner Zuhause ist und ein Fenster oder eine Außentür offen ist.
+      value_template: >-
+         {% set p0 = states('sensor.people_home') == "False" %}
+         {% set p1 = states('group.oeffnungen') == "on" %}
+         {{ 'true' if p0 and p1 else 'false' }}
 

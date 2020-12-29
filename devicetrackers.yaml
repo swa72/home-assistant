@@ -1,0 +1,20 @@
+#
+# check out https://www.home-assistant.io/integrations/fritz/
+# known_devices.yaml automagically populated; names, icons added manually
+#
+# check out https://gcobb321.github.io/icloud3_docs/#/chapters/1-installing-starting-icloud3
+#
+- platform: fritz
+  host: 192.168.178.1
+  consider_home: 180
+  interval_seconds: 12
+- platform: icloud3
+  username: !secret icloud_name
+  password: !secret icloud_password
+  tracking_method: famshr
+# for us europeans
+  unit_of_measurement: km
+  track_devices:
+    - swaiPhone
+    - jphone
+    - iphone_von_anna
