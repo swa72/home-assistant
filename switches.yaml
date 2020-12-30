@@ -1,0 +1,5 @@
+#
+# remotely wake up my Thinkpad
+#
+- platform: wake_on_lan
+  mac: 28:D2:44:22:A9:79

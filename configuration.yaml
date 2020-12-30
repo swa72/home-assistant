@@ -23,7 +23,11 @@ homeassistant:
   # logs:
     # homeassistant.components.shelly: debug
     # aioshelly: debug 
-# #
+#
+# to turn on my pc
+#
+wake_on_lan:
+#
 # Text to speech
 #
 tts:
@@ -41,3 +45,5 @@ alert: !include alerts.yaml
 http: !include http.yaml
 cover: !include covers.yaml
 volvooncall: !include volvo.yaml
+switch: !include switches.yaml
+
