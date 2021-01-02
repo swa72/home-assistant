@@ -23,7 +23,7 @@
     to: 'on'
   condition: []
   action:
-  - service: notify.all_ios_devices
+  - service: notify.all_ios_parent_phones
     data:
       title: Haustür
       message: Steht zu lange offen. Es hat {{ state_attr('weather.homeassistant',
@@ -78,7 +78,7 @@
     entity_id: sensor.rainy_day
     state: 'false'
   action:
-  - service: notify.all_ios_devices
+  - service: notify.all_ios_parent_phones
     data:
       title: Dachfenster
       message: Dachfenster offen und Vorhersage sagt {{ state_attr('weather.homeassistant',
@@ -160,7 +160,7 @@
     entity_id: group.fenster
   condition: []
   action:
-  - service: notify.all_ios_devices
+  - service: notify.all_ios_parent_phones
     data:
       title: Fenster
       message: Steht zu lange offen. Es hat {{ state_attr('weather.homeassistant',
