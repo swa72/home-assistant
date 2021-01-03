@@ -237,3 +237,38 @@
     data: {}
     entity_id: switch.shellyswitch25_483fda4cc1b1_channel_2
   mode: single
+- id: cam1
+  alias: Motioneye - Camera1 - Motion started
+  trigger:
+  - platform: webhook
+    webhook_id: motioneye-camera1-started
+  action:
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.camera1_motion_detected
+  mode: single
+- id: cam2
+  alias: Motioneye - Camera1 - Motion ended
+  trigger:
+    platform: webhook
+    webhook_id: motioneye-camera1-ended
+  action:
+    service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.camera1_motion_detected
+- id: cam3
+  alias: "Enable motion detection"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.camera_motion_detection
+      to: 'on'
+  action:
+    service: rest_command.camera_motion_start
+- id: cam4
+  alias: "Disable motion detection"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.camera_motion_detection
+      to: 'off'
+  action:
+    service: rest_command.camera_motion_pause

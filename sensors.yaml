@@ -77,4 +77,3 @@
          {% set p0 = states('sensor.people_home') == "False" %}
          {% set p1 = states('group.oeffnungen') == "on" %}
          {{ 'true' if p0 and p1 else 'false' }}
-

@@ -1,0 +1,4 @@
+- platform: mjpeg
+  name: iPhone6_ip_camera
+  still_image_url: "https://swa.duckdns.org/api/hassio_ingress/3OuhPRxb-VpBKKtfzDmpsj51hvYqXBlm1b_m3YZdZHo/picture/1/current/"
+  mjpeg_url: "http://homeassistant:8081/mjpeg"

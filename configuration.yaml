@@ -46,4 +46,14 @@ http: !include http.yaml
 cover: !include covers.yaml
 volvooncall: !include volvo.yaml
 switch: !include switches.yaml
+#
+# for camera stuff to work
+# see https://community.home-assistant.io/t/motioneye-integration/194350
+#
+stream:
+camera: !include cameras.yaml
+input_boolean: !include input_booleans.yaml
+binary_sensor: !include binary_sensors.yaml
+rest_command: !include rest_commands.yaml
+
 

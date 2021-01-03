@@ -1,6 +1,7 @@
 #
 # duckdns
 # 
+# commented out because of nginx
 ssl_certificate: /ssl/fullchain.pem
 ssl_key: /ssl/privkey.pem
 # dont forget the next line or https will not work :-/

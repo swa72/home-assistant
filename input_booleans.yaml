@@ -1,0 +1,6 @@
+camera1_motion_detected:
+  name: iPhone6 - Motion detected
+  icon: mdi:eye
+camera_motion_detection:
+  name: Motion detection
+  icon: mdi:eye

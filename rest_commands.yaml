@@ -1,0 +1,4 @@
+camera_motion_start:
+  url: 'http://192.168.178.33:7999/1/detection/start'
+camera_motion_pause:
+  url: 'http://192.168.178.33:7999/1/detection/pause'
