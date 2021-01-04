@@ -140,8 +140,9 @@
     offset: 00:30:00
   condition: []
   action:
-  - service: cover.close_cover
-    data: {}
+  - service: cover.set_cover_position
+    data:
+      position: 15
     entity_id: cover.eltern_schlafzimmer
   - service: system_log.write
     data:
@@ -257,18 +258,18 @@
     data:
       entity_id: input_boolean.camera1_motion_detected
 - id: cam3
-  alias: "Enable motion detection"
+  alias: Enable motion detection
   trigger:
-    - platform: state
-      entity_id: input_boolean.camera_motion_detection
-      to: 'on'
+  - platform: state
+    entity_id: input_boolean.camera_motion_detection
+    to: 'on'
   action:
     service: rest_command.camera_motion_start
 - id: cam4
-  alias: "Disable motion detection"
+  alias: Disable motion detection
   trigger:
-    - platform: state
-      entity_id: input_boolean.camera_motion_detection
-      to: 'off'
+  - platform: state
+    entity_id: input_boolean.camera_motion_detection
+    to: 'off'
   action:
     service: rest_command.camera_motion_pause
