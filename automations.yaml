@@ -217,9 +217,6 @@
   - service: switch.turn_on
     data: {}
     entity_id: switch.shellyswitch25_483fda4cc1b1_channel_1
-  - service: switch.turn_on
-    data: {}
-    entity_id: switch.shellyswitch25_483fda4cc1b1_channel_2
   mode: single
 - id: '1609245648666'
   alias: Außenlicht aus, wenn hell draußen
@@ -234,9 +231,6 @@
   - service: switch.turn_off
     data: {}
     entity_id: switch.shellyswitch25_483fda4cc1b1_channel_1
-  - service: switch.turn_off
-    data: {}
-    entity_id: switch.shellyswitch25_483fda4cc1b1_channel_2
   mode: single
 - id: cam1
   alias: Motioneye - Camera1 - Motion started
@@ -273,3 +267,31 @@
     to: 'off'
   action:
     service: rest_command.camera_motion_pause
+- id: '1609858165994'
+  alias: Windfanglicht an, wenn dunkel draußen
+  description: Windfanglicht an, wenn dunkel draußen
+  trigger:
+  - platform: numeric_state
+    entity_id: sun.sun
+    below: '-6'
+    attribute: elevation
+  condition: []
+  action:
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.shellyswitch25_483fda4cc1b1_channel_2
+  mode: single
+- id: '1609858227328'
+  alias: Windfanglicht  aus, wenn hell draußen
+  description: Windfanglicht  aus, wenn hell draußen
+  trigger:
+  - platform: numeric_state
+    entity_id: sun.sun
+    above: '-6'
+    attribute: elevation
+  condition: []
+  action:
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.shellyswitch25_483fda4cc1b1_channel_2
+  mode: single

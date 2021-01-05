@@ -10,6 +10,15 @@ dachfenster:
   - binary_sensor.fenster_o
   - binary_sensor.fenster_sw
 #
+#
+#
+ogfenster:
+  name: Fenster OG
+  icon: mdi:window-open
+  entities:
+  - binary_sensor.fenster_og_clara
+
+#
 # meine familie
 #
 family:
@@ -26,6 +35,7 @@ fenster:
 #  icon: mdi:window-open
   entities:
   - group.dachfenster
+  - group.ogfenster
 #
 # alle türen
 #
@@ -34,6 +44,7 @@ tueren:
 #  icon: mdi:door
   entities:
   - binary_sensor.haustur
+  - binary_sensor.kellertur
 #
 #
 #
