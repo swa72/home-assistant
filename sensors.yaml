@@ -26,14 +26,14 @@
 #
 #
     sun_up:
-      friendly_name: "Sun is up"
+      friendly_name: On, wenn Sonne aufgegangen.
       value_template: >-
        {{ state_attr('sun.sun', 'elevation')|float > 0 }}
 #
 # Using openweathermap forecast
 #
     rainy_day:
-      friendly_name: "Rain in next 4 Hours"
+      friendly_name: On, wenn Regen in den nächsten 4h
       value_template: >-
         {% set p0 = state_attr('weather.openweathermap', 'forecast')[0].condition == "rainy" %}
         {% set p1 = state_attr('weather.openweathermap', 'forecast')[1].condition == "rainy" %}
@@ -46,12 +46,11 @@
     swa_fake:
       friendly_name: Fake sensor
       value_template: "off"
-
 #
 # 
 #
     dachfenster_offen_regentag:
-      friendly_name: Sensor on, wenn Regen kommt und Dachfenster offen
+      friendly_name: On, wenn Regen kommt und Dachfenster offen
       value_template: >-
         {% set p0 = states('group.dachfenster') == 'on' %}
         {% set p1 = states('sensor.rainy_day') == 'true' %}
@@ -62,7 +61,7 @@
 # returns True or False
 #
     people_home:
-      friendly_name: 'People Home'
+      friendly_name: On, wenn min. eine Person im Haus
       value_template: >-
          {{ is_state('person.stefan', 'home') or
             is_state('person.julia', 'home') or
@@ -72,7 +71,7 @@
 #
 #
     haus_offen_keiner_zuhause:
-      friendly_name: Sensor on, wenn keiner Zuhause ist und ein Fenster oder eine Außentür offen ist.
+      friendly_name: On, wenn keiner Zuhause ist und ein Öffnung offen ist.
       value_template: >-
          {% set p0 = states('sensor.people_home') == "False" %}
          {% set p1 = states('group.oeffnungen') == "on" %}

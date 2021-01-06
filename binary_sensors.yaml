@@ -1,6 +1,16 @@
+#
+#
+#
 - platform: template
   sensors:
+
     camera1_motion:
       friendly_name: "iPhone Camera - Movement"
       device_class: motion
       value_template: "{{ is_state('input_boolean.camera1_motion_detected', 'on') }}"
+      
+    garagentur:
+      friendly_name: "Garagentür"
+      device_class: garage_door
+      # off = closed; on = open
+      value_template: "{{ is_state('cover.garage_door', 'open') }}"

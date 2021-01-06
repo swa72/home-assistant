@@ -45,6 +45,7 @@ tueren:
   entities:
   - binary_sensor.haustur
   - binary_sensor.kellertur
+  - binary_sensor.garagentur
 #
 #
 #

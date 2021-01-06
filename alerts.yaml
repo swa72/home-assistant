@@ -1,5 +1,5 @@
 #
-# alerts
+# alerts, reload with "Server management | Restart"
 #
 garage_alert:
   name: Garage ist (zu lange) offen
@@ -33,13 +33,56 @@ haustur_alert:
 #
 #
 #
-dachfenster_alert:
-  name: "Dachfenster offen und Vorhersage sagt {{ state_attr('weather.homeassistant','forecast')[0].precipitation }}mm Regen."
-  done_message: Dachfenster sind geschlossen
-  entity_id: binary_sensor.dachfenster_offen_regentag
+kellertur_alert:
+  name: "Kellertür ist (zu lange) offen. Es hat {{ state_attr('weather.homeassistant', 'temperature') }} Grad draußen."
+  done_message: Kellertür ist geschlossen
+  entity_id: binary_sensor.kellertur
   state: 'on' # Optional, 'on' is the default value
   repeat: 
     - 3
+    - 5
+  can_acknowledge: true # Optional, default is true
+  skip_first: true # Optional, false is the default
+  notifiers:
+    - urgent_notification
+#
+#
+#
+freezer_alert:
+  name: "Freezer im Büro ist (zu lange) offen."
+  done_message: Freezer im Büro ist geschlossen
+  entity_id: binary_sensor.eg_freezer
+  state: 'on' # Optional, 'on' is the default value
+  repeat: 
+    - 1
+  skip_first: true # Optional, false is the default
+  can_acknowledge: true # Optional, default is true
+  notifiers:
+    - urgent_notification
+#
+#
+#
+dachfenster_alert:
+  name: "Dachfenster offen und Vorhersage sagt {{ state_attr('weather.homeassistant','forecast')[0].precipitation }}mm Regen."
+  done_message: Dachfenster sind geschlossen
+  entity_id: sensor.dachfenster_offen_regentag
+  state: 'on' # Optional, 'on' is the default value
+  repeat: 
+    - 3
+  can_acknowledge: true # Optional, default is true
+#    skip_first: true # Optional, false is the default
+  notifiers:
+    - urgent_notification
+#
+#
+#
+clara_fenster_alert:
+  name: "Fenster bei Clara offen"
+  done_message: Fenster bei Clara geschlossen
+  entity_id: binary_sensor.fenster_og_clara
+  state: 'on' # Optional, 'on' is the default value
+  repeat: 
+    - 1
   can_acknowledge: true # Optional, default is true
 #    skip_first: true # Optional, false is the default
   notifiers:
@@ -64,7 +107,7 @@ fake_alert:
 haus_offen_alert:
   name: "Irgendeine Außentür/Fenster offen und keiner zuhause."
   done_message: Problem mit offenem Haus gelöst.
-  entity_id: binary_sensor.haus_offen_keiner_zuhause
+  entity_id: sensor.haus_offen_keiner_zuhause
   state: 'on' # Optional, 'on' is the default value
   repeat: 
     - 5

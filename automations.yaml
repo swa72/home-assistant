@@ -12,28 +12,6 @@
       message: Home Assistant  {{ state_attr('binary_sensor.updater', 'newest_version')
         }}  is now available.
   mode: single
-- id: '1608064894809'
-  alias: Wenn Haustür zu lange offen, dann Nachricht an alle.
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.haustur
-    from: 'off'
-    for: 0:03:00
-    to: 'on'
-  condition: []
-  action:
-  - service: notify.all_ios_parent_phones
-    data:
-      title: Haustür
-      message: Steht zu lange offen. Es hat {{ state_attr('weather.homeassistant',
-        'temperature') }} Grad draußen.
-  - service: system_log.write
-    data:
-      message: Haustür steht zu lange offen
-      level: warning
-      logger: swa-automations
-  mode: single
 - id: '1608480614730'
   alias: Wenn Haustür geöffnet wird und dunkel draußen, dann Flur-EG Licht an.
   description: ''
@@ -294,4 +272,18 @@
   - service: switch.turn_off
     data: {}
     entity_id: switch.shellyswitch25_483fda4cc1b1_channel_2
+  mode: single
+- id: '1609924669215'
+  alias: Schließe Volvo ab, wenn nach 2000 Uhr und zuhause
+  description: Schließe Volvo ab, wenn nach 2000 Uhr und zuhause
+  trigger:
+  - platform: time
+    at: '20:00'
+  condition:
+  - condition: template
+    value_template: '{{ states(''device_tracker.volvo_su_xp1654'') == "home" }}'
+  action:
+  - service: lock.lock
+    data:
+      entity_id: lock.su_xp1654_door_lock
   mode: single
