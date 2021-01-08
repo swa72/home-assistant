@@ -13,7 +13,8 @@
         }}  is now available.
   mode: single
 - id: '1608480614730'
-  alias: Wenn Haustür geöffnet wird und dunkel draußen, dann Flur-EG Licht an.
+  alias: Wenn Haustür geöffnet wird und dunkel draußen, dann Flur-EG Licht an und
+    LED-Fluter an
   description: ''
   trigger:
   - platform: state
@@ -21,12 +22,16 @@
     from: 'off'
     to: 'on'
   condition:
-    condition: template
+  - condition: template
     value_template: '{{ state_attr(''sun.sun'', ''elevation'') < -6 }}'
   action:
   - type: turn_on
     device_id: d824de0a6c667da98e0f508d5d4129e5
     entity_id: switch.eg_flur_licht
+    domain: switch
+  - type: turn_on
+    device_id: 33202a9524f56b2023ed57884e81af71
+    entity_id: switch.shelly25_garage_channel_2
     domain: switch
   mode: single
 - id: '1608494074501'
@@ -274,14 +279,14 @@
     entity_id: switch.shellyswitch25_483fda4cc1b1_channel_2
   mode: single
 - id: '1609924669215'
-  alias: Schließe Volvo ab, wenn nach 2000 Uhr und zuhause
-  description: Schließe Volvo ab, wenn nach 2000 Uhr und zuhause
+  alias: Schließe Volvo ab, wenn zuhause und offen
+  description: ''
   trigger:
-  - platform: time
-    at: '20:00'
-  condition:
-  - condition: template
-    value_template: '{{ states(''device_tracker.volvo_su_xp1654'') == "home" }}'
+  - platform: state
+    entity_id: sensor.volvo_zuhause_und_offen
+    from: 'false'
+    to: 'True'
+  condition: []
   action:
   - service: lock.lock
     data:
