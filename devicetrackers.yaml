@@ -14,6 +14,7 @@
   tracking_method: famshr
 # for us europeans
   unit_of_measurement: km
+  time_format: 24
   track_devices:
     - swaiPhone
     - jphone
