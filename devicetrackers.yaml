@@ -15,6 +15,7 @@
 # for us europeans
   unit_of_measurement: km
   time_format: 24
+  waze_region: EU
   track_devices:
     - swaiPhone
     - jphone
