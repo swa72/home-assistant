@@ -14,3 +14,12 @@
       device_class: garage_door
       # off = closed; on = open
       value_template: "{{ is_state('cover.garage_door', 'open') }}"
+      
+    dunkel_draussen:
+      friendly_name: "Dunkel draußen"
+      value_template: >-
+        {% if now().hour > 12 %}
+        {{ state_attr('sun.sun', 'elevation')|float < 3 }}
+        {% else %}
+        {{ state_attr('sun.sun', 'elevation')|float < -8 }}
+        {% endif %}

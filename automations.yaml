@@ -22,8 +22,9 @@
     from: 'off'
     to: 'on'
   condition:
-  - condition: template
-    value_template: '{{ state_attr(''sun.sun'', ''elevation'') < -6 }}'
+  - condition: state
+    entity_id: binary_sensor.dunkel_draussen
+    state: 'on'
   action:
   - type: turn_on
     device_id: d824de0a6c667da98e0f508d5d4129e5
@@ -86,33 +87,6 @@
       message: Dummy to logfile
       level: warning
       logger: swa-automation
-  mode: single
-- id: '1608629961357'
-  alias: Send notification when sun rises
-  description: Send notification when sun rises
-  trigger:
-  - platform: sun
-    event: sunrise
-    offset: +00:30:00
-  action:
-  - service: notify.mobile_app_swaiphone
-    data:
-      title: Sonne
-      message: 30mins ago the sun went up.
-  mode: single
-- id: '1608630048283'
-  alias: Send notification when sun sets
-  description: Send notification when sun sets
-  trigger:
-  - platform: sun
-    event: sunset
-    offset: +00:30:00
-  condition: []
-  action:
-  - service: notify.mobile_app_swaiphone
-    data:
-      title: Sonne
-      message: 30mins ago the sun went down.
   mode: single
 - id: '1608633463304'
   alias: Schlafzimmer Rolladen runter nach Sonnenuntergang
@@ -191,10 +165,10 @@
   alias: Außenlicht an, wenn dunkel draußen
   description: Außenlicht an, wenn dunkel draußen
   trigger:
-  - platform: numeric_state
-    entity_id: sun.sun
-    below: '-6'
-    attribute: elevation
+  - platform: state
+    entity_id: binary_sensor.dunkel_draussen
+    from: 'off'
+    to: 'on'
   condition: []
   action:
   - service: switch.turn_on
@@ -205,10 +179,10 @@
   alias: Außenlicht aus, wenn hell draußen
   description: Außenlicht aus, wenn hell draußen
   trigger:
-  - platform: numeric_state
-    entity_id: sun.sun
-    above: '-6'
-    attribute: elevation
+  - platform: state
+    entity_id: binary_sensor.dunkel_draussen
+    from: 'on'
+    to: 'off'
   condition: []
   action:
   - service: switch.turn_off
@@ -254,10 +228,10 @@
   alias: Windfanglicht an, wenn dunkel draußen
   description: Windfanglicht an, wenn dunkel draußen
   trigger:
-  - platform: numeric_state
-    entity_id: sun.sun
-    below: '-6'
-    attribute: elevation
+  - platform: state
+    entity_id: binary_sensor.dunkel_draussen
+    from: 'off'
+    to: 'on'
   condition: []
   action:
   - service: switch.turn_on
@@ -268,10 +242,10 @@
   alias: Windfanglicht  aus, wenn hell draußen
   description: Windfanglicht  aus, wenn hell draußen
   trigger:
-  - platform: numeric_state
-    entity_id: sun.sun
-    above: '-6'
-    attribute: elevation
+  - platform: state
+    entity_id: binary_sensor.dunkel_draussen
+    from: 'on'
+    to: 'off'
   condition: []
   action:
   - service: switch.turn_off
@@ -292,3 +266,78 @@
     data:
       entity_id: lock.su_xp1654_door_lock
   mode: single
+- id: '1610727869121'
+  alias: Pumpe im Keller angelaufen
+  description: ''
+  use_blueprint:
+    path: Sbyx/notify-or-do-something-when-an-appliance-like-a-dishwasher-or-washing-machine-finishes.yaml
+    input:
+      power_sensor: sensor.shellys_keller_pumpe_treppe_power
+      starting_hysteresis: '0.25'
+      actions:
+      - service: notify.all_ios_parent_phones
+        data:
+          title: Info
+          message: Pumpe im Keller ist angegangen.
+      finishing_hysteresis: '0.25'
+      finishing_threshold: '5'
+- id: swa_leaves_zone
+  alias: Stefan Leaves Zone
+  trigger:
+  - platform: state
+    entity_id: sensor.swaiphone_last_zone_name1
+    to: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.from_state.state != "Home"}}'
+  - condition: template
+    value_template: '{{states("sensor.swaiphone_zone_distance") | float > 0}}'
+  - condition: state
+    entity_id: input_boolean.ha_started_flag
+    state: 'on'
+  action:
+  - service: notify.all_ios_parent_phones
+    data:
+      title: Stefan Leaves Zone
+      message: Zone {{ trigger.from_state.state }} --> {{ trigger.to_state.state }},
+        Distance {{ states.sensor.swaiphone_zone_distance.state }}
+  mode: single
+- id: swa_arrives_home
+  alias: Stefan Arrives Home
+  trigger:
+  - platform: state
+    entity_id: sensor.swaiphone_zone_name1
+    to: Home
+  - platform: template
+    value_template: '{{states("sensor.swaiphone_zone_distance") | float <= 0.2}}'
+  condition:
+  - condition: state
+    entity_id: input_boolean.gary_driving_flag
+    state: 'on'
+  action:
+  - service: notify.all_ios_parent_phones
+    data:
+      title: Stefan Arrives Home
+      message: Zone {{ trigger.from_state.state }} --> {{ trigger.to_state.state }},
+        Distance {{ states.sensor.swaiphone_zone_distance.state }}
+  mode: single
+- id: swa_leaves_home
+  alias: Stefan Leaves Home
+  trigger:
+  - platform: state
+    entity_id: sensor.swaiphone_zone_name1
+    to: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.from_state.state == "Home"}}'
+  - condition: template
+    value_template: '{{states("sensor.swaiphone_zone_distance") | float > 0}}'
+  - condition: state
+    entity_id: input_boolean.ha_started_flag
+    state: 'on'
+  action:
+  - service: notify.all_ios_parent_phones
+    data:
+      title: Stefan Leaves Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states.sensor.swaiphone_zone_distance }}'

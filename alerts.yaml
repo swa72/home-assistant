@@ -76,16 +76,17 @@ dachfenster_alert:
 #
 #
 #
-#clara_fenster_alert:
-#  name: "Fenster bei Clara offen"
-#  done_message: Fenster bei Clara geschlossen
-#  entity_id: binary_sensor.fenster_og_clara
-#  state: 'on' # Optional, 'on' is the default value
-#  repeat: 
-#    - 1
-#  can_acknowledge: true # Optional, default is true
-##    skip_first: true # Optional, false is the default
-#  notifiers:
+clara_fenster_alert:
+  name: "Fenster bei Clara offen"
+  done_message: Fenster bei Clara geschlossen
+  entity_id: binary_sensor.fenster_og_clara
+  state: 'on' # Optional, 'on' is the default value
+  repeat: 
+    - 1
+  can_acknowledge: true # Optional, default is true
+#    skip_first: true # Optional, false is the default
+  notifiers:
+     - all_ios_parent_phones
 #    - urgent_notification
 #
 #
