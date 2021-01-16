@@ -16,13 +16,15 @@ homeassistant:
     # - url: /local/lovelace-auto-entities/auto-entities.js
       # type: module
 #
-#
+# uncomment to increase loglevel
 #
 # logger:
   # default: info
-  # logs:
-    # homeassistant.components.shelly: debug
-    # aioshelly: debug 
+logger:
+  default: info
+  logs:
+    custom_components.icloud3.pyicloud_ic3: debug
+    custom_components.icloud3.device_tracker: debug
 #
 # to turn on my pc
 #
@@ -34,6 +36,7 @@ tts:
   - platform: google_translate
 #
 #
+zone: !include zones.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
