@@ -1,6 +1,6 @@
-#
-#
-#
+# ----------------------
+# Reload Groups, Group Entities ...
+# ----------------------
 - platform: group
   name: all_ios_devices
   services:
@@ -35,4 +35,4 @@
             sound: 
               name: default
               critical: 1
-              volume: 1.0
+              volume: 0.3
