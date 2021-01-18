@@ -1,8 +1,8 @@
 #-------------------------------------------------------------
-#   Send Message to Stefan - Central Notify Command
+#   Send Message to swa - Central Notify Command
 #-------------------------------------------------------------
-notify_swa_iphone:
-  alias: 'Send Message to Stefan'
+notify_swaiphone:
+  alias: 'Send Message to swa'
   sequence:
     - service: notify.mobile_app_swaiphone
       data_template:

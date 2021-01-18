@@ -20,11 +20,9 @@ homeassistant:
 #
 # logger:
   # default: info
-logger:
-  default: info
-  logs:
-    custom_components.icloud3.pyicloud_ic3: debug
-    custom_components.icloud3.device_tracker: debug
+  # logs:
+    # custom_components.icloud3.pyicloud_ic3: debug
+    # custom_components.icloud3.device_tracker: debug
 #
 # to turn on my pc
 #
