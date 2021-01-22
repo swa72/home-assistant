@@ -388,18 +388,20 @@
         data:
           title: Hinweis
           message: Waschmaschine ist fertig.
-- id: '1611005711846'
-  alias: pumpe kelle 2
-  description: ''
+- alias: dammit
+  id: dammit
   trigger:
-  - platform: numeric_state
-    entity_id: sensor.shellys_keller_pumpe_treppe_power
-    above: '5'
-    for: 00:00:05
-  condition: []
+  - platform: state
+    entity_id: sensor.swaiphone_zone_name1
+    to: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.from_state.state != "Home"}}'
+  - condition: template
+    value_template: '{{states("sensor.swaiphone_zone_distance") | float > 0}}'
   action:
-  - service: notify.mobile_app_swaiphone
+  - service: script.notify_swaiphone
     data:
-      title: Hinweie
-      message: Pumpe im Keller lief an
-  mode: single
+      data_template:
+        title: dammit
+        message: 'Zone: foo --> foo , Distance: 1234'
