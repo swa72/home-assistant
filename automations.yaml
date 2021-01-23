@@ -253,21 +253,6 @@
     data:
       entity_id: lock.su_xp1654_door_lock
   mode: single
-- id: '1610727869121'
-  alias: Pumpe im Keller angelaufen
-  description: ''
-  use_blueprint:
-    path: Sbyx/notify-or-do-something-when-an-appliance-like-a-dishwasher-or-washing-machine-finishes.yaml
-    input:
-      power_sensor: sensor.shellys_keller_pumpe_treppe_power
-      starting_hysteresis: '0.25'
-      actions:
-      - service: notify.all_ios_parent_phones
-        data:
-          title: Info
-          message: Pumpe im Keller ist angegangen.
-      finishing_hysteresis: '0.25'
-      finishing_threshold: '5'
 - id: julia_arrives_home
   alias: julia Arrives Home
   trigger:
