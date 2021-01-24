@@ -1,10 +1,16 @@
-#-------------------------------------------------------------
-#   Send Message to swa - Central Notify Command
-#-------------------------------------------------------------
 notify_swaiphone:
-  alias: 'Send Message to swa'
+  alias: Send Message to swa
   sequence:
-    - service: notify.mobile_app_swaiphone
-      data_template:
-        title: "{{ title }} (mobile_app)"
-        message: "{{ message }}"
+  - service: notify.mobile_app_swaiphone
+    data_template:
+      title: '{{ title }} (mobile_app)'
+      message: '{{ message }}'
+'1611514429135':
+  alias: Alexa Sound
+  sequence:
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.stefans_echo_dot
+      media_content_type: sound
+      media_content_id: amzn_sfx_doorbell_chime_01
+  mode: single

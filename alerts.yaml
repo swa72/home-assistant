@@ -116,3 +116,19 @@ haus_offen_alert:
 #    skip_first: true # Optional, false is the default
   notifiers:
     - urgent_notification
+
+#
+#
+#
+nachts_tuerauf_alert:
+  name: "Tür ging nachts auf"
+  message: "Tür {{ state_attr('binary_sensor.nachts_tuerauf', 'offenetuer') }} ging auf"
+  done_message: Tür ist wieder geschlossen.
+  entity_id: binary_sensor.nachts_tuerauf
+  state: 'on' # Optional, 'on' is the default value
+  repeat: 
+    - 5
+  can_acknowledge: true # Optional, default is true
+#    skip_first: true # Optional, false is the default
+  notifiers:
+    - urgent_notification

@@ -63,3 +63,12 @@ recorder:
   exclude:
     entities:
       - sensor.icloud3_event_log
+
+#
+#
+#
+counter:
+    kellerpumpe:
+      initial: 0
+      step: 1
+      icon: mdi:water-pump

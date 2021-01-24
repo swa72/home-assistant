@@ -8,7 +8,7 @@
   action:
   - service: notify.mobile_app_swaiphone
     data:
-      title: New Home Assistant Release
+      title: Hinweis
       message: Home Assistant  {{ state_attr('binary_sensor.updater', 'newest_version')
         }}  is now available.
   mode: single
@@ -35,33 +35,8 @@
     entity_id: switch.shelly25_garage_channel_2
     domain: switch
   mode: single
-- id: '1608549888374'
-  alias: Wenn ein Dachfenster offen ist und Regen zu erwarten ist, dann Nachricht
-    an alle.
-  description: ''
-  trigger:
-  - platform: state
-    from: 'off'
-    to: 'on'
-    entity_id: group.dachfenster
-  condition:
-  - condition: state
-    entity_id: sensor.rainy_day
-    state: 'false'
-  action:
-  - service: notify.all_ios_parent_phones
-    data:
-      title: Dachfenster
-      message: Dachfenster offen und Vorhersage sagt {{ state_attr('weather.homeassistant',
-        'forecast')[0].precipitation }}mm Regen.
-  - service: system_log.write
-    data:
-      message: Dachfenster bei Regenvorhersage geoeffnet.
-      level: warning
-      logger: swa-automations
-  mode: single
 - id: '1608567664971'
-  alias: Dummy to logfile
+  alias: zDummy to logfile
   description: ''
   trigger:
   - platform: state
@@ -95,26 +70,32 @@
       logger: swa-automations
   mode: single
 - id: '1608636183988'
-  alias: Wenn Fenster zu lange offen, dann Nachricht an alle
+  alias: Wenn Fenster zu lange offen und kalt, dann Nachricht an alle
   description: ''
   trigger:
   - platform: state
     from: 'off'
     for: 0:10:00
     to: 'on'
-    entity_id: group.fenster
-  condition: []
+    entity_id: group.dachfenster
+  - platform: state
+    entity_id: group.ogfenster
+    from: 'off'
+    for: 0:10:00
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: weather.homeassistant
+    attribute: temperature
+    state: 'below: 15'
   action:
   - service: notify.all_ios_parent_phones
     data:
-      title: Fenster
-      message: Steht zu lange offen. Es hat {{ state_attr('weather.homeassistant',
-        'temperature') }} Grad draußen.
-  - service: system_log.write
-    data:
-      message: Wenn Fenster zu lange offen, dann Nachricht an alle
-      level: warning
-      logger: swa-automations
+      title: Hinweis
+      message: '{% set w = expand( trigger.entity_id ) | selectattr(''state'', ''eq'',
+        ''on'') | map(attribute=''name'') | list %} Fenster {{ w }} aus Gruppe {{
+        trigger.to_state.attributes.friendly_name }} ist zu lange ({{trigger.for}}
+        min) offen.'
   mode: single
 - id: l1k3
   alias: push HA configuration to GitHub repo
@@ -149,7 +130,7 @@
         }}{% endif %}'
   mode: single
 - id: '1609245232653'
-  alias: Außenlicht an, wenn dunkel draußen
+  alias: zAußenlicht an, wenn dunkel draußen
   description: Außenlicht an, wenn dunkel draußen
   trigger:
   - platform: state
@@ -163,7 +144,7 @@
     entity_id: switch.shellyswitch25_483fda4cc1b1_channel_1
   mode: single
 - id: '1609245648666'
-  alias: Außenlicht aus, wenn hell draußen
+  alias: zAußenlicht aus, wenn hell draußen
   description: Außenlicht aus, wenn hell draußen
   trigger:
   - platform: state
@@ -177,7 +158,7 @@
     entity_id: switch.shellyswitch25_483fda4cc1b1_channel_1
   mode: single
 - id: cam1
-  alias: Motioneye - Camera1 - Motion started
+  alias: zMotioneye - Camera1 - Motion started
   trigger:
   - platform: webhook
     webhook_id: motioneye-camera1-started
@@ -187,30 +168,33 @@
       entity_id: input_boolean.camera1_motion_detected
   mode: single
 - id: cam2
-  alias: Motioneye - Camera1 - Motion ended
+  alias: zMotioneye - Camera1 - Motion ended
   trigger:
-    platform: webhook
+  - platform: webhook
     webhook_id: motioneye-camera1-ended
   action:
-    service: input_boolean.turn_off
+  - service: input_boolean.turn_off
     data:
       entity_id: input_boolean.camera1_motion_detected
+  mode: single
 - id: cam3
-  alias: Enable motion detection
+  alias: zEnable motion detection
   trigger:
   - platform: state
     entity_id: input_boolean.camera_motion_detection
     to: 'on'
   action:
-    service: rest_command.camera_motion_start
+  - service: rest_command.camera_motion_start
+  mode: single
 - id: cam4
-  alias: Disable motion detection
+  alias: zDisable motion detection
   trigger:
   - platform: state
     entity_id: input_boolean.camera_motion_detection
     to: 'off'
   action:
-    service: rest_command.camera_motion_pause
+  - service: rest_command.camera_motion_pause
+  mode: single
 - id: '1609858165994'
   alias: Windfanglicht an, wenn dunkel draußen
   description: Windfanglicht an, wenn dunkel draußen
@@ -240,7 +224,7 @@
     entity_id: switch.shellyswitch25_483fda4cc1b1_channel_2
   mode: single
 - id: '1609924669215'
-  alias: Schließe Volvo ab, wenn zuhause und offen
+  alias: zSchließe Volvo ab, wenn zuhause und offen
   description: ''
   trigger:
   - platform: state
@@ -254,26 +238,25 @@
       entity_id: lock.su_xp1654_door_lock
   mode: single
 - id: julia_arrives_home
-  alias: julia Arrives Home
+  alias: yJulia Arrives Home
   trigger:
   - platform: state
-    entity_id: sensor.jphone_zone_name1
+    entity_id: sensor.jphone_zone_name
     to: Home
   - platform: template
     value_template: '{{states("sensor.jphone_zone_distance") | float <= 0.2}}'
   action:
   - service: script.notify_swaiphone
     data:
-      data_template:
-        title: julia Arrives Home
-        message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-          }}, Distance: {{ states.sensor.jphone_zone_distance.state }}'
+      title: julia Arrives Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states.sensor.jphone_zone_distance.state }}'
   mode: single
-- alias: julia Leaves Home
+- alias: yJulia Leaves Home
   id: julia_leaves_home
   trigger:
   - platform: state
-    entity_id: sensor.jphone_zone_name1
+    entity_id: sensor.jphone_zone_name
     to: Away
   condition:
   - condition: template
@@ -283,15 +266,14 @@
   action:
   - service: script.notify_swaiphone
     data:
-      data_template:
-        title: julia Leaves Home
-        message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-          }}, Distance: {{ states("sensor.jphone_zone_distance") }}'
-- alias: julia Leaves Zone
+      title: julia Leaves Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.jphone_zone_distance") }}'
+- alias: yJulia Leaves Zone
   id: julia_leaves_zone
   trigger:
   - platform: state
-    entity_id: sensor.jphone_zone_name1
+    entity_id: sensor.jphone_zone_name
     to: Away
   condition:
   - condition: template
@@ -301,31 +283,29 @@
   action:
   - service: script.notify_swaiphone
     data:
-      data_template:
-        title: julia Leaves Zone
-        message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-          }}, Distance: {{ states.sensor.jphone_zone_distance.state }}'
+      title: julia Leaves Zone
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states.sensor.jphone_zone_distance.state }}'
 - id: stefan_arrives_home
-  alias: stefan Arrives Home
+  alias: yStefan Arrives Home
   trigger:
   - platform: state
-    entity_id: sensor.swaiphone_zone_name1
+    entity_id: sensor.swaiphone_zone_name
     to: Home
   - platform: template
     value_template: '{{states("sensor.swaiphone_zone_distance") | float <= 0.2}}'
   action:
   - service: script.notify_swaiphone
     data:
-      data_template:
-        title: stefan Arrives Home
-        message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-          }}, Distance: {{ states.sensor.swaiphone_zone_distance.state }}'
+      title: stefan Arrives Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states.sensor.swaiphone_zone_distance.state }}'
   mode: single
-- alias: stefan Leaves Home
+- alias: yStefan Leaves Home
   id: stefan_leaves_home
   trigger:
   - platform: state
-    entity_id: sensor.swaiphone_zone_name1
+    entity_id: sensor.swaiphone_zone_name
     to: Away
   condition:
   - condition: template
@@ -335,15 +315,14 @@
   action:
   - service: script.notify_swaiphone
     data:
-      data_template:
-        title: stefan Leaves Home
-        message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-          }}, Distance: {{ states("sensor.swaiphone_zone_distance") }}'
-- alias: stefan Leaves Zone
+      title: stefan Leaves Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.swaiphone_zone_distance") }}'
+- alias: yStefan Leaves Zone
   id: stefan_leaves_zone
   trigger:
   - platform: state
-    entity_id: sensor.swaiphone_zone_name1
+    entity_id: sensor.swaiphone_zone_name
     to: Away
   condition:
   - condition: template
@@ -353,40 +332,141 @@
   action:
   - service: script.notify_swaiphone
     data:
-      data_template:
-        title: stefan Leaves Zone
-        message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-          }}, Distance: {{ states.sensor.swaiphone_zone_distance.state }}'
+      title: stefan Leaves Zone
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states.sensor.swaiphone_zone_distance.state }}'
 - id: '1610994120339'
   alias: Waschmaschine fertig
   description: Waschmaschine fertig
   use_blueprint:
     path: Sbyx/notify-or-do-something-when-an-appliance-like-a-dishwasher-or-washing-machine-finishes.yaml
     input:
-      finishing_hysteresis: '5'
+      finishing_hysteresis: '30'
       power_sensor: sensor.shellys_wama_power
       starting_threshold: '49'
       starting_hysteresis: '3'
-      finishing_threshold: '5'
+      finishing_threshold: 100
       actions:
       - service: notify.all_ios_parent_phones
         data:
           title: Hinweis
-          message: Waschmaschine ist fertig.
-- alias: dammit
-  id: dammit
+          message: Waschmaschine ist fertig seit {{ now() }}.
+- id: '1611480761802'
+  alias: Wenn Garage geöffnet wird und dunkel draußen, dann Flur-EG Licht an und LED-Fluter
+    an
+  description: ''
   trigger:
   - platform: state
-    entity_id: sensor.swaiphone_zone_name1
+    entity_id: binary_sensor.garagentur
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.dunkel_draussen
+    state: 'on'
+  action:
+  - type: turn_on
+    device_id: d824de0a6c667da98e0f508d5d4129e5
+    entity_id: switch.eg_flur_licht
+    domain: switch
+  - type: turn_on
+    device_id: 33202a9524f56b2023ed57884e81af71
+    entity_id: switch.shelly25_garage_channel_2
+    domain: switch
+  mode: single
+- id: '1611495931370'
+  alias: Kellerpumpe Treppe läuft an
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.shellys_keller_pumpe_treppe_power
+    above: 5
+    for: 00:00:03
+  condition: []
+  action:
+  - service: counter.increment
+    data: {}
+    entity_id: counter.kellerpumpe
+  mode: single
+- id: '1611496375383'
+  alias: Kellerpumpe Zähler zurücksetzen
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:00
+  condition: []
+  action:
+  - service: counter.reset
+    data: {}
+    entity_id: counter.kellerpumpe
+  mode: single
+- id: '1611502164716'
+  alias: zFake
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:00
+  condition: []
+  action:
+  - service: script.notify_swaiphone
+    data:
+      title: State change
+      message: The light is on!
+  mode: single
+- id: anna_arrives_home
+  alias: yAnna Arrives Home
+  trigger:
+  - platform: state
+    entity_id: sensor.swaiphone_zone_name
+    to: Home
+  - platform: template
+    value_template: '{{states("sensor.iphone_von_anna_zone_distance") | float <= 0.2}}'
+  action:
+  - service: script.notify_swaiphone
+    data:
+      title: Anna Arrives Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states.sensor.iphone_von_anna_zone_distance.state }}'
+  mode: single
+- alias: yAnna Leaves Home
+  id: anna_leaves_home
+  trigger:
+  - platform: state
+    entity_id: sensor.iphone_von_anna_zone_name
+    to: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.from_state.state == "Home"}}'
+  - condition: template
+    value_template: '{{states("sensor.iphone_von_anna_zone_distance") | float > 0}}'
+  action:
+  - service: script.notify_swaiphone
+    data:
+      title: Anna Leaves Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.iphone_von_anna_zone_distance") }}'
+- alias: yAnna Leaves Zone
+  id: anna_leaves_zone
+  trigger:
+  - platform: state
+    entity_id: sensor.iphone_von_anna_zone_name
     to: Away
   condition:
   - condition: template
     value_template: '{{trigger.from_state.state != "Home"}}'
   - condition: template
-    value_template: '{{states("sensor.swaiphone_zone_distance") | float > 0}}'
+    value_template: '{{states("sensor.iphone_von_anna_zone_distance") | float > 0}}'
   action:
   - service: script.notify_swaiphone
     data:
-      data_template:
-        title: dammit
-        message: 'Zone: foo --> foo , Distance: 1234'
+      title: Anna Leaves Zone
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states.sensor.iphone_von_anna_zone_distance.state }}'
+- id: '1611515523821'
+  alias: Alexa Media Player TTS/Announce from Lovelace UI
+  description: ''
+  use_blueprint:
+    path: NachtaktiverHalbaffe/alexa-tts-announcement-from-lovelace-ui-and-without-nabu-casa-alexa-media-player.yaml
+    input:
+      message: input_text.swa_alexa_text
+      target: input_select.swa_alexa_device
