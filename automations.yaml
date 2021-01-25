@@ -410,8 +410,8 @@
   action:
   - service: script.notify_swaiphone
     data:
-      title: State change
-      message: The light is on!
+      title: Hinweis
+      message: Fake automation
   mode: single
 - id: anna_arrives_home
   alias: yAnna Arrives Home

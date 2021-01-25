@@ -28,7 +28,7 @@
       friendly_name: "Nachts und Tuer geht auf"
       value_template: >-
         {% set p0 = states('group.tueren') == "on" %}
-        {% set p1 = now().hour > 21 %}
+        {% set p1 = now().hour > 21 or now().hour < 6 %}
         {{ 'true' if p0 and p1 else 'false' }}
       attribute_templates:
         offenetuer: "{% set w = expand( 'group.tueren' ) | selectattr('state', 'eq', 'on') | map(attribute='name') | list %}{{ w }}"
