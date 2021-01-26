@@ -63,11 +63,6 @@
     data:
       position: 15
     entity_id: cover.eltern_schlafzimmer
-  - service: system_log.write
-    data:
-      message: Schlafzimmer Rolladen runter nach Sonnenuntergang
-      level: warning
-      logger: swa-automations
   mode: single
 - id: '1608636183988'
   alias: Wenn Fenster zu lange offen und kalt, dann Nachricht an alle
