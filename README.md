@@ -69,7 +69,7 @@ pjsua_custom_options: '--ip-addr=192.168.178.83'
 	addon: 89275b70_dss_voip
 	input: {"call_sip_uri":"sip:**614@192.168.178.1","message_tts":"Hallo Stefan"}
 ```
-* in above  case **614 is my internal office number
+* in the above case **614 is my internal office number
 
 ## DuckDNS
 
