@@ -19,6 +19,15 @@ ogfenster:
   - binary_sensor.fenster_og_clara
 
 #
+#
+#
+egfenster:
+  name: Fenster EG
+  icon: mdi:window-open
+  entities:
+  - binary_sensor.fenster_eg_gaeste
+
+#
 # meine familie
 #
 family:
@@ -36,8 +45,9 @@ fenster:
   entities:
   - group.dachfenster
   - group.ogfenster
+  - group.egfenster
 #
-# alle türen
+# alle außentüren
 #
 tueren:
   name: Türen

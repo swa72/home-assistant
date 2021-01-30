@@ -32,6 +32,9 @@ wake_on_lan:
 #
 tts:
   - platform: google_translate
+    language: 'de'
+    service_name: google_translate_say
+    base_url: !secret base_url
 #
 #
 zone: !include zones.yaml
@@ -59,11 +62,10 @@ rest_command: !include rest_commands.yaml
 #
 #
 recorder:
-  purge_keep_days: 3
+  db_url: !secret db_url
   exclude:
     entities:
       - sensor.icloud3_event_log
-
 #
 #
 #

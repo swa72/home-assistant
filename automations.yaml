@@ -78,6 +78,11 @@
     from: 'off'
     for: 0:10:00
     to: 'on'
+  - platform: state
+    entity_id: group.egfenster
+    from: 'off'
+    to: 'on'
+    for: 0:10:00
   condition:
   - condition: state
     entity_id: weather.homeassistant
