@@ -48,7 +48,7 @@ sip_parameters:
   caller_id_uri: 'sip:homeassistant@192.168.178.1:5060'
   realm: '*'
   username: homeassistant
-  password: '<replace-me-with-digits-only'
+  password: '<replace-me-with-digits-only>'
 pjsua_custom_options: '--ip-addr=192.168.178.83'
 ```
 * steps to do on Fritzbox:, see https://superuser.com/questions/829824/android-wont-register-sip-on-Fritzbox-router
@@ -60,7 +60,7 @@ pjsua_custom_options: '--ip-addr=192.168.178.83'
   * pick a number (any number will do)
   * don't accept any outside calls (not required in my case)
   * my Fritzbox registered a new device with internal number *622
-* now try calling the service like (e.g. from the "Developer Tools" section in HA), is this case **614 is my internal office number
+* now try calling the service like (e.g. from the "Developer Tools" section in HA)
 
 ```
 - service: hassio.addon_stdin
@@ -68,6 +68,7 @@ pjsua_custom_options: '--ip-addr=192.168.178.83'
 	addon: 89275b70_dss_voip
 	input: {"call_sip_uri":"sip:**614@192.168.178.1","message_tts":"Hallo Stefan"}
 ```
+* in above  case **614 is my internal office number
 
 ## DuckDNS
 
@@ -159,7 +160,7 @@ init_commands: []
 ## Samba Backup 
 
 * to have regular config backups to the USB stick of the Fritzbox
-* note that username ##replaceme## must be available on the Fritzbox ("System > FRITZ!Box-Benutzer > Benutzer" ) and that particular user requires access to the attached USB stick
+* note that username ##replaceme## must be available on the Fritzbox ("System > FRITZ!Box-Benutzer > Benutzer") and that particular user requires access to the attached USB stick
 
 ```
 host: 192.168.178.1
@@ -215,10 +216,10 @@ compatibility_mode: false
 
 * an old iPhone serving as a guinea pig camera
 * for motionEye's webhooks I had to install NGINX as add-on (see https://community.home-assistant.io/t/motioneye-integration/194350/42)
-* if motion is detected 
+* triggers action if motion is detected 
 
 # Useful stuff
-* the automation to regularly update my config to github (see https://github.com/swa72/home-assistant/blob/main/automations.yaml), credit: https://peyanski.com/automatic-home-assistant-backup-to-github/
+* an automation to regularly update my config to github (see https://github.com/swa72/home-assistant/blob/main/automations.yaml), credit: https://peyanski.com/automatic-home-assistant-backup-to-github/
 
 ```
 - id: l1k3
