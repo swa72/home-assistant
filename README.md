@@ -60,6 +60,7 @@ pjsua_custom_options: '--ip-addr=192.168.178.83'
   * pick a number (any number will do)
   * don't accept any outside calls (not required in my case)
   * my Fritzbox registered a new device with internal number *622
+* start the "DSS VoIP Notifier" add-on and check the logs
 * now try calling the service like (e.g. from the "Developer Tools" section in HA)
 
 ```
