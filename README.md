@@ -32,8 +32,8 @@ keyfile: privkey.pem
 
 ## DSS VoIP Notifier
 
-* using my Fritzbox as a SIP server (HA can iniate calls and play audio stuff using tts)
-* install https://github.com/sdesalve/hassio-addons/tree/master/dss_voip
+* using my Fritzbox as a SIP server (HA can initiate calls and play audio stuff using tts)
+* install https://github.com/sdesalve/hassio-addons/tree/master/dss_voip as a simple add-on (Supervisor | Add-on Store | ... (top right) | Repositories | add https://github.com/sdesalve/hassio-addons)
 * enable tts like https://www.home-assistant.io/integrations/google_translate
 ```
 tts:
