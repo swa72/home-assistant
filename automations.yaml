@@ -70,24 +70,24 @@
   trigger:
   - platform: state
     from: 'off'
-    for: 0:10:00
+    for: 00:10:00
     to: 'on'
     entity_id: group.dachfenster
   - platform: state
     entity_id: group.ogfenster
     from: 'off'
-    for: 0:10:00
+    for: 00:10:00
     to: 'on'
   - platform: state
     entity_id: group.egfenster
     from: 'off'
     to: 'on'
-    for: 0:10:00
+    for: 00:10:00
   condition:
-  - condition: state
+  - condition: numeric_state
     entity_id: weather.homeassistant
-    attribute: temperature
-    state: 'below: 15'
+    value_template: '{{ state.attributes.temperature }}'
+    below: '15'
   action:
   - service: notify.all_ios_parent_phones
     data:
@@ -470,3 +470,20 @@
     input:
       message: input_text.swa_alexa_text
       target: input_select.swa_alexa_device
+- id: swa1
+  alias: Notify about Fritzphone state
+  trigger:
+  - platform: state
+    entity_id: sensor.fritzphone
+  action:
+  - service: notify.all_ios_parent_phones
+    data:
+      title: FritzPhone
+      message: "{% if is_state(\"sensor.fritzphone\", \"idle\") %}\n  Phone is idle\n\
+        {% elif is_state(\"sensor.fritzphone\", \"dialing\") %}\n  Calling {{ state_attr('sensor.fritzphone',\
+        \ 'to_name') }} ({{ state_attr('sensor.fritzphone', 'to') }})\n{% elif is_state(\"\
+        sensor.fritzphone\", \"ringing\") %}\n  Incoming call from {{ state_attr('sensor.fritzphone',\
+        \ 'from_name') }} ({{ state_attr('sensor.fritzphone', 'from') }})\n{% else\
+        \ %}\n  Talking to {{ state_attr('sensor.fritzphone', 'with_name') }} ({{\
+        \ state_attr('sensor.fritzphone', 'with') }})\n{% endif %}"
+  mode: single

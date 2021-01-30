@@ -30,6 +30,18 @@ certfile: fullchain.pem
 keyfile: privkey.pem
 ```
 
+* Helpful document - albeit only in German - see https://techbox.rocks/optimierte-einstellungen-fuer-adguard-in-kombination-mit-einer-fritzbox-und-ipv6/
+* Fritzbox configuration
+  * Internet | Zugangsdaten | DNS Server
+    * DNSv4-Server: "Andere DNSv4-Server verwenden" set both entries to 192.168.178.83 (internal IP address of Raspberry)
+	* DNSv6-Server: "Andere DNSv6-Server verwenden" set both entries to fd00::e655:56be:4b9b:fb59 (internal IPv6 address of Raspberry)
+  * Heimnetzwerk > Netzwerk > Netzwerkeinstellungen > weitere Einstellungen > IPv6-Konfiguration
+    * check "Unique Local Addresses (ULA) immer zuweisen"
+	* ULA-Präfix manuell festlegen to fd00
+	* check "Diese FRITZ!Box stellt den Standard-Internetzugang zur Verfügung" to medium
+	* check DNSv6-Server auch über Router Advertisement bekanntgeben (RFC 5006) and set "Lokaler DNSv6-Server:" to fd00:0:0:0:e228:6dff:fe11:406b (internal IPv6 address of Fritzbox)
+	* DHCPv6-Server im Heimnetz: DHCPv6-Server in der FRITZ!Box für das Heimnetz aktivieren: check "Nur DNS-Server zuweisen"
+
 ## DSS VoIP Notifier
 
 * using my Fritzbox as a SIP server (HA can initiate calls and play audio stuff using tts)
@@ -220,6 +232,21 @@ compatibility_mode: false
 * triggers action if motion is detected 
 
 # Useful stuff
+
+## HACS: iCloud3 Device Tracker
+
+* iCloud has authentication problems, so I was looking for an alternative
+* see https://gcobb321.github.io/icloud3/#/
+* config see https://github.com/swa72/home-assistant/blob/main/config_ic3.yaml
+
+## HACS: Alexa Media Player
+
+* see https://github.com/custom-components/alexa_media_player/wiki
+* no "Cookie import" or "Configuration.yaml" required 
+* https://community.home-assistant.io/t/alexa-tts-announcement-from-lovelace-ui-and-without-nabu-casa-alexa-media-player/259980/7
+
+## Push automation to github
+ 
 * an automation to regularly update my config to github (see https://github.com/swa72/home-assistant/blob/main/automations.yaml), credit: https://peyanski.com/automatic-home-assistant-backup-to-github/
 
 ```

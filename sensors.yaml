@@ -2,6 +2,20 @@
 - platform: uptime
 #
 #
+#
+- platform: fritzbox_callmonitor
+  name: FritzPhone
+  host: 192.168.178.1
+  username: hacallmon
+  password: !secret hacallmon_password
+  phonebook: 0
+  prefixes:
+    - '+49'
+    - '+496221'
+    - '06221'
+#
+#
+#
 - platform: systemmonitor
   resources:
     - type: memory_use_percent
