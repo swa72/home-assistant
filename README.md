@@ -13,7 +13,7 @@ This file is intended for me to document the quirks I had during setup and for o
 * Router Fritz!Box 7490 with open external ports 443 and 8123 to the Raspberry 4 (no DynDNS on fritz.box)
   * my doorbell is directly hooked up to the Fritzbox
   * Fritzbox has an attached USB stick
-* Raspberry 4 running Home Assistant OS 5.9
+* Raspberry 4 running Home Assistant 2021.1.5
   * initially connected thru wifi, later moved to ethernet and directly connected to the Fritzbox
   * conbee USB stick to manage ZigBee network
 * Regular backup to a samba share (described below)
