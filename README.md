@@ -82,6 +82,11 @@ pjsua_custom_options: '--ip-addr=192.168.178.83'
 	input: {"call_sip_uri":"sip:**614@192.168.178.1","message_tts":"Hallo Stefan"}
 ```
 * in the above case **614 is my internal office number
+* for playing audio files (or DTMF tones), use something like
+```
+{"call_sip_uri":"sip:**1@192.168.178.1","audio_file_url":"https://xxx.duckdns.org/local/open_door_short.mp3", "call_duration":"6"}
+```
+and store mp3 files in folder ```\config\www```. Note that the call is automagically ended after six seconds.
 
 ## DuckDNS
 

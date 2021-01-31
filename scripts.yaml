@@ -14,3 +14,51 @@ notify_swaiphone:
     data_template:
       title: '{{ title }} (mobile_app)'
       message: '{{ message }}'
+swa:
+  alias: Alex tts Waschmaschine ist fertig.
+  sequence:
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.5
+    entity_id: media_player.stefans_echo_dot
+  - service: notify.alexa_media
+    data:
+      target: media_player.stefans_echo_dot
+      message: Hallo, die Waschmaschine ist fertig.
+      data:
+        type: tts
+  mode: single
+haustur_offnen:
+  alias: Haustür öffnen
+  sequence:
+  - service: hassio.addon_stdin
+    data:
+      addon: 89275b70_dss_voip
+      input:
+        call_sip_uri: sip:**1@192.168.178.1
+        audio_file_url: https://swa.duckdns.org/local/open_door_short.mp3
+        call_duration: '6'
+  - delay: 00:00:10
+  mode: single
+clara_tur_zu_und_leiser:
+  alias: Clara Tür zu und leiser
+  sequence:
+  - service: hassio.addon_stdin
+    data:
+      addon: 89275b70_dss_voip
+      input:
+        call_sip_uri: sip:**611@192.168.178.1
+        message_tts: Bitte Tür schließen und leiser sein. Danke.
+        call_duration: '20'
+  mode: single
+konstantin_tur_zu_und_leiser:
+  alias: Konstantin Tür zu und leiser
+  sequence:
+  - service: hassio.addon_stdin
+    data:
+      addon: 89275b70_dss_voip
+      input:
+        call_sip_uri: sip:**612@192.168.178.1
+        message_tts: Bitte Tür schließen und leiser sein. Danke.
+        call_duration: '20'
+  mode: single

@@ -335,22 +335,6 @@
       title: stefan Leaves Zone
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
         }}, Distance: {{ states.sensor.swaiphone_zone_distance.state }}'
-- id: '1610994120339'
-  alias: Waschmaschine fertig
-  description: Waschmaschine fertig
-  use_blueprint:
-    path: Sbyx/notify-or-do-something-when-an-appliance-like-a-dishwasher-or-washing-machine-finishes.yaml
-    input:
-      finishing_hysteresis: '30'
-      power_sensor: sensor.shellys_wama_power
-      starting_threshold: '49'
-      starting_hysteresis: '3'
-      finishing_threshold: 100
-      actions:
-      - service: notify.all_ios_parent_phones
-        data:
-          title: Hinweis
-          message: Waschmaschine ist fertig seit {{ now() }}.
 - id: '1611480761802'
   alias: Wenn Garage geöffnet wird und dunkel draußen, dann Flur-EG Licht an und LED-Fluter
     an
@@ -487,3 +471,23 @@
         \ %}\n  Talking to {{ state_attr('sensor.fritzphone', 'with_name') }} ({{\
         \ state_attr('sensor.fritzphone', 'with') }})\n{% endif %}"
   mode: single
+- id: '1612096410696'
+  alias: Waschmaschine fertig (v2)
+  description: Waschmaschine fertig
+  use_blueprint:
+    path: Sbyx/notify-or-do-something-when-an-appliance-like-a-dishwasher-or-washing-machine-finishes.yaml
+    input:
+      finishing_hysteresis: '5'
+      power_sensor: sensor.shellys_wama_power
+      starting_threshold: 100
+      starting_hysteresis: '3'
+      finishing_threshold: 40
+      actions:
+      - service: notify.all_ios_parent_phones
+        data:
+          title: Hinweis
+          message: Waschmaschine ist fertig seit {{ now().hour }}:{{ now().minute
+            }}. (v2)
+      - service: script.turn_on
+        data: {}
+        entity_id: script.swa

@@ -1,20 +1,27 @@
 #
-#
+# Configuration | YAML configuration reloading | Reload Template Entities
 #
 - platform: template
   sensors:
 
+#
+#
+#
     camera1_motion:
       friendly_name: "iPhone Camera - Movement"
       device_class: motion
       value_template: "{{ is_state('input_boolean.camera1_motion_detected', 'on') }}"
-      
+#
+#
+#      
     garagentur:
       friendly_name: "Garagentür"
       device_class: garage_door
       # off = closed; on = open
       value_template: "{{ is_state('cover.garage_door', 'open') }}"
-      
+#
+#
+#      
     dunkel_draussen:
       friendly_name: "Dunkel draußen"
       value_template: >-
@@ -23,7 +30,9 @@
         {% else %}
         {{ state_attr('sun.sun', 'elevation')|float < -3 }}
         {% endif %}
-        
+#
+#
+#
     nachts_tuerauf:
       friendly_name: "Nachts und Tuer geht auf"
       value_template: >-
@@ -32,3 +41,13 @@
         {{ 'true' if p0 and p1 else 'false' }}
       attribute_templates:
         offenetuer: "{% set w = expand( 'group.tueren' ) | selectattr('state', 'eq', 'on') | map(attribute='name') | list %}{{ w }}"
+#
+# false if not evening
+# false if closed
+#
+    abend_eg_wohnzimmer_tuer_zu:
+      friendly_name: "On, wenn Abend und EG Wohnzimmertür geschlossen."  
+      value_template: >-
+        {% set p0 = now().hour > 20 or now().hour < 6 %}
+        {% set p1 = states('binary_sensor.eg_wohnzimmer_tuer') == "off" %} 
+        {{ 'true' if p0 and p1 else 'false' }}
