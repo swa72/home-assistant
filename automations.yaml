@@ -243,8 +243,9 @@
   - platform: state
     entity_id: sensor.jphone_zone_name
     to: Home
-  - platform: template
-    value_template: '{{states("sensor.jphone_zone_distance") | float <= 0.2}}'
+  condition:
+  - condition: template
+    value_template: '{{states("sensor.swaiphone_zone_distance") | float <= 0.2}}'
   action:
   - service: script.notify_swaiphone
     data:
@@ -292,7 +293,8 @@
   - platform: state
     entity_id: sensor.swaiphone_zone_name
     to: Home
-  - platform: template
+  condition:
+  - condition: template
     value_template: '{{states("sensor.swaiphone_zone_distance") | float <= 0.2}}'
   action:
   - service: script.notify_swaiphone
