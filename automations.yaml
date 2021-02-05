@@ -253,23 +253,20 @@
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
         }}, Distance: {{ states.sensor.jphone_zone_distance.state }}'
   mode: single
-- alias: yJulia Leaves Home
-  id: julia_leaves_home
+- id: julia_leaves_home
+  alias: yJulia Leaves Home
   trigger:
   - platform: state
     entity_id: sensor.jphone_zone_name
     to: Away
-  condition:
-  - condition: template
-    value_template: '{{trigger.from_state.state == "Home"}}'
-  - condition: template
-    value_template: '{{states("sensor.jphone_zone_distance") | float > 0}}'
+  condition: []
   action:
   - service: script.notify_swaiphone
     data:
       title: julia Leaves Home
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
         }}, Distance: {{ states("sensor.jphone_zone_distance") }}'
+  mode: single
 - alias: yJulia Leaves Zone
   id: julia_leaves_zone
   trigger:
@@ -287,22 +284,6 @@
       title: julia Leaves Zone
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
         }}, Distance: {{ states.sensor.jphone_zone_distance.state }}'
-- id: stefan_arrives_home
-  alias: yStefan Arrives Home
-  trigger:
-  - platform: state
-    entity_id: sensor.swaiphone_zone_name
-    to: Home
-  condition:
-  - condition: template
-    value_template: '{{states("sensor.swaiphone_zone_distance") | float <= 0.2}}'
-  action:
-  - service: script.notify_swaiphone
-    data:
-      title: stefan Arrives Home
-      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-        }}, Distance: {{ states.sensor.swaiphone_zone_distance.state }}'
-  mode: single
 - id: stefan_leaves_home
   alias: yStefan Leaves Home
   trigger:
@@ -311,7 +292,7 @@
     to: Away
   condition:
   - condition: template
-    value_template: '{{states("sensor.swaiphone_zone_distance") | float > 0}}'
+    value_template: '{{trigger.from_state.state != "stationary"}}'
   action:
   - service: script.notify_swaiphone
     data:
@@ -319,8 +300,8 @@
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
         }}, Distance: {{ states("sensor.swaiphone_zone_distance") }}'
   mode: single
-- alias: yStefan Leaves Zone
-  id: stefan_leaves_zone
+- id: stefan_leaves_zone
+  alias: yStefan Leaves Zone
   trigger:
   - platform: state
     entity_id: sensor.swaiphone_zone_name
@@ -329,13 +310,14 @@
   - condition: template
     value_template: '{{trigger.from_state.state != "Home"}}'
   - condition: template
-    value_template: '{{states("sensor.swaiphone_zone_distance") | float > 0}}'
+    value_template: '{{trigger.from_state.state != "stationary"}}'
   action:
   - service: script.notify_swaiphone
     data:
       title: stefan Leaves Zone
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-        }}, Distance: {{ states.sensor.swaiphone_zone_distance.state }}'
+        }}, Distance: {{ states("sensor.swaiphone_zone_distance") }}'
+  mode: single
 - id: '1611480761802'
   alias: Wenn Garage geöffnet wird und dunkel draußen, dann Flur-EG Licht an und LED-Fluter
     an
@@ -402,7 +384,7 @@
   alias: yAnna Arrives Home
   trigger:
   - platform: state
-    entity_id: sensor.swaiphone_zone_name
+    entity_id: sensor.iphone_von_anna_zone_name
     to: Home
   - platform: template
     value_template: '{{states("sensor.iphone_von_anna_zone_distance") | float <= 0.2}}'
@@ -537,4 +519,38 @@
       title: Anna Arrives at Zone
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
         }}, Distance: {{ states.sensor.jphone_zone_distance.state }}'
+  mode: single
+- id: '1612513446275'
+  alias: yStefan Arrives Zone
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.swaiphone_zone_name
+    from: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.to_state.state != "Home"}}'
+  - condition: template
+    value_template: '{{trigger.to_state.state != "stationary"}}'
+  action:
+  - service: script.notify_swaiphone
+    data:
+      title: Stefan Arrives at Zone
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.swaiphone_zone_distance") }}'
+  mode: single
+- id: '1612518910204'
+  alias: yStefan Arrives Home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.swaiphone_zone_name
+    to: Home
+  condition: []
+  action:
+  - service: script.notify_swaiphone
+    data:
+      title: Stefan Arrives Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.swaiphone_zone_distance") }}'
   mode: single
