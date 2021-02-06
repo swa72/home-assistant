@@ -1,4 +1,4 @@
-doorbell_to_alexa:
+alexa_doorbell:
   alias: Alexa Sound
   sequence:
   - service: media_player.play_media
@@ -7,14 +7,7 @@ doorbell_to_alexa:
       media_content_type: sound
       media_content_id: amzn_sfx_doorbell_chime_01
   mode: single
-notify_swaiphone:
-  alias: Send Message to swa
-  sequence:
-  - service: notify.mobile_app_swaiphone
-    data_template:
-      title: '{{ title }} (mobile_app)'
-      message: '{{ message }}'
-swa:
+alexa_wama_fertig:
   alias: Alexa tts Waschmaschine ist fertig.
   sequence:
   - service: media_player.volume_set
@@ -36,7 +29,7 @@ haustur_offnen:
       addon: 89275b70_dss_voip
       input:
         call_sip_uri: sip:**1@192.168.178.1
-        audio_file_url: !secret audio_file_url
+        audio_file_url: https://swa.duckdns.org/local/open_door_short.mp3
         call_duration: '6'
   - delay: 00:00:10
   mode: single
@@ -75,4 +68,62 @@ alexa_tts_katzentur_offnen:
       message: Bitte die Wohnzimmertür für Katzen offen lassen.
       data:
         type: tts
+  mode: single
+notify_stefan:
+  alias: Notify stefan
+  sequence:
+  - service: notify.mobile_app_swaiphone
+    data_template:
+      title: '{{ title }}'
+      message: '{{ message }}'
+  mode: single
+notify_people_who_are_present:
+  alias: Notify people who are present
+  sequence:
+  - service_template: >
+      {% if is_state('person.stefan', 'home') %} 
+      notify.mobile_app_swaiphone
+      {% else %} {% endif %}
+    data_template:
+      title: '{{ title }}'
+      message: '{{ message }}'
+  - service_template: >
+      {% if is_state('person.julia', 'home') %} 
+      notify.mobile_app_swaiphone
+      {% else %} {% endif %}
+    data_template:
+      title: '{{ title }}'
+      message: '{{ message }}'
+  - service_template: >
+      {% if is_state('person.anna', 'home') %} 
+      notify.mobile_app_swaiphone
+      {% else %} {% endif %}
+    data_template:
+      title: '{{ title }}'
+      message: '{{ message }}'
+  mode: single
+notify_people:
+  alias: Notify people
+  sequence:
+  - service_template: >
+      {% if 1==1 %} 
+      notify.mobile_app_swaiphone
+      {% else %} {% endif %}
+    data_template:
+      title: '{{ title }}'
+      message: '{{ message }}'
+  - service_template: >
+      {% if 1==1 %} 
+      notify.mobile_app_swaiphone
+      {% else %} {% endif %}
+    data_template:
+      title: '{{ title }}'
+      message: '{{ message }}'
+  - service_template: >
+      {% if 1==1 %} 
+      notify.mobile_app_swaiphone
+      {% else %} {% endif %}
+    data_template:
+      title: '{{ title }}'
+      message: '{{ message }}'
   mode: single

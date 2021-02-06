@@ -37,3 +37,19 @@
               name: default
               critical: 1
               volume: 0.3
+#
+#
+#
+- platform: group
+  name: urgent_notification_present
+  services:
+    - service: all_ios_parent_phones
+      data:
+        title: "Hinweis"
+# dont use message here, will be configured in alert itself
+        data:
+          push:
+            sound: 
+              name: default
+              critical: 1
+              volume: 0.3
