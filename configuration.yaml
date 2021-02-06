@@ -16,6 +16,12 @@ homeassistant:
     # - url: /local/lovelace-auto-entities/auto-entities.js
       # type: module
 #
+#
+#
+frontend:
+  themes: !include_dir_merge_named themes
+
+#
 # uncomment to increase loglevel
 #
 # logger:
@@ -37,6 +43,7 @@ tts:
     base_url: !secret base_url
 #
 #
+#
 zone: !include zones.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
@@ -56,6 +63,9 @@ switch: !include switches.yaml
 #
 stream:
 camera: !include cameras.yaml
+#
+#
+#
 input_boolean: !include input_booleans.yaml
 binary_sensor: !include binary_sensors.yaml
 rest_command: !include rest_commands.yaml

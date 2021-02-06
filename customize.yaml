@@ -1,6 +1,6 @@
 cover.eltern_schlafzimmer:
   icon: mdi:window-shutter
-sensor.people_home:
+binary_sensor.people_home:
   device_class: presence
 binary_sensor.haustur:
   device_class: door

@@ -65,7 +65,7 @@ freezer_alert:
 dachfenster_alert:
   name: "Dachfenster offen und Vorhersage sagt {{ state_attr('weather.homeassistant','forecast')[0].precipitation }}mm Regen."
   done_message: Dachfenster sind geschlossen
-  entity_id: sensor.dachfenster_offen_regentag
+  entity_id: binary_sensor.dachfenster_offen_regentag
   state: 'on' # Optional, 'on' is the default value
   repeat: 
     - 3
@@ -108,7 +108,7 @@ fake_alert:
 haus_offen_alert:
   name: "Irgendeine Außentür/Fenster offen und keiner zuhause."
   done_message: Problem mit offenem Haus gelöst.
-  entity_id: sensor.haus_offen_keiner_zuhause
+  entity_id: binary_sensor.haus_offen_keiner_zuhause
   state: 'on' # Optional, 'on' is the default value
   repeat: 
     - 5

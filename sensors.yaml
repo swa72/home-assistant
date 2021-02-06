@@ -1,4 +1,7 @@
-# Example, called from configuration.yaml
+#
+# Configuration | YAML configuration reloading | Reload Template Entities
+#
+
 - platform: uptime
 #
 #
@@ -37,68 +40,11 @@
       unit_of_measurement: 'degrees'
       value_template: "{{ state_attr('sun.sun', 'elevation') }}"
 #
-#
-#
-    sun_up:
-      friendly_name: On, wenn Sonne aufgegangen.
-      value_template: >-
-       {{ state_attr('sun.sun', 'elevation')|float > 0 }}
-#
-# Using openweathermap forecast
-#
-    rainy_day:
-      friendly_name: On, wenn Regen in den nächsten 4h
-      value_template: >-
-        {% set p0 = state_attr('weather.openweathermap', 'forecast')[0].condition == "rainy" %}
-        {% set p1 = state_attr('weather.openweathermap', 'forecast')[1].condition == "rainy" %}
-        {% set p2 = state_attr('weather.openweathermap', 'forecast')[2].condition == "rainy" %}
-        {% set p3 = state_attr('weather.openweathermap', 'forecast')[3].condition == "rainy" %}
-        {{ 'true' if p0 or p1 or p2 or p3 else 'false' }}
-#
 # fake sensor
 #
     swa_fake:
       friendly_name: Fake sensor
       value_template: "off"
-#
-# 
-#
-    dachfenster_offen_regentag:
-      friendly_name: On, wenn Regen kommt und Dachfenster offen
-      value_template: >-
-        {% set p0 = states('group.dachfenster') == 'on' %}
-        {% set p1 = states('sensor.rainy_day') == 'true' %}
-        {{ 'on' if p0 and p1 else 'off' }}
-#
-# set the device class in customize.yaml
-#
-# returns True or False
-#
-    people_home:
-      friendly_name: On, wenn min. eine Person im Haus
-      value_template: >-
-         {{ is_state('person.stefan', 'home') or
-            is_state('person.julia', 'home') or
-            is_state('person.anna', 'home') }}
-
-#
-#
-#
-    haus_offen_keiner_zuhause:
-      friendly_name: On, wenn keiner Zuhause ist und ein Öffnung offen ist.
-      value_template: >-
-         {% set p0 = states('sensor.people_home') == "False" %}
-         {% set p1 = states('group.oeffnungen') == "on" %}
-         {{ 'true' if p0 and p1 else 'false' }}
-#
-# binary_sensor.su_xp1654_door_lock = on -> locked
-#
-    volvo_zuhause_und_offen:
-      friendly_name: On, wenn Volvo zuhause und nicht abgeschlossen ist.
-      value_template: >-
-         {% set p0 = states('device_tracker.volvo_su_xp1654') == "home" %}
-         {% set p1 = states('binary_sensor.su_xp1654_door_lock')== "on" %}
-         {{ 'true' if p0 and p1 else 'false' }}
 #
 #
 #

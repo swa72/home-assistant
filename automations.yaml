@@ -224,18 +224,22 @@
     entity_id: switch.shellyswitch25_483fda4cc1b1_channel_2
   mode: single
 - id: '1609924669215'
-  alias: zSchließe Volvo ab, wenn zuhause und offen
+  alias: Volvo abschließen, wenn zuhause und lönger als 15min offen
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.volvo_zuhause_und_offen
-    from: 'false'
-    to: 'True'
+    entity_id: binary_sensor.volvo_zuhause_und_offen
+    to: 'on'
   condition: []
   action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 15
+      milliseconds: 0
   - service: lock.lock
-    data:
-      entity_id: lock.su_xp1654_door_lock
+    data: {}
+    entity_id: lock.su_xp1654_door_lock
   mode: single
 - id: julia_arrives_home
   alias: yJulia Arrives Home
@@ -292,7 +296,7 @@
     to: Away
   condition:
   - condition: template
-    value_template: '{{trigger.from_state.state != "stationary"}}'
+    value_template: '{{trigger.from_state.state == "Home"}}'
   action:
   - service: script.notify_swaiphone
     data:
@@ -455,7 +459,7 @@
         \ state_attr('sensor.fritzphone', 'with') }})\n{% endif %}"
   mode: single
 - id: '1612096410696'
-  alias: Waschmaschine fertig (v2)
+  alias: Waschmaschine fertig
   description: Waschmaschine fertig
   use_blueprint:
     path: Sbyx/notify-or-do-something-when-an-appliance-like-a-dishwasher-or-washing-machine-finishes.yaml
@@ -464,7 +468,7 @@
       power_sensor: sensor.shellys_wama_power
       starting_threshold: 100
       starting_hysteresis: '3'
-      finishing_threshold: 40
+      finishing_threshold: '40'
       actions:
       - service: notify.all_ios_parent_phones
         data:
@@ -553,4 +557,42 @@
       title: Stefan Arrives Home
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
         }}, Distance: {{ states("sensor.swaiphone_zone_distance") }}'
+  mode: single
+- id: '1612602466906'
+  alias: 'Katzentuer abends offen lassen '
+  description: ''
+  trigger:
+  - platform: state
+    from: 'off'
+    for: 00:05:00
+    to: 'on'
+    entity_id: binary_sensor.abend_eg_wohnzimmer_tuer_zu
+  condition: []
+  action:
+  - service: notify.all_ios_parent_phones
+    data:
+      title: Hinweis
+      message: Die Wohnzimmertür für die Katzen offen lassen.
+  - service: script.turn_on
+    data: {}
+    entity_id: script.doorbell_to_alexa
+  - service: script.turn_on
+    data: {}
+    entity_id: script.alexa_tts_katzentur_offnen
+  mode: single
+- id: '1612604258681'
+  alias: Volvo hat wenig Benzin
+  description: ''
+  trigger:
+  - platform: time
+    at: '20:00:00'
+  condition:
+  - condition: template
+    value_template: '{{ states(''sensor.su_xp1654_fuel_amount'') | float < 10 }}'
+  action:
+  - service: notify.all_ios_parent_phones
+    data:
+      title: Hinweis
+      message: Der Volvo hat nur noch {{ states('sensor.su_xp1654_fuel_amount') }}l
+        Benzin.
   mode: single

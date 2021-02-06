@@ -1,25 +1,26 @@
 # ----------------------
 # Reload Groups, Group Entities ...
 # ----------------------
+
+#
+# omit the "notify." here
+#
 - platform: group
   name: all_ios_devices
   services:
-# omit the "notify." here
   - service: mobile_app_jphone
   - service: mobile_app_iphonebwi
   - service: mobile_app_stefans_ipad
   - service: mobile_app_swaiphone
   - service: mobile_app_iphone_von_anna
-
 #
-#
+# omit the "notify." here
 #
 - platform: group
   name: all_ios_parent_phones
   services:
-# omit the "notify." here
-#  - service: mobile_app_jphone
   - service: mobile_app_swaiphone
+#  - service: mobile_app_jphone
 #
 #
 #
