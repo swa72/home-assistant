@@ -73,9 +73,23 @@ notify_stefan:
   alias: Notify stefan
   sequence:
   - service: notify.mobile_app_swaiphone
-    data_template:
-      title: '{{ title }}'
-      message: '{{ message }}'
+    data:
+      title: "{{ title }}"
+      message: "{{ message }}"
+  mode: single
+urgent_notify_stefan:
+  alias: Notify stefan
+  sequence:
+  - service: notify.mobile_app_swaiphone
+    data:
+      title: "{{ title }}"
+      message: "{{ message }}"
+      data:
+        push:
+          sound: 
+            name: default
+            critical: 1
+            volume: 0.3
   mode: single
 notify_people_who_are_present:
   alias: Notify people who are present
@@ -84,23 +98,23 @@ notify_people_who_are_present:
       {% if is_state('person.stefan', 'home') %} 
       notify.mobile_app_swaiphone
       {% else %} {% endif %}
-    data_template:
-      title: '{{ title }}'
-      message: '{{ message }}'
+    data:
+      title: "{{ title }}"
+      message: "{{ message }}"
   - service_template: >
       {% if is_state('person.julia', 'home') %} 
       notify.mobile_app_jphone
       {% else %} {% endif %}
-    data_template:
-      title: '{{ title }}'
-      message: '{{ message }}'
+    data:
+      title: "{{ title }}"
+      message: "{{ message }}"
   - service_template: >
       {% if is_state('person.anna', 'home') %} 
       notify.mobile_app_iphone_von_anna
       {% else %} {% endif %}
-    data_template:
-      title: '{{ title }}'
-      message: '{{ message }}'
+    data:
+      title: "{{ title }}"
+      message: "{{ message }}"
   mode: single
 notify_people:
   alias: Notify people
@@ -109,21 +123,108 @@ notify_people:
       {% if 1==1 %} 
       notify.mobile_app_swaiphone
       {% else %} {% endif %}
-    data_template:
-      title: '{{ title }}'
-      message: '{{ message }}'
+    data:
+      title: "{{ title }}"
+      message: "{{ message }}"
   - service_template: >
       {% if 1==1 %} 
       notify.mobile_app_jphone
       {% else %} {% endif %}
-    data_template:
-      title: '{{ title }}'
-      message: '{{ message }}'
+    data:
+      title: "{{ title }}"
+      message: "{{ message }}"
   - service_template: >
       {% if 1==1 %} 
       notify.mobile_app_iphone_von_anna
       {% else %} {% endif %}
-    data_template:
-      title: '{{ title }}'
-      message: '{{ message }}'
+    data:
+      title: "{{ title }}"
+      message: "{{ message }}"
   mode: single
+urgent_notify_people_who_are_present:
+  alias: Notify people urgently
+  sequence:
+    - choose:
+        - conditions: "{{ is_state('person.stefan', 'home') }}"
+          sequence:
+            - service: notify.mobile_app_swaiphone
+              data:
+                title: "{{ title }}"
+                message: "{{ message }}"
+                data:
+                  push:
+                    sound: 
+                      name: default
+                      critical: 1
+                      volume: 0.3
+    - choose:
+      - conditions: "{{ is_state('person.julia', 'home') }}"
+        sequence:
+          - service: notify.mobile_app_jphone
+            data:
+              title: "{{ title }}"
+              message: "{{ message }}"
+              data:
+                push:
+                  sound: 
+                    name: default
+                    critical: 1
+                    volume: 0.3          
+    - choose:
+      - conditions: "{{ is_state('person.anna', 'home') }}"
+        sequence:
+          - service: notify.mobile_app_iphone_von_anna
+            data:
+              title: "{{ title }}"
+              message: "{{ message }}"      
+              data:
+                push:
+                  sound: 
+                    name: default
+                    critical: 1
+                    volume: 0.3          
+  mode: single
+urgent_notify_people:
+  alias: Notify people
+  sequence:
+  - service_template: >
+      {% if 1==1 %} 
+      notify.mobile_app_swaiphone
+      {% else %} {% endif %}
+    data:
+      title: "{{ title }}"
+      message: "{{ message }}"
+      data:
+        push:
+          sound: 
+            name: default
+            critical: 1
+            volume: 0.3
+  - service_template: >
+      {% if 1==1 %} 
+      notify.mobile_app_jphone
+      {% else %} {% endif %}
+    data:
+      title: "{{ title }}"
+      message: "{{ message }}"
+      data:
+        push:
+          sound: 
+            name: default
+            critical: 1
+            volume: 0.3
+  - service_template: >
+      {% if 1==1 %} 
+      notify.mobile_app_iphone_von_anna
+      {% else %} {% endif %}
+    data:
+      title: "{{ title }}"
+      message: "{{ message }}"
+      data:
+        push:
+          sound: 
+            name: default
+            critical: 1
+            volume: 0.3
+  mode: single
+  

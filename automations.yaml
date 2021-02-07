@@ -9,7 +9,8 @@
   - service: script.notify_stefan
     data:
       title: Hinweis
-      message: "Home Assistant {{ state_attr('binary_sensor.updater', 'newest_version') }} is now available."
+      message: Home Assistant {{ state_attr('binary_sensor.updater', 'newest_version')
+        }} is now available.
   mode: single
 - id: '1608480614730'
   alias: Wenn Haustür geöffnet wird und dunkel draußen, dann Flur-EG Licht an und
@@ -64,7 +65,7 @@
     entity_id: cover.eltern_schlafzimmer
   mode: single
 - id: '1608636183988'
-  alias: Wenn Fenster zu lange offen und kalt, dann Nachricht an alle
+  alias: Notify, wenn Fenster zu lange offen und kalt
   description: ''
   trigger:
   - platform: state
@@ -107,7 +108,7 @@
       input: /config/gitpush.sh
     service: hassio.addon_stdin
 - id: '1609014775930'
-  alias: Notify when someone enters or leaves a zone
+  alias: Notify, wenn jemand einen Zone wechselt
   description: Notify when someone enters or leaves a zone
   trigger:
   - platform: state
@@ -371,14 +372,14 @@
     entity_id: counter.kellerpumpe
   mode: single
 - id: '1611502164716'
-  alias: zFake
+  alias: Urgent Notify Stefan, zFake (must be turned off)
   description: ''
   trigger:
   - platform: time
     at: 00:00
   condition: []
   action:
-  - service: script.notify_stefan
+  - service: script.urgent_notify_stefan
     data:
       title: Hinweis
       message: Fake automation
@@ -441,7 +442,7 @@
       message: input_text.swa_alexa_text
       target: input_select.swa_alexa_device
 - id: swa1
-  alias: Notify about Fritzphone state
+  alias: Notify Stefan, wenn Fritzphone Status wechselt
   trigger:
   - platform: state
     entity_id: sensor.fritzphone
@@ -458,14 +459,14 @@
         \ state_attr('sensor.fritzphone', 'with') }})\n{% endif %}"
   mode: single
 - id: '1612096410696'
-  alias: Waschmaschine fertig
+  alias: Notify, wenn Waschmaschine fertig
   description: Waschmaschine fertig
   use_blueprint:
     path: Sbyx/notify-or-do-something-when-an-appliance-like-a-dishwasher-or-washing-machine-finishes.yaml
     input:
       finishing_hysteresis: '5'
       power_sensor: sensor.shellys_wama_power
-      starting_threshold: 100
+      starting_threshold: '100'
       starting_hysteresis: '3'
       finishing_threshold: '40'
       actions:
@@ -473,7 +474,7 @@
         data:
           title: Hinweis
           message: Waschmaschine ist fertig seit {{ now().hour }}:{{ now().minute
-            }}. 
+            }}.
       - service: script.turn_on
         data: {}
         entity_id: script.alexa_wama_fertig
@@ -558,7 +559,7 @@
         }}, Distance: {{ states("sensor.swaiphone_zone_distance") }}'
   mode: single
 - id: '1612602466906'
-  alias: 'Katzentuer abends offen lassen '
+  alias: Notify, wenn Katzentuer abends geschlossen
   description: ''
   trigger:
   - platform: state
@@ -592,10 +593,11 @@
   - service: script.notify_people_who_are_present
     data:
       title: Hinweis
-      message: "Der Volvo hat nur noch {{ states('sensor.su_xp1654_fuel_amount') }}l Benzin."
+      message: Der Volvo hat nur noch {{ states('sensor.su_xp1654_fuel_amount') }}l
+        Benzin.
   mode: single
 - id: '1612630325069'
-  alias: Fake notify_people_who_are_present
+  alias: Notify, wenn Fake, notify_people_who_are_present  (must be turned off)
   description: ''
   trigger:
   - platform: time
@@ -606,4 +608,158 @@
     data:
       title: Hinweis
       message: Message
+  mode: single
+- id: '1612709996219'
+  alias: Urgent Notify, wenn Garage zu lange offen ist
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.shelly1_garage_input
+    to: 'off'
+    for: 00:30:00
+  - platform: state
+    entity_id: binary_sensor.shelly1_garage_input
+    to: 'off'
+    for: 00:45:00
+  condition: []
+  action:
+  - service: script.urgent_notify_people_who_are_present
+    data:
+      title: Hinweis
+      message: Garagentor ist (zu lange) offen
+  mode: single
+- id: '1612710199273'
+  alias: Urgent Notify, wenn Haustür zu lange offen ist
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.haustur
+    to: 'on'
+    for: 00:03:00
+  - platform: state
+    entity_id: binary_sensor.haustur
+    to: 'on'
+    for: 00:06:00
+  condition: []
+  action:
+  - service: script.urgent_notify_people_who_are_present
+    data:
+      title: Hinweis
+      message: Haustür ist (zu lange) offen. Es hat {{ state_attr('weather.homeassistant',
+        'temperature') }} Grad draußen."
+  mode: single
+- id: '1612710265420'
+  alias: Urgent Notify, wenn Kellertür zu lange offen ist
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.kellertur
+    to: 'on'
+    for: 00:03:00
+  - platform: state
+    entity_id: binary_sensor.kellertur
+    to: 'on'
+    for: 00:06:00
+  condition: []
+  action:
+  - service: script.urgent_notify_people_who_are_present
+    data:
+      title: Hinweis
+      message: Kellertür ist (zu lange) offen. Es hat {{ state_attr('weather.homeassistant',
+        'temperature') }} Grad draußen."
+  mode: single
+- id: '1612710429192'
+  alias: Urgent Notify, wenn Freezer im Büro zu lange offen ist
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.eg_freezer
+    to: 'on'
+    for: 00:02:00
+  - platform: state
+    entity_id: binary_sensor.eg_freezer
+    to: 'on'
+    for: 00:04:00
+  condition: []
+  action:
+  - service: script.urgent_notify_people_who_are_present
+    data:
+      title: Hinweis
+      message: Freezer im Büro ist (zu lange) offen.
+  mode: single
+- id: '1612710607069'
+  alias: Urgent Notify, wenn nachts Tür aufgeht
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.nachts_tuerauf
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.nachts_tuerauf
+    to: 'on'
+    for: 00:03:00
+  condition: []
+  action:
+  - service: script.urgent_notify_people_who_are_present
+    data:
+      title: Hinweis
+      message: Tür {{ state_attr('binary_sensor.nachts_tuerauf', 'offenetuer') }}
+        ging auf
+  mode: single
+- id: '1612711040548'
+  alias: Notify, wenn Dachfenster offen bei Vorhersage Regen
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.dachfenster_offen_regentag
+    to: 'on'
+    for: 00:05:00
+  - platform: state
+    entity_id: binary_sensor.dachfenster_offen_regentag
+    to: 'on'
+    for: 00:10:00
+  condition: []
+  action:
+  - service: script.notify_people_who_are_present
+    data:
+      title: Hinweis
+      message: Dachfenster offen und Vorhersage sagt {{ state_attr('weather.homeassistant','forecast')[0].precipitation
+        }}mm Regen.
+  mode: single
+- id: '1612711147737'
+  alias: Notify, wenn Fenster bei Clara sich öffnet
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.fenster_og_clara
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.fenster_og_clara
+    to: 'on'
+    for: 00:10:00
+  condition: []
+  action:
+  - service: script.notify_people_who_are_present
+    data:
+      title: Hinweis
+      message: Fenster bei Clara offen
+  mode: single
+- id: '1612711572357'
+  alias: Urgent Notify, wenn keiner zuhause und irgendwas offen
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.haus_offen_keiner_zuhause
+    to: 'on'
+    for: 00:00:00
+  - platform: state
+    entity_id: binary_sensor.haus_offen_keiner_zuhause
+    to: 'on'
+    for: 00:10:00
+  condition: []
+  action:
+  - service: script.urgent_notify_people
+    data:
+      title: Hinweis
+      message: Irgendeine Außentür/Fenster offen und keiner zuhause.
   mode: single
