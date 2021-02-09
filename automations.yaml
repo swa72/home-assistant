@@ -435,7 +435,7 @@
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
         }}, Distance: {{ states.sensor.iphone_von_anna_zone_distance.state }}'
 - id: '1611515523821'
-  alias: Alexa Media Player TTS/Announce from Lovelace UI
+  alias: zAlexa Media Player TTS/Announce from Lovelace UI
   description: ''
   use_blueprint:
     path: NachtaktiverHalbaffe/alexa-tts-announcement-from-lovelace-ui-and-without-nabu-casa-alexa-media-player.yaml
@@ -833,4 +833,17 @@
       title: Julia Leaves Zone
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
         }}, Distance: {{ states("sensor.jphone_zone_distance") }}'
+  mode: single
+- id: '1612845626948'
+  alias: Notify Stefan, Trinken!
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.stefan_working_in_office
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: script.erinnere_stefan_ans_trinken
+    data: {}
   mode: single

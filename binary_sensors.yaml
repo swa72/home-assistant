@@ -109,3 +109,11 @@
          {% set p0 = states('device_tracker.volvo_su_xp1654') == "home" %}
          {% set p1 = states('binary_sensor.su_xp1654_door_lock')== "off" %}
          {{ 'true' if p0 and p1 else 'false' }}
+#
+#
+#
+    stefan_working_in_office:
+      friendly_name: On, wenn Stefan im Office ist
+      value_template: >-
+         {% set p0 = states('sensor.shellyp_dg_stefan_rechner_power') | float > 10 %}
+         {{ 'true' if p0 else 'false' }}
