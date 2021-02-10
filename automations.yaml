@@ -844,6 +844,7 @@
     to: 'on'
   condition: []
   action:
-  - service: script.erinnere_stefan_ans_trinken
+  - service: script.turn_on
     data: {}
+    entity_id: script.erinnere_stefan_ans_trinken
   mode: single

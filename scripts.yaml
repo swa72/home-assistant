@@ -235,8 +235,12 @@ erinnere_stefan_ans_trinken:
       - condition: state
         entity_id: binary_sensor.stefan_working_in_office
         state: 'on'
-        for: 01:00:00
       sequence:
+      - delay:
+          hours: 2
+          minutes: 0
+          seconds: 0
+          milliseconds: 0
       - service: script.notify_stefan
         data:
           title: Hinweis
