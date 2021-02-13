@@ -4,3 +4,7 @@ camera1_motion_detected:
 camera_motion_detection:
   name: Motion detection
   icon: mdi:eye
+swa_debug_mode:
+  name: Using HA in swa debug mode (defaults to off)
+  icon: mdi:bug
+

@@ -301,7 +301,7 @@
   action:
   - service: script.notify_stefan
     data:
-      title: stefan Leaves Home
+      title: Stefan Leaves Home
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
         }}, Distance: {{ states("sensor.swaiphone_zone_distance") }}'
   mode: single
@@ -319,7 +319,7 @@
   action:
   - service: script.notify_stefan
     data:
-      title: stefan Leaves Zone
+      title: Stefan Leaves Zone
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
         }}, Distance: {{ states("sensor.swaiphone_zone_distance") }}'
   mode: single
@@ -385,55 +385,6 @@
       title: Hinweis
       message: Fake automation
   mode: single
-- id: anna_arrives_home
-  alias: yAnna Arrives Home
-  trigger:
-  - platform: state
-    entity_id: sensor.iphone_von_anna_zone_name
-    to: Home
-  - platform: template
-    value_template: '{{states("sensor.iphone_von_anna_zone_distance") | float <= 0.2}}'
-  action:
-  - service: script.notify_stefan
-    data:
-      title: Anna Arrives Home
-      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-        }}, Distance: {{ states.sensor.iphone_von_anna_zone_distance.state }}'
-  mode: single
-- alias: yAnna Leaves Home
-  id: anna_leaves_home
-  trigger:
-  - platform: state
-    entity_id: sensor.iphone_von_anna_zone_name
-    to: Away
-  condition:
-  - condition: template
-    value_template: '{{trigger.from_state.state == "Home"}}'
-  - condition: template
-    value_template: '{{states("sensor.iphone_von_anna_zone_distance") | float > 0}}'
-  action:
-  - service: script.notify_stefan
-    data:
-      title: Anna Leaves Home
-      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-        }}, Distance: {{ states("sensor.iphone_von_anna_zone_distance") }}'
-- alias: yAnna Leaves Zone
-  id: anna_leaves_zone
-  trigger:
-  - platform: state
-    entity_id: sensor.iphone_von_anna_zone_name
-    to: Away
-  condition:
-  - condition: template
-    value_template: '{{trigger.from_state.state != "Home"}}'
-  - condition: template
-    value_template: '{{states("sensor.iphone_von_anna_zone_distance") | float > 0}}'
-  action:
-  - service: script.notify_stefan
-    data:
-      title: Anna Leaves Zone
-      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-        }}, Distance: {{ states.sensor.iphone_von_anna_zone_distance.state }}'
 - id: '1611515523821'
   alias: zAlexa Media Player TTS/Announce from Lovelace UI
   description: ''
@@ -502,29 +453,6 @@
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
         }}, Distance: {{ states.sensor.jphone_zone_distance.state }}'
   mode: single
-- id: '1612452331335'
-  alias: yAnna Arrives Zone
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.iphone_von_anna_zone_name
-    from: Away
-  condition:
-  - condition: template
-    value_template: '{{trigger.from_state.state != "Home"}}'
-  - condition: template
-    value_template: '{{states("sensor.iphone_von_anna_zone_distance") | float > 0}}'
-  - condition: template
-    value_template: '{{trigger.to_state.state != "stationary"}}'
-  - condition: template
-    value_template: '{{trigger.to_state.state != "Home"}}'
-  action:
-  - service: script.notify_stefan
-    data:
-      title: Anna Arrives at Zone
-      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-        }}, Distance: {{ states.sensor.jphone_zone_distance.state }}'
-  mode: single
 - id: '1612513446275'
   alias: yStefan Arrives Zone
   description: ''
@@ -570,16 +498,16 @@
     entity_id: binary_sensor.abend_eg_wohnzimmer_tuer_zu
   condition: []
   action:
+  - service: script.alexa_doorbell
+    data: {}
+    entity_id: script.alexa_doorbell
+  - service: script.alexa_tts_katzentur_offnen
+    data: {}
+    entity_id: script.alexa_tts_katzentur_offnen
   - service: script.notify_people_who_are_present
     data:
       title: Hinweis
       message: Die Wohnzimmertür für die Katzen offen lassen.
-  - service: script.turn_on
-    data: {}
-    entity_id: script.alexa_doorbell
-  - service: script.turn_on
-    data: {}
-    entity_id: script.alexa_tts_katzentur_offnen
   mode: single
 - id: '1612604258681'
   alias: Volvo hat wenig Benzin
@@ -847,4 +775,74 @@
   - service: script.turn_on
     data: {}
     entity_id: script.erinnere_stefan_ans_trinken
+  mode: single
+- id: '1613227095231'
+  alias: yAnna Arrives Home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.iphone_von_anna_zone_name
+    to: Home
+  condition: []
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Anna Arrives Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.iphone_von_anna_zone_distance") }}'
+  mode: single
+- id: '1613227136325'
+  alias: yAnna Arrives Zone
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.iphone_von_anna_zone_name
+    from: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.to_state.state != "Home"}}'
+  - condition: template
+    value_template: '{{trigger.to_state.state != "stationary"}}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Anna Arrives at Zone
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.iphone_von_anna_zone_distance") }}'
+  mode: single
+- id: '1613227167768'
+  alias: yAnna Leaves Home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.iphone_von_anna_zone_name
+    to: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.from_state.state == "Home"}}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Anna Leaves Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.iphone_von_anna_zone_distance") }}'
+  mode: single
+- id: '1613227208178'
+  alias: yAnna Leaves Zone
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.iphone_von_anna_zone_name
+    to: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.from_state.state != "Home"}}'
+  - condition: template
+    value_template: '{{trigger.from_state.state != "stationary"}}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Anna Leaves Zone
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.iphone_von_anna_zone_distance") }}'
   mode: single
