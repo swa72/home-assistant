@@ -34,7 +34,7 @@ haustur_offnen:
   - delay: 00:00:10
   mode: single
 clara_tur_zu_und_leiser:
-  alias: Clara Tür zu und leiser
+  alias: Call Clara Tür zu und leiser
   sequence:
   - service: hassio.addon_stdin
     data:
@@ -45,7 +45,7 @@ clara_tur_zu_und_leiser:
         call_duration: '20'
   mode: single
 konstantin_tur_zu_und_leiser:
-  alias: Konstantin Tür zu und leiser
+  alias: Call Konstantin Tür zu und leiser
   sequence:
   - service: hassio.addon_stdin
     data:
@@ -95,21 +95,23 @@ notify_people_who_are_present:
   alias: Notify people who are present
   sequence:
   - choose:
-    - conditions: "{{ is_state('person.stefan', 'home') }}"
+    - conditions: '{{ is_state(''person.stefan'', ''home'') }}'
       sequence:
       - service: notify.mobile_app_swaiphone
         data:
           title: '{{ title }}'
           message: '{{ message }}'
   - choose:
-    - conditions: "{{ is_state('person.julia', 'home') and is_state('input_boolean.swa_debug_mode', 'off') }}"
+    - conditions: '{{ is_state(''person.julia'', ''home'') and is_state(''input_boolean.swa_debug_mode'',
+        ''off'') }}'
       sequence:
       - service: notify.mobile_app_jphone
         data:
           title: '{{ title }}'
           message: '{{ message }}'
   - choose:
-    - conditions: "{{ is_state('person.anna', 'home') and is_state('input_boolean.swa_debug_mode', 'off') }}"
+    - conditions: '{{ is_state(''person.anna'', ''home'') and is_state(''input_boolean.swa_debug_mode'',
+        ''off'') }}'
       sequence:
       - service: notify.mobile_app_iphone_von_anna
         data:
@@ -117,24 +119,26 @@ notify_people_who_are_present:
           message: '{{ message }}'
   mode: single
 notify_people:
-  alias: Notify people 
+  alias: Notify people
   sequence:
   - choose:
-    - conditions: "{{ 1==1 }}"
+    - conditions: '{{ 1==1 }}'
       sequence:
       - service: notify.mobile_app_swaiphone
         data:
           title: '{{ title }}'
           message: '{{ message }}'
   - choose:
-    - conditions: "{{ 1==1 and is_state('input_boolean.swa_debug_mode', 'off') }}"
+    - conditions: '{{ 1==1 and is_state(''input_boolean.swa_debug_mode'', ''off'')
+        }}'
       sequence:
       - service: notify.mobile_app_jphone
         data:
           title: '{{ title }}'
           message: '{{ message }}'
   - choose:
-    - conditions: "{{ 1==1 and is_state('input_boolean.swa_debug_mode', 'off') }}"
+    - conditions: '{{ 1==1 and is_state(''input_boolean.swa_debug_mode'', ''off'')
+        }}'
       sequence:
       - service: notify.mobile_app_iphone_von_anna
         data:
@@ -145,7 +149,7 @@ urgent_notify_people_who_are_present:
   alias: Notify people urgently who are present
   sequence:
   - choose:
-    - conditions: "{{ is_state('person.stefan', 'home') }}"
+    - conditions: '{{ is_state(''person.stefan'', ''home'') }}'
       sequence:
       - service: notify.mobile_app_swaiphone
         data:
@@ -158,7 +162,8 @@ urgent_notify_people_who_are_present:
                 critical: 1
                 volume: 0.3
   - choose:
-    - conditions: "{{ is_state('person.julia', 'home') and is_state('input_boolean.swa_debug_mode', 'off') }}"
+    - conditions: '{{ is_state(''person.julia'', ''home'') and is_state(''input_boolean.swa_debug_mode'',
+        ''off'') }}'
       sequence:
       - service: notify.mobile_app_jphone
         data:
@@ -171,7 +176,8 @@ urgent_notify_people_who_are_present:
                 critical: 1
                 volume: 0.3
   - choose:
-    - conditions: "{{ is_state('person.anna', 'home') and is_state('input_boolean.swa_debug_mode', 'off') }}"
+    - conditions: '{{ is_state(''person.anna'', ''home'') and is_state(''input_boolean.swa_debug_mode'',
+        ''off'') }}'
       sequence:
       - service: notify.mobile_app_iphone_von_anna
         data:
@@ -188,7 +194,7 @@ urgent_notify_people:
   alias: Notify people urgently
   sequence:
   - choose:
-    - conditions: "{{ 1==1 }}"
+    - conditions: '{{ 1==1 }}'
       sequence:
       - service: notify.mobile_app_swaiphone
         data:
@@ -201,7 +207,8 @@ urgent_notify_people:
                 critical: 1
                 volume: 0.3
   - choose:
-    - conditions: "{{ 1==1 and is_state('input_boolean.swa_debug_mode', 'off') }}"
+    - conditions: '{{ 1==1 and is_state(''input_boolean.swa_debug_mode'', ''off'')
+        }}'
       sequence:
       - service: notify.mobile_app_jphone
         data:
@@ -214,7 +221,8 @@ urgent_notify_people:
                 critical: 1
                 volume: 0.3
   - choose:
-    - conditions: "{{ 1==1 and is_state('input_boolean.swa_debug_mode', 'off') }}"
+    - conditions: '{{ 1==1 and is_state(''input_boolean.swa_debug_mode'', ''off'')
+        }}'
       sequence:
       - service: notify.mobile_app_iphone_von_anna
         data:
@@ -237,7 +245,7 @@ erinnere_stefan_ans_trinken:
         state: 'on'
       sequence:
       - delay:
-          hours: 2
+          hours: 1
           minutes: 0
           seconds: 0
           milliseconds: 0
@@ -245,4 +253,45 @@ erinnere_stefan_ans_trinken:
         data:
           title: Hinweis
           message: Trink ein Glas Wasser
+  mode: single
+erinnere_stefan_ans_luften:
+  alias: Erinnere Stefan ans Lüften
+  sequence:
+  - repeat:
+      while:
+      - condition: state
+        entity_id: binary_sensor.stefan_working_in_office
+        state: 'on'
+      sequence:
+      - delay:
+          hours: 2
+          minutes: 0
+          seconds: 0
+          milliseconds: 0
+      - service: script.notify_stefan
+        data:
+          title: Hinweis
+          message: Bitte einmal lüften.
+  mode: single
+call_stefan:
+  alias: Call Stefan in the office
+  sequence:
+  - service: hassio.addon_stdin
+    data:
+      addon: 89275b70_dss_voip
+      input:
+        call_sip_uri: sip:**614@192.168.178.1
+        message_tts: Führe mich nicht in Versuchung.
+        call_duration: '20'
+  mode: single
+call_anna_tisch_decken:
+  alias: Call Anna Tisch decken
+  sequence:
+  - service: hassio.addon_stdin
+    data:
+      addon: 89275b70_dss_voip
+      input:
+        call_sip_uri: sip:**615@192.168.178.1
+        message_tts: Bitte runter kommen und Tisch decken.
+        call_duration: '20'
   mode: single

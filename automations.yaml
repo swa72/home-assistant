@@ -397,18 +397,21 @@
   alias: Notify Stefan, wenn Fritzphone Status wechselt
   trigger:
   - platform: state
-    entity_id: sensor.fritzphone
+    entity_id: sensor.fritz_box_7490_call_monitor_telefonbuch
   action:
   - service: script.notify_stefan
     data:
       title: FritzPhone
-      message: "{% if is_state(\"sensor.fritzphone\", \"idle\") %}\n  Phone is idle\n\
-        {% elif is_state(\"sensor.fritzphone\", \"dialing\") %}\n  Calling {{ state_attr('sensor.fritzphone',\
-        \ 'to_name') }} ({{ state_attr('sensor.fritzphone', 'to') }})\n{% elif is_state(\"\
-        sensor.fritzphone\", \"ringing\") %}\n  Incoming call from {{ state_attr('sensor.fritzphone',\
-        \ 'from_name') }} ({{ state_attr('sensor.fritzphone', 'from') }})\n{% else\
-        \ %}\n  Talking to {{ state_attr('sensor.fritzphone', 'with_name') }} ({{\
-        \ state_attr('sensor.fritzphone', 'with') }})\n{% endif %}"
+      message: "{% if is_state(\"sensor.fritz_box_7490_call_monitor_telefonbuch\"\
+        , \"idle\") %}\n  Phone is idle\n{% elif is_state(\"sensor.fritz_box_7490_call_monitor_telefonbuch\"\
+        , \"dialing\") %}\n  Calling {{ state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch',\
+        \ 'to_name') }} ({{ state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch',\
+        \ 'to') }})\n{% elif is_state(\"sensor.fritzphone\", \"ringing\") %}\n  Incoming\
+        \ call from {{ state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch',\
+        \ 'from_name') }} ({{ state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch',\
+        \ 'from') }})\n{% else %}\n  Talking to {{ state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch',\
+        \ 'with_name') }} ({{ state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch',\
+        \ 'with') }})\n{% endif %}"
   mode: single
 - id: '1612096410696'
   alias: Notify, wenn Waschmaschine fertig
@@ -479,7 +482,9 @@
   - platform: state
     entity_id: sensor.swaiphone_zone_name
     to: Home
-  condition: []
+  condition:
+  - condition: template
+    value_template: '{{ trigger.from_state.state != "NotSet" }}'
   action:
   - service: script.notify_stefan
     data:
@@ -699,7 +704,9 @@
   - platform: state
     entity_id: sensor.jphone_zone_name
     to: Home
-  condition: []
+  condition:
+  - condition: template
+    value_template: '{{ trigger.from_state.state != "NotSet" }}'
   action:
   - service: script.notify_stefan
     data:
@@ -763,18 +770,22 @@
         }}, Distance: {{ states("sensor.jphone_zone_distance") }}'
   mode: single
 - id: '1612845626948'
-  alias: Notify Stefan, Trinken!
+  alias: Notify Stefan, Trinken und Lüften
   description: ''
   trigger:
   - platform: state
     entity_id: binary_sensor.stefan_working_in_office
     from: 'off'
     to: 'on'
-  condition: []
+  condition:
+  - condition: template
+    value_template: '{{ is_state(''script.erinnere_stefan_ans_trinken'', ''off'')  }}'
   action:
-  - service: script.turn_on
+  - service: script.erinnere_stefan_ans_trinken
     data: {}
     entity_id: script.erinnere_stefan_ans_trinken
+  - service: script.erinnere_stefan_ans_luften
+    data: {}
   mode: single
 - id: '1613227095231'
   alias: yAnna Arrives Home
@@ -783,7 +794,9 @@
   - platform: state
     entity_id: sensor.iphone_von_anna_zone_name
     to: Home
-  condition: []
+  condition:
+  - condition: template
+    value_template: '{{ trigger.from_state.state != "NotSet" }}'
   action:
   - service: script.notify_stefan
     data:

@@ -266,3 +266,8 @@ compatibility_mode: false
       input: /config/gitpush.sh
     service: hassio.addon_stdin
 ```
+
+## Fritzbox call monitor
+* see https://www.home-assistant.io/integrations/fritzbox_callmonitor/
+* using user swa on Fritzbox
+* you may need to enable the call monitor after a restart of the Fritzbox using "To activate the call monitor on your FRITZ!Box, dial #96*5* from any phone connected to it."
