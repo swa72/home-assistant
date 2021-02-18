@@ -295,3 +295,20 @@ call_anna_tisch_decken:
         message_tts: Bitte runter kommen und Tisch decken.
         call_duration: '20'
   mode: single
+schalte_aussenlicht_fur_5min_an:
+  alias: Schalte Aussenlicht für 5min an
+  sequence:
+  - type: turn_on
+    device_id: 5d726789f88ff8800753b26abd0bf956
+    entity_id: switch.shellyswitch25_483fda4cc1b1_channel_1
+    domain: switch
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - type: turn_off
+    device_id: 5d726789f88ff8800753b26abd0bf956
+    entity_id: switch.shellyswitch25_483fda4cc1b1_channel_1
+    domain: switch
+  mode: single

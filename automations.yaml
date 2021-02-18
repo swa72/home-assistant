@@ -34,6 +34,8 @@
     device_id: 33202a9524f56b2023ed57884e81af71
     entity_id: switch.shelly25_garage_channel_2
     domain: switch
+  - service: script.schalte_aussenlicht_fur_5min_an
+    data: {}
   mode: single
 - id: '1608567664971'
   alias: zDummy to logfile

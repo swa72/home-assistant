@@ -29,6 +29,12 @@ frontend:
   # logs:
     # custom_components.icloud3.pyicloud_ic3: debug
     # custom_components.icloud3.device_tracker: debug
+
+logger:
+  default: warn
+  logs:
+    homeassistant.components.recorder: debug
+
 #
 # to turn on my pc
 #
@@ -73,10 +79,15 @@ rest_command: !include rest_commands.yaml
 #
 recorder:
   db_url: !secret db_url
+  purge_keep_days: 7
   exclude:
+    entity_globs:
+      - sensor.adguard*
     entities:
       - sensor.icloud3_event_log
-#
+      - sensor.swaiphone_info
+      - sensor.jphone_info
+      - sensor.iphone_von_anna_info
 #
 #
 counter:

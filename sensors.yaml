@@ -51,3 +51,14 @@
     regen_heute:
       friendly_name: met.no Precipitation
       value_template: "{{ state_attr('weather.homeassistant', 'forecast')[0].precipitation }}"
+#
+#
+#
+- platform: sql
+  db_url: !secret db_url
+  queries:
+    - name: DB size
+      query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024, 1) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
+      column: "value"
+      unit_of_measurement: kB
+      
