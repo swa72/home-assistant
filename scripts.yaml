@@ -312,3 +312,15 @@ schalte_aussenlicht_fur_5min_an:
     entity_id: switch.shellyswitch25_483fda4cc1b1_channel_1
     domain: switch
   mode: single
+one_time_water_on:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: 'ems-esp/boiler'
+      payload: '{"cmd":"wwonetime","data":1}'         
+one_time_water_off:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: 'ems-esp/boiler'
+      payload: '{"cmd":"wwonetime","data":0}'
