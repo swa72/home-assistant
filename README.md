@@ -16,7 +16,7 @@ This file is intended for me to document the quirks I had during setup and for o
 * Raspberry 4 running Home Assistant 2021.1.5
   * initially connected thru wifi, later moved to ethernet and directly connected to the Fritzbox
   * conbee USB stick to manage ZigBee network
-* a Buderus Logamax Plus GB192i heating described below)
+* a Buderus Logamax Plus GB192i heating (described below)
 * Regular backup to a samba share (described below)
 * Regular updates to git (described below)
 * Editing files with Notepad++
@@ -247,6 +247,12 @@ compatibility_mode: false
 ```
 {% for state in states %}
 {{ state.entity_id }}
+{%- endfor -%}
+```
+or
+```
+{% for state in states %}
+{{ state.entity_id }}, {{ states(state.entity_id) }}
 {%- endfor -%}
 ```
 

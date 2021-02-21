@@ -61,4 +61,13 @@
       query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024, 1) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
       column: "value"
       unit_of_measurement: kB
-      
+#
+#
+#
+- platform: template
+  sensors:
+    heating_differential:
+      friendly_name: "Flow-Ret diff"
+      unit_of_measurement: '°C'
+      icon_template: 'mdi:format-align-middle'
+      value_template: "{{ (states('sensor.boiler_current_flow_temperature') | float - states('sensor.boiler_return_temperature') | float) | round(1) }}"
