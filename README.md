@@ -241,6 +241,15 @@ compatibility_mode: false
 
 # Useful stuff
 
+## Template
+
+* Prints out all entities
+```
+{% for state in states %}
+{{ state.entity_id }}
+{%- endfor -%}
+```
+
 ## HACS: iCloud3 Device Tracker
 
 * iCloud has authentication problems, so I was looking for an alternative
@@ -292,7 +301,6 @@ heating. The gateway ...
 * before and after
 <img src="./image/IMG-7680_.jpg" width="400">
 <img src="./image/IMG-7681_.jpg" width="400">
-
 * Having connected the gateway with the heating, the gateway powers up and provides a WLAN. You can connect to the WLAN and configure the device to 
 connect to your local WLAN (don't forget to give it a static address).
 * The gateway finds all connected devices on the EMS bus:
