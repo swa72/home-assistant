@@ -314,7 +314,7 @@ connect to your local WLAN (don't forget to give it a static address).
   * started the add-on
   * added a user ```swamq```
 * enabled MQTT in the web interface of the gateway
-  * Host: ```homeassistant-eth```, which is the local address (i.e. ```192.168.178.83```)
+  * Host: ```homeassistant-eth```, which is the local address of the raspberry (i.e. ```192.168.178.83```)
   * Username: see above
   * Format: ```Home Assistant```
 * Apparently that was it, as MQTT immediately picked up all five devices
