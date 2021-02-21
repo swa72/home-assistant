@@ -301,10 +301,12 @@ heating. The gateway ...
 * before and after
 <img src="./image/IMG-7680_.jpg" width="400">
 <img src="./image/IMG-7681_.jpg" width="400">
+
 * Having connected the gateway with the heating, the gateway powers up and provides a WLAN. You can connect to the WLAN and configure the device to 
 connect to your local WLAN (don't forget to give it a static address).
 * The gateway finds all connected devices on the EMS bus:
 <img src="./image/ems-esp.PNG">
+
 * I enabled NTP on the gateway
 * I then followed the instructions on https://bbqkees-electronics.nl/wiki/gateway/home-assistant-configuration.html to integrate it into HA
 * installed Mosquitto broker
