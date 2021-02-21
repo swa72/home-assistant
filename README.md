@@ -307,14 +307,14 @@ connect to your local WLAN (don't forget to give it a static address).
 <img src="./image/ems-esp.PNG">
 * I enabled NTP on the gateway
 * I then followed the instructions on https://bbqkees-electronics.nl/wiki/gateway/home-assistant-configuration.html to integrate it into HA
-  * installed Mosquitto broker
-    * via Supervisor | Add-on store
-	* started the add-on
-	* added a user ```swamq```
-  * enabled MQTT in the web interface of the gateway
-    * Host: ```homeassistant-eth```, which is the local address (i.e. ```192.168.178.83```)
-	* Username: see above
-	* Format: ```Home Assistant```
-  * Apparently that was it, as MQTT immediately picked up all five devices
-  * Went to Configuration | Integration | MQTT and clicked on devices. For each of the five devices, click on 
+* installed Mosquitto broker
+  * via Supervisor | Add-on store
+  * started the add-on
+  * added a user ```swamq```
+* enabled MQTT in the web interface of the gateway
+  * Host: ```homeassistant-eth```, which is the local address (i.e. ```192.168.178.83```)
+  * Username: see above
+  * Format: ```Home Assistant```
+* Apparently that was it, as MQTT immediately picked up all five devices
+* Went to Configuration | Integration | MQTT and clicked on devices. For each of the five devices, click on 
   the device name and use "Add to lovelace" to add all entities.
