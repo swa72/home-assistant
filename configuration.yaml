@@ -90,6 +90,28 @@ recorder:
       - sensor.iphone_von_anna_info
 #
 #
+#
+influxdb:
+  host: a0d7b954-influxdb
+  port: 8086
+  database: homeassistant
+  username: homeassistant
+  password: !secret influxdb
+  max_retries: 3
+  default_measurement: state
+  include:
+    entities:
+      - weather.homeassistant
+      - weather.openweathermap
+      - weather.accuweather
+    entity_globs:
+      - sensor.boiler*
+      - sensor.mixer*
+      - sensor.thermostat*
+      - sensor.solar*
+      - sensor.accuweather*
+#
+#
 counter:
     kellerpumpe:
       initial: 0
