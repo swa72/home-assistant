@@ -71,3 +71,20 @@
       unit_of_measurement: '°C'
       icon_template: 'mdi:format-align-middle'
       value_template: "{{ (states('sensor.boiler_current_flow_temperature') | float - states('sensor.boiler_return_temperature') | float) | round(1) }}"
+#
+#
+#
+- platform: influxdb
+  host: a0d7b954-influxdb
+  port: 8086
+  username: homeassistant
+  password: !secret influxdb
+  queries:
+    - name: InfluxDb DB Size
+      unit_of_measurement: MB
+      value_template: '{{ (value | float / 1024 /1024) | round(1) }}'
+      group_function: sum
+      measurement: '"monitor"."shard"'
+      database: _internal
+      where: 'time > now() - 10s'
+      field: diskBytes
