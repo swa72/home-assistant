@@ -364,4 +364,26 @@ For some reason or the other, only the third got added automagically.
   - sensor.thermostat_hc2_timer_program
   - sensor.thermostat_hc2_hatemp
   ```
-  
+	
+## Influxdb
+* installed with default settings
+```
+auth: true
+reporting: true
+ssl: true
+certfile: fullchain.pem
+keyfile: privkey.pem
+envvars: []
+```
+
+
+## Grafana
+* installed with configuration (not the plug to visualize discrete values)
+```
+plugins:
+  - natel-discrete-panel
+env_vars: []
+ssl: true
+certfile: fullchain.pem
+keyfile: privkey.pem
+```

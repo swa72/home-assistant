@@ -88,3 +88,12 @@
       database: _internal
       where: 'time > now() - 10s'
       field: diskBytes
+
+#
+#
+#
+- platform: template
+  sensors:
+    swaweathermetno:
+      friendly_name: "Met.no Forecast"
+      value_template: "{{ state_attr('weather.homeassistant', 'forecast')[0].condition }}"
