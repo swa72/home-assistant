@@ -113,6 +113,7 @@ influxdb:
       - sensor.thermostat*
       - sensor.solar*
       - sensor.accuweather*
+      - sensor.multi*
 #
 #
 counter:
