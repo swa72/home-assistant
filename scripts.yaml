@@ -316,11 +316,19 @@ one_time_water_on:
   sequence:
   - service: mqtt.publish
     data:
-      topic: 'ems-esp/boiler'
-      payload: '{"cmd":"wwonetime","data":1}'         
+      topic: ems-esp/boiler
+      payload: '{"cmd":"wwonetime","data":1}'
 one_time_water_off:
   sequence:
   - service: mqtt.publish
     data:
-      topic: 'ems-esp/boiler'
+      topic: ems-esp/boiler
       payload: '{"cmd":"wwonetime","data":0}'
+heating:
+  alias: Heating HC3 Offset Plus1
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat_cmd
+      payload: '{"cmd":"offsettemp","data":1.0,"id":3}'
+  mode: single

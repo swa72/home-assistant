@@ -63,6 +63,8 @@ http: !include http.yaml
 cover: !include covers.yaml
 volvooncall: !include volvo.yaml
 switch: !include switches.yaml
+homekit: !include homekit.yaml
+
 #
 # for camera stuff to work
 # see https://community.home-assistant.io/t/motioneye-integration/194350

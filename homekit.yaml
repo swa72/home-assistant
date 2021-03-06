@@ -1,0 +1,114 @@
+#
+# clicking the stuff in HA's user interface was way too painful
+#
+- filter:
+    include_domains:
+      - binary_sensor
+      - climate
+      - cover
+      - light
+      - person
+      - sensor
+      - switch
+    exclude_entity_globs:
+      - binary_sensor.boiler*
+      - binary_sensor.mixer*
+      - binary_sensor.solar*
+      - binary_sensor.*_overpowering
+      - binary_sensor.*_cloud
+      - binary_sensor.*_firmware_update
+      - binary_sensor.*_overheating
+      - binary_sensor.*_channel_1_input
+      - binary_sensor.*_channel_2_input
+      - binary_sensor.su_xp*
+      - sensor.accuweather*
+      - sensor.adguard*
+      - sensor.boiler*
+      - sensor.solar*
+      - sensor.*_energy
+      - sensor.*_power
+      - sensor.*_battery_level
+      - sensor.fritz_box*
+      - sensor.glances*
+      - sensor.hp_laserjet*
+      - sensor.iphone*
+      - sensor.jphone*
+      - sensor.mixer*
+      - sensor.openweathermap*
+      - sensor.*_rssi
+      - sensor.*_uptime
+      - sensor.*_device_temperature
+      - sensor.sk_heidelberg*
+      - sensor.stefans_echo*
+      - sensor.stefans_ipad*
+      - sensor.su_xp165*
+      - sensor.swaiphone*
+      - sensor.thermostat*
+      - switch.adguard*
+      - switch.stefans_echo*
+    exclude_entities:
+      - binary_sensor.abend_eg_wohnzimmer_tuer_zu
+      - binary_sensor.camera1_motion
+      - binary_sensor.dachfenster_offen_regentag
+      - binary_sensor.dunkel_draussen
+      - binary_sensor.haus_offen_keiner_zuhause
+      - binary_sensor.nachts_tuerauf
+      - binary_sensor.people_home
+      - binary_sensor.rainy_day
+      - binary_sensor.rpi_power_status
+      - binary_sensor.shelly1_garage_input
+      - binary_sensor.stefan_working_in_office
+      - binary_sensor.sun_up
+      - binary_sensor.updater
+      - binary_sensor.volvo_zuhause_und_offen
+      - light.range_extender_2
+      - light.range_extender_3
+      - sensor.db_size
+      - sensor.hacs
+      - sensor.heating_differential
+      - sensor.icloud3_event_log
+      - sensor.influx_db_size
+      - sensor.last_boot
+      - sensor.load_15m
+      - sensor.load_1m
+      - sensor.load_5m
+      - sensor.memory_use_percent
+      - sensor.processor_temperature
+      - sensor.regen_heute
+      - sensor.samba_backup
+      - sensor.service_code
+      - sensor.swa_fake
+      - sensor.swaweathermetno
+      - sensor.uptime
+      - switch.shelly1_garage
+      - switch.shellys_keller_pumpe_treppe
+      - switch.shellys_wama
+    include_entities:
+      - script.haustur_offnen
+
+
+  # entity_config:
+    # alarm_control_panel.home:
+      # code: 1234
+    # binary_sensor.living_room_motion:
+      # linked_battery_sensor: sensor.living_room_motion_battery
+      # low_battery_threshold: 31
+    # light.kitchen_table:
+      # name: "Kitchen Table Light"
+    # lock.front_door:
+      # code: 1234
+    # media_player.living_room:
+      # feature_list:
+        # - feature: on_off
+        # - feature: play_pause
+        # - feature: play_stop
+        # - feature: toggle_mute
+    # switch.bedroom_outlet:
+      # type: outlet
+    # camera.back_porch:
+      # support_audio: true
+# - name: "HASS Bridge 2"
+  # port: 56332
+  # filter:
+    # include_domains:
+      # - light
