@@ -117,6 +117,10 @@ influxdb:
       - sensor.accuweather*
       - sensor.multi*
       - sensor.heating*
+# since ESP32
+      - binary_sensor.boiler*
+      - binary_sensor.mixer*
+      - binary_sensor.solar*
 #
 #
 counter:
