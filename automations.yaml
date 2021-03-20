@@ -861,3 +861,93 @@
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
         }}, Distance: {{ states("sensor.iphone_von_anna_zone_distance") }}'
   mode: single
+- id: '1612604258682'
+  alias: Dachgeschoss zu heiss
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{ states.sensor.multi_dg_stefan_temperature.state | float >
+      23.0 }}'
+  action:
+  - service: persistent_notification.create
+    data:
+      message: HK3 DG mehr als 23°, Offset -1K gesetzt
+      title: Hinweis
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-1, "id":3}'
+  - delay:
+      hours: 2
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":0, "id":3}'
+  - service: persistent_notification.create
+    data:
+      message: HK3 Offset auf 0K zurückgesetzt
+      title: Hinweis
+  mode: single
+- id: '1612604258683'
+  alias: Erdgeschoss zu heiss
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{ states.sensor.thermostat_hc1_current_room_temperature.state | float >
+      23.0 }}'
+  action:
+  - service: persistent_notification.create
+    data:
+      message: HK1 EG mehr als 23°, Offset -1K gesetzt
+      title: Hinweis
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-1, "id":1}'
+  - delay:
+      hours: 2
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":0, "id":1}'
+  - service: persistent_notification.create
+    data:
+      message: HK1 Offset auf 0K zurückgesetzt
+      title: Hinweis
+  mode: single
+- id: '1612604258684'
+  alias: FBH zu heiss
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{ states.sensor.thermostat_hc1_current_room_temperature.state | float >
+      23.0 }}'
+  action:
+  - service: persistent_notification.create
+    data:
+      message: HK2 EG mehr als 23°, Offset -1K gesetzt
+      title: Hinweis
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-1, "id":2}'
+  - delay:
+      hours: 2
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":0, "id":2}'
+  - service: persistent_notification.create
+    data:
+      message: HK2 Offset auf 0K zurückgesetzt
+      title: Hinweis
+  mode: single

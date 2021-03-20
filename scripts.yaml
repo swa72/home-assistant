@@ -325,10 +325,11 @@ one_time_water_off:
       topic: ems-esp/boiler
       payload: '{"cmd":"wwonetime","data":0}'
 heating:
-  alias: Heating HC3 Offset Minus3
+  alias: Lower heating offset hc3
   sequence:
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-2, "id":3}'
+  - delay: 02:00
   mode: single
