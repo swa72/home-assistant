@@ -862,7 +862,7 @@
         }}, Distance: {{ states("sensor.iphone_von_anna_zone_distance") }}'
   mode: single
 - id: '1612604258682'
-  alias: Dachgeschoss zu heiss
+  alias: Dachgeschoss zu warm
   description: ''
   trigger:
   - platform: template
@@ -892,12 +892,12 @@
       title: Hinweis
   mode: single
 - id: '1612604258683'
-  alias: Erdgeschoss zu heiss
+  alias: Erdgeschoss zu warm
   description: ''
   trigger:
   - platform: template
-    value_template: '{{ states.sensor.thermostat_hc1_current_room_temperature.state | float >
-      23.0 }}'
+    value_template: '{{ states.sensor.thermostat_hc1_current_room_temperature.state
+      | float > 23.0 }}'
   action:
   - service: persistent_notification.create
     data:
@@ -922,12 +922,12 @@
       title: Hinweis
   mode: single
 - id: '1612604258684'
-  alias: FBH zu heiss
+  alias: FBH zu warm
   description: ''
   trigger:
   - platform: template
-    value_template: '{{ states.sensor.thermostat_hc1_current_room_temperature.state | float >
-      23.0 }}'
+    value_template: '{{ states.sensor.thermostat_hc1_current_room_temperature.state
+      | float > 23.0 }}'
   action:
   - service: persistent_notification.create
     data:
