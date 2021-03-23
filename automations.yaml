@@ -871,12 +871,12 @@
   action:
   - service: persistent_notification.create
     data:
-      message: HK3 DG mehr als 23°, Offset -1K gesetzt
+      message: HK3 DG mehr als 23°, Offset -2K gesetzt
       title: Hinweis
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"offsettemp","data":-1, "id":3}'
+      payload: '{"cmd":"offsettemp","data":-2, "id":3}'
   - delay:
       hours: 2
       minutes: 0
@@ -901,12 +901,12 @@
   action:
   - service: persistent_notification.create
     data:
-      message: HK1 EG mehr als 23°, Offset -1K gesetzt
+      message: HK1 EG mehr als 23°, Offset -2K gesetzt
       title: Hinweis
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"offsettemp","data":-1, "id":1}'
+      payload: '{"cmd":"offsettemp","data":-2, "id":1}'
   - delay:
       hours: 2
       minutes: 0
