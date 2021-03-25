@@ -958,7 +958,7 @@
     - conditions:
       - condition: template
         value_template: '{{ states.sensor.multi_og_elternbad_temperature.state | float
-          <= 22.0 }}'
+          <= 23.0 }}'
       sequence:
       - service: persistent_notification.create
         data:

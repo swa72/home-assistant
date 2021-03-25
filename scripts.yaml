@@ -333,3 +333,19 @@ heating:
       payload: '{"cmd":"offsettemp","data":-2, "id":3}'
   - delay: 02:00
   mode: single
+heating_reset_offsets:
+  alias: Heating Reset Offsets
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":0, "id":1}'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":0, "id":2}'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":0, "id":3}'
+  mode: single
