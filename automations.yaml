@@ -969,3 +969,112 @@
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":0, "id":2}'
   mode: single
+- id: '1616746036755'
+  alias: Dachgeschoss zu warm (v3)
+  description: check HK3 every hour
+  trigger:
+  - platform: time_pattern
+    hours: '*'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''binary_sensor.heating_hc3_too_warm'') == ''on''
+          }}'
+      sequence:
+      - service: persistent_notification.create
+        data:
+          title: Heating
+          message: DG zu warm, Room Offset runtergesetzt
+      - service: mqtt.publish
+        data:
+          topic: ems-esp/thermostat
+          payload: '{"cmd":"offsettemp","data":-3, "id":3}'
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''binary_sensor.heating_hc3_too_cold'') == ''on''
+          }}'
+      sequence:
+      - service: persistent_notification.create
+        data:
+          title: Heating
+          message: DG ok, Room Offset auf 0K
+      - service: mqtt.publish
+        data:
+          topic: ems-esp/thermostat
+          payload: '{"cmd":"offsettemp","data":0, "id":3}'
+  mode: single
+- id: '1616746129952'
+  alias: Erdgeschoss zu warm (v3)
+  description: check HK3 every hour
+  trigger:
+  - platform: time_pattern
+    hours: '*'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''binary_sensor.heating_hc1_too_warm'') == ''on''
+          }}'
+      sequence:
+      - service: persistent_notification.create
+        data:
+          title: Heating
+          message: EG zu warm, Room Offset runtergesetzt
+      - service: mqtt.publish
+        data:
+          topic: ems-esp/thermostat
+          payload: '{"cmd":"offsettemp","data":-3, "id":1}'
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''binary_sensor.heating_hc1_too_cold'') == ''on''
+          }}'
+      sequence:
+      - service: persistent_notification.create
+        data:
+          title: Heating
+          message: EG ok, Room Offset auf 0K
+      - service: mqtt.publish
+        data:
+          topic: ems-esp/thermostat
+          payload: '{"cmd":"offsettemp","data":0, "id":1}'
+  mode: single
+- id: '1616747011506'
+  alias: Elternbadzu warm (v3)
+  description: check HK2 every hour
+  trigger:
+  - platform: time_pattern
+    hours: '*'
+    minutes: '5'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''binary_sensor.heating_hc2_too_warm'') == ''on''
+          }}'
+      sequence:
+      - service: persistent_notification.create
+        data:
+          title: Heating
+          message: Elternbad zu warm, Room Offset runtergesetzt
+      - service: mqtt.publish
+        data:
+          topic: ems-esp/thermostat
+          payload: '{"cmd":"offsettemp","data":-3, "id":2}'
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''binary_sensor.heating_hc2_too_cold'') == ''on''
+          }}'
+      sequence:
+      - service: persistent_notification.create
+        data:
+          title: Heating
+          message: Elternbad ok, Room Offset auf 0K
+      - service: mqtt.publish
+        data:
+          topic: ems-esp/thermostat
+          payload: '{"cmd":"offsettemp","data":0, "id":2}'
+  mode: single

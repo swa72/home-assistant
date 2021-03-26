@@ -117,3 +117,61 @@
       value_template: >-
          {% set p0 = states('sensor.shellyp_dg_stefan_rechner_power') | float > 45 %}
          {{ 'true' if p0 else 'false' }}
+#
+# trigger to lower offset only if temp above threshold AND offset has not been lowered already
+#
+    heating_hc3_too_warm:
+      friendly_name: "HC3 zu warm"
+      value_template: >-
+        {% set p0 = states('sensor.multi_dg_stefan_temperature') | float >= 23 %}
+        {% set p9 = states('sensor.thermostat_hc3_offset_temperature') | float < 0 %}
+        {{ 'true' if p0 and (not p9) else 'false' }}
+#
+# trigger to reset offset back to zero only if temp below threshold AND offset has not been reset already
+#
+    heating_hc3_too_cold:
+      friendly_name: "HC3 zu kalt"
+      value_template: >-
+        {% set p0 = states('sensor.multi_dg_stefan_temperature') | float <= 22 %}
+        {% set p9 = states('sensor.thermostat_hc3_offset_temperature') | float == 0 %}
+        {{ 'true' if p0 and (not p9) else 'false' }}
+#
+# trigger to lower offset only if temp above threshold AND offset has not been lowered already
+#
+    heating_hc1_too_warm:
+      friendly_name: "HC1 zu warm"
+      value_template: >-
+        {% set p0 = states('sensor.thermostat_hc1_current_room_temperature') | float >= 22.8 %}        
+        {% set p1 = states('sensor.solar_collector_temperature_ts1') | float >= 30 %}
+        {% set p2 = states('sensor.thermostat_hc1_current_room_temperature') | float >= 22.0 %}
+        {% set p9 = states('sensor.thermostat_hc1_offset_temperature') | float < 0 %}
+        {{ 'true' if (not p9) and (p0 or (p1 and p2)) else 'false' }}
+#
+# trigger to reset offset back to zero only if temp below threshold AND offset has not been reset already
+#
+    heating_hc1_too_cold:
+      friendly_name: "HC1 zu kalt"
+      value_template: >-
+        {% set p0 = states('sensor.thermostat_hc1_current_room_temperature') | float <= 22.3 %}
+        {% set p9 = states('sensor.thermostat_hc1_offset_temperature') | float == 0 %}
+        {{ 'true' if p0 and (not p9) else 'false' }}
+#
+# trigger to lower offset only if flow temp of HC2 greater HC1 and outdoor temp > 7 AND offset has not been lowered already
+#
+    heating_hc2_too_warm:
+      friendly_name: "HC2 zu warm"
+      value_template: >-
+        {% set p0 = states('sensor.thermostat_hc2_target_flow_temperature') | float > states('sensor.thermostat_hc1_target_flow_temperature') | float %}
+        {% set p1 = states('sensor.thermostat_damped_outdoor_temperature') | float >= 7 %}
+        {% set p9 = states('sensor.thermostat_hc2_offset_temperature') | float < 0 %}
+        {{ 'true' if p0 and p1 and (not p9) else 'false' }}
+#
+# trigger to reset offset back to zero only if temp below threshold AND offset has not been reset already
+#
+    heating_hc2_too_cold:
+      friendly_name: "HC2 zu kalt"
+      value_template: >-
+        {% set p0 = states('sensor.thermostat_hc1_current_room_temperature') | float <= 22.3 %}
+        {% set p1 = states('sensor.multi_og_elternbad_temperature') | float < 22 %}
+        {% set p9 = states('sensor.thermostat_hc2_offset_temperature') | float == 0 %}
+        {{ 'true' if (p0 or p1) and (not p9) else 'false' }}
