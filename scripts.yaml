@@ -324,15 +324,6 @@ one_time_water_off:
     data:
       topic: ems-esp/boiler
       payload: '{"cmd":"wwonetime","data":0}'
-heating:
-  alias: Lower heating offset hc3
-  sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"offsettemp","data":-2, "id":3}'
-  - delay: 02:00
-  mode: single
 heating_reset_offsets:
   alias: Heating Reset Offsets
   sequence:
@@ -348,4 +339,56 @@ heating_reset_offsets:
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":0, "id":3}'
+  mode: single
+heating_burner_up:
+  alias: Heating burner up
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/boiler
+      payload: '{"cmd":"burnPeriod","data":10}'
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/boiler
+      payload: '{"cmd":"boilHystOff","data":3}'
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/boiler
+      payload: '{"cmd":"boilHystOn","data":-3}'
+  mode: single
+heating_burner_down:
+  alias: Heating burner down
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/boiler
+      payload: '{"cmd":"burnPeriod","data":45}'
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/boiler
+      payload: '{"cmd":"boilHystOff","data":6}'
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/boiler
+      payload: '{"cmd":"boilHystOn","data":-6}'
   mode: single
