@@ -175,3 +175,36 @@
         {% set p1 = states('sensor.multi_og_elternbad_temperature') | float < 22 %}
         {% set p9 = states('sensor.thermostat_hc2_offset_temperature') | float == 0 %}
         {{ 'true' if (p0 or p1) and (not p9) else 'false' }}
+#
+#
+#
+    humidity_elternschlaf:
+      friendly_name: "Elternschlafzimmer hat zu hohe Luftfeuchtigkeit"
+      value_template: >-
+        {% set p0 = states('sensor.multi_og_schlaf_humidity') | float >= 45 %}
+        {{ 'true' if p0 else 'false' }}
+#
+#
+#
+    humidity_elternbad:
+      friendly_name: "Elternbad hat zu hohe Luftfeuchtigkeit"
+      value_template: >-
+        {% set p0 = states('sensor.multi_og_elternbad_humidity') | float >= 45 %}
+        {{ 'true' if p0 else 'false' }}
+#
+#
+#
+    humidity_konstantin:
+      friendly_name: "Konstantins Zimmer hat zu hohe Luftfeuchtigkeit"
+      value_template: >-
+        {% set p0 = states('sensor.multi_og_konstantin_humidity') | float >= 45 %}
+        {{ 'true' if p0 else 'false' }}
+#
+#
+#
+    humidity_clara:
+      friendly_name: "Claras Zimmer hat zu hohe Luftfeuchtigkeit"
+      value_template: >-
+        {% set p0 = states('sensor.multi_og_clara_humidity') | float >= 45 %}
+        {{ 'true' if p0 else 'false' }}
+

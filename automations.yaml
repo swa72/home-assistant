@@ -861,114 +861,6 @@
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
         }}, Distance: {{ states("sensor.iphone_von_anna_zone_distance") }}'
   mode: single
-- id: '1616568320571'
-  alias: Erdgeschoss zu warm (v2)
-  description: check HK3 every hour
-  trigger:
-  - platform: time_pattern
-    hours: '*'
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ states.sensor.thermostat_hc1_current_room_temperature.state
-          | float >= 23.0 }}'
-      sequence:
-      - service: persistent_notification.create
-        data:
-          title: Heating
-          message: EG zu warm, Room Offset runtergesetzt
-      - service: mqtt.publish
-        data:
-          topic: ems-esp/thermostat
-          payload: '{"cmd":"offsettemp","data":-3, "id":1}'
-    - conditions:
-      - condition: template
-        value_template: '{{ states.sensor.thermostat_hc1_current_room_temperature.state
-          | float <= 22.0 }}'
-      sequence:
-      - service: persistent_notification.create
-        data:
-          title: Heating
-          message: EG ok, Room Offset auf 0K
-      - service: mqtt.publish
-        data:
-          topic: ems-esp/thermostat
-          payload: '{"cmd":"offsettemp","data":0, "id":1}'
-  mode: single
-- id: '1616568320591'
-  alias: Dachgeschoss zu warm (v2)
-  description: check HK3 every hour
-  trigger:
-  - platform: time_pattern
-    hours: '*'
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ states.sensor.multi_dg_stefan_temperature.state | float
-          >= 23.0 }}'
-      sequence:
-      - service: persistent_notification.create
-        data:
-          title: Heating
-          message: DG zu warm, Room Offset runtergesetzt
-      - service: mqtt.publish
-        data:
-          topic: ems-esp/thermostat
-          payload: '{"cmd":"offsettemp","data":-3, "id":3}'
-    - conditions:
-      - condition: template
-        value_template: '{{ states.sensor.multi_dg_stefan_temperature.state | float
-          <= 22.0 }}'
-      sequence:
-      - service: persistent_notification.create
-        data:
-          title: Heating
-          message: DG ok, Room Offset auf 0K
-      - service: mqtt.publish
-        data:
-          topic: ems-esp/thermostat
-          payload: '{"cmd":"offsettemp","data":0, "id":3}'
-  mode: single
-- id: '1616598485274'
-  alias: 'Elternbadzu warm (v2) '
-  description: check HK2 every hour
-  trigger:
-  - platform: time_pattern
-    hours: '*'
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ states.sensor.multi_og_elternbad_temperature.state | float
-          >= 23.0 }}'
-      sequence:
-      - service: persistent_notification.create
-        data:
-          title: Heating
-          message: Elternbad zu warm, Room Offset runtergesetzt
-      - service: mqtt.publish
-        data:
-          topic: ems-esp/thermostat
-          payload: '{"cmd":"offsettemp","data":-3, "id":2}'
-    - conditions:
-      - condition: template
-        value_template: '{{ states.sensor.multi_og_elternbad_temperature.state | float
-          <= 23.0 }}'
-      sequence:
-      - service: persistent_notification.create
-        data:
-          title: Heating
-          message: Elternbad ok, Room Offset auf 0K
-      - service: mqtt.publish
-        data:
-          topic: ems-esp/thermostat
-          payload: '{"cmd":"offsettemp","data":0, "id":2}'
-  mode: single
 - id: '1616746036755'
   alias: Dachgeschoss zu warm (v3)
   description: check HK3 every hour
@@ -1027,6 +919,7 @@
         data:
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":-3, "id":1}'
+      - service: script.heating_burner_down
     - conditions:
       - condition: template
         value_template: '{{ states(''binary_sensor.heating_hc1_too_cold'') == ''on''
@@ -1040,6 +933,7 @@
         data:
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":0, "id":1}'
+      - service: script.heating_burner_up
   mode: single
 - id: '1616747011506'
   alias: Elternbadzu warm (v3)
@@ -1077,4 +971,37 @@
         data:
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":0, "id":2}'
+  mode: single
+- id: '1616954536097'
+  alias: Hinweis über Luftfeuchtigkeit
+  description: ''
+  trigger:
+  - platform: state
+    from: 'off'
+    for: 00:05:00
+    to: 'on'
+    entity_id: binary_sensor.humidity_elternschlaf
+  - platform: state
+    from: 'off'
+    for: 00:05:00
+    to: 'on'
+    entity_id: binary_sensor.humidity_elternbad
+  - platform: state
+    from: 'off'
+    for: 00:05:00
+    to: 'on'
+    entity_id: binary_sensor.humidity_konstantin
+  - platform: state
+    from: 'off'
+    for: 00:05:00
+    to: 'on'
+    entity_id: binary_sensor.humidity_clara
+  condition: []
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Hinweis
+      message: '{% set w = expand( trigger.entity_id ) | selectattr(''state'', ''eq'',
+        ''on'') | map(attribute=''name'') | list %} foo {{ w }} bar {{ trigger.to_state.attributes.friendly_name
+        }} foo2 ({{trigger.for}} min) bar2.'
   mode: single
