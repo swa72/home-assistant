@@ -1001,7 +1001,5 @@
   - service: script.notify_stefan
     data:
       title: Hinweis
-      message: '{% set w = expand( trigger.entity_id ) | selectattr(''state'', ''eq'',
-        ''on'') | map(attribute=''name'') | list %} foo {{ w }} bar {{ trigger.to_state.attributes.friendly_name
-        }} foo2 ({{trigger.for}} min) bar2.'
+      message: '{{ trigger.to_state.attributes.friendly_name }} ({{trigger.for}} min).'
   mode: single
