@@ -393,12 +393,12 @@ heating_burner_down:
       payload: '{"cmd":"boilHystOn","data":-6}'
   mode: single
 heating_summertemp_to_10:
-  alias: Heating summertemp to 9
+  alias: Heating summertemp to 10
   sequence:
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"summertemp","data":9, "id":1}'
+      payload: '{"cmd":"summertemp","data":10, "id":1}'
   - delay:
       hours: 0
       minutes: 0
@@ -407,7 +407,7 @@ heating_summertemp_to_10:
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"summertemp","data":9, "id":2}'
+      payload: '{"cmd":"summertemp","data":10, "id":2}'
   - delay:
       hours: 0
       minutes: 0
@@ -416,7 +416,7 @@ heating_summertemp_to_10:
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"summertemp","data":9, "id":3}'
+      payload: '{"cmd":"summertemp","data":10, "id":3}'
   mode: single
 heating_summertemp_to_17:
   alias: Heating summertemp to 17

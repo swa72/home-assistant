@@ -5,8 +5,8 @@ dachfenster:
   name: Dachfenster
   icon: mdi:window-open
   entities:
-  - binary_sensor.fenster_no
-  - binary_sensor.fenster_nw
+  - binary_sensor.fenster_dachbad
+  - binary_sensor.fenster_anna
   - binary_sensor.fenster_o
   - binary_sensor.fenster_sw
 #
