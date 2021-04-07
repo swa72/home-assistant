@@ -77,6 +77,18 @@ notify_stefan:
       title: '{{ title }}'
       message: '{{ message }}'
   mode: single
+notify_parents:
+  alias: Notify Julia and Stefan
+  sequence:
+  - service: notify.mobile_app_swaiphone
+    data:
+      title: '{{ title }}'
+      message: '{{ message }}'
+  - service: notify.mobile_app_jphone
+    data:
+      title: '{{ title }}'
+      message: '{{ message }}'
+  mode: single
 urgent_notify_stefan:
   alias: Notify stefan
   sequence:

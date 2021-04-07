@@ -983,7 +983,7 @@
     entity_id: binary_sensor.humidity_elternschlaf
   - platform: state
     from: 'off'
-    for: 00:05:00
+    for: 00:20:00
     to: 'on'
     entity_id: binary_sensor.humidity_elternbad
   - platform: state
@@ -998,8 +998,8 @@
     entity_id: binary_sensor.humidity_clara
   condition: []
   action:
-  - service: script.notify_stefan
+  - service: script.notify_parents
     data:
       title: Hinweis
-      message: '{{ trigger.to_state.attributes.friendly_name }} ({{trigger.for}} min).'
+      message: '{{ trigger.to_state.attributes.friendly_name }} Bitte Fenster öffnen.'
   mode: single
