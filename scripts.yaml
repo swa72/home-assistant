@@ -508,3 +508,29 @@ heating_summertemp_to_12:
       topic: ems-esp/thermostat
       payload: '{"cmd":"summertemp","data":12, "id":3}'
   mode: single
+heating_summertemp_to_14:
+  alias: Heating summertemp to 14
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"summertemp","data":14, "id":1}'
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"summertemp","data":14, "id":2}'
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"summertemp","data":14, "id":3}'
+  mode: single

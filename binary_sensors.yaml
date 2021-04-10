@@ -157,7 +157,8 @@
         {{ 'true' if p0 and (not p9) else 'false' }}
 #
 # trigger to lower offset only if flow temp of HC2 greater HC1 and outdoor temp > 7 AND offset has not been lowered already
-#
+# bad choice on April 10th in the morning
+# 
     heating_hc2_too_warm:
       friendly_name: "HC2 zu warm"
       value_template: >-
