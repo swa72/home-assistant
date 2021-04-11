@@ -330,12 +330,16 @@ one_time_water_on:
     data:
       topic: ems-esp/boiler
       payload: '{"cmd":"wwonetime","data":1}'
+  mode: single
+  alias: Heating Water One-time On
 one_time_water_off:
   sequence:
   - service: mqtt.publish
     data:
       topic: ems-esp/boiler
       payload: '{"cmd":"wwonetime","data":0}'
+  mode: single
+  alias: Heating Water One-time Off
 heating_reset_offsets:
   alias: Heating Reset Offsets
   sequence:
