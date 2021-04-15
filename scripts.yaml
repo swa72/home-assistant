@@ -538,3 +538,19 @@ heating_summertemp_to_14:
       topic: ems-esp/thermostat
       payload: '{"cmd":"summertemp","data":14, "id":3}'
   mode: single
+heating_lowest_offsets:
+  alias: Heating Lowest Offsets
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-9, "id":1}'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-9, "id":2}'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-9, "id":3}'
+  mode: single
