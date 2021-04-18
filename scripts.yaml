@@ -554,3 +554,15 @@ heating_lowest_offsets:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-9, "id":3}'
   mode: single
+heating_lower_offsets_hc1_hc2:
+  alias: Heating Lower Offsets HC1 HC2
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-2, "id":1}'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-2, "id":2}'
+  mode: single
