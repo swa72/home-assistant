@@ -566,3 +566,51 @@ heating_lower_offsets_hc1_hc2:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-2, "id":2}'
   mode: single
+heating_comfort_temp15:
+  alias: Heating Comfort Temp20
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"comforttemp","data":20, "id":1}'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"comforttemp","data":20, "id":2}'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"comforttemp","data":20, "id":3}'
+  mode: single
+heating_comfort_temp15_2:
+  alias: Heating Comfort Temp18
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"comforttemp","data":18, "id":1}'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"comforttemp","data":18, "id":2}'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"comforttemp","data":18, "id":3}'
+  mode: single
+heating_manual_temp7:
+  alias: Heating Manual Temp7
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"manualtemp","data":7, "id":1}'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"manualtemp","data":7, "id":2}'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"manualtemp","data":7, "id":3}'
+  mode: single
