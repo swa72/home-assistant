@@ -599,18 +599,50 @@ heating_comfort_temp15_2:
       payload: '{"cmd":"comforttemp","data":18, "id":3}'
   mode: single
 heating_manual_temp7:
-  alias: Heating Manual Temp7
+  alias: Heating Manual Temp5
   sequence:
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"manualtemp","data":7, "id":1}'
+      payload: '{"cmd":"manualtemp","data":5, "id":1}'
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"manualtemp","data":7, "id":2}'
+      payload: '{"cmd":"manualtemp","data":5, "id":2}'
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"manualtemp","data":7, "id":3}'
+      payload: '{"cmd":"manualtemp","data":5, "id":3}'
+  mode: single
+heating_activated:
+  alias: Heating Set Activated On
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/boiler
+      payload: '{"cmd":"heatingactivated","data":"on"}'
+  mode: single
+heating_set_activated_off:
+  alias: Heating Set Activated Off
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/boiler
+      payload: '{"cmd":"heatingactivated","data":"off"}'
+  mode: single
+heating_hc1_mode_auto:
+  alias: Heating hc1 mode auto
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"mode","data":"auto", "id":1}'
+  mode: single
+heating_hc1_mode_manual:
+  alias: Heating hc1 mode manual
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"mode","data":"eco", "id":1}'
   mode: single

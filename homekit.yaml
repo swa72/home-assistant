@@ -46,6 +46,7 @@
       - sensor.thermostat*
       - switch.adguard*
       - switch.stefans_echo*
+      - script.*
     exclude_entities:
       - binary_sensor.abend_eg_wohnzimmer_tuer_zu
       - binary_sensor.camera1_motion

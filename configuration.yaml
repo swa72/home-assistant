@@ -109,6 +109,10 @@ influxdb:
       - binary_sensor.heating_active
       - binary_sensor.warm_water_dhw_active      
       - sensor.swaweathermetno
+      - sensor.swaweathermetno_condition
+      - sensor.swaweathermetno_templow
+      - sensor.swaweathermetno_temphigh
+      
     entity_globs:
       - sensor.boiler*
       - sensor.mixer*

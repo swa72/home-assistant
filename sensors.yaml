@@ -90,10 +90,28 @@
       field: diskBytes
 
 #
-#
+# weather forecasts for tomorrow
 #
 - platform: template
   sensors:
     swaweathermetno:
-      friendly_name: "Met.no Forecast"
+      friendly_name: "Met.no Forecast condition"
       value_template: "{{ state_attr('weather.homeassistant', 'forecast')[0].condition }}"
+
+- platform: template
+  sensors:
+    swaweathermetno_condition:
+      friendly_name: "Met.no Forecast condition"
+      value_template: "{{ state_attr('weather.homeassistant', 'forecast')[0].condition }}"
+
+- platform: template
+  sensors:
+    swaweathermetno_templow:
+      friendly_name: "Met.no Forecast templow"
+      value_template: "{{ state_attr('weather.homeassistant', 'forecast')[0].templow }}"
+
+- platform: template
+  sensors:
+    swaweathermetno_temphigh:
+      friendly_name: "Met.no Forecast temphigh"
+      value_template: "{{ state_attr('weather.homeassistant', 'forecast')[0].temperature }}"
