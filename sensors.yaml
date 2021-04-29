@@ -115,3 +115,123 @@
     swaweathermetno_temphigh:
       friendly_name: "Met.no Forecast temphigh"
       value_template: "{{ state_attr('weather.homeassistant', 'forecast')[0].temperature }}"
+#
+#
+#
+- platform: template
+  sensors:
+    heating_room_0wz:
+      friendly_name: "0.EG Wohnzimmer"
+      value_template: >-
+        {% if states('sensor.thermostat_hc1_current_room_temperature') | float <= 21.0 %}
+          too-cold
+        {% elif states('sensor.thermostat_hc1_current_room_temperature') | float >= 23.0 %}
+          too-warm
+        {% else %}
+          ok
+        {% endif %}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_room_2stefan:
+      friendly_name: "2.DG Stefan"
+      value_template: >-
+        {% if states('sensor.multi_dg_stefan_temperature') | float <= 21.0 %}
+          too-cold
+        {% elif states('sensor.multi_dg_stefan_temperature') | float >= 22.0 %}
+          too-warm
+        {% else %}
+          ok
+        {% endif %}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_room_1elternschlaf:
+      friendly_name: "1.OG Elternschlaf"
+      value_template: >-
+        {% if states('sensor.multi_og_schlaf_temperature') | float <= 19.0 %}
+          too-cold
+        {% elif states('sensor.multi_og_schlaf_temperature') | float >= 21.0 %}
+          too-warm
+        {% else %}
+          ok
+        {% endif %}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_room_1elternbad:
+      friendly_name: "1.OG Elternbad"
+      value_template: >-
+        {% if states('sensor.multi_og_elternbad_temperature') | float <= 21.0 %}
+          too-cold
+        {% elif states('sensor.multi_og_elternbad_temperature') | float >= 24.0 %}
+          too-warm
+        {% else %}
+          ok
+        {% endif %}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_room_1clara:
+      friendly_name: "1.OG Clara"
+      value_template: >-
+        {% if states('sensor.multi_og_clara_temperature') | float <= 20.0 %}
+          too-cold
+        {% elif states('sensor.multi_og_clara_temperature') | float >= 22.0 %}
+          too-warm
+        {% else %}
+          ok
+        {% endif %}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_room_1konstantin:
+      friendly_name: "1.OG Konstantin"
+      value_template: >-
+        {% if states('sensor.multi_og_konstantin_temperature') | float <= 20.0 %}
+          too-cold
+        {% elif states('sensor.multi_og_konstantin_temperature') | float >= 22.0 %}
+          too-warm
+        {% else %}
+          ok
+        {% endif %}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_room_2anna:
+      friendly_name: "2.DG Anna"
+      value_template: >-
+        {% if states('sensor.multi_dg_anna_temperature') | float <= 21.0 %}
+          too-cold
+        {% elif states('sensor.multi_dg_anna_temperature') | float >= 22.0 %}
+          too-warm
+        {% else %}
+          ok
+        {% endif %}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_room_0egburo:
+      friendly_name: "0.EG Büro"
+      value_template: >-
+        {% if states('sensor.multi_eg_buro_temperature') | float <= 19.0 %}
+          too-cold
+        {% elif states('sensor.multi_eg_buro_temperature') | float >= 22.0 %}
+          too-warm
+        {% else %}
+          ok
+        {% endif %}

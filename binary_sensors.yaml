@@ -208,4 +208,40 @@
       value_template: >-
         {% set p0 = states('sensor.multi_og_clara_humidity') | float >= 45 %}
         {{ 'true' if p0 else 'false' }}
-
+        
+#
+#
+#
+    heating_house_too_cold:
+      friendly_name: "Haus zu kalt"
+      value_template: >-
+        {% set p0 = states('sensor.thermostat_hc1_current_room_temperature') | float <= 21.0 %}
+        {% set p1 = states('sensor.multi_dg_stefan_temperature') | float <= 21.0 %}
+        {% set p2 = states('sensor.multi_og_schlaf_temperature') | float <= 19.0 %}        
+        {% set p3 = states('sensor.multi_og_elternbad_temperature') | float <= 21.5 %}
+        {% set p4 = states('sensor.multi_og_clara_temperature') | float <= 20.0 %}        
+        {% set p5 = states('sensor.multi_og_konstantin_temperature') | float <= 19.5 %}        
+        {% set p6 = states('sensor.multi_dg_anna_temperature') | float <= 21.0 %}        
+        {% set p7 = states('sensor.multi_eg_buro_temperature') | float <= 19.0 %}               
+        {{ 'true' if (p0 or p1 or p2 or p3 or p4 or p5 or p6 or p7) else 'false' }}
+#
+#
+#
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        

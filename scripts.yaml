@@ -435,7 +435,7 @@ heating_summertemp_to_10:
       payload: '{"cmd":"summertemp","data":10, "id":3}'
   mode: single
 heating_summertemp_to_17:
-  alias: Heating summertemp to 17
+  alias: Heating summertemp to 17 hc1hc2
   sequence:
   - service: mqtt.publish
     data:
@@ -450,18 +450,9 @@ heating_summertemp_to_17:
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"summertemp","data":17, "id":2}'
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 5
-      milliseconds: 0
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"summertemp","data":17, "id":3}'
   mode: single
 heating_summertemp_to_15:
-  alias: Heating summertemp to 15
+  alias: Heating summertemp to 15 hc1hc2
   sequence:
   - service: mqtt.publish
     data:
@@ -476,15 +467,6 @@ heating_summertemp_to_15:
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"summertemp","data":15, "id":2}'
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 5
-      milliseconds: 0
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"summertemp","data":15, "id":3}'
   mode: single
 heating_summertemp_to_12:
   alias: Heating summertemp to 12
@@ -513,7 +495,7 @@ heating_summertemp_to_12:
       payload: '{"cmd":"summertemp","data":12, "id":3}'
   mode: single
 heating_summertemp_to_14:
-  alias: Heating summertemp to 14
+  alias: Heating summertemp to 14 hc1hc2
   sequence:
   - service: mqtt.publish
     data:
@@ -528,15 +510,6 @@ heating_summertemp_to_14:
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"summertemp","data":14, "id":2}'
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 5
-      milliseconds: 0
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"summertemp","data":14, "id":3}'
   mode: single
 heating_lowest_offsets:
   alias: Heating Lowest Offsets
