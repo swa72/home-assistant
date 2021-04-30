@@ -198,7 +198,7 @@
     heating_room_1konstantin:
       friendly_name: "1.OG Konstantin"
       value_template: >-
-        {% if states('sensor.multi_og_konstantin_temperature') | float <= 20.0 %}
+        {% if states('sensor.multi_og_konstantin_temperature') | float <= 19.0 %}
           too-cold
         {% elif states('sensor.multi_og_konstantin_temperature') | float >= 22.0 %}
           too-warm
@@ -233,5 +233,71 @@
         {% elif states('sensor.multi_eg_buro_temperature') | float >= 22.0 %}
           too-warm
         {% else %}
+          ok
+        {% endif %}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_hc3:
+      friendly_name: "Circuit HC3"
+      value_template: >-
+        {% set p0 = states('sensor.heating_room_2anna') == "too-warm" %}
+        {% set p1 = states('sensor.heating_room_2anna') == "ok" %}
+        {% set p2 = states('sensor.heating_room_2anna') == "too-cold" %}
+        {% set p3 = states('sensor.heating_room_2stefan') == "too-warm" %}
+        {% set p4 = states('sensor.heating_room_2stefan') == "ok" %}
+        {% set p5 = states('sensor.heating_room_2stefan') == "too-cold" %}
+        {% if (p0 or p3) %}
+          too-warm
+        {% elif (p2 or p5) %}
+          too-cold
+         {% else %}
+          ok
+        {% endif %}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_hc1:
+      friendly_name: "Circuit HC1"
+      value_template: >-
+        {% set p0 = states('heating_room_0egburo') == "too-warm" %}
+        {% set p1 = states('heating_room_0egburo') == "ok" %}
+        {% set p2 = states('heating_room_0egburo') == "too-cold" %}
+        {% set p3 = states('heating_room_0wz') == "too-warm" %}
+        {% set p4 = states('heating_room_0wz') == "ok" %}
+        {% set p5 = states('heating_room_0wz') == "too-cold" %}
+        {% set p6 = states('heating_room_1clara') == "too-warm" %}
+        {% set p7 = states('heating_room_1clara') == "ok" %}
+        {% set p8 = states('heating_room_1clara') == "too-cold" %}
+        {% set p9 = states('heating_room_1konstantin') == "too-warm" %}
+        {% set p10 = states('heating_room_1konstantin') == "ok" %}
+        {% set p11 = states('heating_room_1konstantin') == "too-cold" %}
+        {% if (p2 or p5 or p8 or p11) %}
+          too-cold
+        {% elif (p3) %}
+          too-warm
+         {% else %}
+          ok
+        {% endif %}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_hc2:
+      friendly_name: "Circuit HC2"
+      value_template: >-
+        {% set p0 = states('sensor.heating_room_1elternbad') == "too-warm" %}
+        {% set p1 = states('sensor.heating_room_1elternbad') == "ok" %}
+        {% set p2 = states('sensor.heating_room_1elternbad') == "too-cold" %}
+        {% if (p2) %}
+          too-cold
+        {% elif (p0) %}
+          too-warm
+         {% else %}
           ok
         {% endif %}
