@@ -121,7 +121,7 @@
 - platform: template
   sensors:
     heating_room_0wz:
-      friendly_name: "0.EG Wohnzimmer"
+      friendly_name: "0.EG Wohnzimmer 21-23"
       value_template: >-
         {% if states('sensor.thermostat_hc1_current_room_temperature') | float <= 21.0 %}
           too-cold
@@ -136,7 +136,7 @@
 - platform: template
   sensors:
     heating_room_2stefan:
-      friendly_name: "2.DG Stefan"
+      friendly_name: "2.DG Stefan 21-22"
       value_template: >-
         {% if states('sensor.multi_dg_stefan_temperature') | float <= 21.0 %}
           too-cold
@@ -151,7 +151,7 @@
 - platform: template
   sensors:
     heating_room_1elternschlaf:
-      friendly_name: "1.OG Elternschlaf"
+      friendly_name: "1.OG Elternschlaf 19-21"
       value_template: >-
         {% if states('sensor.multi_og_schlaf_temperature') | float <= 19.0 %}
           too-cold
@@ -166,7 +166,7 @@
 - platform: template
   sensors:
     heating_room_1elternbad:
-      friendly_name: "1.OG Elternbad"
+      friendly_name: "1.OG Elternbad 21-24"
       value_template: >-
         {% if states('sensor.multi_og_elternbad_temperature') | float <= 21.0 %}
           too-cold
@@ -181,7 +181,7 @@
 - platform: template
   sensors:
     heating_room_1clara:
-      friendly_name: "1.OG Clara"
+      friendly_name: "1.OG Clara 20-22"
       value_template: >-
         {% if states('sensor.multi_og_clara_temperature') | float <= 20.0 %}
           too-cold
@@ -196,7 +196,7 @@
 - platform: template
   sensors:
     heating_room_1konstantin:
-      friendly_name: "1.OG Konstantin"
+      friendly_name: "1.OG Konstantin 19-22"
       value_template: >-
         {% if states('sensor.multi_og_konstantin_temperature') | float <= 19.0 %}
           too-cold
@@ -211,7 +211,7 @@
 - platform: template
   sensors:
     heating_room_2anna:
-      friendly_name: "2.DG Anna"
+      friendly_name: "2.DG Anna 21-22"
       value_template: >-
         {% if states('sensor.multi_dg_anna_temperature') | float <= 21.0 %}
           too-cold
@@ -226,7 +226,7 @@
 - platform: template
   sensors:
     heating_room_0egburo:
-      friendly_name: "0.EG Büro"
+      friendly_name: "0.EG Büro 19-22"
       value_template: >-
         {% if states('sensor.multi_eg_buro_temperature') | float <= 19.0 %}
           too-cold
@@ -241,7 +241,7 @@
 - platform: template
   sensors:
     heating_hc3:
-      friendly_name: "Circuit HC3"
+      friendly_name: "Circuit HC3 Anna,Stefan"
       value_template: >-
         {% set p0 = states('sensor.heating_room_2anna') == "too-warm" %}
         {% set p1 = states('sensor.heating_room_2anna') == "ok" %}
@@ -253,7 +253,7 @@
           too-warm
         {% elif (p2 or p5) %}
           too-cold
-         {% else %}
+        {% else %}
           ok
         {% endif %}
 #
@@ -262,25 +262,25 @@
 - platform: template
   sensors:
     heating_hc1:
-      friendly_name: "Circuit HC1"
+      friendly_name: "Circuit HC1 Cold: EG-Büro,EG-WZ,Clara,Konstantin Warm: EG-WZ"
       value_template: >-
-        {% set p0 = states('heating_room_0egburo') == "too-warm" %}
-        {% set p1 = states('heating_room_0egburo') == "ok" %}
-        {% set p2 = states('heating_room_0egburo') == "too-cold" %}
-        {% set p3 = states('heating_room_0wz') == "too-warm" %}
-        {% set p4 = states('heating_room_0wz') == "ok" %}
-        {% set p5 = states('heating_room_0wz') == "too-cold" %}
-        {% set p6 = states('heating_room_1clara') == "too-warm" %}
-        {% set p7 = states('heating_room_1clara') == "ok" %}
-        {% set p8 = states('heating_room_1clara') == "too-cold" %}
-        {% set p9 = states('heating_room_1konstantin') == "too-warm" %}
-        {% set p10 = states('heating_room_1konstantin') == "ok" %}
-        {% set p11 = states('heating_room_1konstantin') == "too-cold" %}
+        {% set p0 = states('sensor.heating_room_0egburo') == "too-warm" %}
+        {% set p1 = states('sensor.heating_room_0egburo') == "ok" %}
+        {% set p2 = states('sensor.heating_room_0egburo') == "too-cold" %}
+        {% set p3 = states('sensor.heating_room_0wz') == "too-warm" %}
+        {% set p4 = states('sensor.heating_room_0wz') == "ok" %}
+        {% set p5 = states('sensor.heating_room_0wz') == "too-cold" %}
+        {% set p6 = states('sensor.heating_room_1clara') == "too-warm" %}
+        {% set p7 = states('sensor.heating_room_1clara') == "ok" %}
+        {% set p8 = states('sensor.heating_room_1clara') == "too-cold" %}
+        {% set p9 = states('sensor.heating_room_1konstantin') == "too-warm" %}
+        {% set p10 = states('sensor.heating_room_1konstantin') == "ok" %}
+        {% set p11 = states('sensor.heating_room_1konstantin') == "too-cold" %}
         {% if (p2 or p5 or p8 or p11) %}
           too-cold
         {% elif (p3) %}
           too-warm
-         {% else %}
+        {% else %}
           ok
         {% endif %}
 #
@@ -289,7 +289,7 @@
 - platform: template
   sensors:
     heating_hc2:
-      friendly_name: "Circuit HC2"
+      friendly_name: "Circuit HC2: Elternbad"
       value_template: >-
         {% set p0 = states('sensor.heating_room_1elternbad') == "too-warm" %}
         {% set p1 = states('sensor.heating_room_1elternbad') == "ok" %}
@@ -298,6 +298,6 @@
           too-cold
         {% elif (p0) %}
           too-warm
-         {% else %}
+        {% else %}
           ok
         {% endif %}

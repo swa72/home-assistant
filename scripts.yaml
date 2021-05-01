@@ -619,3 +619,11 @@ heating_hc1_mode_manual:
       topic: ems-esp/thermostat
       payload: '{"cmd":"mode","data":"eco", "id":1}'
   mode: single
+heating_summertemp_to_12_hc3:
+  alias: Heating summertemp to 12 hc3
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"summertemp","data":12, "id":3}'
+  mode: single

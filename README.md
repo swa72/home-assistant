@@ -285,10 +285,22 @@ or
     service: hassio.addon_stdin
 ```
 
+## Fritzbox smart home
+* add the integration "AVM FRITZ!SmartHome"
+* use the user and password combination of the Fritzbox istelf to authenticate
+
+
 ## Fritzbox call monitor
 * see https://www.home-assistant.io/integrations/fritzbox_callmonitor/
-* using user swa on Fritzbox
+* Host: 192.168.178.1
+* Port 1012
+* Username hacallmon (using user hacallmon on Fritzbox)
+* Passwort of user swa
 * you may need to enable the call monitor after a restart of the Fritzbox using "To activate the call monitor on your FRITZ!Box, dial #96*5* from any phone connected to it."
+* hacallmon has rights to ...
+  * FRITZ!Box Einstellungen
+	* Sprachnachrichten, Faxnachrichten, FRITZ!App Fon und Anrufliste
+	* Smart Home
 
 ## Heating 
 * I have a Buderus Logamax Plus GB192i heating, a central control unit RC300 and had problems with 
@@ -378,7 +390,7 @@ envvars: []
 
 
 ## Grafana
-* installed with configuration (not the plug to visualize discrete values)
+* installed with configuration (note the plugin to visualize discrete values)
 ```
 plugins:
   - natel-discrete-panel

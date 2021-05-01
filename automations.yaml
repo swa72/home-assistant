@@ -1003,3 +1003,99 @@
       title: Hinweis
       message: '{{ trigger.to_state.attributes.friendly_name }} Bitte Fenster öffnen.'
   mode: single
+- id: '1619856294076'
+  alias: Heating HC1 too warm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc1
+    to: too-warm
+    from: ok
+    for: 00:15:00
+  condition: []
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC1 too warm for 15min.
+  mode: single
+- id: '1619857270915'
+  alias: Heating HC1 too cold
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc1
+    to: too-cold
+    from: ok
+    for: 00:15:00
+  condition: []
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC1 too cold for 15min.
+  mode: single
+- id: '1619875058448'
+  alias: Heating HC2 too cold
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc2
+    to: too-cold
+    from: ok
+    for: 00:15:00
+  condition: []
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC2 too cold for 15min.
+  mode: single
+- id: '1619875092319'
+  alias: Heating H2 too warm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc2
+    to: too-warm
+    from: ok
+    for: 00:15:00
+  condition: []
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC2 too warm for 15min.
+  mode: single
+- id: '1619875137498'
+  alias: Heating HC3 too cold
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc3
+    to: too-cold
+    from: ok
+    for: 00:15:00
+  condition: []
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC3 too cold for 15min.
+  mode: single
+- id: '1619875166462'
+  alias: Heating H3 too warm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc3
+    to: too-warm
+    from: ok
+    for: 00:15:00
+  condition: []
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC3 too warm for 15min.
+  mode: single
