@@ -166,11 +166,11 @@
 - platform: template
   sensors:
     heating_room_1elternbad:
-      friendly_name: "1.OG Elternbad 21-24"
+      friendly_name: "1.OG Elternbad 21-23"
       value_template: >-
         {% if states('sensor.multi_og_elternbad_temperature') | float <= 21.0 %}
           too-cold
-        {% elif states('sensor.multi_og_elternbad_temperature') | float >= 24.0 %}
+        {% elif states('sensor.multi_og_elternbad_temperature') | float >= 23.0 %}
           too-warm
         {% else %}
           ok
@@ -297,6 +297,27 @@
         {% if (p2) %}
           too-cold
         {% elif (p0) %}
+          too-warm
+        {% else %}
+          ok
+        {% endif %}
+#
+# wenn
+# - hc2 ok oder zu warm
+# - hc2 größer als hc1
+# - außentemp größer 10°C
+# dann hc2 minus 3K
+#
+- platform: template
+  sensors:
+    heating_hc2vshc1:
+      friendly_name: "Circuit HC2 vs HC1"
+      value_template: >-
+        {% set p0 = states('sensor.heating_hc1') == "too-warm" %}
+        {% set p1 = states('sensor.heating_hc2') == "too-warm" %}
+        {% set p2 = states('sensor.heating_hc2') == "ok" %}
+        {% set p3 = states('sensor.thermostat_damped_outdoor_temperature') | float >= 10.0 %}
+        {% if p0 and p3 and (p1 or p2) %}
           too-warm
         {% else %}
           ok

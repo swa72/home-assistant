@@ -1003,99 +1003,218 @@
       title: Hinweis
       message: '{{ trigger.to_state.attributes.friendly_name }} Bitte Fenster öffnen.'
   mode: single
-- id: '1619856294076'
-  alias: Heating HC1 too warm
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.heating_hc1
-    to: too-warm
-    from: ok
-    for: 00:15:00
-  condition: []
-  action:
-  - service: script.notify_stefan
-    data:
-      title: Heating
-      message: HC1 too warm for 15min.
-  mode: single
-- id: '1619857270915'
+- id: '1619947201101'
   alias: Heating HC1 too cold
   description: ''
   trigger:
   - platform: state
     entity_id: sensor.heating_hc1
-    to: too-cold
     from: ok
+    to: too-cold
     for: 00:15:00
   condition: []
   action:
   - service: script.notify_stefan
     data:
       title: Heating
-      message: HC1 too cold for 15min.
+      message: HC1 too cold.
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":3, "id":1}'
   mode: single
-- id: '1619875058448'
+- id: '1619947216142'
+  alias: Heating HC1 too warm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc1
+    from: ok
+    to: too-warm
+    for: 00:15:00
+  condition: []
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC1 too warm.
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-3, "id":1}'
+  mode: single
+- id: '1619947230644'
+  alias: Heating HC1 back to ok
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc1
+    to: ok
+    for: 00:15:00
+  condition: []
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC1 back to ok.
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":0, "id":1}'
+  mode: single
+- id: '2619947486597'
+  alias: Heating HC2 back to ok
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc2
+    to: ok
+    for: 00:15:00
+  condition: []
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC2 back to ok.
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":0, "id":2}'
+  mode: single
+- id: '1619947486597'
+  alias: Heating HC3 back to ok
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc3
+    to: ok
+    for: 00:15:00
+  condition: []
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC3 back to ok.
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":0, "id":3}'
+  mode: single
+- id: '1619947535330'
   alias: Heating HC2 too cold
   description: ''
   trigger:
   - platform: state
     entity_id: sensor.heating_hc2
+    from: ok
     to: too-cold
-    from: ok
     for: 00:15:00
   condition: []
   action:
   - service: script.notify_stefan
     data:
       title: Heating
-      message: HC2 too cold for 15min.
-  mode: single
-- id: '1619875092319'
-  alias: Heating H2 too warm
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.heating_hc2
-    to: too-warm
-    from: ok
-    for: 00:15:00
-  condition: []
-  action:
-  - service: script.notify_stefan
+      message: HC2 too cold.
+  - service: mqtt.publish
     data:
-      title: Heating
-      message: HC2 too warm for 15min.
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":3, "id":2}'
   mode: single
-- id: '1619875137498'
+- id: '1619947571072'
   alias: Heating HC3 too cold
   description: ''
   trigger:
   - platform: state
     entity_id: sensor.heating_hc3
-    to: too-cold
     from: ok
+    to: too-cold
     for: 00:15:00
   condition: []
   action:
   - service: script.notify_stefan
     data:
       title: Heating
-      message: HC3 too cold for 15min.
+      message: HC3 too cold.
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":3, "id":3}'
   mode: single
-- id: '1619875166462'
-  alias: Heating H3 too warm
+- id: '1619947620277'
+  alias: Heating HC2 too warm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc2
+    from: ok
+    to: too-warm
+    for: 00:15:00
+  condition: []
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC2 too warm.
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-3, "id":2}'
+  mode: single
+- id: '1619947659246'
+  alias: Heating HC3 too warm
   description: ''
   trigger:
   - platform: state
     entity_id: sensor.heating_hc3
-    to: too-warm
     from: ok
+    to: too-warm
     for: 00:15:00
   condition: []
   action:
   - service: script.notify_stefan
     data:
       title: Heating
-      message: HC3 too warm for 15min.
+      message: HC3 too warm.
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-3, "id":3}'
+  mode: single
+- id: '1619977422966'
+  alias: Heating HC2vsHC1 too warm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc2vshc1
+    to: too-warm
+    for: 00:15:00
+  condition: []
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC2 vs HC1 too warm.
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-3, "id":2}'
+  mode: single
+- id: '1619977475725'
+  alias: Heating HC2 vs HC1 back to ok
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc2vshc1
+    to: ok
+    for: 00:15:00
+  condition: []
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC2 vs HC1 back to ok.
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":0, "id":2}'
   mode: single
