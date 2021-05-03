@@ -303,10 +303,9 @@
         {% endif %}
 #
 # wenn
-# - hc2 ok oder zu warm
-# - hc2 größer als hc1
-# - außentemp größer 10°C
-# dann hc2 minus 3K
+# - hc1 too warm
+# - hc2 ok or too warm
+# - outdoor temp ge x°C
 #
 - platform: template
   sensors:
@@ -316,7 +315,7 @@
         {% set p0 = states('sensor.heating_hc1') == "too-warm" %}
         {% set p1 = states('sensor.heating_hc2') == "too-warm" %}
         {% set p2 = states('sensor.heating_hc2') == "ok" %}
-        {% set p3 = states('sensor.thermostat_damped_outdoor_temperature') | float >= 10.0 %}
+        {% set p3 = states('sensor.thermostat_damped_outdoor_temperature') | float >= 8.0 %}
         {% if p0 and p3 and (p1 or p2) %}
           too-warm
         {% else %}
