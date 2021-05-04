@@ -1011,7 +1011,7 @@
     entity_id: sensor.heating_hc1
     from: ok
     to: too-cold
-    for: 00:15:00
+    for: 00:20:00
   condition: []
   action:
   - service: script.notify_stefan
@@ -1031,7 +1031,7 @@
     entity_id: sensor.heating_hc1
     from: ok
     to: too-warm
-    for: 00:15:00
+    for: 00:20:00
   condition: []
   action:
   - service: script.notify_stefan
@@ -1050,7 +1050,7 @@
   - platform: state
     entity_id: sensor.heating_hc1
     to: ok
-    for: 00:15:00
+    for: 00:20:00
   condition: []
   action:
   - service: script.notify_stefan
@@ -1069,7 +1069,7 @@
   - platform: state
     entity_id: sensor.heating_hc2
     to: ok
-    for: 00:15:00
+    for: 00:20:00
   condition: []
   action:
   - service: script.notify_stefan
@@ -1088,7 +1088,7 @@
   - platform: state
     entity_id: sensor.heating_hc3
     to: ok
-    for: 00:15:00
+    for: 00:20:00
   condition: []
   action:
   - service: script.notify_stefan
@@ -1108,7 +1108,7 @@
     entity_id: sensor.heating_hc2
     from: ok
     to: too-cold
-    for: 00:15:00
+    for: 00:20:00
   condition: []
   action:
   - service: script.notify_stefan
@@ -1128,7 +1128,7 @@
     entity_id: sensor.heating_hc3
     from: ok
     to: too-cold
-    for: 00:15:00
+    for: 00:20:00
   condition: []
   action:
   - service: script.notify_stefan
@@ -1148,7 +1148,7 @@
     entity_id: sensor.heating_hc2
     from: ok
     to: too-warm
-    for: 00:15:00
+    for: 00:20:00
   condition: []
   action:
   - service: script.notify_stefan
@@ -1168,7 +1168,7 @@
     entity_id: sensor.heating_hc3
     from: ok
     to: too-warm
-    for: 00:15:00
+    for: 00:20:00
   condition: []
   action:
   - service: script.notify_stefan
@@ -1187,7 +1187,7 @@
   - platform: state
     entity_id: sensor.heating_hc2vshc1
     to: too-warm
-    for: 00:15:00
+    for: 00:20:00
   condition: []
   action:
   - service: script.notify_stefan
@@ -1206,7 +1206,7 @@
   - platform: state
     entity_id: sensor.heating_hc2vshc1
     to: ok
-    for: 00:15:00
+    for: 00:20:00
   condition: []
   action:
   - service: script.notify_stefan
