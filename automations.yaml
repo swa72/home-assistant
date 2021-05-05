@@ -861,117 +861,6 @@
       message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
         }}, Distance: {{ states("sensor.iphone_von_anna_zone_distance") }}'
   mode: single
-- id: '1616746036755'
-  alias: Dachgeschoss zu warm (v3)
-  description: check HK3 every hour
-  trigger:
-  - platform: time_pattern
-    hours: '*'
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ states(''binary_sensor.heating_hc3_too_warm'') == ''on''
-          }}'
-      sequence:
-      - service: persistent_notification.create
-        data:
-          title: Heating
-          message: DG zu warm, Room Offset runtergesetzt
-      - service: mqtt.publish
-        data:
-          topic: ems-esp/thermostat
-          payload: '{"cmd":"offsettemp","data":-3, "id":3}'
-    - conditions:
-      - condition: template
-        value_template: '{{ states(''binary_sensor.heating_hc3_too_cold'') == ''on''
-          }}'
-      sequence:
-      - service: persistent_notification.create
-        data:
-          title: Heating
-          message: DG ok, Room Offset auf 0K
-      - service: mqtt.publish
-        data:
-          topic: ems-esp/thermostat
-          payload: '{"cmd":"offsettemp","data":0, "id":3}'
-  mode: single
-- id: '1616746129952'
-  alias: Erdgeschoss zu warm (v3)
-  description: check HK3 every hour
-  trigger:
-  - platform: time_pattern
-    hours: '*'
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ states(''binary_sensor.heating_hc1_too_warm'') == ''on''
-          }}'
-      sequence:
-      - service: persistent_notification.create
-        data:
-          title: Heating
-          message: EG zu warm, Room Offset runtergesetzt
-      - service: mqtt.publish
-        data:
-          topic: ems-esp/thermostat
-          payload: '{"cmd":"offsettemp","data":-3, "id":1}'
-      - service: script.heating_burner_down
-    - conditions:
-      - condition: template
-        value_template: '{{ states(''binary_sensor.heating_hc1_too_cold'') == ''on''
-          }}'
-      sequence:
-      - service: persistent_notification.create
-        data:
-          title: Heating
-          message: EG ok, Room Offset auf 0K
-      - service: mqtt.publish
-        data:
-          topic: ems-esp/thermostat
-          payload: '{"cmd":"offsettemp","data":0, "id":1}'
-      - service: script.heating_burner_up
-  mode: single
-- id: '1616747011506'
-  alias: Elternbadzu warm (v3)
-  description: check HK2 every hour
-  trigger:
-  - platform: time_pattern
-    hours: '*'
-    minutes: '5'
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ states(''binary_sensor.heating_hc2_too_warm'') == ''on''
-          }}'
-      sequence:
-      - service: persistent_notification.create
-        data:
-          title: Heating
-          message: Elternbad zu warm, Room Offset runtergesetzt
-      - service: mqtt.publish
-        data:
-          topic: ems-esp/thermostat
-          payload: '{"cmd":"offsettemp","data":-3, "id":2}'
-    - conditions:
-      - condition: template
-        value_template: '{{ states(''binary_sensor.heating_hc2_too_cold'') == ''on''
-          }}'
-      sequence:
-      - service: persistent_notification.create
-        data:
-          title: Heating
-          message: Elternbad ok, Room Offset auf 0K
-      - service: mqtt.publish
-        data:
-          topic: ems-esp/thermostat
-          payload: '{"cmd":"offsettemp","data":0, "id":2}'
-  mode: single
 - id: '1616954536097'
   alias: Hinweis über Luftfeuchtigkeit
   description: ''
@@ -1014,14 +903,14 @@
     for: 00:20:00
   condition: []
   action:
-  - service: script.notify_stefan
-    data:
-      title: Heating
-      message: HC1 too cold.
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":3, "id":1}'
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC1 too cold.
   mode: single
 - id: '1619947216142'
   alias: Heating HC1 too warm
@@ -1034,14 +923,14 @@
     for: 00:20:00
   condition: []
   action:
-  - service: script.notify_stefan
-    data:
-      title: Heating
-      message: HC1 too warm.
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-3, "id":1}'
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC1 too warm.
   mode: single
 - id: '1619947230644'
   alias: Heating HC1 back to ok
@@ -1053,14 +942,14 @@
     for: 00:20:00
   condition: []
   action:
-  - service: script.notify_stefan
-    data:
-      title: Heating
-      message: HC1 back to ok.
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":0, "id":1}'
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC1 back to ok.
   mode: single
 - id: '2619947486597'
   alias: Heating HC2 back to ok
@@ -1072,14 +961,14 @@
     for: 00:20:00
   condition: []
   action:
-  - service: script.notify_stefan
-    data:
-      title: Heating
-      message: HC2 back to ok.
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":0, "id":2}'
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC2 back to ok.
   mode: single
 - id: '1619947486597'
   alias: Heating HC3 back to ok
@@ -1091,14 +980,14 @@
     for: 00:20:00
   condition: []
   action:
-  - service: script.notify_stefan
-    data:
-      title: Heating
-      message: HC3 back to ok.
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":0, "id":3}'
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC3 back to ok.
   mode: single
 - id: '1619947535330'
   alias: Heating HC2 too cold
@@ -1111,14 +1000,14 @@
     for: 00:20:00
   condition: []
   action:
-  - service: script.notify_stefan
-    data:
-      title: Heating
-      message: HC2 too cold.
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":3, "id":2}'
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC2 too cold.
   mode: single
 - id: '1619947571072'
   alias: Heating HC3 too cold
@@ -1126,19 +1015,18 @@
   trigger:
   - platform: state
     entity_id: sensor.heating_hc3
-    from: ok
     to: too-cold
     for: 00:20:00
   condition: []
   action:
-  - service: script.notify_stefan
-    data:
-      title: Heating
-      message: HC3 too cold.
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":3, "id":3}'
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC3 too cold.
   mode: single
 - id: '1619947620277'
   alias: Heating HC2 too warm
@@ -1151,14 +1039,14 @@
     for: 00:20:00
   condition: []
   action:
-  - service: script.notify_stefan
-    data:
-      title: Heating
-      message: HC2 too warm.
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-3, "id":2}'
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC2 too warm.
   mode: single
 - id: '1619947659246'
   alias: Heating HC3 too warm
@@ -1171,14 +1059,14 @@
     for: 00:20:00
   condition: []
   action:
-  - service: script.notify_stefan
-    data:
-      title: Heating
-      message: HC3 too warm.
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-3, "id":3}'
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC3 too warm.
   mode: single
 - id: '1619977422966'
   alias: Heating HC2vsHC1 too warm
@@ -1190,14 +1078,14 @@
     for: 00:20:00
   condition: []
   action:
-  - service: script.notify_stefan
-    data:
-      title: Heating
-      message: HC2 vs HC1 too warm.
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-3, "id":2}'
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC2 vs HC1 too warm.
   mode: single
 - id: '1619977475725'
   alias: Heating HC2 vs HC1 back to ok
@@ -1209,12 +1097,12 @@
     for: 00:20:00
   condition: []
   action:
-  - service: script.notify_stefan
-    data:
-      title: Heating
-      message: HC2 vs HC1 back to ok.
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":0, "id":2}'
+  - service: script.notify_stefan
+    data:
+      title: Heating
+      message: HC2 vs HC1 back to ok.
   mode: single

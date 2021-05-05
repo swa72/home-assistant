@@ -627,3 +627,11 @@ heating_summertemp_to_12_hc3:
       topic: ems-esp/thermostat
       payload: '{"cmd":"summertemp","data":12, "id":3}'
   mode: single
+heating_set_offsets:
+  alias: Heating Set Offsets
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":3, "id":3}'
+  mode: single
