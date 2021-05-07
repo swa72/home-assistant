@@ -112,7 +112,6 @@ influxdb:
       - sensor.swaweathermetno_condition
       - sensor.swaweathermetno_templow
       - sensor.swaweathermetno_temphigh
-      
     entity_globs:
       - sensor.boiler*
       - sensor.mixer*
@@ -121,6 +120,7 @@ influxdb:
       - sensor.accuweather*
       - sensor.multi*
       - sensor.heating*
+      - sensor.gasverbrauch*
       - binary_sensor.boiler*
       - binary_sensor.mixer*
       - binary_sensor.solar*
@@ -131,3 +131,21 @@ counter:
       initial: 0
       step: 1
       icon: mdi:water-pump
+#
+#
+utility_meter:
+  gasverbrauch_hourly:
+    source: sensor.gasverbrauch
+    cycle: hourly
+  gasverbrauch_daily:
+    source: sensor.gasverbrauch
+    cycle: daily
+  gasverbrauch_weekly:  
+    source: sensor.gasverbrauch
+    cycle: weekly
+  gasverbrauch_monthly:
+    source: sensor.gasverbrauch
+    cycle: monthly
+  gasverbrauch_yearly:
+    source: sensor.gasverbrauch
+    cycle: yearly
