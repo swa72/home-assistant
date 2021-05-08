@@ -940,7 +940,10 @@
     entity_id: sensor.heating_hc1
     to: ok
     for: 00:20:00
-  condition: []
+  condition:
+  - condition: time
+    after: 07:00
+    before: '22:00'
   action:
   - service: mqtt.publish
     data:
