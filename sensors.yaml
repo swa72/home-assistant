@@ -321,3 +321,11 @@
         {% else %}
           ok
         {% endif %}
+#
+#
+#
+- platform: template
+  sensors:
+    gasverbrauch_zaehler:
+      friendly_name: "Gaszähler"
+      value_template: "{{ states('sensor.gasverbrauch')| float + 126.479 }}"
