@@ -6,6 +6,7 @@
 !.gitignore
 !*.md
 !gitpush.sh
+!esphome
 
 # Ignore folders.
 .storage

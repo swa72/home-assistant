@@ -1,0 +1,44 @@
+esphome:
+  name: gas3
+  platform: ESP32
+  board: esp-wrover-kit
+
+wifi:
+  ssid: !secret wlan_name
+  password: !secret wlan_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Gas3 Fallback Hotspot"
+    password: "ccrPLKVfegly"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+# Example configuration entry
+#sensor:
+#  - platform: pulse_counter
+#    pin: 21
+#    name: "Pulse Counter ggas3"
+#    unit_of_measurement: ""
+
+sensor:  
+  - platform: pulse_counter
+    pin: 21
+    name: "Gasverbrauch"
+    update_interval : 60s
+    filters:
+      - lambda: |-
+          static float total_value = 0.0;
+          total_value += x * 0.01;
+          return total_value;
+    unit_of_measurement: "m³"
+    accuracy_decimals: 2
+    icon: 'mdi:fire'
