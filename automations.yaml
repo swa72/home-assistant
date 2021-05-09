@@ -901,7 +901,10 @@
     from: ok
     to: too-cold
     for: 00:20:00
-  condition: []
+  condition:
+  - condition: time
+    after: 07:00
+    before: '22:00'
   action:
   - service: mqtt.publish
     data:
@@ -921,7 +924,10 @@
     from: ok
     to: too-warm
     for: 00:20:00
-  condition: []
+  condition:
+  - condition: time
+    after: 07:00
+    before: '22:00'
   action:
   - service: mqtt.publish
     data:
@@ -962,7 +968,10 @@
     entity_id: sensor.heating_hc2
     to: ok
     for: 00:20:00
-  condition: []
+  condition:
+  - condition: time
+    after: 07:00
+    before: '22:00'
   action:
   - service: mqtt.publish
     data:
@@ -981,7 +990,10 @@
     entity_id: sensor.heating_hc3
     to: ok
     for: 00:20:00
-  condition: []
+  condition:
+  - condition: time
+    after: 07:00
+    before: '22:00'
   action:
   - service: mqtt.publish
     data:
@@ -1001,7 +1013,10 @@
     from: ok
     to: too-cold
     for: 00:20:00
-  condition: []
+  condition:
+  - condition: time
+    after: 07:00
+    before: '22:00'
   action:
   - service: mqtt.publish
     data:
@@ -1020,7 +1035,10 @@
     entity_id: sensor.heating_hc3
     to: too-cold
     for: 00:20:00
-  condition: []
+  condition:
+  - condition: time
+    after: 07:00
+    before: '22:00'
   action:
   - service: mqtt.publish
     data:
@@ -1040,7 +1058,10 @@
     from: ok
     to: too-warm
     for: 00:20:00
-  condition: []
+  condition:
+  - condition: time
+    after: 07:00
+    before: '22:00'
   action:
   - service: mqtt.publish
     data:
@@ -1060,7 +1081,10 @@
     from: ok
     to: too-warm
     for: 00:20:00
-  condition: []
+  condition:
+  - condition: time
+    after: 07:00
+    before: '22:00'
   action:
   - service: mqtt.publish
     data:
@@ -1079,7 +1103,10 @@
     entity_id: sensor.heating_hc2vshc1
     to: too-warm
     for: 00:20:00
-  condition: []
+  condition:
+  - condition: time
+    after: 07:00
+    before: '22:00'
   action:
   - service: mqtt.publish
     data:
@@ -1098,7 +1125,10 @@
     entity_id: sensor.heating_hc2vshc1
     to: ok
     for: 00:20:00
-  condition: []
+  condition:
+  - condition: time
+    after: 07:00
+    before: '22:00'
   action:
   - service: mqtt.publish
     data:
@@ -1108,4 +1138,27 @@
     data:
       title: Heating
       message: HC2 vs HC1 back to ok.
+  mode: single
+- id: '1620552474899'
+  alias: Heating Reset offsets
+  description: ''
+  trigger:
+  - platform: time
+    at: '22:05'
+  condition: []
+  action:
+  - service: script.heating_reset_offsets
+  mode: single
+- id: '1620553045155'
+  alias: Notify Stefan zu heiss in DG
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{states("sensor.multi_dg_stefan_temperature") | float >= 23}}'
+  condition: []
+  action:
+  - service: notify.mobile_app_swaiphone
+    data:
+      message: Temp zu warm in DG
+      title: Hinweis
   mode: single
