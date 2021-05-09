@@ -61,7 +61,13 @@ title: Gasverbrauch
 ```
 
 I have added the following to my `configuration.yaml` of Home Assistant, to get aggregated data using the [Utility meter integration](https://www.home-assistant.io/integrations/utility_meter/).
+Eventually all data gets visualized in grafana. I use 
 
+```
+SELECT spread("value") FROM "m³" WHERE ("entity_id" = 'gasverbrauch_hourly') AND $timeFilter GROUP BY time(1h) fill(none)
+```
+to display
+<img src="../image/gasusage.jpg" width="400">
 ```
 utility_meter:
   gasverbrauch_hourly:
