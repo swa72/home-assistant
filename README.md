@@ -284,6 +284,7 @@ or
       input: /config/gitpush.sh
     service: hassio.addon_stdin
 ```
+* note to myself: check your `.gitignore` files if something doesn't get pushed. Images need to be added manually with `git add -f foo.jpg`
 
 ## Fritzbox smart home
 * add the integration "AVM FRITZ!SmartHome"
