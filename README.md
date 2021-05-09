@@ -17,6 +17,7 @@ This file is intended for me to document the quirks I had during setup and for o
   * initially connected thru wifi, later moved to ethernet and directly connected to the Fritzbox
   * conbee USB stick to manage ZigBee network
 * a Buderus Logamax Plus GB192i heating (described below)
+* [a Cyble pulse sensor that reads my gas meter](esphome/README-gas.md)
 * Regular backup to a samba share (described below)
 * Regular updates to git (described below)
 * Editing files with Notepad++
