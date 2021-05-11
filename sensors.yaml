@@ -121,11 +121,11 @@
 - platform: template
   sensors:
     heating_room_0wz:
-      friendly_name: "0.EG Wohnzimmer 21-23"
+      friendly_name: "0.EG Wohnzimmer 21-22.5"
       value_template: >-
         {% if states('sensor.thermostat_hc1_current_room_temperature') | float <= 21.0 %}
           too-cold
-        {% elif states('sensor.thermostat_hc1_current_room_temperature') | float >= 23.0 %}
+        {% elif states('sensor.thermostat_hc1_current_room_temperature') | float > 22.5 %}
           too-warm
         {% else %}
           ok
