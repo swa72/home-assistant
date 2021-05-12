@@ -898,7 +898,6 @@
   trigger:
   - platform: state
     entity_id: sensor.heating_hc1
-    from: ok
     to: too-cold
     for: 00:20:00
   condition:
@@ -921,7 +920,6 @@
   trigger:
   - platform: state
     entity_id: sensor.heating_hc1
-    from: ok
     to: too-warm
     for: 00:20:00
   condition:
@@ -1010,7 +1008,6 @@
   trigger:
   - platform: state
     entity_id: sensor.heating_hc2
-    from: ok
     to: too-cold
     for: 00:20:00
   condition:
@@ -1055,7 +1052,6 @@
   trigger:
   - platform: state
     entity_id: sensor.heating_hc2
-    from: ok
     to: too-warm
     for: 00:20:00
   condition:
@@ -1078,7 +1074,6 @@
   trigger:
   - platform: state
     entity_id: sensor.heating_hc3
-    from: ok
     to: too-warm
     for: 00:20:00
   condition:
