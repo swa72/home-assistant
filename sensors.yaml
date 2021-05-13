@@ -329,3 +329,73 @@
     gasverbrauch_zaehler:
       friendly_name: "Gaszähler"
       value_template: "{{ states('sensor.gasverbrauch')| float + 142.250 }}"
+#
+#
+#
+- platform: template
+  sensors:
+    heating_daytime:
+      friendly_name: "True, if during the day ie 0700-2159"
+      value_template: >-
+        {% set p1 = now().hour > 21 or now().hour < 6 %}
+        {% if not p1 %}
+          true
+        {% else %}
+          false
+        {% endif %}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_hc1_trigger:
+      friendly_name: "Circuit HC1 day"
+      value_template: >-
+        {% set p12 = states('sensor.heating_daytime') == "true" %}
+        {% if p12 %}
+          {{ states('sensor.heating_hc1') }}
+        {% else %}
+          ok
+        {% endif %}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_hc2_trigger:
+      friendly_name: "Circuit HC2 day"
+      value_template: >-
+        {% set p12 = states('sensor.heating_daytime') == "true" %}
+        {% if p12 %}
+          {{ states('sensor.heating_hc2') }}
+        {% else %}
+          ok
+        {% endif %}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_hc3_trigger:
+      friendly_name: "Circuit HC3 day"
+      value_template: >-
+        {% set p12 = states('sensor.heating_daytime') == "true" %}
+        {% if p12 %}
+          {{ states('sensor.heating_hc3') }}
+        {% else %}
+          ok
+        {% endif %}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_hc2vshc1_trigger:
+      friendly_name: "Circuit hc2vshc1 day"
+      value_template: >-
+        {% set p12 = states('sensor.heating_daytime') == "true" %}
+        {% if p12 %}
+          {{ states('sensor.heating_hc2vshc1') }}
+        {% else %}
+          ok
+        {% endif %}

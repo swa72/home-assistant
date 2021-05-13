@@ -897,13 +897,10 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.heating_hc1
+    entity_id: sensor.heating_hc1_trigger
     to: too-cold
     for: 00:20:00
-  condition:
-  - condition: time
-    after: 07:00
-    before: '22:00'
+  condition: []
   action:
   - service: mqtt.publish
     data:
@@ -919,13 +916,10 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.heating_hc1
+    entity_id: sensor.heating_hc1_trigger
     to: too-warm
     for: 00:20:00
-  condition:
-  - condition: time
-    after: 07:00
-    before: '22:00'
+  condition: []
   action:
   - service: mqtt.publish
     data:
@@ -941,13 +935,10 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.heating_hc1
+    entity_id: sensor.heating_hc1_trigger
     to: ok
     for: 00:20:00
-  condition:
-  - condition: time
-    after: 07:00
-    before: '22:00'
+  condition: []
   action:
   - service: mqtt.publish
     data:
@@ -963,13 +954,10 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.heating_hc2
+    entity_id: sensor.heating_hc2_trigger
     to: ok
     for: 00:20:00
-  condition:
-  - condition: time
-    after: 07:00
-    before: '22:00'
+  condition: []
   action:
   - service: mqtt.publish
     data:
@@ -985,13 +973,10 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.heating_hc3
+    entity_id: sensor.heating_hc3_trigger
     to: ok
     for: 00:20:00
-  condition:
-  - condition: time
-    after: 07:00
-    before: '22:00'
+  condition: []
   action:
   - service: mqtt.publish
     data:
@@ -1007,13 +992,10 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.heating_hc2
+    entity_id: sensor.heating_hc2_trigger
     to: too-cold
     for: 00:20:00
-  condition:
-  - condition: time
-    after: 07:00
-    before: '22:00'
+  condition: []
   action:
   - service: mqtt.publish
     data:
@@ -1029,13 +1011,10 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.heating_hc3
+    entity_id: sensor.heating_hc3_trigger
     to: too-cold
     for: 00:20:00
-  condition:
-  - condition: time
-    after: 07:00
-    before: '22:00'
+  condition: []
   action:
   - service: mqtt.publish
     data:
@@ -1051,13 +1030,10 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.heating_hc2
+    entity_id: sensor.heating_hc2_trigger
     to: too-warm
     for: 00:20:00
-  condition:
-  - condition: time
-    after: 07:00
-    before: '22:00'
+  condition: []
   action:
   - service: mqtt.publish
     data:
@@ -1073,13 +1049,10 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.heating_hc3
+    entity_id: sensor.heating_hc3_trigger
     to: too-warm
     for: 00:20:00
-  condition:
-  - condition: time
-    after: 07:00
-    before: '22:00'
+  condition: []
   action:
   - service: mqtt.publish
     data:
@@ -1095,13 +1068,10 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.heating_hc2vshc1
+    entity_id: sensor.heating_hc2vshc1_trigger
     to: too-warm
     for: 00:20:00
-  condition:
-  - condition: time
-    after: 07:00
-    before: '22:00'
+  condition: []
   action:
   - service: mqtt.publish
     data:
@@ -1117,13 +1087,10 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.heating_hc2vshc1
+    entity_id: sensor.heating_hc2vshc1_trigger
     to: ok
     for: 00:20:00
-  condition:
-  - condition: time
-    after: 07:00
-    before: '22:00'
+  condition: []
   action:
   - service: mqtt.publish
     data:

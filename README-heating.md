@@ -22,7 +22,7 @@ to integrate the heating to HA. I have three circuits
 <img src="./image/IMG-7681_.jpg" width="400">
 
 * Having connected the gateway with the heating, the gateway powers up and provides a WLAN. You can connect to the WLAN and configure the device to 
-connect to your local WLAN (don't forget to give it a static address).
+connect to your local WLAN (don't forget to give it a static address - mine is 192.168.178.90).
 * The gateway finds all connected devices on the EMS bus:
 <img src="./image/ems-esp.PNG">
 
