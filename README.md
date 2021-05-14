@@ -83,12 +83,12 @@ pjsua_custom_options: '--ip-addr=192.168.178.83'
 - service: hassio.addon_stdin
   data_template:
 	addon: 89275b70_dss_voip
-	input: {"call_sip_uri":"sip:**614@192.168.178.1","message_tts":"Hallo Stefan"}
+	input: {"call_sip_uri":"sip:**614@192.168.178.1:5060","message_tts":"Hallo Stefan"}
 ```
 * in the above case **614 is my internal office number
 * for playing audio files (or DTMF tones), use something like
 ```
-{"call_sip_uri":"sip:**1@192.168.178.1","audio_file_url":"https://xxx.duckdns.org/local/open_door_short.mp3", "call_duration":"6"}
+{"call_sip_uri":"sip:**1@192.168.178.1:5060","audio_file_url":"https://xxx.duckdns.org/local/open_door_short.mp3", "call_duration":"6"}
 ```
 and store mp3 files in folder ```\config\www```. Note that the call is automagically ended after six seconds.
 
@@ -326,3 +326,25 @@ ssl: true
 certfile: fullchain.pem
 keyfile: privkey.pem
 ```
+
+## Disappearing Zigbee devices
+Zigbee device no longer updated in HA
+* phoscon add device
+* push button
+* hit ok in UI
+* reloading deconz integration -> no change
+* restarting deconz in supervisor -> no change
+* restarting HA -> worked (not sure if first steps were needed)
+
+## Garage
+* Garage has one Shelly 1
+  * http://s2/
+  * Name in Shelly: shelly1_garage
+  * Timer: Auto-off after 1s
+  * Detached Switch - Set Shelly device to be in "Detached" switch mode - switch is separated from the relays.
+* in HA
+  * Device shelly1_garage
+  * Entities
+    * switch.shelly1_garage (opens or closes the garage)
+    * binary_sensor.shelly1_garage_input (had to enable the entity manually; indicates whether garage is open or closed)
+		* cover.garage_door, see `covers.yaml`

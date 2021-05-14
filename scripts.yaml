@@ -28,9 +28,9 @@ haustur_offnen:
     data:
       addon: 89275b70_dss_voip
       input:
-        call_sip_uri: sip:**1@192.168.178.1
+        call_sip_uri: sip:**1@192.168.178.1:5060
         audio_file_url: https://swa.duckdns.org/local/open_door_short.mp3
-        call_duration: '6'
+        call_duration: '10'
   - delay: 00:00:10
   mode: single
 clara_tur_zu_und_leiser:
@@ -40,7 +40,7 @@ clara_tur_zu_und_leiser:
     data:
       addon: 89275b70_dss_voip
       input:
-        call_sip_uri: sip:**611@192.168.178.1
+        call_sip_uri: sip:**611@192.168.178.1:5060
         message_tts: Bitte Tür schließen und leiser sein. Danke.
         call_duration: '20'
   mode: single
@@ -51,7 +51,7 @@ konstantin_tur_zu_und_leiser:
     data:
       addon: 89275b70_dss_voip
       input:
-        call_sip_uri: sip:**612@192.168.178.1
+        call_sip_uri: sip:**612@192.168.178.1:5060
         message_tts: Bitte Tür schließen und leiser sein. Danke.
         call_duration: '20'
   mode: single
@@ -292,7 +292,7 @@ call_stefan:
     data:
       addon: 89275b70_dss_voip
       input:
-        call_sip_uri: sip:**614@192.168.178.1
+        call_sip_uri: sip:**614@192.168.178.1:5060
         message_tts: Führe mich nicht in Versuchung.
         call_duration: '20'
   mode: single
@@ -303,7 +303,7 @@ call_anna_tisch_decken:
     data:
       addon: 89275b70_dss_voip
       input:
-        call_sip_uri: sip:**615@192.168.178.1
+        call_sip_uri: sip:**615@192.168.178.1:5060
         message_tts: Bitte runter kommen und Tisch decken.
         call_duration: '20'
   mode: single

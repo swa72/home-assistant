@@ -1,6 +1,7 @@
 #
 # clicking the stuff in HA's user interface was way too painful
 #
+# - name: HASS Bridge Z8MR
 - filter:
     include_domains:
       - binary_sensor
@@ -86,30 +87,3 @@
       - switch.shellys_wama
     include_entities:
       - script.haustur_offnen
-
-
-  # entity_config:
-    # alarm_control_panel.home:
-      # code: 1234
-    # binary_sensor.living_room_motion:
-      # linked_battery_sensor: sensor.living_room_motion_battery
-      # low_battery_threshold: 31
-    # light.kitchen_table:
-      # name: "Kitchen Table Light"
-    # lock.front_door:
-      # code: 1234
-    # media_player.living_room:
-      # feature_list:
-        # - feature: on_off
-        # - feature: play_pause
-        # - feature: play_stop
-        # - feature: toggle_mute
-    # switch.bedroom_outlet:
-      # type: outlet
-    # camera.back_porch:
-      # support_audio: true
-# - name: "HASS Bridge 2"
-  # port: 56332
-  # filter:
-    # include_domains:
-      # - light

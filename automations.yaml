@@ -87,7 +87,7 @@
     for: 00:10:00
   condition:
   - condition: numeric_state
-    entity_id: weather.homeassistant
+    entity_id: weather.home
     value_template: '{{ state.attributes.temperature }}'
     below: '15'
   action:
@@ -581,7 +581,7 @@
   - service: script.urgent_notify_people_who_are_present
     data:
       title: Hinweis
-      message: Haustür ist (zu lange) offen. Es hat {{ state_attr('weather.homeassistant',
+      message: Haustür ist (zu lange) offen. Es hat {{ state_attr('weather.home',
         'temperature') }} Grad draußen."
   mode: single
 - id: '1612710265420'
@@ -601,7 +601,7 @@
   - service: script.urgent_notify_people_who_are_present
     data:
       title: Hinweis
-      message: Kellertür ist (zu lange) offen. Es hat {{ state_attr('weather.homeassistant',
+      message: Kellertür ist (zu lange) offen. Es hat {{ state_attr('weather.home',
         'temperature') }} Grad draußen."
   mode: single
 - id: '1612710429192'
@@ -659,7 +659,7 @@
   - service: script.notify_people_who_are_present
     data:
       title: Hinweis
-      message: Dachfenster offen und Vorhersage sagt {{ state_attr('weather.homeassistant','forecast')[0].precipitation
+      message: Dachfenster offen und Vorhersage sagt {{ state_attr('weather.home','forecast')[0].precipitation
         }}mm Regen.
   mode: single
 - id: '1612711147737'
