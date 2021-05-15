@@ -18,11 +18,14 @@ switch.eg_flur_licht:
   icon: mdi:ceiling-light
 switch.kellerabgang_licht:
   icon: mdi:ceiling-light
-switch.shellyswitch25_483fda4cc1b1_channel_1:
+switch.licht_aussen:
   icon: mdi:outdoor-lamp
-switch.shellyswitch25_483fda4cc1b1_channel_2:
+switch.licht_windfang:
   icon: mdi:spotlight-beam
 switch.wintergarten:
   icon: mdi:lamp
-switch.shellyplug_s_9d90b0:
+switch.shellys_eg_wiga_tvreceiver:
   icon: mdi:television
+binary_sensor.eg_wohnzimmer_tuer:
+  device_class: door
+  

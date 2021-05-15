@@ -1,7 +1,6 @@
 #
 # clicking the stuff in HA's user interface was way too painful
 #
-# - name: HASS Bridge Z8MR
 - filter:
     include_domains:
       - binary_sensor
@@ -48,6 +47,9 @@
       - switch.adguard*
       - switch.stefans_echo*
       - script.*
+      - light.ikea_repeater*
+      - switch.one_time_water
+      - switch.shelly25_garage*
     exclude_entities:
       - binary_sensor.abend_eg_wohnzimmer_tuer_zu
       - binary_sensor.camera1_motion
@@ -63,6 +65,15 @@
       - binary_sensor.sun_up
       - binary_sensor.updater
       - binary_sensor.volvo_zuhause_und_offen
+      - binary_sensor.garagentur
+      - binary_sensor.humidity_clara
+      - binary_sensor.humidity_konstantin
+      - binary_sensor.humidity_clara
+      - binary_sensor.humidity_elternbad
+      - binary_sensor.humidity_elternschlaf
+      - binary_sensor.thermostat_hc1_summer_mode
+      - binary_sensor.thermostat_hc2_summer_mode
+      - binary_sensor.thermostat_hc3_summer_mode
       - light.range_extender_2
       - light.range_extender_3
       - sensor.db_size
@@ -87,3 +98,6 @@
       - switch.shellys_wama
     include_entities:
       - script.haustur_offnen
+  entity_config:
+    cover.garage_door:
+      name: "Garagentor"

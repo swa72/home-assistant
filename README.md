@@ -257,6 +257,11 @@ or
 {%- endfor -%}
 ```
 
+* export all entities to Excel (see https://community.home-assistant.io/t/export-entity-names/206262/17)
+  * Open the file \config.storage\core.entity_registry 
+  * Copy all the text and pasted in this random json to table converter (https://www.convertjson.com/json-to-html-table.htm)
+  * works with devices, too
+
 ## HACS: iCloud3 Device Tracker
 
 * iCloud has authentication problems, so I was looking for an alternative
@@ -297,7 +302,7 @@ or
 * Host: 192.168.178.1
 * Port 1012
 * Username hacallmon (using user hacallmon on Fritzbox)
-* Passwort of user swa
+* Passwort of user XXX
 * you may need to enable the call monitor after a restart of the Fritzbox using "To activate the call monitor on your FRITZ!Box, dial #96*5* from any phone connected to it."
 * hacallmon has rights to ...
   * FRITZ!Box Einstellungen
@@ -327,6 +332,9 @@ certfile: fullchain.pem
 keyfile: privkey.pem
 ```
 
+## notepad++ tips
+* find and replace across files: Select Search > Find in Files from the menu. If you like keyboard shortcuts better, use Ctrl-Shift-F to open the search window instead.
+
 ## Disappearing Zigbee devices
 Zigbee device no longer updated in HA
 * phoscon add device
@@ -335,6 +343,10 @@ Zigbee device no longer updated in HA
 * reloading deconz integration -> no change
 * restarting deconz in supervisor -> no change
 * restarting HA -> worked (not sure if first steps were needed)
+
+## IKEA repeater
+* plug it in
+* 
 
 ## Garage
 * Garage has one Shelly 1
@@ -348,3 +360,37 @@ Zigbee device no longer updated in HA
     * switch.shelly1_garage (opens or closes the garage)
     * binary_sensor.shelly1_garage_input (had to enable the entity manually; indicates whether garage is open or closed)
 		* cover.garage_door, see `covers.yaml`
+
+## Naming conventions for shelly devices
+* The shelly device itself has a name (set in the UI of the shelly)
+  * `<device-type>_location`
+  * The same name is given to the device for the static ip adress in the fritzbox
+    * `<device-type>-location`
+* Naming conventions for the channels
+  * `<device-type>_location_switch` (for the shelly1 and plugs)
+  * `<device-type>_location_<function>` (for the shelly25)
+  * note: haven't done this consistently :-/
+* How to add a new shelly?
+  * wire the shelly
+  * connect to shelly's hotspot
+  * for roller-shutter, select roller shutter
+  * calibrate
+  * connect to local WIFI
+  * set DNS in fritzbox
+  * update firmware of shelly
+  * add device name
+* I had a mess of devices and entities ...
+  * delete all shelly integrations one by one .. (after having completed the renaming orgy)
+  * restarted HA
+  * HA discovers new shelly devices and shows them with "shellyswitch25-XXX". As soon as you click on "Configure" it replaces the device name with the one set in the shelly directly. Pick the right area and you're done.
+  * watch out: if you have changed the channel names for a shelly25, the entities are named after the channel names!
+
+## Too many homekit bridges
+* I noticed two homekit bridges in my HA and, upon any restart, HA discovered yet another one.
+* Removed all bridges from HA
+* Deleted all bridges on the iPad
+* Restartet HA
+* Paired the bridge
+* All configuring now thru yaml
+* Re-doing the stuff is actually pretty quick
+

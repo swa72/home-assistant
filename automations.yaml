@@ -143,7 +143,7 @@
   action:
   - service: switch.turn_on
     data: {}
-    entity_id: switch.shellyswitch25_483fda4cc1b1_channel_1
+    entity_id: switch.licht_aussen
   mode: single
 - id: '1609245648666'
   alias: zAußenlicht aus, wenn hell draußen
@@ -157,7 +157,7 @@
   action:
   - service: switch.turn_off
     data: {}
-    entity_id: switch.shellyswitch25_483fda4cc1b1_channel_1
+    entity_id: switch.licht_aussen
   mode: single
 - id: cam1
   alias: zMotioneye - Camera1 - Motion started
@@ -209,7 +209,7 @@
   action:
   - service: switch.turn_on
     data: {}
-    entity_id: switch.shellyswitch25_483fda4cc1b1_channel_2
+    entity_id: switch.shelly25_eg_flurre_channel_2
   mode: single
 - id: '1609858227328'
   alias: Windfanglicht  aus, wenn hell draußen
@@ -223,7 +223,7 @@
   action:
   - service: switch.turn_off
     data: {}
-    entity_id: switch.shellyswitch25_483fda4cc1b1_channel_2
+    entity_id: switch.shelly25_eg_flurre_channel_2
   mode: single
 - id: '1609924669215'
   alias: Volvo abschließen, wenn zuhause und lönger als 15min offen
@@ -242,54 +242,6 @@
   - service: lock.lock
     data: {}
     entity_id: lock.su_xp1654_door_lock
-  mode: single
-- id: julia_arrives_home
-  alias: yJulia Arrives Home (depr)
-  trigger:
-  - platform: state
-    entity_id: sensor.jphone_zone_name
-    to: Home
-  condition:
-  - condition: template
-    value_template: '{{states("sensor.swaiphone_zone_distance") | float <= 0.2}}'
-  action:
-  - service: script.notify_stefan
-    data:
-      title: julia Arrives Home
-      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-        }}, Distance: {{ states.sensor.jphone_zone_distance.state }}'
-  mode: single
-- id: julia_leaves_home
-  alias: yJulia Leaves Home (depr)
-  trigger:
-  - platform: state
-    entity_id: sensor.jphone_zone_name
-    to: Away
-  condition: []
-  action:
-  - service: script.notify_stefan
-    data:
-      title: julia Leaves Home
-      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-        }}, Distance: {{ states("sensor.jphone_zone_distance") }}'
-  mode: single
-- id: julia_leaves_zone
-  alias: yJulia Leaves Zone (depr)
-  trigger:
-  - platform: state
-    entity_id: sensor.jphone_zone_name
-    to: Away
-  condition:
-  - condition: template
-    value_template: '{{trigger.from_state.state != "Home"}}'
-  - condition: template
-    value_template: '{{states("sensor.jphone_zone_distance") | float > 0}}'
-  action:
-  - service: script.notify_stefan
-    data:
-      title: julia Leaves Zone
-      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-        }}, Distance: {{ states.sensor.jphone_zone_distance.state }}'
   mode: single
 - id: stefan_leaves_home
   alias: yStefan Leaves Home
@@ -435,29 +387,6 @@
       - service: script.turn_on
         data: {}
         entity_id: script.alexa_wama_fertig
-- id: '1612163701541'
-  alias: yJulia Arrives Zone (depr)
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.jphone_zone_name
-    from: Away
-  condition:
-  - condition: template
-    value_template: '{{trigger.from_state.state != "Home"}}'
-  - condition: template
-    value_template: '{{states("sensor.jphone_zone_distance") | float > 0}}'
-  - condition: template
-    value_template: '{{trigger.to_state.state != "stationary"}}'
-  - condition: template
-    value_template: '{{trigger.to_state.state != "Home"}}'
-  action:
-  - service: script.notify_stefan
-    data:
-      title: julia Arrives at Zone
-      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
-        }}, Distance: {{ states.sensor.jphone_zone_distance.state }}'
-  mode: single
 - id: '1612513446275'
   alias: yStefan Arrives Zone
   description: ''

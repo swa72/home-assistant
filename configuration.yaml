@@ -103,7 +103,7 @@ influxdb:
   default_measurement: state
   include:
     entities:
-      - weather.homeassistant
+      - weather.home
       - weather.openweathermap
       - weather.accuweather
       - binary_sensor.heating_active

@@ -42,42 +42,6 @@ connect to your local WLAN (don't forget to give it a static address - mine is 1
 ## Step 3: Configure entities
 * Went to Configuration | Integration | MQTT and clicked on devices. For each of the five devices, click on 
   the device name and use "Add to lovelace" to add all entities.
-* Only caveat: given that my RC300 thermostat controls three circuits, I had to add the following sensors manually to lovelace.
-For some reason or the other, only the third got added automagically.
-```
-  - sensor.thermostat_hc1_comfort_temperature
-  - sensor.thermostat_hc1_control_mode
-  - sensor.thermostat_hc1_design_temperature
-  - sensor.thermostat_hc1_eco_temperature
-  - sensor.thermostat_hc1_manual_temperature
-  - sensor.thermostat_hc1_max_flow_temperature
-  - sensor.thermostat_hc1_min_flow_temperature
-  - sensor.thermostat_hc1_mode
-  - sensor.thermostat_hc1_mode_type
-  - sensor.thermostat_hc1_nofrost_temperature
-  - sensor.thermostat_hc1_offset_temperature
-  - sensor.thermostat_hc1_room_influence
-  - sensor.thermostat_hc1_setpoint_room_temperature
-  - sensor.thermostat_hc1_summer_temperature
-  - sensor.thermostat_hc1_target_flow_temperature
-  - sensor.thermostat_hc1_timer_program
-  - sensor.thermostat_hc1_hatemp
-  - sensor.thermostat_hc2_comfort_temperature
-  - sensor.thermostat_hc2_control_mode
-  - sensor.thermostat_hc2_design_temperature
-  - sensor.thermostat_hc2_eco_temperature
-  - sensor.thermostat_hc2_manual_temperature
-  - sensor.thermostat_hc2_max_flow_temperature
-  - sensor.thermostat_hc2_min_flow_temperature
-  - sensor.thermostat_hc2_mode
-  - sensor.thermostat_hc2_mode_type
-  - sensor.thermostat_hc2_nofrost_temperature
-  - sensor.thermostat_hc2_offset_temperature
-  - sensor.thermostat_hc2_room_influence
-  - sensor.thermostat_hc2_setpoint_room_temperature
-  - sensor.thermostat_hc2_summer_temperature
-  - sensor.thermostat_hc2_target_flow_temperature
-  - sensor.thermostat_hc2_timer_program
-  - sensor.thermostat_hc2_hatemp
-  ```
-	
+  
+## Step 4: add some thermostat controls
+* `climate.thermostat_hc1` is missing, also for circuits 2 and 3

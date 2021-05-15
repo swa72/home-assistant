@@ -5,15 +5,9 @@
 - platform: group
   name: Eltern-Schlafzimmer
   entities: 
-   - cover.shelly25_rolladen_schlafzimmer_li
-   - cover.shelly25_rolladen_elternbad
+   - cover.shelly25_og_schlafli
+   - cover.shelly25_og_elternbad
 
-  # icon_template: >-
-    # {% if state_attr('cover.eltern_schlafzimmer', 'current_position') | float > 0 %}
-      # mdi:shutter-open
-    # {% else %}
-      # mdi:shutter
-    # {% endif %}
 #
 # garage door
 #
@@ -23,7 +17,7 @@
   covers:
     garage_door:
       device_class: garage
-      friendly_name: "Garage Door"
+      friendly_name: "Garagentor"
       value_template: "{% if is_state('binary_sensor.shelly1_garage_input', 'on') %}closed{% else %}open{% endif %}"
       open_cover:
         service: switch.turn_on

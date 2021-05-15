@@ -312,7 +312,7 @@ schalte_aussenlicht_fur_5min_an:
   sequence:
   - type: turn_on
     device_id: 5d726789f88ff8800753b26abd0bf956
-    entity_id: switch.shellyswitch25_483fda4cc1b1_channel_1
+    entity_id: switch.licht_aussen
     domain: switch
   - delay:
       hours: 0
@@ -321,7 +321,7 @@ schalte_aussenlicht_fur_5min_an:
       milliseconds: 0
   - type: turn_off
     device_id: 5d726789f88ff8800753b26abd0bf956
-    entity_id: switch.shellyswitch25_483fda4cc1b1_channel_1
+    entity_id: switch.licht_aussen
     domain: switch
   mode: single
 one_time_water_on:

@@ -335,9 +335,9 @@
 - platform: template
   sensors:
     heating_daytime:
-      friendly_name: "True, if during the day ie 0700-2159"
+      friendly_name: "True, if during the day ie 0520-2159"
       value_template: >-
-        {% set p1 = now().hour > 21 or now().hour < 6 %}
+        {% set p1 = now().hour > 21 or now().hour < 5 %}
         {% if not p1 %}
           true
         {% else %}
