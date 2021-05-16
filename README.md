@@ -15,13 +15,11 @@ This file is intended for me to document the quirks I had during setup and for o
   * Fritzbox has an attached USB stick
 * Raspberry 4 running Home Assistant 2021.1.5
   * initially connected thru wifi, later moved to ethernet and directly connected to the Fritzbox
-  * conbee USB stick to manage ZigBee network
+  * conbee USB stick to [manage ZigBee network](README-zigbee.md)
 * [a Buderus Logamax Plus GB192i heating controlled with EMS-ESP](README-heating.md)
 * [a Cyble pulse sensor that reads my gas meter](esphome/README-gas.md)
 * Regular backup to a samba share (described below)
 * Regular updates to git (described below)
-* Editing files with Notepad++
-  * Change tab with to 2 using ```Settings > Preferences > Language > Tab Settings```
 * I run a bunch of add-ons, described in the following sections.
 
 ## AdGuard Home 
@@ -320,7 +318,6 @@ keyfile: privkey.pem
 envvars: []
 ```
 
-
 ## Grafana
 * installed with configuration (note the plugin to visualize discrete values)
 ```
@@ -333,20 +330,11 @@ keyfile: privkey.pem
 ```
 
 ## notepad++ tips
+* Editing files with Notepad++
+  * Change tab with to 2 using ```Settings > Preferences > Language > Tab Settings```
 * find and replace across files: Select Search > Find in Files from the menu. If you like keyboard shortcuts better, use Ctrl-Shift-F to open the search window instead.
-
-## Disappearing Zigbee devices
-Zigbee device no longer updated in HA
-* phoscon add device
-* push button
-* hit ok in UI
-* reloading deconz integration -> no change
-* restarting deconz in supervisor -> no change
-* restarting HA -> worked (not sure if first steps were needed)
-
-## IKEA repeater
-* plug it in
-* 
+* filter lines: mark lines (with Search | Mark), click on "bookmark line", remove other lines with Search | Bookmark | Remove Bookmarkes lines
+  * or use https://stackoverflow.com/questions/21641810/remove-all-lines-except-lines-with-a-specific-word-notepad/52845652
 
 ## Garage
 * Garage has one Shelly 1

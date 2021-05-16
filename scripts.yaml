@@ -635,3 +635,17 @@ heating_set_offsets:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":3, "id":3}'
   mode: single
+deconz_refresh:
+  alias: deconz-refresh
+  sequence:
+  - service: deconz.device_refresh
+    data:
+      bridgeid: 00212E066FC0
+  mode: single
+deconz_removed_orphaned:
+  alias: deconz-removed orphaned
+  sequence:
+  - service: deconz.remove_orphaned_entries
+    data:
+      bridgeid: 00212E066FC0
+  mode: single

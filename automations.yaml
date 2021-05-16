@@ -209,7 +209,7 @@
   action:
   - service: switch.turn_on
     data: {}
-    entity_id: switch.shelly25_eg_flurre_channel_2
+    entity_id: switch.licht_windfang
   mode: single
 - id: '1609858227328'
   alias: Windfanglicht  aus, wenn hell draußen
@@ -223,7 +223,7 @@
   action:
   - service: switch.turn_off
     data: {}
-    entity_id: switch.shelly25_eg_flurre_channel_2
+    entity_id: switch.licht_windfang
   mode: single
 - id: '1609924669215'
   alias: Volvo abschließen, wenn zuhause und lönger als 15min offen

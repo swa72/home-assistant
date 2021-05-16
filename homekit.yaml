@@ -96,8 +96,22 @@
       - switch.shelly1_garage
       - switch.shellys_keller_pumpe_treppe
       - switch.shellys_wama
+      - sensor.anna_temperature
+      - sensor.anna_bad_temperature
+      - sensor.eg_freezer_temperature
+      - sensor.eg_wohnzimmer_glas_tuer_temperature
+      - sensor.fenster_eg_gaeste_temperature
+      - sensor.haustur_temperature
+      - sensor.kellertur_temperature
+      - sensor.stefan_ost_temperature
+      - sensor.stefan_west_temperature
+      - sensor.og_clara_temperature
+      - sensor.og_konstantin_temperature
     include_entities:
       - script.haustur_offnen
   entity_config:
     cover.garage_door:
-      name: "Garagentor"
+      name: Garagentor
+    cover.shelly25_dg_anna_rolladen:
+      name: Anna Rolladen
+
