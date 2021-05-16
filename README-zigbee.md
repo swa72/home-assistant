@@ -50,11 +50,11 @@ Zigbee device no longer updated in HA
 * to rename a zigbee devices then do
   * run a PUT with `http://192.168.178.83:40850/api/38D7042DC3/sensors/2` and the request data of
 
-  ```
+```
 {
   "name": "Haustuer"
 }
-  ```
+```
 
   * one could also script that with `curl -H 'Content-Type: application/json' -X PUT -d '{"name": "Haustuer"}' http://192.168.178.83:40850/api/38D7042DC3/sensors/2`
 * reloaded the deconz integration - no change to device name
