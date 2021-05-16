@@ -21,6 +21,7 @@ Zigbee device no longer updated in HA
 ## Changing Zigbee devices directly in google chrome
 * Install postman chrome extension and enable it (top right)
 * run GET on `https://phoscon.de/discover` inside postman
+
 ```
 [
     {
@@ -33,23 +34,28 @@ Zigbee device no longer updated in HA
     }
 ]
 ``` 
+
 * while access from the terminal window worked, it does not from the web browser.
   * go to Supervisor | deconz | Configuration and change the line to
+
  ```
  Container		Host	Description
  40850/tcp		40850	deCONZ API backend (Not required for Ingress)
  ```
+
 * not sure whether the last step was necessary
 * running POST on `192.168.178.83:40850/api/`works and gives me the API key `38D7042DC3` (ip adress from the raspberry, not from the discover command)
 * running GET on `http://192.168.178.83:40850/api/38D7042DC3/sensors` gives me all sensors
 * copy the text file to notepad and clean it
 * to rename a zigbee devices then do
   * run a PUT with `http://192.168.178.83:40850/api/38D7042DC3/sensors/2` and the request data of
+
   ```
 {
   "name": "Haustuer"
 }
   ```
+
   * one could also script that with `curl -H 'Content-Type: application/json' -X PUT -d '{"name": "Haustuer"}' http://192.168.178.83:40850/api/38D7042DC3/sensors/2`
 * reloaded the deconz integration - no change to device name
 * restarted deconz in Supervisor - no change in device name
