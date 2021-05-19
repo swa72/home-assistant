@@ -34,6 +34,8 @@ logger:
   default: warn
   logs:
     homeassistant.components.recorder: debug
+# temporary solution as per https://github.com/emsesp/EMS-ESP/issues/756
+    homeassistant.helpers.template: error
 
 #
 # to turn on my pc
