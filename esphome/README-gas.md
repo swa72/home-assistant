@@ -13,6 +13,15 @@ duration is 35ms to 65ms, so pretty quick.
 Question remains: how do I get the data into Home Assistant? ESPHome is the answer, even for a non-hardware guy like me.
 It also helps if other people ([@saruter](https://smarthome.ms1.de/projekte/gasverbrauch/)) have done it before with other sensors.
 
+There is one caveat though: all of these must be running or the counter impulses are not recorded
+* the Wifi (i.e. the router) connecting the ESP with HA
+* the ESP
+* the sensor
+* the raspberry running HA (no reboot or you will miss counts)
+  * I stop the heating, reboot/update HA, then turn the heating back on to not miss any counts
+
+I have it running for some time now and the deviation between what I record in HA and the actual gas meter is less than one percent.
+
 ## Hardware parts
 * an ESP32 (I picked a development version with a micro-USB port), ca. 7EUR
 * a USB to micro-USB cable, ca. 0EUR

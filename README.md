@@ -18,7 +18,7 @@ This file is intended for me to document the quirks I had during setup and for o
   * conbee USB stick to [manage ZigBee network](README-zigbee.md)
 * [a Buderus Logamax Plus GB192i heating controlled with EMS-ESP](README-heating.md)
 * [a Cyble pulse sensor that reads my gas meter](esphome/README-gas.md)
-* Regular backup to a samba share (described below)
+* Regular backup to ~a samba share~ Google Drive (described below)
 * Regular updates to git (described below)
 * I run a bunch of add-ons, described in the following sections.
 
@@ -177,7 +177,12 @@ packages: []
 init_commands: []
 ```
 
-## Samba Backup 
+## Backup to Google Drive
+* installed "Home Assistant Google Drive Backup" from Supervisors' add-ons
+* working with the stock install, just disabled mariadb
+
+
+## Backup to Samba Drive - deprecated
 
 * to have regular config backups to the USB stick of the Fritzbox
 * note that username ##replaceme## must be available on the Fritzbox ("System > FRITZ!Box-Benutzer > Benutzer") and that particular user requires access to the attached USB stick
@@ -203,6 +208,7 @@ exclude_addons: []
 exclude_folders: []
 backup_name: '{type} Snapshot {version} {date}'
 ```
+~
 
 ## Samba share
 
