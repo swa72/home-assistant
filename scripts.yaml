@@ -533,11 +533,11 @@ heating_lower_offsets_hc1_hc2:
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"offsettemp","data":-2, "id":1}'
+      payload: '{"cmd":"offsettemp","data":-3, "id":1}'
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"offsettemp","data":-2, "id":2}'
+      payload: '{"cmd":"offsettemp","data":-3, "id":2}'
   mode: single
 heating_comfort_temp15:
   alias: Heating Comfort Temp20

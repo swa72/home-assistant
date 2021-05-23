@@ -839,7 +839,8 @@
     data:
       title: Heating
       message: HC1 too cold.
-  mode: single
+  mode: queued
+  max: 10
 - id: '1619947216142'
   alias: Heating HC1 too warm
   description: ''
@@ -858,7 +859,8 @@
     data:
       title: Heating
       message: HC1 too warm.
-  mode: single
+  mode: queued
+  max: 10
 - id: '1619947230644'
   alias: Heating HC1 back to ok
   description: ''
@@ -877,7 +879,8 @@
     data:
       title: Heating
       message: HC1 back to ok.
-  mode: single
+  mode: queued
+  max: 10
 - id: '2619947486597'
   alias: Heating HC2 back to ok
   description: ''
@@ -896,7 +899,8 @@
     data:
       title: Heating
       message: HC2 back to ok.
-  mode: single
+  mode: queued
+  max: 10
 - id: '1619947486597'
   alias: Heating HC3 back to ok
   description: ''
@@ -915,7 +919,8 @@
     data:
       title: Heating
       message: HC3 back to ok.
-  mode: single
+  mode: queued
+  max: 10
 - id: '1619947535330'
   alias: Heating HC2 too cold
   description: ''
@@ -934,7 +939,8 @@
     data:
       title: Heating
       message: HC2 too cold.
-  mode: single
+  mode: queued
+  max: 10
 - id: '1619947571072'
   alias: Heating HC3 too cold
   description: ''
@@ -953,7 +959,8 @@
     data:
       title: Heating
       message: HC3 too cold.
-  mode: single
+  mode: queued
+  max: 10
 - id: '1619947620277'
   alias: Heating HC2 too warm
   description: ''
@@ -972,7 +979,8 @@
     data:
       title: Heating
       message: HC2 too warm.
-  mode: single
+  mode: queued
+  max: 10
 - id: '1619947659246'
   alias: Heating HC3 too warm
   description: ''
@@ -991,7 +999,8 @@
     data:
       title: Heating
       message: HC3 too warm.
-  mode: single
+  mode: queued
+  max: 10
 - id: '1619977422966'
   alias: Heating HC2vsHC1 too warm
   description: ''
@@ -1010,7 +1019,8 @@
     data:
       title: Heating
       message: HC2 vs HC1 too warm.
-  mode: single
+  mode: queued
+  max: 10
 - id: '1619977475725'
   alias: Heating HC2 vs HC1 back to ok
   description: ''
@@ -1029,13 +1039,14 @@
     data:
       title: Heating
       message: HC2 vs HC1 back to ok.
-  mode: single
+  mode: queued
+  max: 10
 - id: '1620552474899'
   alias: Heating Reset offsets
   description: ''
   trigger:
   - platform: time
-    at: '22:05'
+    at: '23:05'
   condition: []
   action:
   - service: script.heating_reset_offsets

@@ -357,12 +357,12 @@ keyfile: privkey.pem
 
 ## Naming conventions for shelly devices
 * The shelly device itself has a name (set in the UI of the shelly)
-  * `<device-type>_location`
+  * `<device-type>_<location>`
   * The same name is given to the device for the static ip adress in the fritzbox
-    * `<device-type>-location`
+    * `<device-type>-<location>`
 * Naming conventions for the channels
-  * `<device-type>_location_switch` (for the shelly1 and plugs)
-  * `<device-type>_location_<function>` (for the shelly25)
+  * `<device-type>_<location>_switch` (for the shelly1 and plugs)
+  * `<device-type>_<location>_<function>` (for the shelly25)
   * note: haven't done this consistently :-/
 * How to add a new shelly?
   * wire the shelly
