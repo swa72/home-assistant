@@ -1064,3 +1064,22 @@
       message: Temp zu warm in DG
       title: Hinweis
   mode: single
+- id: '1621879897477'
+  alias: Heating Check HC!
+  description: ''
+  trigger:
+  - platform: time
+    at: 09:00
+  condition:
+  - condition: state
+    entity_id: sensor.heating_hc1_trigger
+    state: too-warm
+  - condition: state
+    entity_id: sensor.thermostat_hc1_offset_temperature
+    state: '0'
+  action:
+  - service: notify.mobile_app_swaiphone
+    data:
+      title: Hinweis
+      message: HC1 too warm and offset not -3
+  mode: single

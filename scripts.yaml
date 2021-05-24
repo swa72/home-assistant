@@ -76,7 +76,8 @@ notify_stefan:
     data:
       title: '{{ title }}'
       message: '{{ message }}'
-  mode: single
+  mode: queued
+  max: 10
 notify_parents:
   alias: Notify Julia and Stefan
   sequence:
