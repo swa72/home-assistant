@@ -500,11 +500,7 @@
   - platform: state
     entity_id: binary_sensor.haustur
     to: 'on'
-    for: 00:03:00
-  - platform: state
-    entity_id: binary_sensor.haustur
-    to: 'on'
-    for: 00:06:00
+    for: 00:10:00
   condition: []
   action:
   - service: script.urgent_notify_people_who_are_present
@@ -520,11 +516,7 @@
   - platform: state
     entity_id: binary_sensor.kellertur
     to: 'on'
-    for: 00:03:00
-  - platform: state
-    entity_id: binary_sensor.kellertur
-    to: 'on'
-    for: 00:06:00
+    for: 00:30:00
   condition: []
   action:
   - service: script.urgent_notify_people_who_are_present
