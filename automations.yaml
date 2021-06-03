@@ -1057,7 +1057,7 @@
       title: Hinweis
   mode: single
 - id: '1621879897477'
-  alias: Heating Check HC!
+  alias: Heating Check HC1
   description: ''
   trigger:
   - platform: time
@@ -1074,4 +1074,18 @@
     data:
       title: Hinweis
       message: HC1 too warm and offset not -3
+  mode: single
+- id: '1622701369307'
+  alias: Monitor heating
+  description: if thermostat sensor's damped temp does not change for 120min, notify
+    stefan
+  trigger:
+  - platform: state
+    entity_id: sensor.thermostat_damped_outdoor_temperature
+    for: 02:00:00
+  action:
+  - service: notify.mobile_app_swaiphone
+    data_template:
+      message: '{{ trigger.from_state.attributes.friendly_name }} has not updated
+        for 20min'
   mode: single
