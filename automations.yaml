@@ -1087,5 +1087,5 @@
   - service: notify.mobile_app_swaiphone
     data_template:
       message: '{{ trigger.from_state.attributes.friendly_name }} has not updated
-        for 20min'
+        for 120min'
   mode: single
