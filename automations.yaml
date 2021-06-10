@@ -1089,3 +1089,25 @@
       message: '{{ trigger.from_state.attributes.friendly_name }} has not updated
         for 120min'
   mode: single
+- id: '1623348230796'
+  alias: Run pool pump for some time
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:00'
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 0890c146d5a406d9af64dcbe0662bd4e
+    entity_id: switch.shellys_poolpump
+    domain: switch
+  - delay:
+      hours: 4
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - type: turn_off
+    device_id: 0890c146d5a406d9af64dcbe0662bd4e
+    entity_id: switch.shellys_poolpump
+    domain: switch
+  mode: single
