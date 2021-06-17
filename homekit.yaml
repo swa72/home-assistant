@@ -109,6 +109,12 @@
       - sensor.og_konstantin_temperature
     include_entities:
       - script.haustur_offnen
+      - cover.eltern_schlafzimmer
+      - cover.shelly25_og_clara
+      - cover.shelly25_dg_anna_rolladen
+      - cover.shelly25_og_elternbad
+      - cover.shelly25_og_schlafli
+      - cover.shelly25_og_schlafre
   entity_config:
     cover.garage_door:
       name: Garagentor
