@@ -51,6 +51,10 @@
       message: Dummy to logfile
       level: warning
       logger: swa-automation
+  - service: notify.persistent_notification
+    data:
+      message: Your message goes here
+      title: Custom subject
   mode: single
 - id: '1608633463304'
   alias: Schlafzimmer Rolladen runter etwas nach Sonnenuntergang
@@ -827,7 +831,7 @@
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":3, "id":1}'
-  - service: script.notify_stefan
+  - service: script.notify_stefan_heating
     data:
       title: Heating
       message: HC1 too cold.
@@ -847,7 +851,7 @@
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-3, "id":1}'
-  - service: script.notify_stefan
+  - service: script.notify_stefan_heating
     data:
       title: Heating
       message: HC1 too warm.
@@ -867,7 +871,7 @@
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":0, "id":1}'
-  - service: script.notify_stefan
+  - service: script.notify_stefan_heating
     data:
       title: Heating
       message: HC1 back to ok.
@@ -887,7 +891,7 @@
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":0, "id":2}'
-  - service: script.notify_stefan
+  - service: script.notify_stefan_heating
     data:
       title: Heating
       message: HC2 back to ok.
@@ -907,7 +911,7 @@
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":0, "id":3}'
-  - service: script.notify_stefan
+  - service: script.notify_stefan_heating
     data:
       title: Heating
       message: HC3 back to ok.
@@ -927,7 +931,7 @@
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":3, "id":2}'
-  - service: script.notify_stefan
+  - service: script.notify_stefan_heating
     data:
       title: Heating
       message: HC2 too cold.
@@ -947,7 +951,7 @@
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":3, "id":3}'
-  - service: script.notify_stefan
+  - service: script.notify_stefan_heating
     data:
       title: Heating
       message: HC3 too cold.
@@ -967,7 +971,7 @@
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-3, "id":2}'
-  - service: script.notify_stefan
+  - service: script.notify_stefan_heating
     data:
       title: Heating
       message: HC2 too warm.
@@ -987,7 +991,7 @@
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-3, "id":3}'
-  - service: script.notify_stefan
+  - service: script.notify_stefan_heating
     data:
       title: Heating
       message: HC3 too warm.
@@ -1007,7 +1011,7 @@
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-3, "id":2}'
-  - service: script.notify_stefan
+  - service: script.notify_stefan_heating
     data:
       title: Heating
       message: HC2 vs HC1 too warm.
@@ -1027,7 +1031,7 @@
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":0, "id":2}'
-  - service: script.notify_stefan
+  - service: script.notify_stefan_heating
     data:
       title: Heating
       message: HC2 vs HC1 back to ok.

@@ -650,3 +650,8 @@ deconz_removed_orphaned:
     data:
       bridgeid: 00212E066FC0
   mode: single
+notify_stefan_heating:
+  alias: Notify stefan heating
+  sequence: []
+  mode: queued
+  max: 10
