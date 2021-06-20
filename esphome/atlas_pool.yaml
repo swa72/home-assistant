@@ -1,0 +1,63 @@
+#
+# https://github.com/esphome/feature-requests/issues/766
+# https://atlas-scientific.com/files/Wi-Fi-Pool-kit-setup-guide.pdf
+#
+esphome:
+  name: atlas_pool
+  platform: ESP8266
+  board: huzzah
+  includes:
+    - my_custom_component.h
+
+wifi:
+  ssid: !secret wlan_name
+  password: !secret wlan_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Pool Management Fallback Hotspot"
+    password: "123456"
+
+captive_portal:
+
+logger:
+
+api:
+  password: "123456"
+
+ota:
+  password: "123456"
+  
+sensor:
+  - platform: ezo
+    id: orp_ezo
+    name: "orp"
+    address: 0x62
+    accuracy_decimals: 3
+    unit_of_measurement: "mV"
+    update_interval: 15s
+  - platform: ezo
+    id: ph_ezo
+    name: "pH"
+    address: 0x63
+    accuracy_decimals: 3
+    unit_of_measurement: "pH"
+    update_interval: 15s
+  - platform: ezo
+    id: rtd_ezo
+    name: "Temp"
+    address: 0x66 # see page 5 on https://atlas-scientific.com/files/Wi-Fi-Pool-kit-setup-guide.pdf
+    accuracy_decimals : 1 
+    unit_of_measurement: "°C"
+    update_interval: 15s
+
+i2c:
+    sda: D4
+    scl: D5
+    scan: True
+
+custom_component:
+- lambda: |-
+    auto my_custom = new MyCustomComponent();
+    return {my_custom};
+    
