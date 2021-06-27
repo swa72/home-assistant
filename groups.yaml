@@ -66,3 +66,10 @@ oeffnungen:
   - group.fenster
   - group.tueren
   
+servers:
+  name: all esp devices
+  all: true
+  entities:
+    - binary_sensor.emsesp
+    - binary_sensor.gas
+    

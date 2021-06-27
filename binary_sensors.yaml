@@ -149,3 +149,12 @@
       value_template: >-
         {% set p0 = states('sensor.multi_og_clara_humidity') | float >= 45 %}
         {{ 'true' if p0 else 'false' }}
+#
+#
+#
+- platform: ping
+  name: emsesp
+  host: 192.168.178.90
+- platform: ping
+  name: gas
+  host: 192.168.178.99

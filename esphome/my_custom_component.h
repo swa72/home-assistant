@@ -16,7 +16,7 @@ class MyCustomComponent : public Component {
                 digitalWrite(14, LOW);                                                       //set enable pins to enable the circuits
                 digitalWrite(12, LOW);
                 digitalWrite(15, HIGH);
-                digitalWrite(13, LOW);
+                digitalWrite(13, HIGH);
 
   }
 };

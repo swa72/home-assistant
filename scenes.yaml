@@ -1,1 +1,42 @@
-[]
+- id: '1624801556496'
+  name: Schlafzimmer Abend
+  entities:
+    cover.shelly25_og_schlafli:
+      current_position: 15
+      friendly_name: shelly25_og_schlafli
+      supported_features: 15
+      device_class: shutter
+      state: open
+    cover.shelly25_og_schlafre:
+      current_position: 15
+      friendly_name: shelly25_og_schlafre
+      supported_features: 15
+      device_class: shutter
+      state: open
+    cover.shelly25_og_elternbad:
+      current_position: 15
+      friendly_name: shelly25_og_elternbad
+      supported_features: 15
+      device_class: shutter
+      state: open
+- id: '1624801840793'
+  name: Schlafzimmer Abend (Sommer)
+  entities:
+    cover.shelly25_og_schlafli:
+      current_position: 40
+      friendly_name: shelly25_og_schlafli
+      supported_features: 15
+      device_class: shutter
+      state: open
+    cover.shelly25_og_schlafre:
+      current_position: 30
+      friendly_name: shelly25_og_schlafre
+      supported_features: 15
+      device_class: shutter
+      state: open
+    cover.shelly25_og_elternbad:
+      current_position: 40
+      friendly_name: shelly25_og_elternbad
+      supported_features: 15
+      device_class: shutter
+      state: open

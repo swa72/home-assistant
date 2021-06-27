@@ -1,0 +1,98 @@
+#
+# see https://github.com/geoffdavis/esphome-mitsubishiheatpump
+#
+substitutions:
+  name: mhiroof
+  friendly_name: mhiroof
+
+
+esphome:
+  name: ${name}
+  platform: ESP32
+  board: esp-wrover-kit
+  # Boards tested: ESP-01S (ESP8266), Wemos D1 Mini (ESP8266); ESP32 Wifi-DevKit2
+
+wifi:
+  ssid: !secret wlan_name
+  password: !secret wlan_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "${friendly_name} hotspot"
+    password: "ccrPLKVfegly"
+
+# Note: if upgrading from 1.x releases of esphome-mitsubishiheatpump, be sure
+# to remove any old entries from the `libraries` and `includes` section.
+#libraries:
+  # Remove reference to SwiCago/HeatPump
+
+#includes:
+  # Remove reference to src/esphome-mitsubishiheatpump
+
+captive_portal:
+
+# Enable logging
+logger:
+  # ESP8266 only - disable serial port logging, as the HeatPump component
+  # needs the sole hardware UART on the ESP8266
+  # baud_rate: 0
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+# Enable Web server.
+web_server:
+  port: 80
+
+  # Sync time with Home Assistant.
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+# Text sensors with general information.
+text_sensor:
+  # Expose ESPHome version as sensor.
+  - platform: version
+    name: ${name} ESPHome Version
+  # Expose WiFi information as sensors.
+  - platform: wifi_info
+    ip_address:
+      name: ${name} IP
+    ssid:
+      name: ${name} SSID
+    bssid:
+      name: ${name} BSSID
+
+# Sensors with general information.
+sensor:
+  # Uptime sensor.
+  - platform: uptime
+    name: ${name} Uptime
+
+  # WiFi Signal sensor.
+  - platform: wifi_signal
+    name: ${name} WiFi Signal
+    update_interval: 60s
+
+external_components:
+  - source: github://geoffdavis/esphome-mitsubishiheatpump
+
+climate:
+  - platform: mitsubishi_heatpump
+    name: "${friendly_name}"
+
+    # ESP32 only - change UART0 to UART1 or UART2 and remove the
+    # logging:baud_rate above to allow the built-in UART0 to function for
+    # logging.
+    hardware_uart: UART1
+    baud_rate: 4800
+    supports:
+      mode: ['HEAT_COOL', 'COOL', 'HEAT', 'FAN_ONLY']
+      fan_mode: ['AUTO', 'LOW', 'MEDIUM', 'HIGH']
+      swing_mode: ['OFF', 'VERTICAL']
+    visual:
+      min_temperature: 16
+      max_temperature: 31
+      temperature_step: 1.0

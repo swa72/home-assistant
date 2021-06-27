@@ -155,6 +155,14 @@ customize:
   default: nginx_proxy_default*.conf
   servers: nginx_proxy/*.conf
 ```
+Also
+```
+Network
+Container	Host	Description
+443/tcp		443
+80/tcp		80
+```
+I can access my HA locally with `https://homeassistant-eth:8123/`, chrome will bitch though because of the certificate.
 
 ## SSH & Web Terminal
 
