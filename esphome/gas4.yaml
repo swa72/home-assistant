@@ -1,0 +1,80 @@
+#
+# see https://github.com/geoffdavis/esphome-mitsubishiheatpump
+#
+substitutions:
+  name: gas3
+  friendly_name: ${name}
+
+esphome:
+  name: ${name}
+  platform: ESP32
+  board: esp-wrover-kit
+
+wifi:
+  ssid: !secret wlan_name
+  password: !secret wlan_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "${friendly_name} hotspot"
+    password: "12345678"
+
+captive_portal:
+
+# Enable logging
+logger:
+  # ESP8266 only - disable serial port logging, as the HeatPump component
+  # needs the sole hardware UART on the ESP8266
+  # baud_rate: 0
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+# Enable Web server.
+web_server:
+  port: 80
+
+  # Sync time with Home Assistant.
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+# Text sensors with general information.
+text_sensor:
+  # Expose ESPHome version as sensor.
+  - platform: version
+    name: ${name} ESPHome Version
+  # Expose WiFi information as sensors.
+  - platform: wifi_info
+    ip_address:
+      name: ${name} IP
+    ssid:
+      name: ${name} SSID
+    bssid:
+      name: ${name} BSSID
+
+# Sensors with general information.
+sensor:
+  # Uptime sensor.
+  - platform: uptime
+    name: ${name} Uptime
+
+  # WiFi Signal sensor.
+  - platform: wifi_signal
+    name: ${name} WiFi Signal
+    update_interval: 60s
+
+  - platform: pulse_counter
+    pin: 21
+    name: "Gasverbrauch"
+    update_interval : 60s
+    filters:
+      - lambda: |-
+          static float total_value = 0.0;
+          total_value += x * 0.01;
+          return total_value;
+    unit_of_measurement: "m³"
+    accuracy_decimals: 2
+    icon: 'mdi:fire'
