@@ -1,5 +1,5 @@
 #
-# see https://github.com/geoffdavis/esphome-mitsubishiheatpump
+# 
 #
 substitutions:
   name: gas3

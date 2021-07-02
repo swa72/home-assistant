@@ -1,0 +1,87 @@
+#
+# 
+#
+substitutions:
+  name: roofac
+  friendly_name: ${name}
+
+esphome:
+  name: ${name}
+  platform: ESP8266
+  board: d1_mini
+  includes:
+    - MHI-AC-Ctrl-ESPHome-master/mhi_ac_ctrl.h
+    - MHI-AC-Ctrl-ESPHome-master/MHI-AC-Ctrl-core.h
+    - MHI-AC-Ctrl-ESPHome-master/MHI-AC-Ctrl-core.cpp
+
+wifi:
+  ssid: !secret wlan_name
+  password: !secret wlan_password
+  manual_ip:
+    # set in fritz.box
+    static_ip: 192.168.178.44
+    # Set this to the IP address of the router. Often ends with .1
+    gateway: 192.168.178.1
+    # The subnet of the network. 255.255.255.0 works for most home networks.
+    subnet: 255.255.255.0
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "${friendly_name} hotspot"
+    password: "12345678"
+
+captive_portal:
+
+# Enable logging
+logger:
+  level: DEBUG
+  # baud_rate: 0
+
+# Enable Home Assistant API
+api:
+  # reboot_timeout: 0s
+  
+ota:
+
+# Enable Web server.
+#web_server:
+#  port: 80
+
+  # # Sync time with Home Assistant.
+# time:
+  # - platform: homeassistant
+    # id: homeassistant_time
+
+# # Text sensors with general information.
+# text_sensor:
+  # # Expose ESPHome version as sensor.
+  # - platform: version
+    # name: ${name} ESPHome Version
+  # # Expose WiFi information as sensors.
+  # - platform: wifi_info
+    # ip_address:
+      # name: ${name} IP
+    # ssid:
+      # name: ${name} SSID
+    # bssid:
+      # name: ${name} BSSID
+
+# # Sensors with general information.
+# sensor:
+  # # Uptime sensor.
+  # - platform: uptime
+    # name: ${name} Uptime
+
+  # # WiFi Signal sensor.
+  # - platform: wifi_signal
+    # name: ${name} WiFi Signal
+    # update_interval: 60s
+
+climate:
+  - platform: custom
+    lambda: |-
+      auto mhi_ac_ctrl = new MhiAcCtrl();
+      App.register_component(mhi_ac_ctrl);
+      return {mhi_ac_ctrl};
+    climates:
+      - name: "roofac"
+        id: roofac

@@ -30,7 +30,7 @@ haustur_offnen:
       input:
         call_sip_uri: sip:**1@192.168.178.1:5060
         audio_file_url: https://swa.duckdns.org/local/open_door_short.mp3
-        call_duration: '10'
+        call_duration: '6'
   - delay: 00:00:10
   mode: single
 clara_tur_zu_und_leiser:

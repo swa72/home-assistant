@@ -1,0 +1,24 @@
+esphome:
+  name: sdfsf
+  platform: ESP8266
+  board: esp01_1m
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  password: "6f1ca59bc64800e8aa7bee2cfec32956"
+
+wifi:
+  ssid: "sfsf"
+  password: "sfsdfsdf"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Sdfsf Fallback Hotspot"
+    password: "q937dTRuM1t1"
+
+captive_portal:
