@@ -655,3 +655,19 @@ notify_stefan_heating:
   sequence: []
   mode: queued
   max: 10
+turn_on_ac_at_stefans_office:
+  alias: Turn on AC at Stefans office
+  sequence:
+  - service: climate.set_fan_mode
+    target:
+      entity_id: climate.roofac
+    data:
+      fan_mode: low
+  - service: climate.set_temperature
+    target:
+      entity_id: climate.roofac
+    data:
+      temperature: 24
+      hvac_mode: cool
+  mode: queued
+  max: 10

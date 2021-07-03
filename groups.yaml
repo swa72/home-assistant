@@ -72,4 +72,6 @@ servers:
   entities:
     - binary_sensor.emsesp
     - binary_sensor.gas
+    - binary_sensor.roofac
+    
     

@@ -18,6 +18,7 @@ This file is intended for me to document the quirks I had during setup and for o
   * conbee USB stick to [manage ZigBee network](README-zigbee.md)
 * [a Buderus Logamax Plus GB192i heating controlled with EMS-ESP](README-heating.md)
 * [a Cyble pulse sensor that reads my gas meter](esphome/README-gas.md)
+* a Mitsubishi Heavy Industries (MHI) air conditioner SRK25ZS-W controlled with ESP8266 (https://github.com/ginkage/MHI-AC-Ctrl-ESPHome)
 * Regular backup to ~a samba share~ Google Drive (described below)
 * Regular updates to git (described below)
 * I run a bunch of add-ons, described in the following sections.
