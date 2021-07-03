@@ -1,5 +1,5 @@
 #
-# 
+# see https://github.com/ginkage/MHI-AC-Ctrl-ESPHome
 #
 substitutions:
   name: roofac
@@ -34,47 +34,48 @@ captive_portal:
 # Enable logging
 logger:
   level: DEBUG
-  # baud_rate: 0
+  baud_rate: 0
 
 # Enable Home Assistant API
 api:
-  # reboot_timeout: 0s
-  
+  reboot_timeout: 0s
+
+# Enable OTA updates  
 ota:
 
 # Enable Web server.
-#web_server:
-#  port: 80
+web_server:
+  port: 80
 
-  # # Sync time with Home Assistant.
-# time:
-  # - platform: homeassistant
-    # id: homeassistant_time
+# Sync time with Home Assistant.
+time:
+  - platform: homeassistant
+    id: homeassistant_time
 
-# # Text sensors with general information.
-# text_sensor:
-  # # Expose ESPHome version as sensor.
-  # - platform: version
-    # name: ${name} ESPHome Version
-  # # Expose WiFi information as sensors.
-  # - platform: wifi_info
-    # ip_address:
-      # name: ${name} IP
-    # ssid:
-      # name: ${name} SSID
-    # bssid:
-      # name: ${name} BSSID
+# Text sensors with general information.
+text_sensor:
+  # Expose ESPHome version as sensor.
+  - platform: version
+    name: ${name} ESPHome Version
+  # Expose WiFi information as sensors.
+  - platform: wifi_info
+    ip_address:
+      name: ${name} IP
+    ssid:
+      name: ${name} SSID
+    bssid:
+      name: ${name} BSSID
 
-# # Sensors with general information.
-# sensor:
-  # # Uptime sensor.
-  # - platform: uptime
-    # name: ${name} Uptime
+# Sensors with general information.
+sensor:
+  # Uptime sensor.
+  - platform: uptime
+    name: ${name} Uptime
 
-  # # WiFi Signal sensor.
-  # - platform: wifi_signal
-    # name: ${name} WiFi Signal
-    # update_interval: 60s
+  # WiFi Signal sensor.
+  - platform: wifi_signal
+    name: ${name} WiFi Signal
+    update_interval: 60s
 
 climate:
   - platform: custom

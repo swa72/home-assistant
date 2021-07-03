@@ -115,6 +115,9 @@ influxdb:
       - sensor.swaweathermetno_templow
       - sensor.swaweathermetno_temphigh
       - counter.kellerpumpe
+      - climate.roofac
+      - sensor.roofac_uptime
+      - sensor.gas3_uptime
     entity_globs:
       - sensor.boiler*
       - sensor.mixer*

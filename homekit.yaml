@@ -115,6 +115,7 @@
       - cover.shelly25_og_elternbad
       - cover.shelly25_og_schlafli
       - cover.shelly25_og_schlafre
+      - climate.roofac
   entity_config:
     cover.garage_door:
       name: Garagentor
