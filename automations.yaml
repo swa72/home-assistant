@@ -480,7 +480,7 @@
       message: Message
   mode: single
 - id: '1612709996219'
-  alias: q3 Urgent Notify, wenn Garage zu lange offen ist
+  alias: q3 Notify, wenn Garage zu lange offen ist
   description: ''
   trigger:
   - platform: state
@@ -493,7 +493,7 @@
     for: 00:45:00
   condition: []
   action:
-  - service: script.urgent_notify_people_who_are_present
+  - service: script.notify_people_who_are_present
     data:
       title: Hinweis
       message: Garagentor ist (zu lange) offen
@@ -515,7 +515,7 @@
         'temperature') }} Grad draußen."
   mode: single
 - id: '1612710265420'
-  alias: q1 Urgent Notify, wenn Kellertür zu lange offen ist
+  alias: q3 Notify, wenn Kellertür zu lange offen ist
   description: ''
   trigger:
   - platform: state
@@ -524,7 +524,7 @@
     for: 00:30:00
   condition: []
   action:
-  - service: script.urgent_notify_people_who_are_present
+  - service: script.notify_people_who_are_present
     data:
       title: Hinweis
       message: Kellertür ist (zu lange) offen. Es hat {{ state_attr('weather.home',
@@ -1114,7 +1114,7 @@
       message: HC1 too warm and offset not -3
   mode: single
 - id: '1622701369307'
-  alias: q1 Monitor heating
+  alias: q3 Notify Stefan, if ems-esp is no longer available
   description: if thermostat sensor's damped temp does not change for 120min, notify
     stefan
   trigger:
