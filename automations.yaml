@@ -1050,12 +1050,21 @@
   - service: script.heating_reset_offsets
   mode: single
 - id: '1620553045155'
-  alias: 'q3 Ask Stefan to turn on AC in office '
+  alias: q3 Wenn zu warm im DG oder 0900 Uhr und Stefan im Office, frage Stefan ob
+    AC angestellt werden soll
   description: ''
   trigger:
-  - platform: template
+  - platform: state
+    entity_id: binary_sensor.stefan_working_in_office
+    to: 'on'
+  - platform: time
+    at: 09:00:00
+  condition:
+  - condition: template
     value_template: '{{states("sensor.multi_dg_stefan_temperature") | float >= 23}}'
-  condition: []
+  - condition: state
+    entity_id: binary_sensor.stefan_working_in_office
+    state: 'on'
   action:
   - alias: q1 Set up variables for the actions
     variables:
@@ -1070,7 +1079,7 @@
         - action: '{{ action_on }}'
           title: 'On'
         - action: '{{ action_nothing }}'
-          title: No thanks
+          title: 'No thanks'
   - alias: q1 Wait for a response
     wait_for_trigger:
     - platform: event
