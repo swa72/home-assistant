@@ -10,6 +10,7 @@
       - person
       - sensor
       - switch
+      - scenes
     exclude_entity_globs:
       - binary_sensor.boiler*
       - binary_sensor.mixer*
