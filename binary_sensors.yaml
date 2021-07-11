@@ -161,3 +161,18 @@
 - platform: ping
   name: roofac
   host: 192.168.178.44
+- platform: ping
+  name: shelly1_garage
+  host: 192.168.178.59
+- platform: ping
+  name: shelly25_garage
+  host: 192.168.178.89
+- platform: ping
+  name: shellys_keller_pumpe_treppe
+  host: 192.168.178.84
+- platform: ping
+  name: shellys_poolpump
+  host: 192.168.178.26
+- platform: ping
+  name: shellys_wama
+  host: 192.168.178.87

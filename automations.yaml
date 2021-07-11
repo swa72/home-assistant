@@ -63,12 +63,11 @@
   - platform: sun
     event: sunset
     offset: 00:30:00
+  - platform: time
+    at: '21:00'
   condition: []
   action:
-  - service: cover.set_cover_position
-    data:
-      position: 15
-    entity_id: cover.eltern_schlafzimmer
+  - scene: scene.schlafzimmer_abend_sommer
   mode: single
 - id: '1608636183988'
   alias: q3 Notify, wenn Fenster zu lange offen und kalt draussen
@@ -1079,7 +1078,7 @@
         - action: '{{ action_on }}'
           title: 'On'
         - action: '{{ action_nothing }}'
-          title: 'No thanks'
+          title: No thanks
   - alias: q1 Wait for a response
     wait_for_trigger:
     - platform: event
@@ -1165,5 +1164,14 @@
     path: bfranke1973/device_connectivity_notification.yaml
     input:
       message: ' Network connection lost for devices: {{ disconnected_servers }} '
-      server_group: group.servers
+      server_group: group.allesp
+      notify_device: 20e9e482dc45d545dcb6222c8f32454a
+- id: '1626027211313'
+  alias: 'q3 Notify Stefan, wenn major shelly devices nicht verfügbar sind '
+  description: ''
+  use_blueprint:
+    path: bfranke1973/device_connectivity_notification.yaml
+    input:
+      message: ' Network connection lost for devices: {{ disconnected_servers }} '
+      server_group: group.majorshelly
       notify_device: 20e9e482dc45d545dcb6222c8f32454a
