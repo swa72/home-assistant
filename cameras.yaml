@@ -5,3 +5,11 @@
   name: iPhone6_ip_camera
   still_image_url: !secret still_image_url
   mjpeg_url: "http://homeassistant:8081/mjpeg"
+
+#
+#
+#
+- platform: generic
+  name: livingroom
+  still_image_url: "http://192.168.178.75/cgi-bin/api.cgi?cmd=Snap&channel=0&rs=HowToGet&user=admin&password=111111"
+  stream_source: "rtmp://192.168.178.75/bcs/channel0_sub.bcs?channel=0&stream=0&user=admin&password=111111"
