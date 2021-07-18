@@ -667,7 +667,7 @@ turn_on_ac_at_stefans_office:
     target:
       entity_id: climate.roofac
     data:
-      temperature: 24
+      temperature: 26
       hvac_mode: cool
   mode: queued
   max: 10

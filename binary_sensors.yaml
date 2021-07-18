@@ -176,3 +176,11 @@
 - platform: ping
   name: shellys_wama
   host: 192.168.178.87
+
+
+# - platform: rest
+  # resource: http://192.168.178.75/api.cgi?cmd=GetMdState&user=admin&password=xxxxxx
+  # name: livinggenericmotion
+  # scan_interval: 2
+  # value_template: "{{ value_json[0].value.state }}"
+  # device_class: motion

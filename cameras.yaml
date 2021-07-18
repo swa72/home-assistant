@@ -9,7 +9,27 @@
 #
 #
 #
+# - platform: generic
+#  name: livingroom
+#  still_image_url: "http://192.168.178.75/cgi-bin/api.cgi?cmd=Snap&channel=0&rs=HowToGet&user=admin&password=111111"
+#  stream_source: "rtmp://192.168.178.75/bcs/channel0_sub.bcs?channel=0&stream=0&user=admin&password=111111"
+
+# - platform: onvif
+  # host: 192.168.178.75
+  # port: 8000
+  # username: admin
+  # password: 111111
+  # name: livingroom
+  
+  
+# - platform: mjpeg
+  # mjpeg_url: 'rtsp://admin:xxxxxx@192.168.178.75/h264Preview_01_sub'
+  # name: livinggeneric
+
+#
+# below works but has a lag of +7s
+#
 - platform: generic
-  name: livingroom
-  still_image_url: "http://192.168.178.75/cgi-bin/api.cgi?cmd=Snap&channel=0&rs=HowToGet&user=admin&password=111111"
-  stream_source: "rtmp://192.168.178.75/bcs/channel0_sub.bcs?channel=0&stream=0&user=admin&password=111111"
+  stream_source: "rtsp://admin:xxxxxx@192.168.178.75/h264Preview_01_sub"
+  still_image_url: "http://192.168.178.75/cgi-bin/api.cgi?cmd=Snap&channel=0&rs=HowToGet&user=admin&password=xxxxxx"
+  name: livinggeneric
