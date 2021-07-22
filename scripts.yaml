@@ -669,5 +669,4 @@ turn_on_ac_at_stefans_office:
     data:
       temperature: 26
       hvac_mode: cool
-  mode: queued
-  max: 10
+  mode: restart

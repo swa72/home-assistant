@@ -1100,7 +1100,7 @@
       - condition: template
         value_template: '{{ wait.trigger.event.data.action == action_nothing }}'
       sequence:
-  mode: queued
+  mode: restart
   max: 10
 - id: '1621879897477'
   alias: q1 Heating Check HC1
