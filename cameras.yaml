@@ -1,11 +1,17 @@
 #
-#
+# Camera streams provided by motioneye (in MPEG format)
 #
 - platform: mjpeg
   name: iPhone6_ip_camera
   still_image_url: !secret still_image_url
   mjpeg_url: "http://homeassistant:8081/mjpeg"
 
+
+- platform: mjpeg
+  name: melivingroom
+  still_image_url: !secret melivingroom_still_image_url
+  mjpeg_url: "http://homeassistant:8082/mjpeg"
+  
 #
 #
 #
@@ -26,10 +32,10 @@
   # mjpeg_url: 'rtsp://admin:xxxxxx@192.168.178.75/h264Preview_01_sub'
   # name: livinggeneric
 
-#
-# below works but has a lag of +7s
-#
-- platform: generic
-  stream_source: "rtsp://admin:xxxxxx@192.168.178.75/h264Preview_01_sub"
-  still_image_url: "http://192.168.178.75/cgi-bin/api.cgi?cmd=Snap&channel=0&rs=HowToGet&user=admin&password=xxxxxx"
-  name: livinggeneric
+# #
+# # below works but has a lag of +7s
+# #
+# - platform: generic
+  # stream_source: "rtsp://admin:xxxxxx@192.168.178.75/h264Preview_01_sub"
+  # still_image_url: "http://192.168.178.75/cgi-bin/api.cgi?cmd=Snap&channel=0&rs=HowToGet&user=admin&password=xxxxxx"
+  # name: livinggeneric

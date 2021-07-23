@@ -177,10 +177,9 @@
   name: shellys_wama
   host: 192.168.178.87
 
-
-# - platform: rest
-  # resource: http://192.168.178.75/api.cgi?cmd=GetMdState&user=admin&password=xxxxxx
-  # name: livinggenericmotion
-  # scan_interval: 2
-  # value_template: "{{ value_json[0].value.state }}"
-  # device_class: motion
+- platform: rest
+  resource: !secret livingroom_motion_url
+  name: Motion Livingroom
+  scan_interval: 5
+  value_template: "{{ value_json[0].value.state }}"
+  device_class: motion
