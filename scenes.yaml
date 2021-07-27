@@ -61,3 +61,24 @@
       supported_features: 15
       device_class: shutter
       state: open
+- id: '1627366926668'
+  name: Schlafzimmer Halbdunkel
+  entities:
+    cover.shelly25_og_schlafli:
+      current_position: 70
+      friendly_name: shelly25_og_schlafli
+      supported_features: 15
+      device_class: shutter
+      state: open
+    cover.shelly25_og_schlafre:
+      current_position: 70
+      friendly_name: shelly25_og_schlafre
+      supported_features: 15
+      device_class: shutter
+      state: closing
+    cover.shelly25_og_elternbad:
+      current_position: 70
+      friendly_name: shelly25_og_elternbad
+      supported_features: 15
+      device_class: shutter
+      state: open
