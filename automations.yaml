@@ -352,7 +352,7 @@
       message: input_text.swa_alexa_text
       target: input_select.swa_alexa_device
 - id: swa1
-  alias: q1 Notify Stefan, wenn Fritzphone Status wechselt
+  alias: q3 Notify Stefan, wenn Fritzphone Status wechselt
   trigger:
   - platform: state
     entity_id: sensor.fritz_box_7490_call_monitor_telefonbuch
@@ -1100,7 +1100,7 @@
       - condition: template
         value_template: '{{ wait.trigger.event.data.action == action_nothing }}'
       sequence:
-  mode: restart
+  mode: single
   max: 10
 - id: '1621879897477'
   alias: q1 Heating Check HC1

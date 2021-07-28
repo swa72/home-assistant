@@ -20,6 +20,11 @@ alexa_wama_fertig:
       message: Hallo, die Waschmaschine ist fertig.
       data:
         type: tts
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.2
+    target:
+      entity_id: media_player.stefans_echo_dot
   mode: single
 haustur_offnen:
   alias: Haustür öffnen
