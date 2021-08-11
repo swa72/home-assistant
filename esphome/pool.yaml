@@ -1,0 +1,129 @@
+#
+# see https://community.home-assistant.io/t/swimming-pool-chemical-dispenser/205561
+# https://www.atlas-scientific.com/files/pH_EZO_Datasheet.pdf
+# https://atlas-scientific.com/files/Wi-Fi-Pool-kit-setup-guide.pdf
+# 
+substitutions:
+  name: pool
+  friendly_name: ${name}
+
+esphome:
+  name: ${name}
+  platform: ESP8266
+  board: huzzah
+
+wifi:
+  ssid: !secret wlan_name
+  password: !secret wlan_password
+  manual_ip:
+    # set in fritz.box
+    static_ip: 192.168.178.46
+    # Set this to the IP address of the router. Often ends with .1
+    gateway: 192.168.178.1
+    # The subnet of the network. 255.255.255.0 works for most home networks.
+    subnet: 255.255.255.0
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "${friendly_name} hotspot"
+    password: "12345678"
+
+captive_portal:
+
+# Enable logging
+logger:
+  level: DEBUG
+  baud_rate: 0
+
+# Enable Home Assistant API
+api:
+  reboot_timeout: 0s
+
+# Enable OTA updates  
+ota:
+
+# Enable Web server.
+web_server:
+  port: 80
+
+# Sync time with Home Assistant.
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+# Text sensors with general information.
+text_sensor:
+  # Expose ESPHome version as sensor.
+  - platform: version
+    name: ${name} ESPHome Version
+  # Expose WiFi information as sensors.
+  - platform: wifi_info
+    ip_address:
+      name: ${name} IP
+    ssid:
+      name: ${name} SSID
+    bssid:
+      name: ${name} BSSID
+
+# Sensors with general information.
+sensor:
+  # Uptime sensor.
+  - platform: uptime
+    name: ${name} Uptime
+
+  # WiFi Signal sensor.
+  - platform: wifi_signal
+    name: ${name} WiFi Signal
+    update_interval: 60s
+
+  # ezo sensors
+  - platform: ezo
+    name: "${friendly_name}_pH"
+    id: ph_ezo
+    address: 99 # aka 0x63
+    unit_of_measurement: "pH"
+    accuracy_decimals: 2
+    update_interval: 3s
+    
+  - platform: ezo
+    name: "${friendly_name}_orp"
+    id: orp_ezo
+    address: 98 # aka 0x62
+    unit_of_measurement: "mv"
+    accuracy_decimals: 2
+    update_interval: 3s
+
+  - platform: ezo
+    name: "${friendly_name}_temp"
+    id: rtd_ezo
+    address: 102 # aka 0x66, see page 5 on https://atlas-scientific.com/files/Wi-Fi-Pool-kit-setup-guide.pdf
+    accuracy_decimals: 2
+    unit_of_measurement: "°C"
+    update_interval: 3s
+
+i2c:
+    sda: D4
+    scl: D5
+    scan: True
+    
+switch:
+  - platform: gpio
+    pin: 14
+    name: "pH On"
+    inverted: yes  #Makes the ON status turn the pin LOW
+    internal: true  #Hides the switch from Home Assistant so as not to clutter the interface
+    restore_mode: ALWAYS_ON  #Sets the switch status ON at boot
+    
+  - platform: gpio
+    pin: 15
+    name: "Temp On"
+    inverted: no  #This pin needs to be HIGH, so not inverted
+    internal: true #Hides the switch from Home Assistant so as not to clutter the interface
+    restore_mode: ALWAYS_ON  #Sets the switch status ON at boot
+    
+  - platform: gpio
+    pin: 12
+    name: "ORP On"
+    inverted: yes   #Makes the ON status turn the pin LOW
+    internal: true #Hides the switch from Home Assistant so as not to clutter the interface
+    restore_mode: ALWAYS_ON  #Sets the switch status ON at boot
+

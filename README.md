@@ -13,15 +13,19 @@ This file is intended for me to document the quirks I had during setup and for o
 * Router Fritz!Box 7490 with open external ports 443 and 8123 to the Raspberry 4 (no DynDNS on fritz.box)
   * my doorbell is directly hooked up to the Fritzbox
   * Fritzbox has an attached USB stick
-* Raspberry 4 running Home Assistant 2021.1.5
+* Raspberry 4 running more ot less the latest Home Assistant version
   * initially connected thru wifi, later moved to ethernet and directly connected to the Fritzbox
   * conbee USB stick to [manage ZigBee network](README-zigbee.md)
 * [a Buderus Logamax Plus GB192i heating controlled with EMS-ESP](README-heating.md)
 * [a Cyble pulse sensor that reads my gas meter](esphome/README-gas.md)
-* a Mitsubishi Heavy Industries (MHI) air conditioner
+* Mitsubishi Heavy Industries (MHI) air conditioner
   * SRK25ZS-W controlled with ESP8266 (https://github.com/ginkage/MHI-AC-Ctrl-ESPHome)
   * SRK20ZS-W controlled with ESP8266 (https://github.com/ginkage/MHI-AC-Ctrl-ESPHome)
   * Note to myself: compile the yaml file first, then connect the device to the USB port of the X1 to flash it
+* Shelly 2.5 devices control my roller shutters
+* Shelly 1 device controls my garage door
+* Aqara door/windows sensors, connected thru Zigbee
+* Aqara temp/humidity/pressure sensors, connected thru Zigbee
 * Regular backup to ~a samba share~ Google Drive (described below)
 * Regular updates to git (described below)
 * I run a bunch of add-ons, described in the following sections.
