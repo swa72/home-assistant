@@ -118,6 +118,8 @@ influxdb:
       - climate.roofac
       - sensor.roofac_uptime
       - sensor.gas3_uptime
+      - climate.sleepac
+      - sensor.sleepac_uptime
     entity_globs:
       - sensor.boiler*
       - sensor.mixer*

@@ -75,7 +75,7 @@
       friendly_name: shelly25_og_schlafre
       supported_features: 15
       device_class: shutter
-      state: closing
+      state: open
     cover.shelly25_og_elternbad:
       current_position: 70
       friendly_name: shelly25_og_elternbad

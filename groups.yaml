@@ -73,6 +73,7 @@ allesp:
     - binary_sensor.emsesp
     - binary_sensor.gas
     - binary_sensor.roofac
+    - binary_sensor.sleepac
     
 majorshelly:
   name: major shelly devices
