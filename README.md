@@ -26,6 +26,11 @@ This file is intended for me to document the quirks I had during setup and for o
 * Shelly 1 device controls my garage door
 * Aqara door/windows sensors, connected thru Zigbee
 * Aqara temp/humidity/pressure sensors, connected thru Zigbee
+* a Wifi Pool Kit from Atlas Scientific to show pool data (see https://atlas-scientific.com/kits/wi-fi-pool-kit/)
+  * Note to myself for calibration
+	  * flash the arduino image from the X1 Thinkpad, only change Wifi credentials in the code
+		* open serial monitor on COM4 and do the calibration
+		* reflash with ESPHome
 * Regular backup to ~a samba share~ Google Drive (described below)
 * Regular updates to git (described below)
 * I run a bunch of add-ons, described in the following sections.
