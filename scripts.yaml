@@ -698,3 +698,29 @@ turn_on_ac_at_parents_sleeping_room:
       temperature: 24
       hvac_mode: cool
   mode: restart
+run_poolpump_for_1h:
+  sequence:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.shellys_poolpump
+  - delay:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: switch.turn_off
+  mode: single
+  alias: Run poolpump for 1h
+run_poolpump_for_2h:
+  alias: Run poolpump for 2h
+  sequence:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.shellys_poolpump
+  - delay:
+      hours: 2
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: switch.turn_off
+  mode: single
