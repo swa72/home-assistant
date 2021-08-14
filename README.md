@@ -17,10 +17,11 @@ This file is intended for me to document the quirks I had during setup and for o
   * initially connected thru wifi, later moved to ethernet and directly connected to the Fritzbox
   * conbee USB stick to [manage ZigBee network](README-zigbee.md)
 * [a Buderus Logamax Plus GB192i heating controlled with EMS-ESP](README-heating.md)
-* [a Cyble pulse sensor that reads my gas meter](esphome/README-gas.md)
+* [a Cyble pulse sensor that reads my gas meter with an ESP](esphome/README-gas.md)
+  * the same ESP also reads the power meter (see https://smarthome.ms1.de/projekte/stromverbrauch/)
 * Mitsubishi Heavy Industries (MHI) air conditioner
-  * SRK25ZS-W controlled with ESP8266 (https://github.com/ginkage/MHI-AC-Ctrl-ESPHome)
-  * SRK20ZS-W controlled with ESP8266 (https://github.com/ginkage/MHI-AC-Ctrl-ESPHome)
+  * SRK25ZS-W controlled with ESP (https://github.com/ginkage/MHI-AC-Ctrl-ESPHome)
+  * SRK20ZS-W controlled with ESP (https://github.com/ginkage/MHI-AC-Ctrl-ESPHome)
   * Note to myself: compile the yaml file first, then connect the device to the USB port of the X1 to flash it
 * Shelly 2.5 devices control my roller shutters
 * Shelly 1 device controls my garage door

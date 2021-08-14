@@ -157,3 +157,8 @@ utility_meter:
   gasverbrauch_yearly:
     source: sensor.gasverbrauch
     cycle: yearly
+#
+#
+  regen_daily:
+    source: sensor.regen_heute
+    cycle: daily
