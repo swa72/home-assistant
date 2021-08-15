@@ -1121,20 +1121,6 @@
       title: Hinweis
       message: HC1 too warm and offset not -3
   mode: single
-- id: '1622701369307'
-  alias: q3 Notify Stefan, if ems-esp is no longer available
-  description: if thermostat sensor's damped temp does not change for 120min, notify
-    stefan
-  trigger:
-  - platform: state
-    entity_id: sensor.thermostat_damped_outdoor_temperature
-    for: 02:00:00
-  action:
-  - service: notify.mobile_app_swaiphone
-    data_template:
-      message: '{{ trigger.from_state.attributes.friendly_name }} has not updated
-        for 120min'
-  mode: single
 - id: '1623348230796'
   alias: q3 Wenn Nacht, dann lasse Pool Pumpe laufen
   description: ''
@@ -1157,21 +1143,13 @@
     entity_id: switch.shellys_poolpump
     domain: switch
   mode: single
-- id: '1624777071508'
-  alias: q3 Notify Stefan, wenn ESP devices nicht verfügbar sind
-  description: ''
-  use_blueprint:
-    path: bfranke1973/device_connectivity_notification.yaml
-    input:
-      message: ' Network connection lost for devices: {{ disconnected_servers }} '
-      server_group: group.allesp
-      notify_device: 20e9e482dc45d545dcb6222c8f32454a
 - id: '1626027211313'
-  alias: 'q3 Notify Stefan, wenn major shelly devices nicht verfügbar sind '
+  alias: 'q3 Notify Stefan, wenn major shelly und esp devices nicht verfügbar sind '
   description: ''
   use_blueprint:
     path: bfranke1973/device_connectivity_notification.yaml
     input:
-      message: ' Network connection lost for devices: {{ disconnected_servers }} '
-      server_group: group.majorshelly
+      message: ' Hint: network connection lost for devices: {{ disconnected_servers
+        }} '
       notify_device: 20e9e482dc45d545dcb6222c8f32454a
+      server_group: group.servers

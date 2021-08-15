@@ -66,19 +66,14 @@ oeffnungen:
   - group.fenster
   - group.tueren
   
-allesp:
-  name: all esp devices
+servers:
+  name: all major esp and shelly devices
   all: true
   entities:
     - binary_sensor.emsesp
     - binary_sensor.gas
     - binary_sensor.roofac
     - binary_sensor.sleepac
-    
-majorshelly:
-  name: major shelly devices
-  all: true
-  entities:
     - binary_sensor.shelly1_garage
     - binary_sensor.shelly25_garage
     - binary_sensor.shellys_keller_pumpe_treppe

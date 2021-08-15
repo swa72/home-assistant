@@ -120,6 +120,7 @@ influxdb:
       - sensor.gas3_uptime
       - climate.sleepac
       - sensor.sleepac_uptime
+      - sensor.regen_heute
     entity_globs:
       - sensor.boiler*
       - sensor.mixer*

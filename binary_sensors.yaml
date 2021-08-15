@@ -176,7 +176,10 @@
 - platform: ping
   name: shellys_wama
   host: 192.168.178.87
-
+- platform: ping
+  name: sleepac
+  host: 192.168.178.45
+  
 - platform: rest
   resource: !secret livingroom_motion_url
   name: Motion Livingroom

@@ -399,3 +399,21 @@
         {% else %}
           ok
         {% endif %}
+
+#
+# dew point calculations for basement
+#
+# see https://bmcnoldy.rsmas.miami.edu/Humidity.html
+#
+- platform: template
+  sensors:
+    rel_humidity:
+      friendly_name: "Relative humidity outside based one met.no"
+      unit_of_measurement: '%'
+      value_template: "{{ state_attr('weather.home', 'humidity') }}"
+    dewpoint_outside:
+      unit_of_measurement: '°C'
+      value_template: "{{ (243.04*(log(states('sensor.rel_humidity')|float/100)+((17.625*states('sensor.thermostat_damped_outdoor_temperature')|float)/(243.04+states('sensor.thermostat_damped_outdoor_temperature')|float)))/(17.625-log(states('sensor.rel_humidity')|float/100)-((17.625*states('sensor.thermostat_damped_outdoor_temperature')|float)/(243.04+states('sensor.thermostat_damped_outdoor_temperature')|float))))|round(2) }}"
+    dewpoint_basement:
+      unit_of_measurement: '°C'
+      value_template: "{{ (243.04*(log(states('sensor.multi_og_konstantin_humidity')|float/100)+((17.625*states('sensor.multi_og_konstantin_temperature')|float)/(243.04+states('sensor.multi_og_konstantin_temperature')|float)))/(17.625-log(states('sensor.multi_og_konstantin_humidity')|float/100)-((17.625*states('sensor.multi_og_konstantin_temperature')|float)/(243.04+states('sensor.multi_og_konstantin_temperature')|float))))|round(2) }}"
