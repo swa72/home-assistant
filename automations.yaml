@@ -1153,3 +1153,39 @@
         }} '
       notify_device: 20e9e482dc45d545dcb6222c8f32454a
       server_group: group.servers
+- id: '1629132214307'
+  alias: q3 Notify stefan fenster im keller oeffnen
+  description: ''
+  trigger:
+  - platform: time_pattern
+    hours: /1
+    minutes: '1'
+  condition:
+  - condition: template
+    value_template: '{{ states.sensor.dewpoint_basement.state|float > states.sensor.dewpoint_outside.state|float
+      }}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Hinweis
+      message: Luft aus Keller herauslassen. Luftfeuchtigkeit ist {{ states.sensor.multi_og_konstantin_humidity.state
+        }}%. Taupunkt draußen geringer als im Keller.
+  mode: single
+- id: '1629133352100'
+  alias: q3 Notify stefan fenster im keller schliessen
+  description: ''
+  trigger:
+  - platform: time_pattern
+    hours: /1
+    minutes: '2'
+  condition:
+  - condition: template
+    value_template: '{{ states.sensor.dewpoint_basement.state|float < states.sensor.dewpoint_outside.state|float
+      }}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Hinweis
+      message: Kellerfenster schlie0en. Luftfeuchtigkeit ist {{ states.sensor.multi_og_konstantin_humidity.state
+        }}%. Taupunkt draußen höher als im Keller.
+  mode: single
