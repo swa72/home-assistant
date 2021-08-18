@@ -416,11 +416,11 @@
       value_template: "{{ (243.04*(log(states('sensor.rel_humidity')|float/100)+((17.625*states('sensor.thermostat_damped_outdoor_temperature')|float)/(243.04+states('sensor.thermostat_damped_outdoor_temperature')|float)))/(17.625-log(states('sensor.rel_humidity')|float/100)-((17.625*states('sensor.thermostat_damped_outdoor_temperature')|float)/(243.04+states('sensor.thermostat_damped_outdoor_temperature')|float))))|round(2) }}"
     dewpoint_basement:
       unit_of_measurement: '°C'
-      value_template: "{{ (243.04*(log(states('sensor.multi_og_konstantin_humidity')|float/100)+((17.625*states('sensor.multi_og_konstantin_temperature')|float)/(243.04+states('sensor.multi_og_konstantin_temperature')|float)))/(17.625-log(states('sensor.multi_og_konstantin_humidity')|float/100)-((17.625*states('sensor.multi_og_konstantin_temperature')|float)/(243.04+states('sensor.multi_og_konstantin_temperature')|float))))|round(2) }}"
+      value_template: "{{ (243.04*(log(states('sensor.multi_keller_gross_humidity')|float/100)+((17.625*states('sensor.multi_og_konstantin_temperature')|float)/(243.04+states('sensor.multi_og_konstantin_temperature')|float)))/(17.625-log(states('sensor.multi_keller_gross_humidity')|float/100)-((17.625*states('sensor.multi_og_konstantin_temperature')|float)/(243.04+states('sensor.multi_og_konstantin_temperature')|float))))|round(2) }}"
     dew_delta_ok:
       value_template: "{{ states('sensor.dewpoint_basement')|float - states('sensor.dewpoint_outside')|float > states('input_number.dew_delta')|float }}"
     dew_humidity_ok:
-      value_template: "{{ states('sensor.multi_og_konstantin_humidity')|float > states('input_number.dew_humidity_no_fan')|float }} "
+      value_template: "{{ states('sensor.multi_keller_gross_humidity')|float > states('input_number.dew_humidity_no_fan')|float }} "
     dew_temp_ok:
       value_template: "{{ states('sensor.multi_og_konstantin_temperature')|float > states('input_number.dew_temp_no_fan')|float }} "
     dew_runfan:
