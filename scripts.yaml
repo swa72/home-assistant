@@ -709,6 +709,8 @@ run_poolpump_for_1h:
       seconds: 0
       milliseconds: 0
   - service: switch.turn_off
+    target:
+      entity_id: switch.shellys_poolpump
   mode: single
   alias: Run poolpump for 1h
 run_poolpump_for_2h:
@@ -723,4 +725,6 @@ run_poolpump_for_2h:
       seconds: 0
       milliseconds: 0
   - service: switch.turn_off
+    target:
+      entity_id: switch.shellys_poolpump
   mode: single

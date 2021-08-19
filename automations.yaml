@@ -1168,7 +1168,7 @@
   - service: script.notify_stefan
     data:
       title: Hinweis
-      message: Luft aus Keller herauslassen. Luftfeuchtigkeit ist {{ states.sensor.multi_og_konstantin_humidity.state
+      message: Luft aus Keller herauslassen. Luftfeuchtigkeit ist {{ states.sensor.multi_keller_gross_humidity.state
         }}%. Taupunkt draußen geringer als im Keller.
   mode: single
 - id: '1629133352100'
@@ -1186,6 +1186,6 @@
   - service: script.notify_stefan
     data:
       title: Hinweis
-      message: Kellerfenster schlie0en. Luftfeuchtigkeit ist {{ states.sensor.multi_og_konstantin_humidity.state
+      message: Kellerfenster schlie0en. Luftfeuchtigkeit ist {{ states.sensor.multi_keller_gross_humidity.state
         }}%. Taupunkt draußen höher als im Keller.
   mode: single
