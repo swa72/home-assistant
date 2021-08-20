@@ -728,3 +728,18 @@ run_poolpump_for_2h:
     target:
       entity_id: switch.shellys_poolpump
   mode: single
+run_lufter_for_2h:
+  alias: Run Luefter1 for 2h
+  sequence:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.shellys_keller_luefter1
+  - delay:
+      hours: 2
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: switch.turn_off
+    target:
+      entity_id: switch.shellys_keller_luefter1
+  mode: single
