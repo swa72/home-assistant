@@ -5,7 +5,7 @@ In a first step Home assistant calculates internal and external dew points ([con
 * temperature and rel. humidity supplied from an Aqara Zigbee sensor in the basement and
 * outside temperature from my heating and rel. humidity supplied from `weather.home`
 
-The following sensors do the calculation for the outside dewpoint:
+The following sensors do the calculation for outside dewpoint:
 
 ```
 - platform: template
@@ -28,8 +28,8 @@ The following sensors do the calculation for the outside dewpoint:
 ```
 
 In a second step some rules (configurable in the UI) decide whether to run the fans or not.
-* run the fans if outside dewpoint is `input_number.dew_delta`°C below dewpoint in basement
-* run the fans for `input_number.dew_duration_fan` minutes
+* run fans if outside dewpoint is `input_number.dew_delta`°C below dewpoint in basement
+* run fans for `input_number.dew_duration_fan` minutes
 * after a run, wait for `input_number.dew_fan_wait` minutes
 * do not run fans if rel. humidity in basement is less than `input_number.dew_humidity_no_fan`%
 * do not run fans if temperature in basement is less than `input_number.dew_temp_no_fan` °C

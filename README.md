@@ -23,6 +23,7 @@ This file is intended for me to document the quirks I had during setup and for o
   * SRK25ZS-W controlled with ESP (https://github.com/ginkage/MHI-AC-Ctrl-ESPHome)
   * SRK20ZS-W controlled with ESP (https://github.com/ginkage/MHI-AC-Ctrl-ESPHome)
   * Note to myself: compile the yaml file first, then connect the device to the USB port of the X1 to flash it
+* two fans to keep my basement dry (sort of), [controlled by dew point](README-basement.md)
 * Shelly 2.5 devices control my roller shutters
 * Shelly 1 device controls my garage door
 * Aqara door/windows sensors, connected thru Zigbee
