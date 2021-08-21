@@ -408,21 +408,121 @@
 - platform: template
   sensors:
     rel_humidity:
-      friendly_name: "Relative humidity outside based one met.no"
+      friendly_name: "Relative humidity outside based on met.no"
       unit_of_measurement: '%'
       value_template: "{{ state_attr('weather.home', 'humidity') }}"
     dewpoint_outside:
       unit_of_measurement: '°C'
-      value_template: "{{ (243.04*(log(states('sensor.rel_humidity')|float/100)+((17.625*states('sensor.thermostat_damped_outdoor_temperature')|float)/(243.04+states('sensor.thermostat_damped_outdoor_temperature')|float)))/(17.625-log(states('sensor.rel_humidity')|float/100)-((17.625*states('sensor.thermostat_damped_outdoor_temperature')|float)/(243.04+states('sensor.thermostat_damped_outdoor_temperature')|float))))|round(2) }}"
+      value_template: >-
+       {% set h, t = states('sensor.rel_humidity') | float, states('sensor.thermostat_damped_outdoor_temperature') %}
+       {% if not h or t == 'unknown' -%}
+        'unknown'
+       {%- else %}
+       {% set t = t | float %}
+       {% set h = h | float %}
+       {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
+       {% endif %}
     dewpoint_basement:
       unit_of_measurement: '°C'
-      value_template: "{{ (243.04*(log(states('sensor.multi_keller_gross_humidity')|float/100)+((17.625*states('sensor.multi_og_konstantin_temperature')|float)/(243.04+states('sensor.multi_og_konstantin_temperature')|float)))/(17.625-log(states('sensor.multi_keller_gross_humidity')|float/100)-((17.625*states('sensor.multi_og_konstantin_temperature')|float)/(243.04+states('sensor.multi_og_konstantin_temperature')|float))))|round(2) }}"
+      value_template: >-
+       {% set h, t = states('sensor.multi_keller_gross_humidity') | float, states('sensor.multi_keller_gross_temperature') %}
+       {% if not h or t == 'unknown' -%}
+        'unknown'
+       {%- else %}
+       {% set t = t | float %}
+       {% set h = h | float %}
+       {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
+       {% endif %}
     dew_delta_ok:
       value_template: "{{ states('sensor.dewpoint_basement')|float - states('sensor.dewpoint_outside')|float > states('input_number.dew_delta')|float }}"
     dew_humidity_ok:
-      value_template: "{{ states('sensor.multi_keller_gross_humidity')|float > states('input_number.dew_humidity_no_fan')|float }} "
+      value_template: "{{ states('sensor.multi_keller_gross_humidity')|float > states('input_number.dew_humidity_no_fan')|float }}"
     dew_temp_ok:
-      value_template: "{{ states('sensor.multi_og_konstantin_temperature')|float > states('input_number.dew_temp_no_fan')|float }} "
+      value_template: "{{ states('sensor.multi_og_konstantin_temperature')|float > states('input_number.dew_temp_no_fan')|float }}"
     dew_runfan:
       value_template: "{{ states('sensor.dew_delta_ok') == 'True' and states('sensor.dew_humidity_ok') == 'True' and states('sensor.dew_temp_ok') == 'True' }}"
-      
+    hum_abs_basement:
+      value_template: >-
+        {% set h, t = states('sensor.multi_keller_gross_humidity') | float, states('sensor.multi_keller_gross_temperature') %}
+        {% if not h or t == 'unknown' -%}
+          'unknown'
+        {%- else %}
+        {% set t = t | float %}
+        {{ (h*6.112*2.1674*e**((t*17.67)/(t+243.5))/(t+273.15))|round(2) }}
+        {% endif %}
+      unit_of_measurement: 'g/m³'
+      friendly_name: 'Absolute humidity basement'
+    dew_difference:
+      unit_of_measurement: '°C'
+      value_template: "{{ (states('sensor.dewpoint_basement')|float - states('sensor.dewpoint_outside')|float) | round(2) }}"
+#
+#
+#
+    dew_eg_buro:
+      unit_of_measurement: '°C'
+      value_template: >-
+       {% set h, t = states('sensor.multi_eg_buro_humidity') | float, states('sensor.multi_eg_buro_temperature') %}
+       {% if not h or t == 'unknown' -%}
+        'unknown'
+       {%- else %}
+       {% set t = t | float %}
+       {% set h = h | float %}
+       {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
+       {% endif %}
+    dew_og_schlaf:
+      unit_of_measurement: '°C'
+      value_template: >-
+       {% set h, t = states('sensor.multi_og_schlaf_humidity') | float, states('sensor.multi_og_schlaf_temperature') %}
+       {% if not h or t == 'unknown' -%}
+        'unknown'
+       {%- else %}
+       {% set t = t | float %}
+       {% set h = h | float %}
+       {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
+       {% endif %}
+    dew_og_elternbad:
+      unit_of_measurement: '°C'
+      value_template: >-
+       {% set h, t = states('sensor.multi_og_elternbad_humidity') | float, states('sensor.multi_og_elternbad_temperature') %}
+       {% if not h or t == 'unknown' -%}
+        'unknown'
+       {%- else %}
+       {% set t = t | float %}
+       {% set h = h | float %}
+       {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
+       {% endif %}
+    dew_og_konstantin:
+      unit_of_measurement: '°C'
+      value_template: >-
+       {% set h, t = states('sensor.multi_og_konstantin_humidity') | float, states('sensor.multi_og_konstantin_temperature') %}
+       {% if not h or t == 'unknown' -%}
+        'unknown'
+       {%- else %}
+       {% set t = t | float %}
+       {% set h = h | float %}
+       {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
+       {% endif %}
+    dew_og_clara:
+      unit_of_measurement: '°C'
+      value_template: >-
+       {% set h, t = states('sensor.multi_og_clara_humidity') | float, states('sensor.multi_og_clara_temperature') %}
+       {% if not h or t == 'unknown' -%}
+        'unknown'
+       {%- else %}
+       {% set t = t | float %}
+       {% set h = h | float %}
+       {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
+       {% endif %}
+#
+#
+#    
+    dew_eg_buro_open_window:
+      value_template: "{{ states('sensor.dewpoint_outside')|float < states('sensor.dew_eg_buro')|float }}"
+    dew_og_schlaf_open_window:
+      value_template: "{{ states('sensor.dewpoint_outside')|float < states('sensor.dew_og_schlaf')|float }}"
+    dew_og_elternbad_open_window:
+      value_template: "{{ states('sensor.dewpoint_outside')|float < states('sensor.dew_og_elternbad')|float }}"
+    dew_og_konstantin_open_window:
+      value_template: "{{ states('sensor.dewpoint_outside')|float < states('sensor.dew_og_konstantin')|float }}"      
+    dew_og_clara_open_window:
+      value_template: "{{ states('sensor.dewpoint_outside')|float < states('sensor.dew_og_clara')|float }}"
