@@ -1,6 +1,14 @@
 ## How to dry the basement using Home Assistant
 Basic idea is to dry the basement using fans that exchange humid air in the basement with dry air from the outside.
 
+# BOM
+* Shelly Plug-S (ca. 17 EUR)
+* Aqara temperature and humidity sensor (ca. 17 EUR or cheaper on aliexpress and the like)
+* Vortice VARIO 150/6“ AR Q vent (ca. 110 EUR) to blow air in
+* Vortice VARIO 230/9“ AR Q vent (ca. 210 EUR) to blow air out
+* power cables for the two fans
+
+# Configuration in HA
 In a first step Home assistant calculates internal and external dew points ([conversion help](https://bmcnoldy.rsmas.miami.edu/Humidity.html)) based on 
 * temperature and rel. humidity supplied from an Aqara Zigbee sensor in the basement and
 * outside temperature from my heating and rel. humidity supplied from `weather.home`
