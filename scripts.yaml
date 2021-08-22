@@ -745,34 +745,33 @@ run_lufter_for_2h:
   mode: single
 dehumidify_basement:
   sequence:
+  - service: notify.mobile_app_swaiphone
+    data:
+      title: Notification
+      message: Running dehumidify_basement script
   - repeat:
       while:
       - condition: state
         entity_id: sensor.dew_runfan
         state: 'True'
       - condition: template
-        value_template: '{{ repeat.index <= 2 }}'
+        value_template: '{{ repeat.index <= 99 }}'
       sequence:
       - service: notify.mobile_app_swaiphone
         data:
           title: Notification
-          message: Running de-humidify script {{ repeat.index }}
+          message: Running fans, run {{ repeat.index }}
+      - service: counter.increment
+        target:
+          entity_id: counter.dew_fans          
       - service: switch.turn_on
         target:
           entity_id: switch.shellys_keller_luefter1
       - delay: '{{ states(''input_number.dew_duration_fan'') | multiply(60) | int
           }}'
-      - service: notify.mobile_app_swaiphone
-        data:
-          title: Notification
-          message: Fan ran for {{ states('input_number.dew_duration_fan') }} minutes
       - service: switch.turn_off
         target:
           entity_id: switch.shellys_keller_luefter1
       - delay: '{{ states(''input_number.dew_fan_wait'') | multiply(60) | int }}'
-      - service: notify.mobile_app_swaiphone
-        data:
-          title: Notification
-          message: Fan paused for {{ states('input_number.dew_fan_wait') }} minutes
   mode: single
   alias: De-humidify basement

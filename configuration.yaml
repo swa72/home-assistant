@@ -115,12 +115,15 @@ influxdb:
       - sensor.swaweathermetno_templow
       - sensor.swaweathermetno_temphigh
       - counter.kellerpumpe
+      - counter.dew_fans
       - climate.roofac
       - sensor.roofac_uptime
       - sensor.gas3_uptime
       - climate.sleepac
       - sensor.sleepac_uptime
       - sensor.regen_heute
+      - sensor.rel_humidity
+      - sensor.hum_abs_basement
     entity_globs:
       - sensor.boiler*
       - sensor.mixer*
@@ -128,6 +131,7 @@ influxdb:
       - sensor.solar*
       - sensor.accuweather*
       - sensor.multi*
+      - sensor.dew*
       - sensor.heating*
       - sensor.gasverbrauch*
       - binary_sensor.boiler*
@@ -140,6 +144,10 @@ counter:
       initial: 0
       step: 1
       icon: mdi:water-pump
+    dew_fans:
+      initial: 0
+      step: 1
+      icon: mdi:fan
 #
 #
 utility_meter:
