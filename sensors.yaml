@@ -526,3 +526,7 @@
       value_template: "{{ states('sensor.dewpoint_outside')|float < states('sensor.dew_og_konstantin')|float }}"      
     dew_og_clara_open_window:
       value_template: "{{ states('sensor.dewpoint_outside')|float < states('sensor.dew_og_clara')|float }}"
+#
+#
+    dew_monitoring_runing:
+      value_template: "{{'running' if is_state('script.dehumidify_basement', 'on') else 'not running'}}"
