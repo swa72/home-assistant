@@ -61,7 +61,7 @@ dew_delta_ok:
 dew_humidity_ok:
   value_template: "{{ states('sensor.multi_keller_gross_humidity')|float > states('input_number.dew_humidity_no_fan')|float }}"
 dew_temp_ok:
-  value_template: "{{ states('sensor.multi_og_konstantin_temperature')|float > states('input_number.dew_temp_no_fan')|float }}"
+  value_template: "{{ states('sensor.multi_keller_gross_temperature')|float > states('input_number.dew_temp_no_fan')|float }}"
 dew_runfan:
   value_template: "{{ states('sensor.dew_delta_ok') == 'True' and states('sensor.dew_humidity_ok') == 'True' and states('sensor.dew_temp_ok') == 'True' }}"
 ``` 
