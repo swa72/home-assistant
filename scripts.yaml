@@ -754,8 +754,6 @@ dehumidify_basement:
       - condition: state
         entity_id: sensor.dew_runfan
         state: 'True'
-      - condition: template
-        value_template: '{{ repeat.index <= 99 }}'
       sequence:
       - service: notify.mobile_app_swaiphone
         data:
@@ -763,7 +761,7 @@ dehumidify_basement:
           message: Running fans, run {{ repeat.index }}
       - service: counter.increment
         target:
-          entity_id: counter.dew_fans          
+          entity_id: counter.dew_fans
       - service: switch.turn_on
         target:
           entity_id: switch.shellys_keller_luefter1

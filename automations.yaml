@@ -1206,3 +1206,15 @@
       message: HA started.
   - service: script.dehumidify_basement
   mode: single
+- id: '1629920509114'
+  alias: Start de-humidify
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.dew_runfan
+    from: 'False'
+    to: 'True'
+  condition: []
+  action:
+  - service: script.dehumidify_basement
+  mode: single
