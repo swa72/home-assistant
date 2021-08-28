@@ -1,0 +1,40 @@
+dew_humidity_no_fan:
+  min: 40.0
+  max: 70.0
+  name: dew_humidity_no_fan
+  step: 5.0
+  unit_of_measurement: "%"
+  mode: slider
+  initial: 45
+dew_temp_no_fan:
+  min: 0.0
+  max: 15.0
+  name: dew_temp_no_fan
+  step: 1.0
+  unit_of_measurement: "\u00b0C"
+  mode: slider
+  initial: 8
+dew_delta:
+  min: 0.0
+  max: 5.0
+  name: dew_delta
+  step: 1.0
+  unit_of_measurement: "\u00b0C"
+  mode: slider
+  initial: 2
+dew_duration_fan:
+  min: 5.0
+  max: 60.0
+  name: dew_duration_fan
+  step: 1.0
+  unit_of_measurement: "min"
+  mode: slider
+  initial: 15
+dew_fan_wait:
+  min: 30.0
+  max: 90.0
+  name: dew_fan_wait
+  step: 5.0
+  unit_of_measurement: "min"
+  mode: slider
+  initial: 45

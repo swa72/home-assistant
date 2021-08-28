@@ -79,6 +79,7 @@ camera: !include cameras.yaml
 input_boolean: !include input_booleans.yaml
 binary_sensor: !include binary_sensors.yaml
 rest_command: !include rest_commands.yaml
+
 #
 #
 recorder:

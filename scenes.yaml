@@ -1,5 +1,5 @@
 - id: '1624801556496'
-  name: Schlafzimmer Winterabend
+  name: SZ Winterabend
   entities:
     cover.shelly25_og_schlafli:
       current_position: 15
@@ -20,7 +20,7 @@
       device_class: shutter
       state: open
 - id: '1624801840793'
-  name: Schlafzimmer Sommerabend
+  name: SZ Sommerabend
   entities:
     cover.shelly25_og_schlafli:
       current_position: 40
@@ -33,15 +33,15 @@
       friendly_name: shelly25_og_schlafre
       supported_features: 15
       device_class: shutter
-      state: open
+      state: closing
     cover.shelly25_og_elternbad:
       current_position: 40
       friendly_name: shelly25_og_elternbad
       supported_features: 15
       device_class: shutter
-      state: open
+      state: closing
 - id: '1625813386483'
-  name: Schlafzimmer Morgen
+  name: SZ Morgen
   entities:
     cover.shelly25_og_schlafli:
       current_position: 100
@@ -62,7 +62,7 @@
       device_class: shutter
       state: open
 - id: '1627366926668'
-  name: Schlafzimmer Halbdunkel
+  name: SZ Halbdunkel
   entities:
     cover.shelly25_og_schlafli:
       current_position: 70
