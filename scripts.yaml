@@ -664,7 +664,11 @@ deconz_removed_orphaned:
   mode: single
 notify_stefan_heating:
   alias: Notify stefan heating
-  sequence: []
+  sequence:
+  - service: notify.mobile_app_swaiphone
+    data:
+      title: '{{ title }}'
+      message: '{{ message }}'
   mode: queued
   max: 10
 turn_on_ac_at_stefans_office:
