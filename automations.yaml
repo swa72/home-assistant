@@ -57,17 +57,54 @@
       title: Custom subject
   mode: single
 - id: '1608633463304'
-  alias: q3 Wenn nach Sonnenuntergang, dann Rolladen runter im Schlafzimmer
-  description: ''
+  alias: Rolladen Schlafzimmer
+  description: Rolladensteuerung Schlafzimmer zeitgesteuert Wochentags/Wochenende
   trigger:
+  - platform: time
+    at: 07:45:00
+    id: morgens-wochentag
+  - platform: time
+    at: 09:00:00
+    id: morgens-wochenende
   - platform: sun
     event: sunset
     offset: 00:30:00
+    id: abends1
   - platform: time
     at: '21:00'
+    id: abends2
   condition: []
   action:
-  - scene: scene.schlafzimmer_abend_sommer
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: abends1
+      - condition: trigger
+        id: abends2
+      sequence:
+      - scene: scene.schlafzimmer_abend_sommer
+    - conditions:
+      - condition: trigger
+        id: morgens-wochentag
+      - condition: time
+        weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+      sequence:
+      - scene: scene.schlafzimmer_morgen
+    - conditions:
+      - condition: trigger
+        id: morgens-wochenende
+      - condition: time
+        weekday:
+        - sat
+        - sun
+      sequence:
+      - scene: scene.schlafzimmer_morgen
+    default: []
   mode: single
 - id: '1608636183988'
   alias: q3 Notify, wenn Fenster zu lange offen und kalt draussen
@@ -1067,6 +1104,8 @@
   - condition: state
     entity_id: binary_sensor.stefan_working_in_office
     state: 'on'
+  - condition: template
+    value_template: '{{ is_state(''script.turn_on_ac_at_stefans_office'', ''off'')  }}'
   action:
   - alias: q1 Set up variables for the actions
     variables:
@@ -1214,7 +1253,9 @@
     entity_id: sensor.dew_runfan
     from: 'False'
     to: 'True'
-  condition: []
+  condition:
+  - condition: template
+    value_template: '{{ is_state(''script.dehumidify_basement'', ''off'')  }}'
   action:
   - service: script.dehumidify_basement
   mode: single
@@ -1462,4 +1503,60 @@
     data:
       value: '{{ state_attr(''weather.home'', ''forecast'')[0].temperature | float
         }}'
+  mode: single
+- id: '1630944728318'
+  alias: Rolladen Clara
+  description: Rolladensteuerung Clara zeitgesteuert Wochentags/Wochenende
+  trigger:
+  - platform: time
+    at: 08:00:00
+    id: morgens-wochentag
+  - platform: time
+    at: 09:00:00
+    id: morgens-wochenende
+  - platform: time
+    id: abends
+    at: '19:45:00'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: morgens-wochentag
+      - condition: time
+        weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+      sequence:
+      - service: cover.set_cover_position
+        data:
+          position: 100
+        target:
+          entity_id: cover.shelly25_og_clara
+    - conditions:
+      - condition: trigger
+        id: morgens-wochenende
+      - condition: time
+        weekday:
+        - sat
+        - sun
+      sequence:
+      - service: cover.set_cover_position
+        data:
+          position: 100
+        target:
+          entity_id: cover.shelly25_og_clara
+    - conditions:
+      - condition: trigger
+        id: abends
+      sequence:
+      - service: cover.set_cover_position
+        target:
+          entity_id: cover.shelly25_og_clara
+        data:
+          position: 5
+    default: []
   mode: single

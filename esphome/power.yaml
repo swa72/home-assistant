@@ -7,6 +7,7 @@ substitutions:
   # imp/kWh rate #
   pulse_rate: '5000'
   pulse_pin: GPIO12
+  status_led: GPIO5
 
 esphome:
   name: ${name}
@@ -14,6 +15,7 @@ esphome:
   board: esp-wrover-kit
 
 wifi:
+  use_address: 192.168.178.42
   ssid: !secret wlan_name
   password: !secret wlan_password
 
@@ -21,25 +23,26 @@ wifi:
   ap:
     ssid: "${friendly_name} hotspot"
     password: "12345678"
-
+#
 captive_portal:
 
 # Enable logging
 logger:
-  # ESP8266 only - disable serial port logging, as the HeatPump component
-  # needs the sole hardware UART on the ESP8266
-  # baud_rate: 0
 
 # Enable Home Assistant API
 api:
 
+# over-the-air updates
 ota:
+  safe_mode: true
+  reboot_timeout: 10min
+  num_attempts: 5
 
 # Enable Web server.
 web_server:
   port: 80
 
-  # Sync time with Home Assistant.
+# Sync time with Home Assistant.
 time:
   - platform: homeassistant
     id: homeassistant_time
@@ -57,6 +60,32 @@ text_sensor:
       name: ${name} SSID
     bssid:
       name: ${name} BSSID
+      
+#
+output:
+  # - platform: gpio
+  #   pin: GPIO5
+  #   id: output_blue
+  - platform: gpio
+    pin: GPIO2
+    id: output_red
+  - platform: gpio
+    pin: GPIO4
+    id: output_green
+
+#
+light:
+  - platform: binary
+    internal: true
+    id: led_red
+    name: Red
+    output: output_red
+
+# Status LED for connection
+status_led:
+  pin:
+    # Blue LED
+    number: ${status_led}
 
 # Sensors with general information.
 sensor:
@@ -69,21 +98,27 @@ sensor:
     name: ${name} WiFi Signal
     update_interval: 60s
 
-# power meter
   - platform: pulse_meter
-    name: 'Power - Power consumption'
+    name: '${friendly_name} - Power consumption'
     unit_of_measurement: 'W'
     state_class: measurement
     device_class: power
     icon: mdi:flash-outline
     accuracy_decimals: 0
     pin: ${pulse_pin}
+    on_value:
+      then:
+        - light.turn_on:
+            id: led_red
+        - delay: 0.5s
+        - light.turn_off:
+            id: led_red
     filters:
       # multiply value = (60 / imp value) * 1000
       # - multiply: 60
       - lambda: return x * ((60.0 / ${pulse_rate}) * 1000.0);
     total:
-      name: 'Power - Total energy'
+      name: '${friendly_name} - Total energy'
       unit_of_measurement: 'kWh'
       icon: mdi:circle-slice-3
       last_reset_type: auto

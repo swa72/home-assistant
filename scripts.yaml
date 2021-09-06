@@ -777,3 +777,8 @@ dehumidify_basement:
       - delay: '{{ states(''input_number.dew_fan_wait'') | multiply(60) | int }}'
   mode: single
   alias: De-humidify basement
+restart_icloud3:
+  sequence:
+  - service: device_tracker.icloud3_restart
+  mode: single
+  alias: Restart icloud3
