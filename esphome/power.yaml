@@ -15,7 +15,6 @@ esphome:
   board: esp-wrover-kit
 
 wifi:
-  use_address: 192.168.178.42
   ssid: !secret wlan_name
   password: !secret wlan_password
 
