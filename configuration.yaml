@@ -88,6 +88,12 @@ recorder:
   exclude:
     entity_globs:
       - sensor.adguard*
+      - binary_sensor.*overheating
+      - binary_sensor.*overpowering
+      - device_tracker.*
+      - sensor.iphone*
+      - sensor.fritz*
+      - sensor.system*
     entities:
       - sensor.icloud3_event_log
       - sensor.swaiphone_info
