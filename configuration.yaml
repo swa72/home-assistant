@@ -92,8 +92,13 @@ recorder:
       - binary_sensor.*overpowering
       - device_tracker.*
       - sensor.iphone*
+      - sensor.jphone*
+      - sensor.stefans_ipad*
+      - sensor.swaiphone*
+      - sensor.thermostat_date*
       - sensor.fritz*
       - sensor.system*
+      - switch.adguard*
     entities:
       - sensor.icloud3_event_log
       - sensor.swaiphone_info
