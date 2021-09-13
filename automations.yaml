@@ -835,6 +835,26 @@
     data:
       value: '{{ state_attr(''weather.home'', ''forecast'')[0].temperature | float
         }}'
+  - condition: state
+    entity_id: sensor.heating_warmnextday
+    state: warm
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-3, "id":1}'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-3, "id":2}'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-3, "id":3}'
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: Tomorrow will be warm. Offsets -3. If temp at night below 17, heating
+        will still be off.
   mode: single
 - id: '1630944728318'
   alias: Rolladen Clara

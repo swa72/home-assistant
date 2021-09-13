@@ -326,17 +326,14 @@
 #
 - platform: template
   sensors:
-    heating_toowarmoutside:
+    heating_warmnextday:
       friendly_name: "Heating: too sunny/warm outside"
       value_template: >-
-        {% set p0 = states('sensor.heating_hc1') == "ok" %}
-        {% set p1 = states('sensor.heating_hc1') == "too-warm" %}
+        {% set p1 = states('sensor.thermostat_damped_outdoor_temperature') | float >= 0.0 %}
         {% set p2 = states('input_text.heating_forecast_condition') == "sunny" %}
-        {% set p3 = states('sensor.thermostat_damped_outdoor_temperature') | float >= 0.0 %}
-        {% set p4 = states('input_number.heating_forecast_temperature')| float >= 20.0 %}
-        {% set p5 = states('sensor.heating_daytime') == "true" %}
-        {% if (p1 or p2) and (p2 or p4) and p3 and (p5) %}
-          too-warm
+        {% set p3 = states('input_number.heating_forecast_temperature')| float >= 20.0 %}
+        {% if (p1) and (p2 or p3) %}
+          warm
         {% else %}
           ok
         {% endif %}

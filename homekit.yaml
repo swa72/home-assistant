@@ -51,6 +51,8 @@
       - light.ikea_repeater*
       - switch.one_time_water
       - switch.shelly25_garage*
+      - switch.fritz_box*
+      - binary_sensor.internetgateway*
     exclude_entities:
       - binary_sensor.abend_eg_wohnzimmer_tuer_zu
       - binary_sensor.camera1_motion
