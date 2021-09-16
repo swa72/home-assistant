@@ -853,9 +853,9 @@
   - service: script.notify_stefan_heating
     data:
       title: Heating
-      message: 'Tomorrow will be warm ({{ input_text.heating_forecast_condition }}/{{
-        input_number.heating_forecast_temperature }}).  Offsets -3. If temp at night
-        below 17, heating will still be off. '
+      message: 'Tomorrow will be warm ({{ states(''input_text.heating_forecast_condition'')
+        }}/{{ states(''input_number.heating_forecast_temperature'') }}).  Offsets
+        -3. If temp at night below 17, heating will still be off. '
   mode: single
 - id: '1630944728318'
   alias: Rolladen Clara
