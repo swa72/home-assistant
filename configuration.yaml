@@ -36,6 +36,8 @@ logger:
     homeassistant.components.recorder: debug
 # temporary solution as per https://github.com/emsesp/EMS-ESP/issues/756
     homeassistant.helpers.template: error
+# lets see more stuff in the logs from mqtt
+    homeassistant.components.mqtt: debug
 
 #
 # to turn on my pc

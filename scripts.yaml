@@ -343,6 +343,7 @@ one_time_water_on:
     data:
       topic: ems-esp/boiler
       payload: '{"cmd":"wwonetime","data":1}'
+      qos: '1'
   mode: single
   alias: Heating Water One-time On
 one_time_water_off:
@@ -351,6 +352,7 @@ one_time_water_off:
     data:
       topic: ems-esp/boiler
       payload: '{"cmd":"wwonetime","data":0}'
+      qos: '1'
   mode: single
   alias: Heating Water One-time Off
 heating_reset_offsets:
@@ -360,14 +362,17 @@ heating_reset_offsets:
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":0, "id":1}'
+      qos: '1'
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":0, "id":2}'
+      qos: '1'
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":0, "id":3}'
+      qos: '1'
   mode: single
 heating_burner_up:
   alias: Heating burner up
@@ -547,10 +552,12 @@ heating_lower_offsets_hc1_hc2:
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-3, "id":1}'
+      qos: '1'
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-3, "id":2}'
+      qos: '1'
   mode: single
 heating_comfort_temp15:
   alias: Heating Comfort Temp20
@@ -607,6 +614,7 @@ heating_activated:
     data:
       topic: ems-esp/boiler
       payload: '{"cmd":"heatingactivated","data":"on"}'
+      qos: '1'
   mode: single
 heating_set_activated_off:
   alias: Heating Set Activated Off
@@ -615,6 +623,7 @@ heating_set_activated_off:
     data:
       topic: ems-esp/boiler
       payload: '{"cmd":"heatingactivated","data":"off"}'
+      qos: '1'
   mode: single
 heating_hc1_mode_auto:
   alias: Heating hc1 mode auto

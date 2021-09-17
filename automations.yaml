@@ -621,6 +621,7 @@
         data:
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":+3, "id":1}'
+          qos: '1'
     - conditions:
       - condition: trigger
         id: hc1-too-warm
@@ -629,6 +630,7 @@
         data:
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":-3, "id":1}'
+          qos: '1'
     - conditions:
       - condition: trigger
         id: hc1-back-ok
@@ -637,6 +639,7 @@
         data:
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":0, "id":1}'
+          qos: '1'
     default: []
   - service: script.notify_stefan_heating
     data:
@@ -724,6 +727,7 @@
         data:
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":+3, "id":2}'
+          qos: '1'
     - conditions:
       - condition: trigger
         id: hc2-too-warm
@@ -732,6 +736,7 @@
         data:
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":-3, "id":2}'
+          qos: '1'
     - conditions:
       - condition: trigger
         id: hc2-back-ok
@@ -740,6 +745,7 @@
         data:
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":0, "id":2}'
+          qos: '1'
     - conditions:
       - condition: trigger
         id: hc2-hc1-back-ok
@@ -793,6 +799,7 @@
         data:
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":+3, "id":3}'
+          qos: '1'
     - conditions:
       - condition: trigger
         id: hc3-too-warm
@@ -801,6 +808,7 @@
         data:
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":-3, "id":3}'
+          qos: '1'
     - conditions:
       - condition: trigger
         id: hc3-back-ok
@@ -809,6 +817,7 @@
         data:
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":0, "id":3}'
+          qos: '1'
     default: []
   - service: script.notify_stefan_heating
     data:
@@ -842,14 +851,17 @@
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-3, "id":1}'
+      qos: '1'
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-3, "id":2}'
+      qos: '1'
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-3, "id":3}'
+      qos: '1'
   - service: script.notify_stefan_heating
     data:
       title: Heating
@@ -912,4 +924,19 @@
         data:
           position: 5
     default: []
+  mode: single
+- id: '1631904142960'
+  alias: Advanced Heating Monitor
+  description: Sends message to Stefan if heating shows non-regular codes
+  trigger:
+  - platform: state
+    entity_id: sensor.boiler_service_code
+    to: 6A
+  condition: []
+  action:
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: 'Service Code: {{ states(''sensor.boiler_service_code'') }} Service
+        Code Number: {{ states(''sensor.boiler_service_code_number'') }}'
   mode: single
