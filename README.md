@@ -299,6 +299,7 @@ or
 
 * see https://github.com/custom-components/alexa_media_player/wiki
 * no "Cookie import" or "Configuration.yaml" required 
+* do not forget to enter the OTP code at the end (https://www.amazon.com/a/settings/approval/addbackup)
 * https://community.home-assistant.io/t/alexa-tts-announcement-from-lovelace-ui-and-without-nabu-casa-alexa-media-player/259980/7
 
 ## Push automation to github

@@ -6,16 +6,17 @@
 #
 #
 #
-- platform: fritzbox_callmonitor
-  name: FritzPhone
-  host: 192.168.178.1
-  username: hacallmon
-  password: !secret hacallmon_password
-  phonebook: 0
-  prefixes:
-    - '+49'
-    - '+496221'
-    - '06221'
+# now setup via ui
+# - platform: fritzbox_callmonitor
+  # name: FritzPhone
+  # host: 192.168.178.1
+  # username: hacallmon
+  # password: !secret hacallmon_password
+  # phonebook: 0
+  # prefixes:
+    # - '+49'
+    # - '+496221'
+    # - '06221'
 #
 #
 #

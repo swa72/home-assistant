@@ -641,10 +641,6 @@
           payload: '{"cmd":"offsettemp","data":0, "id":1}'
           qos: '1'
     default: []
-  - service: script.notify_stefan_heating
-    data:
-      title: Heating
-      message: Triggered by {{ trigger.id }}
   mode: queued
   max: 10
 - id: '1630829101033'
@@ -712,7 +708,7 @@
     for: 00:20:00
     to: ok
   - platform: state
-    entity_id: sensor.heating_hc2_trigger
+    entity_id: sensor.heating_hc2vshc1_trigger
     id: hc2-hc1-too-warm
     for: 00:20:00
     to: too-wam
@@ -754,6 +750,11 @@
         data:
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":0, "id":2}'
+          qos: '1'
+      - service: script.notify_stefan_heating
+        data:
+          title: Heating
+          message: Triggered by {{ trigger.id }}
     - conditions:
       - condition: trigger
         id: hc2-hc1-too-warm
@@ -762,11 +763,12 @@
         data:
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":-3, "id":2}'
+          qos: '1'
+      - service: script.notify_stefan_heating
+        data:
+          title: Heating
+          message: Triggered by {{ trigger.id }}
     default: []
-  - service: script.notify_stefan_heating
-    data:
-      title: Heating
-      message: Triggered by {{ trigger.id }}
   mode: queued
   max: 10
 - id: '1630830589458'
@@ -819,10 +821,6 @@
           payload: '{"cmd":"offsettemp","data":0, "id":3}'
           qos: '1'
     default: []
-  - service: script.notify_stefan_heating
-    data:
-      title: Heating
-      message: Triggered by {{ trigger.id }}
   mode: queued
   max: 10
 - id: '1630838302181'
@@ -866,7 +864,7 @@
     data:
       title: Heating
       message: 'Tomorrow will be warm ({{ states(''input_text.heating_forecast_condition'')
-        }}/{{ states(''input_number.heating_forecast_temperature'') }}).  Offsets
+        }}/{{ states(''input_number.heating_forecast_temperature'') }}). All offsets
         -3. If temp at night below 17, heating will still be off. '
   mode: single
 - id: '1630944728318'
@@ -927,16 +925,41 @@
   mode: single
 - id: '1631904142960'
   alias: Advanced Heating Monitor
-  description: Sends message to Stefan if heating shows non-regular codes
+  description: Sends message to Stefan if heating shows non-regular codes or target
+    temp HC2 greater HC1
   trigger:
   - platform: state
     entity_id: sensor.boiler_service_code
     to: 6A
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+    id: servicecode
+  - platform: template
+    value_template: "{{ (states('sensor.thermostat_hc2_target_flow_temperature')|float\
+      \ > \nstates('sensor.thermostat_hc1_target_flow_temperature')|float) and ( \n\
+      states('sensor.thermostat_hc2_target_flow_temperature')|float > 26) }}"
+    id: hc2ghc1
   condition: []
   action:
-  - service: script.notify_stefan_heating
-    data:
-      title: Heating
-      message: 'Service Code: {{ states(''sensor.boiler_service_code'') }} Service
-        Code Number: {{ states(''sensor.boiler_service_code_number'') }}'
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: servicecode
+      sequence:
+      - service: script.notify_stefan_heating
+        data:
+          title: Heating
+          message: 'Service Code: {{ states(''sensor.boiler_service_code'') }} Service
+            Code Number: {{ states(''sensor.boiler_service_code_number'') }}'
+    - conditions:
+      - condition: trigger
+        id: hc2ghc1
+      sequence:
+      - service: script.notify_stefan_heating
+        data:
+          title: Heating
+          message: HC2 target temp higher than HC1 target temp. Check heating.
   mode: single
