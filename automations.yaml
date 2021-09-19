@@ -963,3 +963,16 @@
           title: Heating
           message: HC2 target temp higher than HC1 target temp. Check heating.
   mode: single
+- id: '1632044962572'
+  alias: Send a camera snapshot when doorbell was activated
+  description: ''
+  use_blueprint:
+    path: aceindy/send-camera-snapshot-notification-on-doorbell.yaml
+    input:
+      notification_message: '{{ binary_sensor_name }} was activated!'
+      binary_sensor: input_boolean.swatest
+      camera: camera.livingroom_profile000_mainstream
+      notify_device: 20e9e482dc45d545dcb6222c8f32454a
+      is_ios: true
+      notification_title: The Doorbell was activated!
+      delay: 1

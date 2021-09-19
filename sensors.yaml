@@ -167,11 +167,11 @@
 - platform: template
   sensors:
     heating_room_1elternbad:
-      friendly_name: "1.OG Elternbad 20-23"
+      friendly_name: "1.OG Elternbad 20-22"
       value_template: >-
         {% if states('sensor.multi_og_elternbad_temperature') | float <= 20.0 %}
           too-cold
-        {% elif states('sensor.multi_og_elternbad_temperature') | float >= 23.0 %}
+        {% elif states('sensor.multi_og_elternbad_temperature') | float >= 22.0 %}
           too-warm
         {% else %}
           ok

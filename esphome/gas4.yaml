@@ -83,28 +83,28 @@ sensor:
     accuracy_decimals: 2
     icon: 'mdi:fire'
 
-# power meter
-  - platform: pulse_meter
-    name: 'Power - Power consumption'
-    unit_of_measurement: 'W'
-    state_class: measurement
-    device_class: power
-    icon: mdi:flash-outline
-    accuracy_decimals: 0
-    pin: ${pulse_pin}
-    filters:
-      # multiply value = (60 / imp value) * 1000
-      # - multiply: 60
-      - lambda: return x * ((60.0 / ${pulse_rate}) * 1000.0);
-    total:
-      name: 'Power - Total energy'
-      unit_of_measurement: 'kWh'
-      icon: mdi:circle-slice-3
-      last_reset_type: auto
-      state_class: measurement
-      device_class: energy
-      accuracy_decimals: 3
-      filters:
-        # multiply value = 1 / imp value
-        # - multiply: 0.001
-        - lambda: return x * (1.0 / ${pulse_rate});
+# # power meter
+  # - platform: pulse_meter
+    # name: 'Power - Power consumption'
+    # unit_of_measurement: 'W'
+    # state_class: measurement
+    # device_class: power
+    # icon: mdi:flash-outline
+    # accuracy_decimals: 0
+    # pin: ${pulse_pin}
+    # filters:
+      # # multiply value = (60 / imp value) * 1000
+      # # - multiply: 60
+      # - lambda: return x * ((60.0 / ${pulse_rate}) * 1000.0);
+    # total:
+      # name: 'Power - Total energy'
+      # unit_of_measurement: 'kWh'
+      # icon: mdi:circle-slice-3
+      # last_reset_type: auto
+      # state_class: measurement
+      # device_class: energy
+      # accuracy_decimals: 3
+      # filters:
+        # # multiply value = 1 / imp value
+        # # - multiply: 0.001
+        # - lambda: return x * (1.0 / ${pulse_rate});

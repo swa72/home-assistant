@@ -324,6 +324,10 @@ or
 * add the integration "AVM FRITZ!SmartHome"
 * use the user and password combination of the Fritzbox istelf to authenticate
 
+## Fritzbox Tools
+* no entries anymore in yaml files, all setup with the integrations UI
+* enabled entities `switch.<ipad-xyz>` to monitor kids WIFI 
+
 
 ## Fritzbox call monitor
 * see https://www.home-assistant.io/integrations/fritzbox_callmonitor/
