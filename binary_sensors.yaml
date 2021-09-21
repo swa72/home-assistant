@@ -64,11 +64,15 @@
     rainy_day:
       friendly_name: On, wenn Regen in den nächsten 4h
       value_template: >-
+        {% if is_state('weather.openweathermap', 'Unavailable') %}
+        {{ false }}
+        {% else %}
         {% set p0 = state_attr('weather.openweathermap', 'forecast')[0].condition == "rainy" %}
         {% set p1 = state_attr('weather.openweathermap', 'forecast')[1].condition == "rainy" %}
         {% set p2 = state_attr('weather.openweathermap', 'forecast')[2].condition == "rainy" %}
         {% set p3 = state_attr('weather.openweathermap', 'forecast')[3].condition == "rainy" %}
-        {{ 'true' if p0 or p1 or p2 or p3 else 'false' }}
+        {{ true if p0 or p1 or p2 or p3 else false }}
+        {% endif %}
 #
 # 
 #

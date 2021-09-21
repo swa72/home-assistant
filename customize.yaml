@@ -28,4 +28,6 @@ switch.shellys_eg_wiga_tvreceiver:
   icon: mdi:television
 binary_sensor.eg_wohnzimmer_tuer:
   device_class: door
+sensor.gasverbrauch:
+  device_class: gas
   
