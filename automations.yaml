@@ -437,26 +437,21 @@
   alias: q3 Notify parents, wenn Luftfeuchtigkeit zu hoch
   description: ''
   trigger:
-  - platform: state
-    from: 'off'
-    for: 00:05:00
-    to: 'on'
-    entity_id: binary_sensor.humidity_elternschlaf
-  - platform: state
-    from: 'off'
-    for: 00:20:00
-    to: 'on'
-    entity_id: binary_sensor.humidity_elternbad
-  - platform: state
-    from: 'off'
-    for: 00:05:00
-    to: 'on'
-    entity_id: binary_sensor.humidity_konstantin
-  - platform: state
-    from: 'off'
-    for: 00:05:00
-    to: 'on'
-    entity_id: binary_sensor.humidity_clara
+  - platform: template
+    value_template: '{{ states(''binary_sensor.humidity_og_schlaf'') == ''on'' and
+      states(''sensor.dew_og_schlaf_open_window'') }}'
+  - platform: template
+    value_template: '{{ states(''binary_sensor.humidity_og_elternbad'') == ''on''and
+      states(''sensor.dew_og_elternbad_open_window'') }}'
+  - platform: template
+    value_template: '{{ states(''binary_sensor.humidity_og_konstantin'')== ''on''
+      and states(''sensor.dew_og_konstantin_open_window'') }}'
+  - platform: template
+    value_template: '{{ states(''binary_sensor.humidity_og_clara'') == ''on''and states(''sensor.dew_og_clara_open_window'')
+      }}'
+  - platform: template
+    value_template: '{{ states(''binary_sensor.humidity_eg_buro'') == ''on'' and states(''sensor.dew_eg_buro_open_window'')
+      }}'
   condition: []
   action:
   - service: script.notify_parents
@@ -563,28 +558,16 @@
         }} '
       notify_device: 20e9e482dc45d545dcb6222c8f32454a
       server_group: group.servers
-- id: '1629625568492'
-  alias: q3 Start scripts when HA starts
-  description: ''
-  trigger:
-  - platform: homeassistant
-    event: start
-  condition: []
-  action:
-  - service: script.notify_stefan
-    data:
-      title: Hinweis
-      message: HA started.
-  - service: script.dehumidify_basement
-  mode: single
 - id: '1629920509114'
-  alias: Start de-humidify
+  alias: Advanced Basement Fan control
   description: ''
   trigger:
   - platform: state
     entity_id: sensor.dew_runfan
     from: 'False'
     to: 'True'
+  - platform: homeassistant
+    event: start
   condition:
   - condition: template
     value_template: '{{ is_state(''script.dehumidify_basement'', ''off'')  }}'
@@ -872,14 +855,14 @@
   description: Rolladensteuerung Clara zeitgesteuert Wochentags/Wochenende
   trigger:
   - platform: time
-    at: 08:00:00
+    at: 07:05
     id: morgens-wochentag
   - platform: time
     at: 09:00:00
     id: morgens-wochenende
   - platform: time
     id: abends
-    at: '19:45:00'
+    at: '19:45'
   condition: []
   action:
   - choose:
@@ -938,9 +921,7 @@
       milliseconds: 0
     id: servicecode
   - platform: template
-    value_template: "{{ (states('sensor.thermostat_hc2_target_flow_temperature')|float\
-      \ > \nstates('sensor.thermostat_hc1_target_flow_temperature')|float) and ( \n\
-      states('sensor.thermostat_hc2_target_flow_temperature')|float > 26) }}"
+    value_template: '{{ states(''sensor.heating_hc2_delta'')|float > 0.0 }}'
     id: hc2ghc1
   condition: []
   action:
@@ -958,10 +939,23 @@
       - condition: trigger
         id: hc2ghc1
       sequence:
+      - service: mqtt.publish
+        data:
+          qos: '1'
+          topic: ems-esp/thermostat
+          payload: '{"cmd":"offsettemp","data":{{[-(states(''sensor.heating_hc2_delta'')|float/3)|round(0,"floor"),-3]|max
+            }},"id":2}'
+      - delay:
+          hours: 0
+          minutes: 10
+          seconds: 0
+          milliseconds: 0
+      - condition: template
+        value_template: '{{ states(''sensor.heating_hc2_delta'')|float > 0.0 }}'
       - service: script.notify_stefan_heating
         data:
           title: Heating
-          message: HC2 target temp higher than HC1 target temp. Check heating.
+          message: HC2 target temp still higher than HC1 target temp. Check heating.
   mode: single
 - id: '1632044962572'
   alias: Send a camera snapshot when doorbell was activated
@@ -976,3 +970,24 @@
       is_ios: true
       notification_title: The Doorbell was activated!
       delay: 1
+- id: '1632288672635'
+  alias: Advanced Basement Dehumidifier
+  description: Run dehumidifier for 6h if humidity exceeds 58%
+  trigger:
+  - platform: template
+    value_template: '{{ states(''sensor.multi_keller_wasch_humidity'') | float > 58
+      }}'
+  condition: []
+  action:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.shellys_keller_entfeuchter
+  - delay:
+      hours: 6
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: switch.turn_off
+    target:
+      entity_id: switch.shellys_keller_entfeuchter
+  mode: single
