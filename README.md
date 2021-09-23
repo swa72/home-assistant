@@ -416,3 +416,10 @@ keyfile: privkey.pem
 * All configuring now thru yaml
 * Re-doing the stuff is actually pretty quick
 
+## Using MQTT explorer
+* install it on a Windows machhine
+* connect to the broker with 
+  * username swamq
+  * passwort <see keepass>
+  * host homeassistant-eth
+  * port 1883

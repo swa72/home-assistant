@@ -13,7 +13,7 @@ to integrate the heating to HA. I have three circuits
   * integrates nicely with HA
 * The basic idea is: HA monitors the house and changes parameters in the thermostat which in turn controls the heating
   * HA <-> MQTT <-> EMS-ESP <-> RC300 thermostat <-> Heating
-* << to be continued >>
+  * the last step provides a description of the heating control
 
 ## Step 1: Hardware installation
 * I plugged the gateway into my heating with the existing cable and somehow got a loose contact; replaced the cable with the one supplied from bbqkees and everything runs fine.
@@ -43,5 +43,36 @@ connect to your local WLAN (don't forget to give it a static address - mine is 1
 * Went to Configuration | Integration | MQTT and clicked on devices. For each of the five devices, click on 
   the device name and use "Add to lovelace" to add all entities.
   
-## Step 4: add some thermostat controls
-* `climate.thermostat_hc1` is missing, also for circuits 2 and 3
+## Step 4: Add some thermostat controls
+* `climate.thermostat_hc1` was missing, also for circuits 2 and 3
+
+## Step 5: Advanced heating control
+* As mentioned above, I complement the existing heating control. To do just that, I simply send the offset 
+parameter to the thermostat to lower or raise the flow temperatures and leave the existing heating control
+to do its job. I have the following automations:
+  * Heating forecast
+    * at 23:30 the automation analyses the weather forecast. If its sunny or temperature is above 20°C, all offsets are set 
+		to -3K (which lowers the target temp of each circuit by 9 degrees)
+  * Circuit control for each of the three circuits
+    * all rooms that are relevant for a heating circuit are rated regarding their temperature (ok, too-cold, too-warm). Based on that
+		information, the entire circuit is rated. If a circuit changes state from e.g. 'ok' to 'too-warm'), that circuit receives an offset of -3K.
+		Offsets are not sent during the night (e.g. 2200-0500). If rooms for a given circuit get too cold, the rating for that circuit will change 
+		and we still have time from 0500 to heat up.
+  * Reset offsets
+	  * at 23:05 all offsets are set back to zero
+  * Monitoring
+    * at night, set the heating date/time using NTP
+    * if the heating shows odd maintenance codes, send notification
+    * if the target temp of the underfloor heating circuit is higher than the radiator circuit, 
+		change the offset of the underfloor heating circuit so that the target temp is at most that of 
+		the radiator circuit. Otherwise the heating curve of the underfloor heating circuit will dominate
+		the target temperature of the burner. This is particularly true during outside temperatures around 
+		10°C-15°C. However, main source of heating in my house are the radiators.
+
+## Step 6: Backup all heating settings
+* ssh to ems-esp with Putty and logging enabled, issue `show`
+* copy the logfile to Evernote
+
+Next steps
+  * offset also during night? maybe only -1?
+  * merge reset and forecast

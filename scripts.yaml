@@ -655,20 +655,22 @@ run_lufter_for_2h:
   mode: single
 dehumidify_basement:
   sequence:
-  - service: notify.mobile_app_swaiphone
+  - service: system_log.write
     data:
-      title: Notification
       message: Running dehumidify_basement script
+      logger: swa-log
+      level: info
   - repeat:
       while:
       - condition: state
         entity_id: sensor.dew_runfan
         state: 'True'
       sequence:
-      - service: notify.mobile_app_swaiphone
+      - service: system_log.write
         data:
-          title: Notification
           message: Running fans, run {{ repeat.index }}
+          logger: swa-log
+          level: info
       - service: counter.increment
         target:
           entity_id: counter.dew_fans
@@ -688,3 +690,12 @@ restart_icloud3:
   - service: device_tracker.icloud3_restart
   mode: single
   alias: Restart icloud3
+heating_set_ntp_time:
+  alias: Heating set ntp time
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"datetime","data":"ntp"}'
+      qos: '1'
+  mode: single
