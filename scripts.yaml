@@ -699,3 +699,12 @@ heating_set_ntp_time:
       payload: '{"cmd":"datetime","data":"ntp"}'
       qos: '1'
   mode: single
+mqtt_test:
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"datetime","data":"ntp"}'
+      qos: '1'
+  mode: single
+  alias: mqtt test

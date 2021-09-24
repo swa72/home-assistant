@@ -1043,6 +1043,15 @@
   - platform: time
     at: input_datetime.cover_morning_weekend
     id: wochenende
+  - platform: numeric_state
+    entity_id: sensor.multi_og_schlaf_temperature
+    id: warmesschlafzimmer
+    above: '23'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
   condition: []
   action:
   - choose:
@@ -1067,7 +1076,7 @@
         - fri
       - condition: state
         entity_id: input_boolean.ferien
-        state: 'False'
+        state: 'off'
       sequence:
       - scene: scene.schlafzimmer_morgen
     - conditions:
@@ -1082,7 +1091,7 @@
         - fri
       - condition: state
         entity_id: input_boolean.ferien
-        state: 'True'
+        state: 'on'
       sequence:
       - scene: scene.schlafzimmer_morgen
     - conditions:
@@ -1094,5 +1103,102 @@
         - sun
       sequence:
       - scene: scene.schlafzimmer_morgen
+    - conditions:
+      - condition: trigger
+        id: warmesschlafzimmer
+      - condition: state
+        entity_id: weather.accuweather
+        state: sunny
+        for:
+          hours: 0
+          minutes: 0
+          seconds: 0
+          milliseconds: 0
+      - condition: time
+        after: 09:00
+      sequence:
+      - service: cover.set_cover_position
+        target:
+          area_id:
+          - og_schlaf
+          - og_elternbad
+          - og_clara
+        data:
+          position: 80
+    default: []
+  mode: single
+- id: '1632469853125'
+  alias: Rolladen Anna
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.multi_dg_anna_temperature
+    above: '22'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  condition:
+  - condition: time
+    after: '10:00'
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    - sun
+  - condition: state
+    entity_id: weather.accuweather
+    state: sunny
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  action:
+  - service: cover.close_cover
+    target:
+      entity_id: cover.shelly25_dg_anna_rolladen
+  mode: single
+- id: '1632479086952'
+  alias: Power Save bei Stefan
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.stefan_working_in_office
+    to: 'off'
+    id: stefannichtda
+  - platform: time
+    at: 07:15
+    id: morgens
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: stefannichtda
+      - condition: time
+        after: '20:00'
+      sequence:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.shellyp_dg_stefan_tisch
+    - conditions:
+      - condition: trigger
+        id: morgens
+      - condition: time
+        weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+      sequence:
+      - service: switch.turn_on
+        target:
+          entity_id: switch.shellyp_dg_stefan_tisch
     default: []
   mode: single

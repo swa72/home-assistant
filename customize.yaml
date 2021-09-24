@@ -31,3 +31,6 @@ binary_sensor.eg_wohnzimmer_tuer:
 sensor.gasverbrauch:
   device_class: gas
   state_class: total_increasing
+sensor.solar_energy_today:
+  device_class: energy
+  state_class: total_increasing
