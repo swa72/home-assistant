@@ -53,6 +53,8 @@
       - switch.shelly25_garage*
       - switch.fritz_box*
       - binary_sensor.internetgateway*
+      - switch.*_internet_access
+      - switch.livingroom*
     exclude_entities:
       - binary_sensor.abend_eg_wohnzimmer_tuer_zu
       - binary_sensor.camera1_motion

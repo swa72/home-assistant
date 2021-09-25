@@ -589,7 +589,7 @@ turn_on_ac_at_stefans_office:
     target:
       entity_id: climate.roofac
     data:
-      temperature: 26
+      temperature: 25
       hvac_mode: cool
   mode: restart
 turn_on_ac_at_parents_sleeping_room:

@@ -64,7 +64,7 @@
     rainy_day:
       friendly_name: On, wenn Regen in den nächsten 4h
       value_template: >-
-        {% if is_state('weather.openweathermap', 'Unavailable') %}
+        {% if is_state('weather.openweathermap', 'unavailable') %}
         {{ false }}
         {% else %}
         {% set p0 = state_attr('weather.openweathermap', 'forecast')[0].condition == "rainy" %}
