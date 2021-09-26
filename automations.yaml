@@ -877,12 +877,13 @@
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-3, "id":3}'
       qos: '1'
-  - service: script.notify_stefan_heating
+  - service: system_log.write
     data:
-      title: Heating
-      message: 'Tomorrow will be warm ({{ states(''input_text.heating_forecast_condition'')
-        }}/{{ states(''input_number.heating_forecast_temperature'') }}). All offsets
-        -3. If temp at night below 17, heating will still be off. '
+      level: info
+      logger: swa-log
+      message: Tomorrow will be warm ({{states('input_text.heating_forecast_condition')}}/
+        {{states('input_number.heating_forecast_temperature')}}). All offsets -3.
+        If temp at night below 17, heating will likely still be off.
   mode: single
 - id: '1630944728318'
   alias: Rolladen Clara
@@ -1269,4 +1270,31 @@
     data:
       title: Hinweis
       message: Waschmaschine ist noch immer an.
+  mode: single
+- id: '1632671280558'
+  alias: Monitor Stefan AC
+  description: ''
+  trigger:
+  - platform: time
+    at: '21:00'
+  condition:
+  - condition: or
+    conditions:
+    - condition: device
+      device_id: 5bf5071ab5a3fc16e59cf627ced76b85
+      domain: climate
+      entity_id: climate.roofac
+      type: is_hvac_mode
+      hvac_mode: heat_cool
+    - condition: device
+      device_id: 5bf5071ab5a3fc16e59cf627ced76b85
+      domain: climate
+      entity_id: climate.roofac
+      type: is_hvac_mode
+      hvac_mode: cool
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Hinweis
+      message: Klimaanlage im DG läuft noch.
   mode: single
