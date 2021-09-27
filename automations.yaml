@@ -768,10 +768,11 @@
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":0, "id":2}'
           qos: '1'
-      - service: script.notify_stefan_heating
+      - service: system_log.write
         data:
-          title: Heating
-          message: Triggered by {{ trigger.id }}
+          level: info
+          logger: swa-log
+          message: Hearting Triggered by {{ trigger.id }}
     - conditions:
       - condition: trigger
         id: hc2-hc1-too-warm
@@ -781,10 +782,11 @@
           topic: ems-esp/thermostat
           payload: '{"cmd":"offsettemp","data":-3, "id":2}'
           qos: '1'
-      - service: script.notify_stefan_heating
+      - service: system_log.write
         data:
-          title: Heating
-          message: Triggered by {{ trigger.id }}
+          level: info
+          logger: swa-log
+          message: Hearting Triggered by {{ trigger.id }}
     default: []
   mode: queued
   max: 10
@@ -961,6 +963,15 @@
   - platform: time
     at: 00:01
     id: setntp
+  - platform: numeric_state
+    entity_id: sensor.boiler_system_pressure
+    below: '1.9'
+    id: heizungsdruck
+    for:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
   condition: []
   action:
   - choose:
@@ -1011,6 +1022,14 @@
           topic: ems-esp/thermostat
           payload: '{"cmd":"datetime","data":"ntp"}'
           qos: '1'
+    - conditions:
+      - condition: trigger
+        id: heizungsdruck
+      sequence:
+      - service: script.notify_stefan_heating
+        data:
+          title: Heating
+          message: Heizungsdruck über 1h unter 1.9 bar.
   mode: single
 - id: '1632044962572'
   alias: Send a camera snapshot when doorbell was activated
