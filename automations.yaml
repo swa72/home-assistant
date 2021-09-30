@@ -120,7 +120,7 @@
       message: '{% set w = expand( trigger.entity_id ) | selectattr(''state'', ''eq'',
         ''on'') | map(attribute=''name'') | list %} Fenster {{ w }} aus Gruppe {{
         trigger.to_state.attributes.friendly_name }} ist zu lange ({{trigger.for}}
-        min) offen.'
+        min) offen. Temperatur unter 15°C.'
   mode: single
 - id: l1k3
   alias: q3 Wenn Mitternacht, push HA configuration to GitHub repo
@@ -267,26 +267,6 @@
     input:
       message: input_text.swa_alexa_text
       target: input_select.swa_alexa_device
-- id: swa1
-  alias: q3 Notify Stefan, wenn Fritzphone Status wechselt
-  trigger:
-  - platform: state
-    entity_id: sensor.fritz_box_7490_call_monitor_telefonbuch
-  action:
-  - service: script.notify_stefan
-    data:
-      title: FritzPhone
-      message: "{% if is_state(\"sensor.fritz_box_7490_call_monitor_telefonbuch\"\
-        , \"idle\") %}\n  Phone is idle\n{% elif is_state(\"sensor.fritz_box_7490_call_monitor_telefonbuch\"\
-        , \"dialing\") %}\n  Calling {{ state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch',\
-        \ 'to_name') }} ({{ state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch',\
-        \ 'to') }})\n{% elif is_state(\"sensor.fritzphone\", \"ringing\") %}\n  Incoming\
-        \ call from {{ state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch',\
-        \ 'from_name') }} ({{ state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch',\
-        \ 'from') }})\n{% else %}\n  Talking to {{ state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch',\
-        \ 'with_name') }} ({{ state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch',\
-        \ 'with') }})\n{% endif %}"
-  mode: single
 - id: '1612096410696'
   alias: q3 Notify, wenn Waschmaschine fertig
   description: Waschmaschine fertig
@@ -353,16 +333,28 @@
     entity_id: binary_sensor.shelly1_garage_input
     to: 'off'
     for: 00:30:00
+    id: garage1
   - platform: state
     entity_id: binary_sensor.shelly1_garage_input
     to: 'off'
     for: 00:45:00
+    id: garage2
   condition: []
   action:
-  - service: script.notify_people_who_are_present
-    data:
-      title: Hinweis
-      message: Garagentor ist (zu lange) offen
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: trigger
+          id: garage1
+        - condition: trigger
+          id: garage2
+      sequence:
+      - service: script.notify_people_who_are_present
+        data:
+          title: Hinweis
+          message: Garagentor ist (zu lange) offen
+    default: []
   mode: single
 - id: '1612710199273'
   alias: q3 Notify, wenn Haustür zu lange offen ist
@@ -414,24 +406,6 @@
     data:
       title: Hinweis
       message: Freezer im Büro ist (zu lange) offen.
-  mode: single
-- id: '1612711147737'
-  alias: q3 Notify, wenn Fenster bei Clara sich öffnet
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.fenster_og_clara
-    to: 'on'
-  - platform: state
-    entity_id: binary_sensor.fenster_og_clara
-    to: 'on'
-    for: 00:10:00
-  condition: []
-  action:
-  - service: script.notify_people_who_are_present
-    data:
-      title: Hinweis
-      message: Fenster bei Clara offen
   mode: single
 - id: '1616954536097'
   alias: q3 Notify parents, wenn Luftfeuchtigkeit zu hoch
@@ -888,7 +862,7 @@
         If temp at night below 17, heating will likely still be off.
   mode: single
 - id: '1630944728318'
-  alias: Rolladen Clara
+  alias: Advanced Rolladen Clara
   description: Rolladensteuerung Clara zeitgesteuert Wochentags/Wochenende
   trigger:
   - platform: time
@@ -1066,7 +1040,7 @@
       entity_id: switch.shellys_keller_entfeuchter
   mode: single
 - id: '1632424762898'
-  alias: Rolladen Schlafzimmer (advanced)
+  alias: Advanced Rolladen Schlafzimmer
   description: Rolladensteuerung Schlafzimmer zeitgesteuert Wochentags/Wochenende
   trigger:
   - platform: time
@@ -1170,7 +1144,7 @@
     default: []
   mode: single
 - id: '1632469853125'
-  alias: Rolladen Anna
+  alias: Advanced Rolladen Anna
   description: ''
   trigger:
   - platform: numeric_state
@@ -1291,7 +1265,7 @@
       message: Waschmaschine ist noch immer an.
   mode: single
 - id: '1632671280558'
-  alias: Monitor Stefan AC
+  alias: Advanced Monitor Stefan
   description: ''
   trigger:
   - platform: time
@@ -1311,9 +1285,72 @@
       entity_id: climate.roofac
       type: is_hvac_mode
       hvac_mode: cool
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: binary_sensor.fenster_sw
+      state: 'on'
+      for:
+        hours: 0
+        minutes: 11
+        seconds: 0
+        milliseconds: 0
+    - condition: state
+      entity_id: binary_sensor.fenster_o
+      state: 'on'
+      for:
+        hours: 0
+        minutes: 11
+        seconds: 0
+        milliseconds: 0
   action:
   - service: script.notify_stefan
     data:
       title: Hinweis
       message: Klimaanlage im DG läuft noch.
+  mode: single
+- id: '1633005819799'
+  alias: Avanced Heating, workdays
+  description: ''
+  trigger:
+  - platform: time
+    at: 07:00
+    id: morning
+  - platform: time
+    id: noon
+    at: '12:00'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: morning
+      - condition: time
+        weekday:
+        - mon
+        - thu
+        - fri
+      sequence:
+      - service: script.heating_set_room_temp_low
+      - service: system_log.write
+        data:
+          level: critical
+          logger: swa-log
+          message: Started script.heating_set_room_temp_low
+    - conditions:
+      - condition: trigger
+        id: noon
+      - condition: time
+        weekday:
+        - mon
+        - thu
+        - fri
+      sequence:
+      - service: script.heating_set_room_temp_high
+      - service: system_log.write
+        data:
+          level: critical
+          logger: swa-log
+          message: Started script.heating_set_room_temp_high
+    default: []
   mode: single

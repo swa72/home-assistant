@@ -464,38 +464,6 @@ heating_lower_offsets_hc1_hc2:
       payload: '{"cmd":"offsettemp","data":-3, "id":2}'
       qos: '1'
   mode: single
-heating_comfort_temp15:
-  alias: Heating Comfort Temp20
-  sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"comforttemp","data":20, "id":1}'
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"comforttemp","data":20, "id":2}'
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"comforttemp","data":20, "id":3}'
-  mode: single
-heating_comfort_temp15_2:
-  alias: Heating Comfort Temp18
-  sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"comforttemp","data":18, "id":1}'
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"comforttemp","data":18, "id":2}'
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"comforttemp","data":18, "id":3}'
-  mode: single
 heating_manual_temp7:
   alias: Heating Manual Temp5
   sequence:
@@ -545,14 +513,6 @@ heating_hc1_mode_manual:
     data:
       topic: ems-esp/thermostat
       payload: '{"cmd":"mode","data":"eco", "id":1}'
-  mode: single
-heating_set_offsets:
-  alias: Heating Set Offsets
-  sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"offsettemp","data":3, "id":3}'
   mode: single
 deconz_refresh:
   alias: deconz-refresh
@@ -690,15 +650,6 @@ restart_icloud3:
   - service: device_tracker.icloud3_restart
   mode: single
   alias: Restart icloud3
-heating_set_ntp_time:
-  alias: Heating set ntp time
-  sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"datetime","data":"ntp"}'
-      qos: '1'
-  mode: single
 mqtt_test:
   sequence:
   - service: mqtt.publish
@@ -708,3 +659,83 @@ mqtt_test:
       qos: '1'
   mode: single
   alias: mqtt test
+heating_comfort_high:
+  alias: Heating Comfort High
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"comforttemp","data":{{states(''input_number.heating_comforttemp_high'')|int}},
+        "id":1}'
+      qos: '1'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"comforttemp","data":{{states(''input_number.heating_comforttemp_high'')|int}},
+        "id":2}'
+      qos: '1'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"comforttemp","data":{{states(''input_number.heating_comforttemp_high'')|int}},
+        "id":3}'
+      qos: '1'
+  - service: system_log.write
+    data:
+      message: Setting Heating Circuits to {{states('input_number.heating_comforttemp_high')|int}}°C
+      level: critical
+      logger: swa-log
+  mode: single
+test_log:
+  sequence:
+  - service: system_log.write
+    data:
+      message: dfdfdfgdgdg {{now()}}
+      level: critical
+      logger: swa-log
+  mode: single
+  alias: Test log
+heating_set_room_temp_high:
+  alias: Heating Set Room Temp High
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"temp","data":{{states(''input_number.heating_temp_high'')|int}},
+        "id":1}'
+      qos: '1'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"temp","data":{{states(''input_number.heating_temp_high'')|int}},
+        "id":2}'
+      qos: '1'
+  - service: system_log.write
+    data:
+      message: Setting Heating Circuits to {{states('input_number.heating_temp_high')|int}}°C
+        at {{now()}}
+      level: critical
+      logger: swa-log
+  mode: single
+heating_set_room_temp_low:
+  alias: Heating Set Room Temp Low
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"temp","data":{{states(''input_number.heating_temp_low'')|int}},
+        "id":1}'
+      qos: '1'
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"temp","data":{{states(''input_number.heating_temp_low'')|int}},
+        "id":2}'
+      qos: '1'
+  - service: system_log.write
+    data:
+      message: Setting Heating Circuits to {{states('input_number.heating_temp_low')|int}}°C
+        at {{now()}}
+      level: critical
+      logger: swa-log
+  mode: single
