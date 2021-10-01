@@ -186,3 +186,9 @@ utility_meter:
   regen_daily:
     source: sensor.regen_heute
     cycle: daily
+#
+#
+#
+spotify:
+  client_id: !secret spotify_clientid
+  client_secret: !secret spotify_secret
