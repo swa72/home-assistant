@@ -744,7 +744,7 @@
           qos: '1'
       - service: system_log.write
         data:
-          level: info
+          level: critical
           logger: swa-log
           message: Hearting Triggered by {{ trigger.id }}
     - conditions:
@@ -758,7 +758,7 @@
           qos: '1'
       - service: system_log.write
         data:
-          level: info
+          level: critical
           logger: swa-log
           message: Hearting Triggered by {{ trigger.id }}
     default: []
@@ -855,7 +855,7 @@
       qos: '1'
   - service: system_log.write
     data:
-      level: info
+      level: critical
       logger: swa-log
       message: Tomorrow will be warm ({{states('input_text.heating_forecast_condition')}}/
         {{states('input_number.heating_forecast_temperature')}}). All offsets -3.
@@ -967,7 +967,7 @@
           message: HC2 greater HC1, delta is {{ states('sensor.heating_hc2_delta')|float
             }}, sending offset {{[-(states('sensor.heating_hc2_delta')|float/3)|round(0,"floor"),-3]|max
             }}
-          level: info
+          level: critical
           logger: swa-log
       - service: mqtt.publish
         data:

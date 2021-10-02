@@ -332,7 +332,7 @@
       value_template: >-
         {% set p1 = states('sensor.thermostat_damped_outdoor_temperature') | float >= 0.0 %}
         {% set p2 = states('input_text.heating_forecast_condition') == "sunny" %}
-        {% set p3 = states('input_number.heating_forecast_temperature')| float >= 20.0 %}
+        {% set p3 = states('input_number.heating_forecast_temperature')| float >= states('input_number.heating_forecast_temperatureclip')|float %}
         {% if (p1) and (p2 or p3) %}
           warm
         {% else %}
@@ -425,6 +425,22 @@
       friendly_name: "Circuit h2 delta"
       value_template: >-
         {{ states('sensor.thermostat_hc2_target_flow_temperature')|float - states('sensor.thermostat_hc1_target_flow_temperature')|float }}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_forecast_temperature:
+      value_template: >-
+        {{ states('input_number.heating_forecast_temperature')|float }}
+#
+#
+#
+- platform: template
+  sensors:
+    heating_forecast_condition:
+      value_template: >-
+        {{ states('input_text.heating_forecast_condition') }}
 
 #
 # dew point calculations for basement

@@ -426,30 +426,6 @@ heating_burner_down:
       topic: ems-esp/boiler
       payload: '{"cmd":"boilHystOn","data":-6}'
   mode: single
-heating_summertemp_to_12:
-  alias: Heating set summertemp
-  sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"summertemp","data":12, "id":2}'
-  mode: single
-heating_lowest_offsets:
-  alias: Heating Lowest Offsets
-  sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"offsettemp","data":-9, "id":1}'
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"offsettemp","data":-9, "id":2}'
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"offsettemp","data":-9, "id":3}'
-  mode: single
 heating_lower_offsets_hc1_hc2:
   alias: Heating Lower Offsets HC1 HC2
   sequence:
@@ -463,22 +439,6 @@ heating_lower_offsets_hc1_hc2:
       topic: ems-esp/thermostat
       payload: '{"cmd":"offsettemp","data":-3, "id":2}'
       qos: '1'
-  mode: single
-heating_manual_temp7:
-  alias: Heating Manual Temp5
-  sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"manualtemp","data":5, "id":1}'
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"manualtemp","data":5, "id":2}'
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"manualtemp","data":5, "id":3}'
   mode: single
 heating_activated:
   alias: Heating Set Activated On
@@ -619,7 +579,7 @@ dehumidify_basement:
     data:
       message: Running dehumidify_basement script
       logger: swa-log
-      level: info
+      level: critical
   - repeat:
       while:
       - condition: state
@@ -630,7 +590,7 @@ dehumidify_basement:
         data:
           message: Running fans, run {{ repeat.index }}
           logger: swa-log
-          level: info
+          level: critical
       - service: counter.increment
         target:
           entity_id: counter.dew_fans
@@ -659,33 +619,6 @@ mqtt_test:
       qos: '1'
   mode: single
   alias: mqtt test
-heating_comfort_high:
-  alias: Heating Comfort High
-  sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"comforttemp","data":{{states(''input_number.heating_comforttemp_high'')|int}},
-        "id":1}'
-      qos: '1'
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"comforttemp","data":{{states(''input_number.heating_comforttemp_high'')|int}},
-        "id":2}'
-      qos: '1'
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"comforttemp","data":{{states(''input_number.heating_comforttemp_high'')|int}},
-        "id":3}'
-      qos: '1'
-  - service: system_log.write
-    data:
-      message: Setting Heating Circuits to {{states('input_number.heating_comforttemp_high')|int}}°C
-      level: critical
-      logger: swa-log
-  mode: single
 test_log:
   sequence:
   - service: system_log.write
@@ -767,4 +700,20 @@ play_lounge:
       media_content_id: play Milano Lounge on tunein
     target:
       entity_id: media_player.stefans_echo_dot
+  mode: single
+heating_control:
+  alias: Heating control
+  sequence:
+  - service: system_log.write
+    data:
+      level: critical
+      logger: swa-log
+      message: '''{"cmd":"{{states(''input_select.hcontrol_cmd'')}}","data":{{states(''input_number.hcontrol_data'')}},"id":{{states(''input_select.hcontrol_id'')}}}
+        at {{now()}}'''
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"{{states(''input_select.hcontrol_cmd'')}}","data":{{states(''input_number.hcontrol_data'')}},
+        "id":{{states(''input_select.hcontrol_id'')}} }'
+      qos: '1'
   mode: single
