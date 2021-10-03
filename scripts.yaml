@@ -708,12 +708,12 @@ heating_control:
     data:
       level: critical
       logger: swa-log
-      message: '''{"cmd":"{{states(''input_select.hcontrol_cmd'')}}","data":{{states(''input_number.hcontrol_data'')}},"id":{{states(''input_select.hcontrol_id'')}}}
+      message: '''{"cmd":"{{states(''input_select.hcontrol_cmd'')}}","data":{{states(''input_number.hcontrol_data'')|int}},"id":{{states(''input_select.hcontrol_id'')}}}
         at {{now()}}'''
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"{{states(''input_select.hcontrol_cmd'')}}","data":{{states(''input_number.hcontrol_data'')}},
+      payload: '{"cmd":"{{states(''input_select.hcontrol_cmd'')}}","data":{{states(''input_number.hcontrol_data'')|int}},
         "id":{{states(''input_select.hcontrol_id'')}} }'
       qos: '1'
   mode: single

@@ -441,13 +441,26 @@
   max: 10
 - id: '1620552474899'
   alias: Advanced Heating Reset offsets
-  description: ''
+  description: Reset offsets with check after 10min
   trigger:
   - platform: time
     at: '23:05'
   condition: []
   action:
-  - service: script.heating_reset_offsets
+  - delay:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  - condition: template
+    value_template: "{{ states('sensor.thermostat_hc1_offset_temperature')| float\
+      \ != 0.0 or \n   states('sensor.thermostat_hc2_offset_temperature')| float !=\
+      \ 0.0 or\n   states('sensor.thermostat_hc3_offset_temperature')| float != 0.0\
+      \ }}"
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: Rest offsets did not work. Not all offsets are 0. Check heating.
   mode: single
 - id: '1620553045155'
   alias: q3 Wenn zu warm im DG oder 0900 Uhr und Stefan im Office, frage Stefan ob
@@ -634,46 +647,6 @@
     default: []
   mode: queued
   max: 10
-- id: '1630829101033'
-  alias: Advanced Heating (Backup)
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: input_boolean.swatest
-    to: 'on'
-    id: hc1-back-to-on
-  - platform: state
-    entity_id: input_boolean.swatest
-    to: 'off'
-    id: hc1-back-to-off
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: hc1-back-to-on
-      sequence:
-      - service: script.notify_stefan_heating
-        data:
-          title: Heating 1
-          message: '2on {{ trigger.from_state.state }} to {{ trigger.to_state.state
-            }} This was triggered by {{ trigger.id }}
-
-            '
-    - conditions:
-      - condition: trigger
-        id: hc1-back-to-off
-      sequence:
-      - service: script.notify_stefan_heating
-        data:
-          title: Heating 2
-          message: '2off {{ trigger.from_state.state }} to {{ trigger.to_state.state
-            }} This was triggered by {{ trigger.id }}
-
-            '
-    default: []
-  mode: queued
-  max: 10
 - id: '1630830548440'
   alias: Advanced Heating HC2
   description: ''
@@ -818,7 +791,7 @@
   max: 10
 - id: '1630838302181'
   alias: Advanced Heating Forecast
-  description: ''
+  description: Set offset temp if next day is too warm/sunny with check after 10min
   trigger:
   - platform: time
     at: '23:30'
@@ -860,6 +833,20 @@
       message: Tomorrow will be warm ({{states('input_text.heating_forecast_condition')}}/
         {{states('input_number.heating_forecast_temperature')}}). All offsets -3.
         If temp at night below 17, heating will likely still be off.
+  - delay:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  - condition: template
+    value_template: "{{ states('sensor.thermostat_hc1_offset_temperature')| float\
+      \ != -3.0 or \n   states('sensor.thermostat_hc2_offset_temperature')| float\
+      \ != -3.0 or\n   states('sensor.thermostat_hc3_offset_temperature')| float !=\
+      \ -3.0 }}"
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: Forecast did not work. Not all offsets are -3. Check heating.
   mode: single
 - id: '1630944728318'
   alias: Advanced Rolladen Clara
