@@ -623,7 +623,7 @@ test_log:
   sequence:
   - service: system_log.write
     data:
-      message: dfdfdfgdgdg {{now()}}
+      message: dfdfdfgdgdg {{now().strftime("%Y-%m-%d %H:%M")}}
       level: critical
       logger: swa-log
   mode: single
@@ -646,9 +646,22 @@ heating_set_room_temp_high:
   - service: system_log.write
     data:
       message: Setting Heating Circuits to {{states('input_number.heating_temp_high')|int}}°C
-        at {{now()}}
+        at {{now().strftime("%Y-%m-%d %H:%M")}}
       level: critical
       logger: swa-log
+  - delay:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  - condition: template
+    value_template: "{{ states('sensor.thermostat_hc1_selected_room_temperature')|\
+      \ float != states('input_number.heating_temp_high')|float or\n   states('sensor.thermostat_hc2_selected_room_temperature')|\
+      \ float != states('input_number.heating_temp_high')|float }}"
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: Setting high temp did not work. Check heating.
   mode: single
 heating_set_room_temp_low:
   alias: Heating Set Room Temp Low
@@ -668,9 +681,22 @@ heating_set_room_temp_low:
   - service: system_log.write
     data:
       message: Setting Heating Circuits to {{states('input_number.heating_temp_low')|int}}°C
-        at {{now()}}
+        at {{now().strftime("%Y-%m-%d %H:%M")}}
       level: critical
       logger: swa-log
+  - delay:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  - condition: template
+    value_template: "{{ states('sensor.thermostat_hc1_selected_room_temperature')|\
+      \ float != states('input_number.heating_temp_low')|float or\n   states('sensor.thermostat_hc2_selected_room_temperature')|\
+      \ float != states('input_number.heating_temp_low')|float }}"
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: Setting low temp did not work. Check heating.
   mode: single
 play_swr3:
   alias: Play swr3
@@ -708,8 +734,8 @@ heating_control:
     data:
       level: critical
       logger: swa-log
-      message: '''{"cmd":"{{states(''input_select.hcontrol_cmd'')}}","data":{{states(''input_number.hcontrol_data'')|int}},"id":{{states(''input_select.hcontrol_id'')}}}
-        at {{now()}}'''
+      message: '''Heating control sends {"cmd":"{{states(''input_select.hcontrol_cmd'')}}","data":{{states(''input_number.hcontrol_data'')|int}},"id":{{states(''input_select.hcontrol_id'')}}}
+        at {{now().strftime("%Y-%m-%d %H:%M")}}'''
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat

@@ -145,6 +145,7 @@ influxdb:
       - sensor.thermostat*
       - sensor.solar*
       - sensor.accuweather*
+      - sensor.openweathermap*
       - sensor.multi*
       - sensor.dew*
       - sensor.heating*

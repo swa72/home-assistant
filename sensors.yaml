@@ -574,3 +574,9 @@
 #
     dew_monitoring_runing:
       value_template: "{{'running' if is_state('script.dehumidify_basement', 'on') else 'not running'}}"
+#
+# entfeuchter cycles in 30min. if this stops, the device is simply full
+#
+    entfeuchter_voll:
+      value_template: "{{ states('sensor.shellys_keller_entfeuchter_power')| float > 0 and states('sensor.shellys_keller_entfeuchter_power')| float < 1 }}"
+      
