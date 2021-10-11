@@ -447,6 +447,7 @@
     at: '23:05'
   condition: []
   action:
+  - service: script.heating_reset_offsets
   - delay:
       hours: 0
       minutes: 10
