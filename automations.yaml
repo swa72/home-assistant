@@ -951,6 +951,9 @@
     - conditions:
       - condition: trigger
         id: hc2ghc1
+      - condition: template
+        value_template: '{{ states(''sensor.thermostat_hc2_offset_temperature'') !=
+          ''-3'' }}'
       sequence:
       - service: system_log.write
         data:
