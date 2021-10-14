@@ -557,7 +557,17 @@
        {% set h = h | float %}
        {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
        {% endif %}
-#
+    dew_og_kinderbad:
+      unit_of_measurement: '°C'
+      value_template: >-
+       {% set h, t = states('sensor.multi_og_kinderbad_humidity') | float, states('sensor.multi_og_kinderbad_temperature') %}
+       {% if not h or t == 'unknown' -%}
+        'unknown'
+       {%- else %}
+       {% set t = t | float %}
+       {% set h = h | float %}
+       {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
+       {% endif %}#
 #
 #    
     dew_eg_buro_open_window:
@@ -570,6 +580,8 @@
       value_template: "{{ states('sensor.dewpoint_outside')|float < states('sensor.dew_og_konstantin')|float }}"      
     dew_og_clara_open_window:
       value_template: "{{ states('sensor.dewpoint_outside')|float < states('sensor.dew_og_clara')|float }}"
+    dew_og_kinderbad_open_window:
+      value_template: "{{ states('sensor.dewpoint_outside')|float < states('sensor.dew_og_kinderbad')|float }}"
 #
 #
     dew_monitoring_runing:
