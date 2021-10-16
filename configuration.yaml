@@ -193,3 +193,17 @@ utility_meter:
 spotify:
   client_id: !secret spotify_clientid
   client_secret: !secret spotify_secret
+
+#
+#
+#
+template:
+  trigger:
+    platform: event
+    event_type: "motioneye.motion_detected"
+    event_data:
+      name: "camera.livingroom"
+  binary_sensor:
+    - name: Event on camera.livingroom recently fired
+      auto_off: 5
+      state: "true"

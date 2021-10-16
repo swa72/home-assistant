@@ -11,8 +11,10 @@
 #
 # check out https://gcobb321.github.io/icloud3_docs/#/chapters/1-installing-starting-icloud3
 #
-- platform: icloud3
-  username: !secret icloud_name
-  password: !secret icloud_password
-  tracking_method: famshr
+# 16.10.2021 removed. unreliable.
+#
+#- platform: icloud3
+#  username: !secret icloud_name
+#  password: !secret icloud_password
+#  tracking_method: famshr
   

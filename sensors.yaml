@@ -591,4 +591,3 @@
 #
     entfeuchter_voll:
       value_template: "{{ states('sensor.shellys_keller_entfeuchter_power')| float >= 0.0 and states('sensor.shellys_keller_entfeuchter_power')| float < 1.0 }}"
-      
