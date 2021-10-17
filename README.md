@@ -33,6 +33,7 @@ This file is intended for me to document the quirks I had during setup and for o
 	  * flash the arduino image from the X1 Thinkpad, only change Wifi credentials in the code
 		* open serial monitor on COM4 and do the calibration
 		* reflash with ESPHome
+* a Reolink E1 pro camera (described below)
 * Regular backup to ~a samba share~ Google Drive (described below)
 * Regular updates to git (described below)
 * I run a bunch of add-ons, described in the following sections.
@@ -266,6 +267,32 @@ compatibility_mode: false
 * an old iPhone serving as a guinea pig camera
 * for motionEye's webhooks I had to install NGINX as add-on (see https://community.home-assistant.io/t/motioneye-integration/194350/42)
 * triggers action if motion is detected 
+
+## Reolink E1 pro camera
+* on IP `192.168.178.75`; access to the internet normally blocked by the router
+* motionEye add-on
+
+  ```
+  motion_webcontrol: true
+  ssl: true
+  certfile: fullchain.pem
+  keyfile: privkey.pem
+  action_buttons: []
+  ```
+* Now to the tricky part: the latency. To avoid that, I integrate the Reolink camera with the normal camera integration like that
+
+  ```
+  - platform: mjpeg
+    name: melivingroom
+    still_image_url: !secret melivingroom_still_image_url
+    mjpeg_url: "http://homeassistant:8082/mjpeg"
+  ```
+
+* The stream is in turn provided by motionEye (see configuration of the camera, section "Video Streaming")
+  <img src="./image/motioneye.png" width="400">
+* to get the PTZ controls of the camera to work, I integrated the camera also thru the ONVIF integration
+* for motion detected, I use the motionEye HACS integration [https://github.com/dermotduffy/hass-motioneye]
+  * tbd
 
 # Useful stuff
 
