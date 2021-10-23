@@ -783,3 +783,22 @@ heating_change_offset:
       example: -3
   mode: parallel
   max: 10
+alexa_tts_entfeuchter_voll:
+  alias: Alexa tts Entfeuchter voll
+  sequence:
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.5
+    entity_id: media_player.stefans_echo_dot
+  - service: notify.alexa_media
+    data:
+      target: media_player.stefans_echo_dot
+      message: Hallo, der Entfeuchter ist voll.
+      data:
+        type: tts
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.2
+    target:
+      entity_id: media_player.stefans_echo_dot
+  mode: single
