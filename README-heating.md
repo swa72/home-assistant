@@ -50,9 +50,6 @@ connect to your local WLAN (don't forget to give it a static address - mine is 1
 * As mentioned above, I complement the existing heating control. To do just that, I simply send the offset 
 parameter to the thermostat to lower or raise the flow temperatures and leave the existing heating control
 to do its job. I have the following automations:
-  * Heating forecast
-    * at 23:30 the automation analyses the weather forecast. If its sunny or temperature is above 20°C, all offsets are set 
-		to -3K (which lowers the target temp of each circuit by 9 degrees)
   * Circuit control for each of the three circuits
     * all rooms that are relevant for a heating circuit are rated regarding their temperature (ok, too-cold, too-warm). Based on that
 		information, the entire circuit is rated. If a circuit changes state from e.g. 'ok' to 'too-warm'), that circuit receives an offset of -3K.
@@ -60,6 +57,11 @@ to do its job. I have the following automations:
 		and we still have time from 0500 to heat up.
   * Reset offsets
 	  * at 23:05 all offsets are set back to zero
+  * Heating forecast
+    * at 23:30 the automation analyses the weather forecast. If its sunny or temperature is above 20°C, all offsets are set 
+		to -3K (which lowers the target temp of each circuit by 9 degrees)
+  * Heating work schedule
+	  * any day, we're out of the house during work week, lower the set temp from 20°C to 19°C between 0700 and 1200
   * Monitoring
     * at night, set the heating date/time using NTP
     * if the heating shows odd maintenance codes, send notification

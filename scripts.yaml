@@ -358,21 +358,21 @@ one_time_water_off:
 heating_reset_offsets:
   alias: Heating Reset Offsets
   sequence:
-  - service: mqtt.publish
+  - service: script.heating_change_offset
     data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"offsettemp","data":0, "id":1}'
-      qos: '1'
-  - service: mqtt.publish
+      origin: script.Heating Reset Offsets
+      circuit: 1
+      offset: 0
+  - service: script.heating_change_offset
     data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"offsettemp","data":0, "id":2}'
-      qos: '1'
-  - service: mqtt.publish
+      origin: script.Heating Reset Offsets
+      circuit: 2
+      offset: 0
+  - service: script.heating_change_offset
     data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"offsettemp","data":0, "id":3}'
-      qos: '1'
+      origin: script.Heating Reset Offsets
+      circuit: 3
+      offset: 0
   mode: single
 heating_burner_up:
   alias: Heating burner up
@@ -429,16 +429,16 @@ heating_burner_down:
 heating_lower_offsets_hc1_hc2:
   alias: Heating Lower Offsets HC1 HC2
   sequence:
-  - service: mqtt.publish
+  - service: script.heating_change_offset
     data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"offsettemp","data":-3, "id":1}'
-      qos: '1'
-  - service: mqtt.publish
+      origin: script.Heating Lower Offsets HC1 HC2
+      circuit: 1
+      offset: -3
+  - service: script.heating_change_offset
     data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"offsettemp","data":-3, "id":2}'
-      qos: '1'
+      origin: script.Heating Lower Offsets HC1 HC2
+      circuit: 2
+      offset: -3
   mode: single
 heating_activated:
   alias: Heating Set Activated On
@@ -738,3 +738,48 @@ heating_control:
         "id":{{states(''input_select.hcontrol_id'')}} }'
       qos: '1'
   mode: single
+heating_offset_script_trigger:
+  alias: Heating offset script trigger
+  sequence:
+  - service: script.heating_change_offset
+    data:
+      origin: script.heating_offset_script_trigger
+      circuit: 3
+      offset: 0
+  mode: single
+heating_change_offset:
+  alias: Heating change offset
+  sequence:
+  - service: system_log.write
+    data:
+      message: Heating {{circuit}} offset {{offset}} time {{now().strftime("%Y-%m-%d
+        %H:%M")}}, source {{origin}}
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":{{offset}}, "id":{{circuit}}}'
+      qos: '1'
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - condition: template
+    value_template: '{{ states(''sensor.thermostat_hc'' ~ circuit ~ ''_offset_temperature'')|float
+      != offset}}'
+  - service: system_log.write
+    data:
+      message: Heating {{circuit}} offset {{offset}} time {{now().strftime("%Y-%m-%d
+        %H:%M")}}, source {{origin}} did not work. Check manually.
+  fields:
+    origin:
+      description: The service/automation that called this script
+      example: foo.automation
+    circuit:
+      description: The circuit to change
+      example: 1
+    offset:
+      description: New offset value
+      example: -3
+  mode: parallel
+  max: 10
