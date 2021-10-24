@@ -827,7 +827,8 @@
         data:
           position: 40
     default: []
-  mode: single
+  mode: queued
+  max: 10
 - id: '1632469853125'
   alias: Advanced Rolladen Anna
   description: ''
