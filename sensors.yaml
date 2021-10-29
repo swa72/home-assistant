@@ -567,7 +567,7 @@
        {% set t = t | float %}
        {% set h = h | float %}
        {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
-       {% endif %}#
+       {% endif %}
 #
 #    
     dew_eg_buro_open_window:

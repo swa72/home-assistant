@@ -30,14 +30,14 @@ frontend:
     # custom_components.icloud3.pyicloud_ic3: debug
     # custom_components.icloud3.device_tracker: debug
 
-logger:
-  default: warn
-  logs:
-    homeassistant.components.recorder: debug
-# temporary solution as per https://github.com/emsesp/EMS-ESP/issues/756
-    homeassistant.helpers.template: error
-# lets see more stuff in the logs from mqtt
-    homeassistant.components.mqtt: debug
+# logger:
+  # default: warn
+  # logs:
+    # homeassistant.components.recorder: debug
+# # temporary solution as per https://github.com/emsesp/EMS-ESP/issues/756
+    # homeassistant.helpers.template: error
+# # lets see more stuff in the logs from mqtt
+    # homeassistant.components.mqtt: debug
 
 #
 # to turn on my pc
