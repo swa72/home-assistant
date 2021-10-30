@@ -40,6 +40,13 @@ frontend:
     # homeassistant.components.mqtt: debug
 
 #
+# avoid template errors in ems-esp
+#
+logger:
+  logs:
+    homeassistant.helpers.template: error
+
+#
 # to turn on my pc
 #
 wake_on_lan:
@@ -138,6 +145,7 @@ influxdb:
       - sensor.regen_heute
       - sensor.rel_humidity
       - sensor.hum_abs_basement
+      - sensor.smlreadertotalenergyconsumption
     entity_globs:
       - sensor.shellys_keller*
       - sensor.boiler*
@@ -153,6 +161,7 @@ influxdb:
       - binary_sensor.boiler*
       - binary_sensor.mixer*
       - binary_sensor.solar*
+      - sensor.smlpower*
 #
 #
 counter:
@@ -182,6 +191,22 @@ utility_meter:
   gasverbrauch_yearly:
     source: sensor.gasverbrauch
     cycle: yearly
+  smlpower_hourly:
+    source: sensor.smlreadertotalenergyconsumption
+    cycle: hourly
+  smlpower_daily:
+    source: sensor.smlreadertotalenergyconsumption
+    cycle: daily
+  smlpower_weekly:
+    source: sensor.smlreadertotalenergyconsumption
+    cycle: weekly
+  smlpower_monthly:
+    source: sensor.smlreadertotalenergyconsumption
+    cycle: monthly
+  smlpower_yearly:
+    source: sensor.smlreadertotalenergyconsumption
+    cycle: yearly
+    
 #
 #
   regen_daily:

@@ -591,3 +591,29 @@
 #
     entfeuchter_voll:
       value_template: "{{ states('sensor.shellys_keller_entfeuchter_power')| float >= 0.0 and states('sensor.shellys_keller_entfeuchter_power')| float < 1.0 }}"
+#
+# power meter
+# 
+# reload in HA with "template entities", see also customize.yaml
+#
+- platform: mqtt
+  name: "SMLReaderManufacturer"
+  state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:96.50.1/1/value"
+- platform: mqtt
+  name: "SMLReaderDeviceID"
+  state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:96.1.0/255/value"
+- platform: mqtt
+  name: "SMLReaderCounter"
+  state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:1.8.0/255/value"
+  unit_of_measurement: "kWh"
+  device_class: energy
+- platform: template
+  sensors:
+    smlreadertotalenergyconsumption:
+      unit_of_measurement: "kWh"
+      value_template: >
+        {% if states('sensor.smlreadercounter') == 'unavailable' %}
+          {{ states('sensor.smlreadertotaltnergyconsumption') }}
+        {% else %}
+          {{ ((states('sensor.smlreadercounter') | float) * 0.001) }}
+        {% endif %}
