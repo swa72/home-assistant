@@ -104,6 +104,6 @@ in my `configuration.yaml` file. A simple daily power usage visualisation of the
 ```
 SELECT spread("value") FROM "kWh" WHERE ("entity_id" = 'smlreadertotalenergyconsumption') AND time >= now() - 7d and time <= now() GROUP BY time(1d) fill(previous)
 ```
-Note the use of `spread` operator.
+Note the use of the `spread` operator.
 
 You'll find the entire code in [configuration.yaml](./configuration.yaml), [customize.yaml](./customize.yaml) and [sensors.yaml](./sensors.yaml).
