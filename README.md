@@ -12,17 +12,16 @@ This file is intended for me to document the quirks I had during setup and for o
 
 * Router Fritz!Box 7490 with open external ports 443 and 8123 to the Raspberry 4 (no DynDNS on fritz.box)
   * my doorbell is directly hooked up to the Fritzbox
-  * Fritzbox has an attached USB stick
-* Raspberry 4 running more ot less the latest Home Assistant version
+* Raspberry 4 running more or less the latest Home Assistant version
   * initially connected thru wifi, later moved to ethernet and directly connected to the Fritzbox
   * conbee USB stick to [manage ZigBee network](README-zigbee.md)
 * [a Buderus Logamax Plus GB192i heating controlled with EMS-ESP](README-heating.md)
 * [a Cyble pulse sensor that reads my gas meter with an ESP](esphome/README-gas.md)
-  * the same ESP also reads the power meter (see https://smarthome.ms1.de/projekte/stromverbrauch/)
+* [an ESP8266 that reads my power meter](README-powermeter.md)
 * Mitsubishi Heavy Industries (MHI) air conditioner
   * SRK25ZS-W controlled with ESP (https://github.com/ginkage/MHI-AC-Ctrl-ESPHome)
   * SRK20ZS-W controlled with ESP (https://github.com/ginkage/MHI-AC-Ctrl-ESPHome)
-  * Note to myself: compile the yaml file first, then connect the device to the USB port of the X1 to flash it
+  * Note to myself: compile the yaml file first, then connect the device to the USB port of the ThinkPad X1 to flash it
 * two fans to keep my basement dry (sort of), [controlled by dew point](README-basement.md)
 * Shelly 2.5 devices control my roller shutters
 * Shelly 1 device controls my garage door
@@ -126,7 +125,7 @@ seconds: 300
 
 * to remotely edit files
 
-## Glances 
+## Glances (deprecated, no longer in use)
 
 * to monitor the Raspberry
 
@@ -206,7 +205,7 @@ init_commands: []
 * working with the stock install, just disabled mariadb
 
 
-## Backup to Samba Drive - deprecated
+## Backup to Samba Drive (deprecated, no longer in use)
 
 * to have regular config backups to the USB stick of the Fritzbox
 * note that username ##replaceme## must be available on the Fritzbox ("System > FRITZ!Box-Benutzer > Benutzer") and that particular user requires access to the attached USB stick
@@ -316,7 +315,7 @@ or
   * Copy all the text and pasted in this random json to table converter (https://www.convertjson.com/json-to-html-table.htm)
   * works with devices, too
 
-## HACS: iCloud3 Device Tracker
+## HACS: iCloud3 Device Tracker (deprecated, no longer in use)
 
 * iCloud has authentication problems, so I was looking for an alternative
 * see https://gcobb321.github.io/icloud3/#/
