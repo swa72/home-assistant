@@ -7,11 +7,13 @@ in my Fritzbox.
 <img src="./image/smlpower.png" width="250">
 
 How to fill the data? I didn't change `Thing name` but set an AP password, otherwise the device wouldn't work.
-MQT username and password were configured in "Configuration | Users" in HA, `homeassistant-eth` is the local name of my raspi.
+MQTT username and password were configured in "Configuration | Users" in HA, `homeassistant-eth` is the local name of my raspi.
 MQTT port was set in "Supervisor | Mosquitto broker | Configuration". You can pick an arbitrary topic name.
 
 The head attaches to the SML interface of the meter and is kept in place with a magnet. Once connected to power, the
 blue LED flashes and sends data. 
+
+<img src="./image/smlpower2.jpg" width="250">
 
 You can check whether Mosquitto receives topics in "Configuration | Integrations | Mosquitto broker | Configure" and start 
 listening to the topic `homeassistant/sensor/smartmeter/#`. Note the hash at the end.
