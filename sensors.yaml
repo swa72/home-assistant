@@ -561,7 +561,7 @@
       unit_of_measurement: '°C'
       value_template: >-
        {% set h, t = states('sensor.multi_og_kinderbad_humidity') | float, states('sensor.multi_og_kinderbad_temperature') %}
-       {% if not h or t == 'unknown' -%}
+       {% if not h or t == 'unknown' -%}f
         'unknown'
        {%- else %}
        {% set t = t | float %}
@@ -612,7 +612,7 @@
     smlreadertotalenergyconsumption:
       unit_of_measurement: "kWh"
       value_template: >
-        {% if states('sensor.smlreadercounter') == 'unavailable' %}
+        {% if states('sensor.smlreadercounter') == 'unavailable' or states('sensor.smlreadercounter') == 'unknown' %}
           {{ states('sensor.smlreadertotaltnergyconsumption') }}
         {% else %}
           {{ ((states('sensor.smlreadercounter') | float) * 0.001) }}

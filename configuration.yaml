@@ -43,6 +43,7 @@ frontend:
 # avoid template errors in ems-esp
 #
 logger:
+  default: warning
   logs:
     homeassistant.helpers.template: error
 
@@ -113,6 +114,8 @@ recorder:
       - sensor.swaiphone_info
       - sensor.jphone_info
       - sensor.iphone_von_anna_info
+      - sensor.smlreaderdeviceid
+      - sensor.smlreadermanufacturer
 #
 #
 #
@@ -174,6 +177,7 @@ counter:
       step: 1
       icon: mdi:fan
 #
+# power and gas meters
 #
 utility_meter:
   gasverbrauch_hourly:
@@ -191,6 +195,8 @@ utility_meter:
   gasverbrauch_yearly:
     source: sensor.gasverbrauch
     cycle: yearly
+#
+#
   smlpower_hourly:
     source: sensor.smlreadertotalenergyconsumption
     cycle: hourly
