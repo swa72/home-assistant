@@ -18,10 +18,15 @@ blue LED flashes and sends data.
 You can check whether Mosquitto receives topics in "Configuration | Integrations | Mosquitto broker | Configure" and start 
 listening to the topic `homeassistant/sensor/smartmeter/#`. Note the hash at the end.
 
-Without entering a PIN for the power meter (I asked my energy provider and haven't heard back, yet), I only receive three data points
+Without entering a PIN for the power meter (You need to ask your energy provider), I only receive three data points
 * manufacturer of the power meter
 * device ID
 * total energy consumed (kWh)
+
+Adding the PIN and turning the `info` parameter on the meter to `on`, also gives
+* current power (W)
+
+Entering the PIN is described in [a manual that I googled](https://evf.de/dateien/downloads/bedienungsanleitung-dzg-dvs7420.pdf).
 
 ## Configuration in HA
 
@@ -38,6 +43,11 @@ Now that HA receives MQTT topics, we define some sensors to record the data. I h
   state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:1.8.0/255/value"
   unit_of_measurement: "kWh"
   device_class: energy
+- platform: mqtt
+  name: "SMLReaderPower"
+  state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:16.7.0/255/value"
+  unit_of_measurement: "W"
+  device_class: power
 ```
 to my `sensors.yaml` file. For further processing in HA, I also define another template sensor.
 ```

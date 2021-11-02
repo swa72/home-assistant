@@ -149,6 +149,7 @@ influxdb:
       - sensor.rel_humidity
       - sensor.hum_abs_basement
       - sensor.smlreadertotalenergyconsumption
+      - sensor.smlreaderpower
     entity_globs:
       - sensor.shellys_keller*
       - sensor.boiler*

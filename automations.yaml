@@ -782,7 +782,7 @@
       - scene: scene.schlafzimmer_morgen
     - conditions:
       - condition: trigger
-        id: wochentags
+        id: wochentagsferien
       - condition: time
         weekday:
         - mon
