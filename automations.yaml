@@ -1287,3 +1287,93 @@
       offset: '{{ [-(states(''sensor.heating_hc2_delta'')|float/3)|round(0,''floor''),-3]|max
         }}'
   mode: single
+- id: '1635933038164'
+  alias: Advanced Rolladen Clara v2
+  description: Rolladensteuerung Clara zeitgesteuert Wochentags/Wochenende
+  trigger:
+  - platform: time
+    at: input_datetime.cover_morning_weekday
+    id: wochentags
+  - platform: time
+    at: input_datetime.cover_morning_holiday
+    id: wochentagsferien
+  - platform: sun
+    event: sunset
+    offset: 00:30:00
+    id: abends1
+  - platform: time
+    at: '19:45'
+    id: abends2
+  - platform: time
+    at: input_datetime.cover_morning_weekend
+    id: wochenende
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: trigger
+          id: abends1
+        - condition: trigger
+          id: abends2
+      sequence:
+      - service: cover.set_cover_position
+        data:
+          position: 5
+        target:
+          entity_id: cover.shelly25_og_clara
+    - conditions:
+      - condition: trigger
+        id: wochentags
+      - condition: time
+        weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+      - condition: state
+        entity_id: input_boolean.ferien
+        state: 'off'
+      sequence:
+      - service: cover.set_cover_position
+        target:
+          entity_id: cover.shelly25_og_clara
+        data:
+          position: 100
+    - conditions:
+      - condition: trigger
+        id: wochentagsferien
+      - condition: time
+        weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+      - condition: state
+        entity_id: input_boolean.ferien
+        state: 'on'
+      sequence:
+      - service: cover.set_cover_position
+        target:
+          entity_id: cover.shelly25_og_clara
+        data:
+          position: 100
+    - conditions:
+      - condition: trigger
+        id: wochenende
+      - condition: time
+        weekday:
+        - sat
+        - sun
+      sequence:
+      - service: cover.set_cover_position
+        target:
+          entity_id: cover.shelly25_og_clara
+        data:
+          position: 100
+    default: []
+  mode: queued
+  max: 10
