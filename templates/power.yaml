@@ -1,0 +1,17 @@
+#
+# Configuration | YAML configuration reloading | Reload Template Entities
+#
+- sensor:
+  - unique_id: smlreadertotalenergyconsumption
+    name: Total Power Energy
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    state: >
+      {% if states('sensor.smlreadercounter') == 'unavailable' or states('sensor.smlreadercounter') == 'unknown' %}
+        {{ states('sensor.smlreadertotalenergyconsumption') }}
+      {% else %}
+        {{ ((states('sensor.smlreadercounter') | float) * 0.001) }}
+      {% endif %}
+    attributes:
+      template: power
