@@ -11,7 +11,7 @@ This file is intended for me to document the quirks I had during setup and for o
 ## My setup
 
 * Router Fritz!Box 7490 with open external port 443 to the Raspberry 4 (no DynDNS on fritz.box)
-  * my doorbell is directly hooked up to the Fritzbox
+* A doorbell/intercom Auerswald TFS-Universal plus directly hooked up to the Fritzbox
 * Raspberry 4 running more or less the latest Home Assistant version
   * initially connected thru wifi, later moved to ethernet and directly connected to the Fritzbox
   * conbee USB stick to [manage ZigBee network](README-zigbee.md)
@@ -33,9 +33,64 @@ This file is intended for me to document the quirks I had during setup and for o
 		* open serial monitor on COM4 and do the calibration
 		* reflash with ESPHome
 * a Reolink E1 pro camera (described below)
+* a Reolink RLC-511WA camera (described below)
 * Regular backup to ~a samba share~ Google Drive (described below)
 * Regular updates to git (described below)
 * I run a bunch of add-ons, described in the following sections.
+
+# How to access HA from the outside?
+
+The fritzbox forwards port 443 to the Raspberry running HA.
+
+## DuckDNS
+
+* I want to access my HA instance remotely, so I needed a DNS name and Let's Encrypt support.
+
+```
+lets_encrypt:
+  accept_terms: true
+  certfile: fullchain.pem
+  keyfile: privkey.pem
+token: ##replaceme##
+domains:
+  - xxx.duckdns.org
+aliases: []
+seconds: 300
+```
+
+## NGINX Home Assistant SSL proxy
+
+* forwards incoming SSL traffic from Fritzbox to HA's local port 8123.
+
+```
+domain: xxx.duckdns.org
+certfile: fullchain.pem
+keyfile: privkey.pem
+hsts: max-age=31536000; includeSubDomains
+cloudflare: false
+customize:
+  active: false
+  default: nginx_proxy_default*.conf
+  servers: nginx_proxy/*.conf
+
+Network
+Container	Host	Description
+443/tcp      443
+80/tcp		80
+```
+
+Also make sure to include `http.yaml` in `configuration.yaml` with
+
+```
+use_x_forwarded_for: true
+trusted_proxies:
+  - 172.30.33.0/24
+  - 127.0.0.1
+  - ::1
+```
+
+Using this setup, I can access HA locally with http://homeassistant-eth:8123/ and remotely with https://xxx.duckdns.org/.
+This is particularly important as local devices may not be able to use HTTPS, so I can still use HTTP locally.
 
 ## AdGuard Home 
 
@@ -71,7 +126,7 @@ tts:
     service_name: google_translate_say
     base_url: https://xxx.duckdns.org
 ```
-* configuration (note that ```192.168.178.1``` is the IP address of my Fritzbox, and ```192.168.178.83``` is the IP address of my raspberry
+* configuration (note that ```192.168.178.1``` is the IP address of my Fritzbox, and ```192.168.178.83``` is the IP address of my Raspberry
 ```
 sip_parameters:
   caller_id_uri: 'sip:homeassistant@192.168.178.1:5060'
@@ -105,47 +160,12 @@ pjsua_custom_options: '--ip-addr=192.168.178.83'
 ```
 and store mp3 files in folder ```\config\www```. Note that the call is automagically ended after six seconds.
 
-## DuckDNS
 
-* I want to access my HA instance remotely, so I needed a DNS name and Let's Encrypt support.
-
-```
-lets_encrypt:
-  accept_terms: true
-  certfile: fullchain.pem
-  keyfile: privkey.pem
-token: ##replaceme##
-domains:
-  - xxx.duckdns.org
-aliases: []
-seconds: 300
-```
 
 ## File editor
 
 * to remotely edit files
 
-## Glances (deprecated, no longer in use)
-
-* to monitor the Raspberry
-
-```
-log_level: info
-process_info: false
-refresh_time: 10
-ssl: false
-certfile: fullchain.pem
-keyfile: privkey.pem
-influxdb:
-  enabled: false
-  host: ##replaceme##
-  port: 8086
-  username: glances
-  password: '!secret glances_influxdb_password'
-  database: glances
-  prefix: localhost
-  interval: 60
-```
 
 ## Log Viewer
 
@@ -156,39 +176,6 @@ influxdb:
 
 * Moved from Sqlite to using this https://community.home-assistant.io/t/migrating-home-assistant-database-from-sqlite-to-mariadb/96895/23
 
-## NGINX Home Assistant SSL proxy
-
-* forwards incoming SSL traffic from Fritzbox to HA
-```
-domain: xxx.duckdns.org
-certfile: fullchain.pem
-keyfile: privkey.pem
-hsts: max-age=31536000; includeSubDomains
-cloudflare: false
-customize:
-  active: false
-  default: nginx_proxy_default*.conf
-  servers: nginx_proxy/*.conf
-```
-Also
-```
-Network
-Container	Host	Description
-443/tcp		443
-80/tcp		80
-```
-
-Also make sure to include `http.yaml` in `configuration.yaml` with
-
-```
-use_x_forwarded_for: true
-trusted_proxies:
-  - 172.30.33.0/24
-  - 127.0.0.1
-  - ::1
-```
-
-Using this setup, I can access HA locally with http://homeassistant-eth:8123/` and remotely with https://xxx.duckdns.org/.
 
 ## SSH & Web Terminal
 
@@ -214,35 +201,6 @@ init_commands: []
 ## Backup to Google Drive
 * installed "Home Assistant Google Drive Backup" from Supervisors' add-ons
 * working with the stock install, just disabled mariadb
-
-
-## Backup to Samba Drive (deprecated, no longer in use)
-
-* to have regular config backups to the USB stick of the Fritzbox
-* note that username ##replaceme## must be available on the Fritzbox ("System > FRITZ!Box-Benutzer > Benutzer") and that particular user requires access to the attached USB stick
-
-```
-host: 192.168.178.1
-share: FRITZ.NAS
-target_dir: CCCOMA_X64F\ha
-username: ##replaceme##
-password: ##replaceme##
-keep_local: 14
-keep_remote: all
-trigger_time: '00:00'
-trigger_days:
-  - Mon
-  - Tue
-  - Wed
-  - Thu
-  - Fri
-  - Sat
-  - Sun
-exclude_addons: []
-exclude_folders: []
-backup_name: '{type} Snapshot {version} {date}'
-```
-~
 
 ## Samba share
 
@@ -271,6 +229,13 @@ compatibility_mode: false
 
 * to run my ZigBee devices
 
+## HACS: Alexa Media Player
+
+* see https://github.com/custom-components/alexa_media_player/wiki
+* no "Cookie import" or "Configuration.yaml" required 
+* do not forget to enter the OTP code at the end (https://www.amazon.com/a/settings/approval/addbackup)
+* https://community.home-assistant.io/t/alexa-tts-announcement-from-lovelace-ui-and-without-nabu-casa-alexa-media-player/259980/7
+
 
 ## motionEye
 
@@ -278,7 +243,7 @@ compatibility_mode: false
 * for motionEye's webhooks I had to install NGINX as add-on (see https://community.home-assistant.io/t/motioneye-integration/194350/42)
 * triggers action if motion is detected 
 
-## Reolink E1 pro camera
+### Reolink E1 pro camera
 * on IP `192.168.178.75`; access to the internet normally blocked by the router
 * motionEye add-on
 
@@ -301,8 +266,11 @@ compatibility_mode: false
 * The stream is in turn provided by motionEye (see configuration of the camera, section "Video Streaming")
   <img src="./image/motioneye.png" width="400">
 * to get the PTZ controls of the camera to work, I integrated the camera also thru the ONVIF integration
-* for motion detected, I use the motionEye HACS integration [https://github.com/dermotduffy/hass-motioneye]
-  * tbd
+* ~for motion detected, I use the motionEye HACS integration [https://github.com/dermotduffy/hass-motioneye]~
+
+### Reolink RLC-511WA camera
+* integrated using https://github.com/fwestenberg/reolink_dev/
+* the key for me to get motion detection running, was to make sure that I could access HA locally with HTTP 
 
 # Useful stuff
 
@@ -325,19 +293,6 @@ or
   * Open the file \config.storage\core.entity_registry 
   * Copy all the text and pasted in this random json to table converter (https://www.convertjson.com/json-to-html-table.htm)
   * works with devices, too
-
-## HACS: iCloud3 Device Tracker (deprecated, no longer in use)
-
-* iCloud has authentication problems, so I was looking for an alternative
-* see https://gcobb321.github.io/icloud3/#/
-* config see https://github.com/swa72/home-assistant/blob/main/config_ic3.yaml
-
-## HACS: Alexa Media Player
-
-* see https://github.com/custom-components/alexa_media_player/wiki
-* no "Cookie import" or "Configuration.yaml" required 
-* do not forget to enter the OTP code at the end (https://www.amazon.com/a/settings/approval/addbackup)
-* https://community.home-assistant.io/t/alexa-tts-announcement-from-lovelace-ui-and-without-nabu-casa-alexa-media-player/259980/7
 
 ## Push automation to github
  
@@ -460,3 +415,60 @@ keyfile: privkey.pem
   * passwort <see keepass>
   * host homeassistant-eth
   * port 1883
+
+# Deprecated stuff
+
+## HACS: iCloud3 Device Tracker (deprecated, no longer in use)
+
+* iCloud has authentication problems, so I was looking for an alternative
+* see https://gcobb321.github.io/icloud3/#/
+* config see https://github.com/swa72/home-assistant/blob/main/config_ic3.yaml
+
+## Glances (deprecated, no longer in use)
+
+* to monitor the Raspberry
+
+```
+log_level: info
+process_info: false
+refresh_time: 10
+ssl: false
+certfile: fullchain.pem
+keyfile: privkey.pem
+influxdb:
+  enabled: false
+  host: ##replaceme##
+  port: 8086
+  username: glances
+  password: '!secret glances_influxdb_password'
+  database: glances
+  prefix: localhost
+  interval: 60
+```
+
+## Backup to Samba Drive (deprecated, no longer in use)
+
+* to have regular config backups to the USB stick of the Fritzbox
+* note that username ##replaceme## must be available on the Fritzbox ("System > FRITZ!Box-Benutzer > Benutzer") and that particular user requires access to the attached USB stick
+
+```
+host: 192.168.178.1
+share: FRITZ.NAS
+target_dir: CCCOMA_X64F\ha
+username: ##replaceme##
+password: ##replaceme##
+keep_local: 14
+keep_remote: all
+trigger_time: '00:00'
+trigger_days:
+  - Mon
+  - Tue
+  - Wed
+  - Thu
+  - Fri
+  - Sat
+  - Sun
+exclude_addons: []
+exclude_folders: []
+backup_name: '{type} Snapshot {version} {date}'
+```

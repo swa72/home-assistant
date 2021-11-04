@@ -1377,3 +1377,16 @@
     default: []
   mode: queued
   max: 10
+- id: '1636051529526'
+  alias: Send a camera snapshot when motion is detected
+  description: ''
+  use_blueprint:
+    path: vorion/send-camera-snapshot-notification-on-motion.yaml
+    input:
+      notification_message: '{{ motion_sensor_name }} detected movement!'
+      motion_sensor: binary_sensor.garagecam_motion
+      camera: camera.garagecam
+      notify_device: 20e9e482dc45d545dcb6222c8f32454a
+      is_ios: true
+      notification_title: Motion detected!
+      delay: 1
