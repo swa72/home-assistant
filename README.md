@@ -10,7 +10,7 @@ This file is intended for me to document the quirks I had during setup and for o
 
 ## My setup
 
-* Router Fritz!Box 7490 with open external ports 443 and 8123 to the Raspberry 4 (no DynDNS on fritz.box)
+* Router Fritz!Box 7490 with open external port 443 to the Raspberry 4 (no DynDNS on fritz.box)
   * my doorbell is directly hooked up to the Fritzbox
 * Raspberry 4 running more or less the latest Home Assistant version
   * initially connected thru wifi, later moved to ethernet and directly connected to the Fritzbox
@@ -177,7 +177,18 @@ Container	Host	Description
 443/tcp		443
 80/tcp		80
 ```
-I can access my HA locally with `https://homeassistant-eth:8123/`, chrome will bitch though because of the certificate.
+
+Also make sure to include `http.yaml` in `configuration.yaml` with
+
+```
+use_x_forwarded_for: true
+trusted_proxies:
+  - 172.30.33.0/24
+  - 127.0.0.1
+  - ::1
+```
+
+Using this setup, I can access HA locally with http://homeassistant-eth:8123/` and remotely with https://xxx.duckdns.org/.
 
 ## SSH & Web Terminal
 

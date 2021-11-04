@@ -1,10 +1,8 @@
 #
-# duckdns
+# NGINX Home Assistant SSL proxy
 # 
-# commented out because of nginx
-ssl_certificate: /ssl/fullchain.pem
-ssl_key: /ssl/privkey.pem
-# dont forget the next line or https will not work :-/
-# later: maybe not, log bitches about base_url being deprecated
-#  base_url: https://swa.duckdns.org
- 
+use_x_forwarded_for: true
+trusted_proxies:
+  - 172.30.33.0/24
+  - 127.0.0.1
+  - ::1
