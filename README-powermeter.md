@@ -51,19 +51,24 @@ Now that HA receives MQTT topics, we define some sensors to record the data. I h
 ```
 to my `sensors.yaml` file. For further processing in HA, I also define another template sensor.
 ```
-- platform: template
-  sensors:
-    smlreadertotalenergyconsumption:
-      unit_of_measurement: "kWh"
-      value_template: >
-        {% if states('sensor.smlreadercounter') == 'unavailable' or states('sensor.smlreadercounter') == 'unknown' %}
-          {{ states('sensor.smlreadertotaltnergyconsumption') }}
-        {% else %}
-          {{ ((states('sensor.smlreadercounter') | float) * 0.001) }}
-        {% endif %}
+- sensor:
+  - unique_id: smlreadertotalenergyconsumption
+    name: Total Power Energy
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    state: >
+      {% if states('sensor.smlreadercounter') == 'unavailable' or states('sensor.smlreadercounter') == 'unknown' %}
+        {{ states('sensor.smlreadertotalenergyconsumption') }}
+      {% else %}
+        {{ ((states('sensor.smlreadercounter') | float) * 0.001) }}
+      {% endif %}
+    attributes:
+      template: power
 ```
+This template sensor is defined in `config\templates\power.yaml` and loaded with `template: !include_dir_merge_list templates/` from `configuration.yaml`.
 Usually the template sensor's value would turn to 0 if the ESP device is unavailable. This results in problems 
-when using the sensor in combination with the Utility Meter integration. The state template (#fixme#) provided above checks 
+when using the sensor in combination with the Utility Meter integration. The state template provided above checks 
 for the sensor's availability and keeps the current state in case of unavailability.
 
 Note that `sensor.smlreadertotaltnergyconsumption` is used for further processing 
@@ -73,13 +78,12 @@ in three places
 * Grafana/Influxdb
 
 ## Energy dashboard
-For HA's energy dashboard to work I had to add
+For HA's energy dashboard to work I had to set
 ```
-sensor.smlreadertotalenergyconsumption:
   device_class: energy
   state_class: total_increasing
 ```
-to my `customize.yaml` file. Finally, I just used "Configuration | Energy | Electricity grid" to add the sensor, waited for a couple of hours and it showed up.
+to my `power.yaml` file. Finally, I just used "Configuration | Energy | Electricity grid" to add the sensor, waited for a couple of hours and it showed up.
 ## Utility meter integration
 I have simply added 
 ```
@@ -116,4 +120,4 @@ SELECT spread("value") FROM "kWh" WHERE ("entity_id" = 'smlreadertotalenergycons
 ```
 Note the use of the `spread` operator.
 
-You'll find the entire code in [configuration.yaml](./configuration.yaml), [customize.yaml](./customize.yaml) and [sensors.yaml](./sensors.yaml).
+You'll find the entire code in [configuration.yaml](./configuration.yaml), [power.yaml](./templates/power.yaml) and [sensors.yaml](./sensors.yaml).

@@ -76,6 +76,7 @@ cover: !include covers.yaml
 volvooncall: !include volvo.yaml
 switch: !include switches.yaml
 homekit: !include homekit.yaml
+template: !include_dir_merge_list templates/
 
 #
 # for camera stuff to work
@@ -226,17 +227,3 @@ spotify:
   client_id: !secret spotify_clientid
   client_secret: !secret spotify_secret
 
-#
-#
-#
-# template:
-  # - sensor:
-    # - name: "SML Foo"
-      # unit_of_measurement: "kWh"
-      # state_class: measurement
-      # state: >
-        # {% if states('sensor.smlreadercounter') == 'unavailable' or states('sensor.smlreadercounter') == 'unknown' %}
-          # {{ states('sensor.smlfoo') }}
-        # {% else %}
-          # {{ ((states('sensor.smlreadercounter') | float) * 0.001) }}
-        # {% endif %}

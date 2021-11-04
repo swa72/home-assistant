@@ -612,13 +612,4 @@
   state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:16.7.0/255/value"
   unit_of_measurement: "W"
   device_class: power
-- platform: template
-  sensors:
-    smlreadertotalenergyconsumption:
-      unit_of_measurement: "kWh"
-      value_template: >
-        {% if states('sensor.smlreadercounter') == 'unavailable' or states('sensor.smlreadercounter') == 'unknown' %}
-          {{ states('sensor.smlreadertotaltnergyconsumption') }}
-        {% else %}
-          {{ ((states('sensor.smlreadercounter') | float) * 0.001) }}
-        {% endif %}
+
