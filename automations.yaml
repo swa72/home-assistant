@@ -1384,9 +1384,9 @@
     path: vorion/send-camera-snapshot-notification-on-motion.yaml
     input:
       notification_message: '{{ motion_sensor_name }} detected movement!'
-      motion_sensor: binary_sensor.garagecam_motion
+      motion_sensor: binary_sensor.garagecam_person_detected
       camera: camera.garagecam
       notify_device: 20e9e482dc45d545dcb6222c8f32454a
       is_ios: true
-      notification_title: Motion detected!
+      notification_title: Motion person detected!
       delay: 1
