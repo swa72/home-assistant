@@ -272,6 +272,38 @@ compatibility_mode: false
 * integrated using https://github.com/fwestenberg/reolink_dev/
 * the key for me to get motion detection running, was to make sure that I could access HA locally with HTTP 
 
+### ftp add-on
+* to receive images and movies from the RLC-511WA camera, I've setup the ftp add-on
+
+```
+port: 21
+data_port: 20
+banner: Welcome to the Hass.io FTP service.
+pasv: true
+pasv_min_port: 30000
+pasv_max_port: 30010
+pasv_address: ''
+ssl: false
+certfile: fullchain.pem
+keyfile: privkey.pem
+implicit_ssl: false
+max_clients: 5
+users:
+  - username: camera
+    password: ## some password ##
+    allow_chmod: false
+    allow_download: false
+    allow_upload: true
+    allow_dirlist: true
+    addons: false
+    backup: false
+    config: false
+    media: true
+    share: true
+    ssl: false
+log_level: debug
+```
+
 # Useful stuff
 
 ## Template

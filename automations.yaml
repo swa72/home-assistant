@@ -1390,3 +1390,49 @@
       is_ios: true
       notification_title: Motion person detected!
       delay: 1
+- id: '1636195825943'
+  alias: No motion detection if main door opens
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.haustur
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id: switch.garagecam_ftp
+  - service: automation.turn_off
+    target:
+      entity_id: automation.send_a_camera_snapshot_when_motion_is_detected
+  - delay:
+      hours: 0
+      minutes: 3
+      seconds: 0
+      milliseconds: 0
+  - service: switch.turn_on
+    target:
+      entity_id: switch.garagecam_ftp
+  - service: automation.turn_on
+    target:
+      entity_id: automation.send_a_camera_snapshot_when_motion_is_detected
+  mode: single
+- id: '1636196197673'
+  alias: 'q3 Wenn Person erkannt und dunkel draußen, dann LED-Fluter an '
+  description: ''
+  trigger:
+  - platform: state
+    from: 'off'
+    to: 'on'
+    entity_id: binary_sensor.garagecam_person_detected
+  condition:
+  - condition: state
+    entity_id: binary_sensor.dunkel_draussen
+    state: 'on'
+  action:
+  - type: turn_on
+    device_id: 33202a9524f56b2023ed57884e81af71
+    entity_id: switch.shelly25_garage_channel_2
+    domain: switch
+  mode: single

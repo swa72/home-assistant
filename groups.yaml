@@ -2,7 +2,7 @@
 # dachfenster
 #
 dachfenster:
-  name: Dachfenster
+  name: Fenster DG
   icon: mdi:window-open
   entities:
   - binary_sensor.fenster_dachbad
