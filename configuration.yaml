@@ -157,6 +157,7 @@ influxdb:
       - sensor.smlreadertotalenergyconsumption
 # floods the database as it comes in too often
 #      - sensor.smlreaderpower
+      - sensor.influxdb_db_size
     entity_globs:
       - sensor.shellys_keller*
       - sensor.boiler*
