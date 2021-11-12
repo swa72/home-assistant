@@ -45,6 +45,8 @@
       - sensor.su_xp165*
       - sensor.swaiphone*
       - sensor.thermostat*
+      - sensor.dew_*
+      - sensor.dewpoint*
       - switch.adguard*
       - switch.stefans_echo*
       - script.*
@@ -55,9 +57,14 @@
       - binary_sensor.internetgateway*
       - switch.*_internet_access
       - switch.livingroom*
+      - switch.garagecam*
+      - binary_sensor.garagecam_*
+      - binary_sensor.camera1_*
+      - binary_sensor.livingroom_*
+      - binary_sensor.iphone6_*
+      - binary_sensor.fritz_box_*
     exclude_entities:
       - binary_sensor.abend_eg_wohnzimmer_tuer_zu
-      - binary_sensor.camera1_motion
       - binary_sensor.dachfenster_offen_regentag
       - binary_sensor.dunkel_draussen
       - binary_sensor.haus_offen_keiner_zuhause
@@ -79,6 +86,23 @@
       - binary_sensor.thermostat_hc1_summer_mode
       - binary_sensor.thermostat_hc2_summer_mode
       - binary_sensor.thermostat_hc3_summer_mode
+      - binary_sensor.backups_stale
+      - binary_sensor.humidity_eg_buro
+      - binary_sensor.humidity_og_clara
+      - binary_sensor.humidity_og_konstantin
+      - binary_sensor.humidity_og_elternbad
+      - binary_sensor.humidity_og_elternschlaf
+      - binary_sensor.humidity_og_schlaf      
+      - binary_sensor.emsesp
+      - binary_sensor.gas
+      - binary_sensor.roofac
+      - binary_sensor.sleepac
+      - binary_sensor.shelly1_garage
+      - binary_sensor.shelly25_garage
+      - binary_sensor.shellys_keller_pumpe_treppe
+      - binary_sensor.shellys_poolpump
+      - binary_sensor.shellys_wama
+      - binary_sensor.swaiphone_focus
       - light.range_extender_2
       - light.range_extender_3
       - sensor.db_size

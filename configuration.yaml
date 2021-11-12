@@ -147,10 +147,10 @@ influxdb:
       - counter.kellerpumpe
       - counter.dew_fans
       - climate.roofac
-      - sensor.roofac_uptime
-      - sensor.gas3_uptime
+#      - sensor.roofac_uptime
+#      - sensor.gas3_uptime
       - climate.sleepac
-      - sensor.sleepac_uptime
+#      - sensor.sleepac_uptime
       - sensor.regen_heute
       - sensor.rel_humidity
       - sensor.hum_abs_basement
@@ -158,6 +158,7 @@ influxdb:
 # floods the database as it comes in too often
 #      - sensor.smlreaderpower
       - sensor.influxdb_db_size
+      - sensor.gasverbrauch
     entity_globs:
       - sensor.shellys_keller*
       - sensor.boiler*
@@ -169,11 +170,10 @@ influxdb:
       - sensor.multi*
       - sensor.dew*
       - sensor.heating*
-      - sensor.gasverbrauch*
       - binary_sensor.boiler*
       - binary_sensor.mixer*
       - binary_sensor.solar*
-      - sensor.smlpower*
+
 #
 #
 counter:

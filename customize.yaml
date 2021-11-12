@@ -34,3 +34,11 @@ sensor.gasverbrauch:
 sensor.solar_energy_today:
   device_class: energy
   state_class: total_increasing
+sensor.boiler_burner_current_power:
+  friendly_name: Boiler Power
+sensor.boiler_selected_flow_temperature:
+  friendly_name: Boiler Flow
+sensor.multi_keller_wasch_humidity:
+  friendly_name: Wasch
+sensor.multi_keller_gross_humidity:
+  friendly_name: Groß
