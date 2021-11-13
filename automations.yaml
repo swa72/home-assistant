@@ -1400,23 +1400,67 @@
     to: 'on'
   condition: []
   action:
-  - service: switch.turn_off
-    target:
-      entity_id: switch.garagecam_ftp
-  - service: automation.turn_off
-    target:
-      entity_id: automation.send_a_camera_snapshot_when_motion_is_detected
-  - delay:
-      hours: 0
-      minutes: 3
-      seconds: 0
-      milliseconds: 0
-  - service: switch.turn_on
-    target:
-      entity_id: switch.garagecam_ftp
-  - service: automation.turn_on
-    target:
-      entity_id: automation.send_a_camera_snapshot_when_motion_is_detected
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sensor.motion_detection_maindoor
+        state: '0'
+      sequence: []
+    - conditions:
+      - condition: state
+        entity_id: sensor.motion_detection_maindoor
+        state: '1'
+      sequence:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.garagecam_ftp
+      - delay:
+          hours: 0
+          minutes: 3
+          seconds: 0
+          milliseconds: 0
+      - service: switch.turn_on
+        target:
+          entity_id: switch.garagecam_ftp
+    - conditions:
+      - condition: state
+        entity_id: sensor.motion_detection_maindoor
+        state: '2'
+      sequence:
+      - service: automation.turn_off
+        target:
+          entity_id: automation.send_a_camera_snapshot_when_motion_is_detected
+      - delay:
+          hours: 0
+          minutes: 3
+          seconds: 0
+          milliseconds: 0
+      - service: automation.turn_on
+        target:
+          entity_id: automation.send_a_camera_snapshot_when_motion_is_detected
+    - conditions:
+      - condition: state
+        entity_id: sensor.motion_detection_maindoor
+        state: '3'
+      sequence:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.garagecam_ftp
+      - service: automation.turn_off
+        target:
+          entity_id: automation.send_a_camera_snapshot_when_motion_is_detected
+      - delay:
+          hours: 0
+          minutes: 3
+          seconds: 0
+          milliseconds: 0
+      - service: automation.turn_on
+        target:
+          entity_id: automation.send_a_camera_snapshot_when_motion_is_detected
+      - service: switch.turn_on
+        target:
+          entity_id: switch.garagecam_ftp
+    default: []
   mode: single
 - id: '1636196197673'
   alias: 'q3 Wenn Person erkannt und dunkel draußen, dann LED-Fluter an '

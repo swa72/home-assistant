@@ -613,3 +613,20 @@
   unit_of_measurement: "W"
   device_class: power
 
+#
+#
+#
+- platform: template
+  sensors:
+    motion_detection_maindoor:
+      value_template: >-
+       {% set p2, p1 = states('switch.garagecam_ftp')=='on', states('automation.send_a_camera_snapshot_when_motion_is_detected')=='on' -%}
+       {% if not p1 and not p2 -%}
+       0
+       {% elif p1 and not p2 -%}
+       1
+       {% elif not p1 and p2 -%}
+       2
+       {% else -%}
+       3
+       {% endif -%}

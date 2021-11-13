@@ -49,9 +49,10 @@ logger:
 #  see https://github.com/home-assistant/core/issues/58653 for next line
     fritzconnection: info
 # for reolink
-    custom_components.reolink_dev: debug
-    custom_components.reolink_dev.base.data: warning
-    reolink: debug
+#    custom_components.reolink_dev: debug
+#    custom_components.reolink_dev.base.data: warning
+#    reolink: debug
+
 #
 # to turn on my pc
 #
