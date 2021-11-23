@@ -463,7 +463,7 @@
       action_on: '{{ ''ON_'' ~ context.id }}'
       action_nothing: '{{ ''NOTHING_'' ~ context.id }}'
   - alias: q1 Ask a question
-    service: notify.mobile_app_swaiphone
+    service: notify.mobile_app_iphone
     data:
       message: Temp too hot in office. Turn on AC?
       data:

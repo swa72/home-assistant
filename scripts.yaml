@@ -82,7 +82,7 @@ alexa_tts_katzentur_offnen:
 notify_stefan:
   alias: Notify stefan
   sequence:
-  - service: notify.mobile_app_swaiphone
+  - service: notify.mobile_app_iphone
     data:
       title: '{{ title }}'
       message: '{{ message }}'
@@ -91,7 +91,7 @@ notify_stefan:
 notify_parents:
   alias: Notify Julia and Stefan
   sequence:
-  - service: notify.mobile_app_swaiphone
+  - service: notify.mobile_app_iphone
     data:
       title: '{{ title }}'
       message: '{{ message }}'
@@ -103,7 +103,7 @@ notify_parents:
 urgent_notify_stefan:
   alias: Notify stefan critically
   sequence:
-  - service: notify.mobile_app_swaiphone
+  - service: notify.mobile_app_iphone
     data:
       title: '{{ title }}'
       message: '{{ message }}'
@@ -122,7 +122,7 @@ notify_people_who_are_present:
       - condition: template
         value_template: '{{ is_state(''person.stefan'', ''home'') }}'
       sequence:
-      - service: notify.mobile_app_swaiphone
+      - service: notify.mobile_app_iphone
         data:
           title: '{{ title }}'
           message: '{{ message }}'
@@ -154,7 +154,7 @@ notify_people:
   - choose:
     - conditions: '{{ 1==1 }}'
       sequence:
-      - service: notify.mobile_app_swaiphone
+      - service: notify.mobile_app_iphone
         data:
           title: '{{ title }}'
           message: '{{ message }}'
@@ -181,7 +181,7 @@ urgent_notify_people_who_are_present:
   - choose:
     - conditions: '{{ is_state(''person.stefan'', ''home'') }}'
       sequence:
-      - service: notify.mobile_app_swaiphone
+      - service: notify.mobile_app_iphone
         data:
           title: '{{ title }}'
           message: '{{ message }}'
@@ -226,7 +226,7 @@ urgent_notify_people:
   - choose:
     - conditions: '{{ 1==1 }}'
       sequence:
-      - service: notify.mobile_app_swaiphone
+      - service: notify.mobile_app_iphone
         data:
           title: '{{ title }}'
           message: '{{ message }}'
@@ -496,7 +496,7 @@ deconz_removed_orphaned:
 notify_stefan_heating:
   alias: Notify stefan heating
   sequence:
-  - service: notify.mobile_app_swaiphone
+  - service: notify.mobile_app_iphone
     data:
       title: '{{ title }}'
       message: '{{ message }}'
