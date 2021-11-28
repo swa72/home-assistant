@@ -63,6 +63,7 @@
       - binary_sensor.livingroom_*
       - binary_sensor.iphone6_*
       - binary_sensor.fritz_box_*
+      - switch.iphone6_*
     exclude_entities:
       - binary_sensor.abend_eg_wohnzimmer_tuer_zu
       - binary_sensor.dachfenster_offen_regentag

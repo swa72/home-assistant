@@ -111,8 +111,9 @@ I have included two lines in my influxdb configuration
   include:
     entities:
       - sensor.smlreadertotalenergyconsumption
-    entity_globs:
-      - sensor.smlpower*
+	# don't include the following line or influxdb will grow pretty quickly
+    # entity_globs: 
+    #  - sensor.smlpower*
 ```
 in my `configuration.yaml` file. A simple daily power usage visualisation of the last seven days in Grafana could be 
 ```
