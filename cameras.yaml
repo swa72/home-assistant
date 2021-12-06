@@ -11,7 +11,10 @@
   name: melivingroom
   still_image_url: !secret melivingroom_still_image_url
   mjpeg_url: "http://homeassistant:8082/mjpeg"
-  
+
+- platform: mjpeg
+  name: mpeggaragecam
+  mjpeg_url: "http://homeassistant:8083/mjpeg"
 #
 #
 #
