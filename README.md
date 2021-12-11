@@ -266,11 +266,20 @@ compatibility_mode: false
 * The stream is in turn provided by motionEye (see configuration of the camera, section "Video Streaming")
   <img src="./image/motioneye.png" width="400">
 * to get the PTZ controls of the camera to work, I integrated the camera also thru the ONVIF integration
-* ~for motion detected, I use the motionEye HACS integration [https://github.com/dermotduffy/hass-motioneye]~
+
 
 ### Reolink RLC-511WA camera
+* on IP `192.168.178.32`; access to the internet normally blocked by the router
 * integrated using https://github.com/fwestenberg/reolink_dev/
-* the key for me to get motion detection running, was to make sure that I could access HA locally with HTTP 
+  * provides switches to turn functions on and off
+  * the key for me to get motion detection running, was to make sure that I could access HA locally with HTTP
+* processing the image is done thru motioneye like above
+  * the camera has two streams
+    * Clear (high-res) at 2560x1920, 20 fps, 4096, 2
+    * Fluent (low-res) at 640x480, 10fps, 256, 4
+  * motioneye is configured
+    * `rtsp://192.168.178.32:554/h264Preview_01_sub` at 640x480, 10fps
+    * section "Video streaming" at 10fps, 100%, Off, 8083, disabled, off
 
 ### ftp add-on
 * to receive images and movies from the RLC-511WA camera, I've setup the ftp add-on
