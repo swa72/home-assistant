@@ -65,6 +65,7 @@
       - binary_sensor.fritz_box_*
       - switch.iphone6_*
       - switch.camera3*
+      - switch.camera4*
     exclude_entities:
       - binary_sensor.abend_eg_wohnzimmer_tuer_zu
       - binary_sensor.dachfenster_offen_regentag
@@ -149,8 +150,15 @@
       - climate.roofac
       - climate.sleepac
   entity_config:
+    cover.eltern_schlafzimmer:
+      name: Schlafzimmer
     cover.garage_door:
       name: Garagentor
     cover.shelly25_dg_anna_rolladen:
       name: Anna Rolladen
-
+    switch.shellys_silvia:
+      name: Silvia
+    switch.wake_up_thinkpad_t43:
+      name: Thinkpad
+    switch.shellyp_dg_stefan_tisch:
+      name: Schreibtisch
