@@ -159,6 +159,7 @@
     switch.shellys_silvia:
       name: Silvia
     switch.wake_up_thinkpad_t43:
-      name: Thinkpad
+    # siri does not understand "thinkpad" :-/
+      name: Notebook
     switch.shellyp_dg_stefan_tisch:
       name: Schreibtisch
