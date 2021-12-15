@@ -1480,3 +1480,51 @@
     entity_id: switch.shelly25_garage_channel_2
     domain: switch
   mode: single
+- id: '1639549122553'
+  alias: Notebook aus wenn an
+  description: switch is a button, can be removed if button entity is available
+  trigger:
+  - platform: state
+    entity_id: switch.wake_up_thinkpad_t430
+    from: 'off'
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  condition: []
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id: switch.wake_up_thinkpad_t430
+  mode: single
+- id: '1639549551480'
+  alias: Silvia morgens an nachmittags aus
+  description: ''
+  trigger:
+  - platform: time
+    at: 09:30
+    id: an
+  - platform: time
+    at: '16:00'
+    id: aus
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: an
+      sequence:
+      - service: switch.turn_on
+        target:
+          entity_id: switch.shellys_silvia
+    - conditions:
+      - condition: trigger
+        id: aus
+      sequence:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.shellys_silvia
+    default: []
+  mode: single
