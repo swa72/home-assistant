@@ -42,6 +42,8 @@ This file is intended for me to document the quirks I had during setup and for o
 
 The fritzbox forwards port 443 to the Raspberry running HA.
 
+<img src="./image/7490.jpg" width="600">
+
 ## DuckDNS
 
 * I want to access my HA instance remotely, so I needed a DNS name and Let's Encrypt support.
