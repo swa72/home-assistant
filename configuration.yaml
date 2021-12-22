@@ -96,12 +96,24 @@ camera: !include cameras.yaml
 input_boolean: !include input_booleans.yaml
 binary_sensor: !include binary_sensors.yaml
 rest_command: !include rest_commands.yaml
-
+#
+#
+#
+input_text:
+  swalandline:
+    initial: !secret swalandline
+#
+# https://www.home-assistant.io/integrations/google/
+#
+google:
+  client_id: !secret googleclientid
+  client_secret: !secret googleclientsecret
+#
 #
 #
 recorder:
   db_url: !secret db_url
-  purge_keep_days: 7
+  purge_keep_days: 4
   exclude:
     entity_globs:
       - sensor.adguard*
@@ -116,6 +128,7 @@ recorder:
       - sensor.fritz*
       - sensor.system*
       - switch.adguard*
+      - sensor.smlpower_*
     entities:
       - sensor.icloud3_event_log
       - sensor.swaiphone_info
@@ -123,6 +136,25 @@ recorder:
       - sensor.iphone_von_anna_info
       - sensor.smlreaderdeviceid
       - sensor.smlreadermanufacturer
+      - sensor.smlreaderpower
+      - sensor.roofac_wifi_signal
+      - sensor.smlreaderpower
+      - sensor.smlreadercounter
+      - sensor.load_15m
+      - sensor.load_1m
+      - sensor.heating_differential
+      - sensor.gas3_uptime
+      - sensor.sleepac_uptime
+      - sensor.roofac_uptime
+      - sensor.boiler_burner_current_power
+      - sensor.boiler_total_heat_operating_time
+      - sensor.roofac_wifi_signal
+      - sensor.gas3_wifi_signal
+      - sensor.smlpower_daily
+      - sensor.smlpower_yearly
+      - sensor.shelly25_og_schlafli_rssi
+      - camera.iphone6
+      - sensor.smlreadertotalenergyconsumption
 #
 #
 #
@@ -244,8 +276,34 @@ panel_custom:
     sidebar_title: Server Controls
     sidebar_icon: mdi:server # https://materialdesignicons.com/
     module_url: /local/panel-redirect.js  # 'local' is '/config/www/'
-  - name: Zones
+  - name: Logs
     url_path: config/logs
     sidebar_title: Logs
     sidebar_icon: mdi:math-log
+    module_url: /local/panel-redirect.js
+# -1
+  - name: Keller
+    url_path: lovelace/keller
+    sidebar_title: -1
+    sidebar_icon: mdi:home-floor-negative-1
+    module_url: /local/panel-redirect.js
+  - name: Basement
+    url_path: lovelace/eg
+    sidebar_title: 0
+    sidebar_icon: mdi:home-floor-0
+    module_url: /local/panel-redirect.js
+  - name: First Floor
+    url_path: lovelace/og
+    sidebar_title: 1
+    sidebar_icon: mdi:home-floor-1
+    module_url: /local/panel-redirect.js
+  - name: Second Floor
+    url_path: lovelace/dg
+    sidebar_title: 2
+    sidebar_icon: mdi:home-floor-2
+    module_url: /local/panel-redirect.js
+  - name: Einfahrt
+    url_path: lovelace/outdoor
+    sidebar_title: Einfahrt
+    sidebar_icon: mdi:garage-variant
     module_url: /local/panel-redirect.js

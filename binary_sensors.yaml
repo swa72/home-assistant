@@ -163,6 +163,17 @@
         {{ 'true' if p0 else 'false' }}
 #
 #
+#
+#
+#
+#
+    doorbell_pressed:
+      friendly_name: "Doorbell was pressed, call initiated"
+      value_template: "{{ state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch', 'to') == states('input_text.swalandline') and state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch', 'to_name') == 'MichSelbst' }}" 
+
+#
+#
+
 - platform: ping
   name: emsesp
   host: 192.168.178.90
@@ -197,3 +208,4 @@
   scan_interval: 5
   value_template: "{{ value_json[0].value.state }}"
   device_class: motion
+  

@@ -36,7 +36,8 @@
     domain: switch
   - service: script.schalte_aussenlicht_fur_5min_an
     data: {}
-  mode: single
+  mode: queued
+  max: 10
 - id: '1608633463304'
   alias: Rolladen Schlafzimmer
   description: Rolladensteuerung Schlafzimmer zeitgesteuert Wochentags/Wochenende
@@ -684,19 +685,6 @@
           title: Heating
           message: Heizungsdruck über 1h unter 1.9 bar.
   mode: single
-- id: '1632044962572'
-  alias: Send a camera snapshot when doorbell was activated
-  description: ''
-  use_blueprint:
-    path: aceindy/send-camera-snapshot-notification-on-doorbell.yaml
-    input:
-      notification_message: '{{ binary_sensor_name }} was activated!'
-      binary_sensor: input_boolean.swatest
-      camera: camera.livingroom_profile000_mainstream
-      notify_device: 20e9e482dc45d545dcb6222c8f32454a
-      is_ios: true
-      notification_title: The Doorbell was activated!
-      delay: 1
 - id: '1632288672635'
   alias: Advanced Basement Dehumidifier
   description: ''
@@ -909,7 +897,6 @@
         - tue
         - wed
         - thu
-        - fri
         after: 07:15
       sequence:
       - service: switch.turn_on
@@ -1528,3 +1515,16 @@
           entity_id: switch.shellys_silvia
     default: []
   mode: single
+- id: '1639842026898'
+  alias: Send a camera snapshot when doorbell is pressed
+  description: ''
+  use_blueprint:
+    path: vorion/send-camera-snapshot-notification-on-motion.yaml
+    input:
+      notification_message: Look who is there :-)
+      motion_sensor: binary_sensor.doorbell_pressed
+      camera: camera.garagecam
+      notify_device: 20e9e482dc45d545dcb6222c8f32454a
+      is_ios: true
+      notification_title: Doorbell pressed!
+      delay: 1
