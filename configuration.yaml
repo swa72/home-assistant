@@ -154,7 +154,6 @@ recorder:
       - sensor.smlpower_yearly
       - sensor.shelly25_og_schlafli_rssi
       - camera.iphone6
-      - sensor.smlreadertotalenergyconsumption
 #
 #
 #

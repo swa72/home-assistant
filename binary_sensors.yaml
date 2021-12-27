@@ -169,7 +169,7 @@
 #
     doorbell_pressed:
       friendly_name: "Doorbell was pressed, call initiated"
-      value_template: "{{ state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch', 'to') == states('input_text.swalandline') and state_attr('sensor.fritz_box_7490_call_monitor_telefonbuch', 'to_name') == 'MichSelbst' }}" 
+      value_template: "{{ states('sensor.phone_modem') == 'ring' }}" 
 
 #
 #

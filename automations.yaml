@@ -38,58 +38,6 @@
     data: {}
   mode: queued
   max: 10
-- id: '1608633463304'
-  alias: Rolladen Schlafzimmer
-  description: Rolladensteuerung Schlafzimmer zeitgesteuert Wochentags/Wochenende
-  trigger:
-  - platform: time
-    at: 07:45:00
-    id: morgens-wochentag
-  - platform: time
-    at: 09:00:00
-    id: morgens-wochenende
-  - platform: sun
-    event: sunset
-    offset: 00:30:00
-    id: abends1
-  - platform: time
-    at: '21:00'
-    id: abends2
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: or
-        conditions:
-        - condition: trigger
-          id: abends1
-        - condition: trigger
-          id: abends2
-      sequence:
-      - scene: scene.schlafzimmer_abend_sommer
-    - conditions:
-      - condition: trigger
-        id: morgens-wochentag
-      - condition: time
-        weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
-      sequence:
-      - scene: scene.schlafzimmer_morgen
-    - conditions:
-      - condition: trigger
-        id: morgens-wochenende
-      - condition: time
-        weekday:
-        - sat
-        - sun
-      sequence:
-      - scene: scene.schlafzimmer_morgen
-    default: []
-  mode: single
 - id: '1608636183988'
   alias: q3 Notify, wenn Fenster zu lange offen und kalt draussen
   description: ''
@@ -573,62 +521,6 @@
           entity_id: switch.shellys_keller_luefter1
     default: []
   mode: single
-- id: '1630944728318'
-  alias: Advanced Rolladen Clara
-  description: Rolladensteuerung Clara zeitgesteuert Wochentags/Wochenende
-  trigger:
-  - platform: time
-    at: 07:05
-    id: morgens-wochentag
-  - platform: time
-    at: 08:30
-    id: morgens-wochenende
-  - platform: time
-    id: abends
-    at: '19:45'
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: morgens-wochentag
-      - condition: time
-        weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
-      sequence:
-      - service: cover.set_cover_position
-        data:
-          position: 100
-        target:
-          entity_id: cover.shelly25_og_clara
-    - conditions:
-      - condition: trigger
-        id: morgens-wochenende
-      - condition: time
-        weekday:
-        - sat
-        - sun
-      sequence:
-      - service: cover.set_cover_position
-        data:
-          position: 100
-        target:
-          entity_id: cover.shelly25_og_clara
-    - conditions:
-      - condition: trigger
-        id: abends
-      sequence:
-      - service: cover.set_cover_position
-        target:
-          entity_id: cover.shelly25_og_clara
-        data:
-          position: 5
-    default: []
-  mode: single
 - id: '1631904142960'
   alias: Advanced Heating Monitor_
   description: Sends message to Stefan if heating shows non-regular codes,  checks
@@ -764,7 +656,7 @@
         - thu
         - fri
       - condition: state
-        entity_id: input_boolean.ferien
+        entity_id: calendar.ferien
         state: 'off'
       sequence:
       - scene: scene.schlafzimmer_morgen
@@ -779,7 +671,7 @@
         - thu
         - fri
       - condition: state
-        entity_id: input_boolean.ferien
+        entity_id: calendar.ferien
         state: 'on'
       sequence:
       - scene: scene.schlafzimmer_morgen
@@ -819,7 +711,7 @@
   max: 10
 - id: '1632469853125'
   alias: Advanced Rolladen Anna
-  description: ''
+  description: Temperatur-abhängiges Schliessen
   trigger:
   - platform: numeric_state
     entity_id: sensor.multi_dg_anna_temperature
@@ -1043,7 +935,7 @@
   mode: single
 - id: '1634985348876'
   alias: Advanced Heating workdays v2
-  description: ''
+  description: Set temp low during Julia's workdays, skip holidays
   trigger:
   - platform: time
     at: 07:00
@@ -1051,7 +943,10 @@
   - platform: time
     id: noon
     at: '12:00'
-  condition: []
+  condition:
+  - condition: state
+    entity_id: calendar.ferien
+    state: 'off'
   action:
   - choose:
     - conditions:
@@ -1197,7 +1092,8 @@
           origin: automation.advanced_heating_hc1
           circuit: 1
           offset: 3
-    default: []
+    default:
+    - service: alarm_control_panel.alarm_arm_away
   mode: queued
   max: 10
 - id: '1634996229621'
@@ -1321,7 +1217,7 @@
         - thu
         - fri
       - condition: state
-        entity_id: input_boolean.ferien
+        entity_id: calendar.ferien
         state: 'off'
       sequence:
       - service: cover.set_cover_position
@@ -1340,7 +1236,7 @@
         - thu
         - fri
       - condition: state
-        entity_id: input_boolean.ferien
+        entity_id: calendar.ferien
         state: 'on'
       sequence:
       - service: cover.set_cover_position
@@ -1486,16 +1382,31 @@
     target:
       entity_id: switch.wake_up_thinkpad_t430
   mode: single
-- id: '1639549551480'
-  alias: Silvia morgens an nachmittags aus
+- id: '1639842026898'
+  alias: Send a camera snapshot to Stefan when doorbell is pressed
+  description: ''
+  use_blueprint:
+    path: vorion/send-camera-snapshot-notification-on-motion.yaml
+    input:
+      notification_message: Look who is there :-)
+      motion_sensor: binary_sensor.doorbell_pressed
+      camera: camera.garagecam
+      notify_device: 20e9e482dc45d545dcb6222c8f32454a
+      is_ios: true
+      notification_title: Doorbell pressed!
+      delay: 1
+- id: '1640186426874'
+  alias: Kalender Silvia
   description: ''
   trigger:
-  - platform: time
-    at: 09:30
+  - platform: state
+    entity_id: calendar.ha_silvia
+    to: 'on'
     id: an
-  - platform: time
-    at: '16:00'
+  - platform: state
+    entity_id: calendar.ha_silvia
     id: aus
+    to: 'off'
   condition: []
   action:
   - choose:
@@ -1515,16 +1426,140 @@
           entity_id: switch.shellys_silvia
     default: []
   mode: single
-- id: '1639842026898'
-  alias: Send a camera snapshot when doorbell is pressed
+- id: '1640281201989'
+  alias: Kalender Schreibtisch
   description: ''
-  use_blueprint:
-    path: vorion/send-camera-snapshot-notification-on-motion.yaml
-    input:
-      notification_message: Look who is there :-)
-      motion_sensor: binary_sensor.doorbell_pressed
-      camera: camera.garagecam
-      notify_device: 20e9e482dc45d545dcb6222c8f32454a
-      is_ios: true
-      notification_title: Doorbell pressed!
-      delay: 1
+  trigger:
+  - platform: state
+    entity_id: calendar.ha_schreibtisch
+    to: 'on'
+    id: an
+  - platform: state
+    entity_id: calendar.ha_schreibtisch
+    id: aus
+    to: 'off'
+  - platform: time
+    at: '22:00'
+    id: ausaus
+  condition:
+  - condition: state
+    entity_id: calendar.ferien
+    state: 'off'
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: an
+      sequence:
+      - service: switch.turn_on
+        target:
+          entity_id: switch.shellyp_dg_stefan_tisch
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: trigger
+          id: aus
+        - condition: trigger
+          id: ausaus
+      - condition: state
+        entity_id: binary_sensor.stefan_working_in_office
+        state: 'off'
+      sequence:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.shellyp_dg_stefan_tisch
+    default: []
+  mode: single
+- id: '1640523966930'
+  alias: test turn off after n minutes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.swatrigger
+    from: 'off'
+    to: 'on'
+  - platform: time
+    at: input_datetime.swadatetime
+  - platform: homeassistant
+    event: start
+  action:
+  - variables:
+      swaobject: input_boolean.swaswitch
+      is_on: '{{ is_state(swaobject, ''on'') }}'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.platform == ''state'' and not is_on }}'
+      sequence:
+      - service: input_boolean.turn_on
+        target:
+          entity_id: '{{ swaobject }}'
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.swadatetime
+        data:
+          timestamp: '{{ (now() + timedelta(minutes=5)).timestamp()| int(0)  }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.platform == ''state'' and is_on }}'
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.swadatetime
+        data:
+          timestamp: '{{ (now() + timedelta(minutes=5)).timestamp()| int(0)  }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ (trigger.platform == ''time'' or trigger.platform == ''homeassistant''
+          ) and is_on }}'
+      sequence:
+      - service: input_boolean.turn_off
+        target:
+          entity_id: '{{ swaobject }}'
+  mode: single
+- id: '1640540334226'
+  alias: Licht an, wenn sich Haustür im dunkeln öffnet oder der Klingelknopf gedrückt
+    wurde
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.haustur
+    from: 'off'
+    to: 'on'
+  - platform: time
+    at: input_datetime.haustur
+  - platform: homeassistant
+    event: start
+  - platform: state
+    entity_id: binary_sensor.doorbell_pressed
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.dunkel_draussen
+    state: 'on'
+  action:
+  - variables:
+      swaobject: group.einfahrt
+      is_on: '{{ is_state(swaobject, ''on'') }}'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.platform == ''state'' }}'
+      sequence:
+      - service: homeassistant.turn_on
+        target:
+          entity_id: '{{ swaobject }}'
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.haustur
+        data:
+          timestamp: '{{ (now() + timedelta(minutes=5)).timestamp()| int(0)  }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ (trigger.platform == ''time'' or trigger.platform == ''homeassistant''
+          ) and is_on }}'
+      sequence:
+      - service: homeassistant.turn_off
+        target:
+          entity_id: '{{ swaobject }}'
+  mode: single

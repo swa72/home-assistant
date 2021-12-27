@@ -12,6 +12,7 @@ This file is intended for me to document the quirks I had during setup and for o
 
 * Router Fritz!Box 7490 with open external port 443 to the Raspberry 4 (no DynDNS on fritz.box)
 * A doorbell/intercom Auerswald TFS-Universal plus directly hooked up to the Fritzbox
+  * additionally the Raspberry has a USB modem attached (phone line connected to Fritzbox) and the [Phone Modem integration](https://www.home-assistant.io/integrations/modem_callerid/) signals HA when the door button was pressed
 * Raspberry 4 running more or less the latest Home Assistant version
   * initially connected thru wifi, later moved to ethernet and directly connected to the Fritzbox
   * conbee USB stick to [manage ZigBee network](README-zigbee.md)

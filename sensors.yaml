@@ -633,3 +633,16 @@
        {% else -%}
        3
        {% endif -%}
+#
+#
+#
+# - platform: template
+  # sensors:
+    # maindoor_remaining_duration:
+      # value_template: >-
+        # {% set deadline = state_attr('input_datetime.swadatetime','timestamp') %}
+        # {% if (deadline - now().timestamp()) < 0 %}
+        # N/A
+        # {% else -%}
+        # {{ (deadline - now().timestamp()) | timestamp_custom('%Mmin %Ss', false) }}
+        # {% endif -%}  

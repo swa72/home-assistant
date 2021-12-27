@@ -79,3 +79,12 @@ servers:
     - binary_sensor.shellys_keller_pumpe_treppe
     - binary_sensor.shellys_poolpump
     - binary_sensor.shellys_wama
+#
+#
+#
+einfahrt:
+  name: Lichtschalter in Einfahrt
+  entities:
+    - switch.licht_aussen
+    - switch.eg_flur_licht
+    - switch.shelly25_garage_channel_2
