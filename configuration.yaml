@@ -306,3 +306,4 @@ panel_custom:
     sidebar_title: Einfahrt
     sidebar_icon: mdi:garage-variant
     module_url: /local/panel-redirect.js
+ 

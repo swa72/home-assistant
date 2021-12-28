@@ -74,12 +74,12 @@
 - id: l1k3
   alias: q3 Wenn Mitternacht, push HA configuration to GitHub repo
   trigger:
-  - at: '23:23:00'
+  - at: '23:23'
     platform: time
   action:
   - data:
       addon: a0d7b954_ssh
-      input: /config/gitpush.sh
+      input: /bin/bash /config/gitpush.sh
     service: hassio.addon_stdin
   mode: single
 - id: '1609245232653'
