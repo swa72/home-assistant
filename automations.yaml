@@ -1563,3 +1563,109 @@
         target:
           entity_id: '{{ swaobject }}'
   mode: single
+- id: '1640788626220'
+  alias: Heizung Konstantin Wochentags runterregeln
+  description: Regelt die Heizung von 0700-1130 auf 18 Grad. Läuft nicht an Wochenende
+    und in Ferien.
+  trigger:
+  - platform: time
+    at: 07:00
+  condition:
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  - condition: state
+    entity_id: calendar.ferien
+    state: 'off'
+  action:
+  - service: tado.set_climate_timer
+    target:
+      entity_id: climate.kidsgross
+    data:
+      time_period: 04:30:00
+      temperature: 18
+  mode: single
+- id: '1640796447418'
+  alias: Heizung Clara Wochentags runterregeln
+  description: Regelt die Heizung von 0700-1130 auf 18 Grad. Läuft nicht an Wochenende
+    und in Ferien.
+  trigger:
+  - platform: time
+    at: 07:00
+  condition:
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  - condition: state
+    entity_id: calendar.ferien
+    state: 'off'
+  action:
+  - service: tado.set_climate_timer
+    data:
+      time_period: 04:30:00
+      temperature: 18
+    target:
+      entity_id: climate.kidsklein
+  mode: single
+- id: '1640852446580'
+  alias: 'Heizung Konstantin Offset '
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.kidsgross_temperature
+    - sensor.multi_og_konstantin_temperature
+  condition:
+  - condition: template
+    value_template: '{% set tado_temp = states(''sensor.kidsgross_temperature'')|float(20)
+      %} {% set room_temp = states(''sensor.multi_og_konstantin_temperature'')|float(20)
+      %} {{ (tado_temp - room_temp) | abs > 0.5 }}
+
+      '
+  action:
+  - service: tado.set_climate_temperature_offset
+    target:
+      entity_id: climate.kidsgross
+    data:
+      offset: '{% set tado_temp = states(''sensor.kidsgross_temperature'')|float(20)
+        %} {% set room_temp = states(''sensor.multi_og_konstantin_temperature'')|float(20)
+        %} {% set current_offset = state_attr(''climate.kidsgross'', ''offset_celsius'')
+        %} {{ (-(tado_temp - room_temp) + current_offset)|round(1) }}
+
+        '
+  mode: single
+- id: '1640852486884'
+  alias: Heizung Clara Offset
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.kidsklein_temperature
+    - sensor.multi_og_clara_temperature
+  condition:
+  - condition: template
+    value_template: '{% set tado_temp = states(''sensor.kidsklein_temperature'')|float(20)
+      %} {% set room_temp = states(''sensor.multi_og_clara_temperature'')|float(20)
+      %} {{ (tado_temp - room_temp) | abs > 0.5 }}
+
+      '
+  action:
+  - service: tado.set_climate_temperature_offset
+    target:
+      entity_id: climate.kidsklein
+    data:
+      offset: '{% set tado_temp = states(''sensor.kidsklein_temperature'')|float(20)
+        %} {% set room_temp = states(''sensor.multi_og_clara_temperature'')|float(20)
+        %} {% set current_offset = state_attr(''climate.kidsklein'', ''offset_celsius'')
+        %} {{ (-(tado_temp - room_temp) + current_offset)|round(1) }}
+
+        '
+  mode: single
