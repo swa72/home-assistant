@@ -12,32 +12,6 @@
       message: Home Assistant {{ state_attr('binary_sensor.updater', 'newest_version')
         }} is now available.
   mode: single
-- id: '1608480614730'
-  alias: q3 Wenn Haustür geöffnet wird und dunkel draußen, dann Flur-EG Licht an und
-    LED-Fluter an
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.haustur
-    from: 'off'
-    to: 'on'
-  condition:
-  - condition: state
-    entity_id: binary_sensor.dunkel_draussen
-    state: 'on'
-  action:
-  - type: turn_on
-    device_id: d824de0a6c667da98e0f508d5d4129e5
-    entity_id: switch.eg_flur_licht
-    domain: switch
-  - type: turn_on
-    device_id: 33202a9524f56b2023ed57884e81af71
-    entity_id: switch.shelly25_garage_channel_2
-    domain: switch
-  - service: script.schalte_aussenlicht_fur_5min_an
-    data: {}
-  mode: queued
-  max: 10
 - id: '1608636183988'
   alias: q3 Notify, wenn Fenster zu lange offen und kalt draussen
   description: ''
@@ -81,34 +55,6 @@
       addon: a0d7b954_ssh
       input: /bin/bash /config/gitpush.sh
     service: hassio.addon_stdin
-  mode: single
-- id: '1609245232653'
-  alias: q3 Wenn dunkel draußen,  Außenlicht an
-  description: Außenlicht an, wenn dunkel draußen
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.dunkel_draussen
-    from: 'off'
-    to: 'on'
-  condition: []
-  action:
-  - service: switch.turn_on
-    data: {}
-    entity_id: switch.licht_aussen
-  mode: single
-- id: '1609245648666'
-  alias: q3 Wenn hell draußen, Außenlicht aus
-  description: Außenlicht aus, wenn hell draußen
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.dunkel_draussen
-    from: 'on'
-    to: 'off'
-  condition: []
-  action:
-  - service: switch.turn_off
-    data: {}
-    entity_id: switch.licht_aussen
   mode: single
 - id: '1609858165994'
   alias: q3 Wenn dunkel draußen, dann Windfanglicht an
@@ -1469,53 +1415,6 @@
         target:
           entity_id: switch.shellyp_dg_stefan_tisch
     default: []
-  mode: single
-- id: '1640523966930'
-  alias: test turn off after n minutes
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: input_boolean.swatrigger
-    from: 'off'
-    to: 'on'
-  - platform: time
-    at: input_datetime.swadatetime
-  - platform: homeassistant
-    event: start
-  action:
-  - variables:
-      swaobject: input_boolean.swaswitch
-      is_on: '{{ is_state(swaobject, ''on'') }}'
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ trigger.platform == ''state'' and not is_on }}'
-      sequence:
-      - service: input_boolean.turn_on
-        target:
-          entity_id: '{{ swaobject }}'
-      - service: input_datetime.set_datetime
-        target:
-          entity_id: input_datetime.swadatetime
-        data:
-          timestamp: '{{ (now() + timedelta(minutes=5)).timestamp()| int(0)  }}'
-    - conditions:
-      - condition: template
-        value_template: '{{ trigger.platform == ''state'' and is_on }}'
-      sequence:
-      - service: input_datetime.set_datetime
-        target:
-          entity_id: input_datetime.swadatetime
-        data:
-          timestamp: '{{ (now() + timedelta(minutes=5)).timestamp()| int(0)  }}'
-    - conditions:
-      - condition: template
-        value_template: '{{ (trigger.platform == ''time'' or trigger.platform == ''homeassistant''
-          ) and is_on }}'
-      sequence:
-      - service: input_boolean.turn_off
-        target:
-          entity_id: '{{ swaobject }}'
   mode: single
 - id: '1640540334226'
   alias: Licht an, wenn sich Haustür im dunkeln öffnet oder der Klingelknopf gedrückt

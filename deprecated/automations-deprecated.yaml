@@ -1,0 +1,735 @@
+- id: '1608567664971'
+  alias: q1 zDummy to logfile
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: automation.dummy
+    attribute: last_triggered
+  condition: []
+  action:
+  - service: system_log.write
+    data:
+      message: Dummy to logfile
+      level: warning
+      logger: swa-automation
+  - service: notify.persistent_notification
+    data:
+      message: Your message goes here
+      title: Custom subject
+  mode: single
+- id: '1609014775930'
+  alias: q1 Notify, wenn jemand einen Zone wechselt
+  description: Notify when someone enters or leaves a zone
+  trigger:
+  - platform: state
+    entity_id: person.stefan
+  - platform: state
+    entity_id: person.anna
+  - platform: state
+    entity_id: person.julia
+  condition:
+  - condition: template
+    value_template: '{{ trigger.from_state.state != trigger.to_state.state }}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Location update (old) {{ states.sensor.time.state }}
+      message: '{{ trigger.to_state.attributes.friendly_name }} {% if trigger.to_state.state
+        == ''not_home'' %}has left {{ trigger.from_state.state }}{% endif %}{% if
+        trigger.from_state.state == ''not_home'' %}arrived at {{ trigger.to_state.state
+        }}{% endif %}'
+  mode: single
+- id: cam1
+  alias: q1 zMotioneye - Camera1 - Motion started
+  trigger:
+  - platform: webhook
+    webhook_id: motioneye-camera1-started
+  action:
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.camera1_motion_detected
+  mode: single
+- id: cam2
+  alias: q1 zMotioneye - Camera1 - Motion ended
+  trigger:
+  - platform: webhook
+    webhook_id: motioneye-camera1-ended
+  action:
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.camera1_motion_detected
+  mode: single
+- id: cam3
+  alias: q1 zEnable motion detection
+  trigger:
+  - platform: state
+    entity_id: input_boolean.camera_motion_detection
+    to: 'on'
+  action:
+  - service: rest_command.camera_motion_start
+  mode: single
+- id: cam4
+  alias: q1 zDisable motion detection
+  trigger:
+  - platform: state
+    entity_id: input_boolean.camera_motion_detection
+    to: 'off'
+  action:
+  - service: rest_command.camera_motion_pause
+  mode: single
+- id: stefan_leaves_home
+  alias: q1 yStefan Leaves Home
+  trigger:
+  - platform: state
+    entity_id: sensor.swaiphone_zone_name
+    to: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.from_state.state == "Home"}}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Stefan Leaves Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.swaiphone_zone_distance") }}'
+  mode: single
+- id: stefan_leaves_zone
+  alias: q1 yStefan Leaves Zone
+  trigger:
+  - platform: state
+    entity_id: sensor.swaiphone_zone_name
+    to: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.from_state.state != "Home"}}'
+  - condition: template
+    value_template: '{{trigger.from_state.state != "stationary"}}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Stefan Leaves Zone
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.swaiphone_zone_distance") }}'
+  mode: single
+- id: '1611502164716'
+  alias: q1 Urgent Notify Stefan, zFake (must be turned off)
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:00
+  condition: []
+  action:
+  - service: script.urgent_notify_stefan
+    data:
+      title: Hinweis
+      message: Fake automation
+  mode: single
+- id: '1612513446275'
+  alias: q1 yStefan Arrives Zone
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.swaiphone_zone_name
+    from: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.to_state.state != "Home"}}'
+  - condition: template
+    value_template: '{{trigger.to_state.state != "stationary"}}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Stefan Arrives at Zone
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.swaiphone_zone_distance") }}'
+  mode: single
+- id: '1612518910204'
+  alias: q1 yStefan Arrives Home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.swaiphone_zone_name
+    to: Home
+  condition:
+  - condition: template
+    value_template: '{{ trigger.from_state.state != "NotSet" }}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Stefan Arrives Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.swaiphone_zone_distance") }}'
+  mode: single
+- id: '1612630325069'
+  alias: q1 Notify, wenn Fake, notify_people_who_are_present  (must be turned off)
+  description: ''
+  trigger:
+  - platform: time
+    at: '17:00:00'
+  condition: []
+  action:
+  - service: script.notify_people
+    data:
+      title: Hinweis
+      message: Message
+  mode: single
+- id: '1612710607069'
+  alias: q1 Urgent Notify, wenn nachts Tür aufgeht
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.nachts_tuerauf
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.nachts_tuerauf
+    to: 'on'
+    for: 00:03:00
+  condition: []
+  action:
+  - service: script.urgent_notify_people_who_are_present
+    data:
+      title: Hinweis
+      message: Tür {{ state_attr('binary_sensor.nachts_tuerauf', 'offenetuer') }}
+        ging auf
+  mode: single
+- id: '1612711040548'
+  alias: q1 Notify, wenn Dachfenster offen bei Vorhersage Regen
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.dachfenster_offen_regentag
+    to: 'on'
+    for: 00:05:00
+  - platform: state
+    entity_id: binary_sensor.dachfenster_offen_regentag
+    to: 'on'
+    for: 00:10:00
+  condition: []
+  action:
+  - service: script.notify_people_who_are_present
+    data:
+      title: Hinweis
+      message: Dachfenster offen und Vorhersage sagt {{ state_attr('weather.home','forecast')[0].precipitation
+        }}mm Regen.
+  mode: single
+- id: '1612711572357'
+  alias: q1 Urgent Notify, wenn keiner zuhause und irgendwas offen
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.haus_offen_keiner_zuhause
+    to: 'on'
+    for: 00:00:00
+  - platform: state
+    entity_id: binary_sensor.haus_offen_keiner_zuhause
+    to: 'on'
+    for: 00:10:00
+  condition: []
+  action:
+  - service: script.urgent_notify_people
+    data:
+      title: Hinweis
+      message: Irgendeine Außentür/Fenster offen und keiner zuhause.
+  mode: single
+- id: '1612767826045'
+  alias: q1 yJulia Arrives Home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.jphone_zone_name
+    to: Home
+  condition:
+  - condition: template
+    value_template: '{{ trigger.from_state.state != "NotSet" }}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Julia Arrives Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.jphone_zone_distance") }}'
+  mode: single
+- id: '1612767871704'
+  alias: q1 yJulia Arrives Zone
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.jphone_zone_name
+    from: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.to_state.state != "Home"}}'
+  - condition: template
+    value_template: '{{trigger.to_state.state != "stationary"}}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Julia Arrives at Zone
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.jphone_zone_distance") }}'
+  mode: single
+- id: '1612767924136'
+  alias: q1 yJulia Leaves Home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.jphone_zone_name
+    to: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.from_state.state == "Home"}}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Julia Leaves Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.jphone_zone_distance") }}'
+  mode: single
+- id: '1612767973525'
+  alias: q1 yJulia Leaves Zone
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.jphone_zone_name
+    to: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.from_state.state != "Home"}}'
+  - condition: template
+    value_template: '{{trigger.from_state.state != "stationary"}}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Julia Leaves Zone
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.jphone_zone_distance") }}'
+  mode: single
+- id: '1612845626948'
+  alias: q1 Notify Stefan, Trinken und Lüften
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.stefan_working_in_office
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: template
+    value_template: '{{ is_state(''script.erinnere_stefan_ans_trinken'', ''off'')  }}'
+  action:
+  - service: script.erinnere_stefan_ans_trinken
+    data: {}
+    entity_id: script.erinnere_stefan_ans_trinken
+  - service: script.erinnere_stefan_ans_luften
+    data: {}
+  mode: single
+- id: '2613227095231'
+  alias: q1 yAnna Arrives Home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.iphone_von_anna_zone_name
+    to: Home
+  condition:
+  - condition: template
+    value_template: '{{ trigger.from_state.state != "NotSet" }}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Anna Arrives Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.iphone_von_anna_zone_distance") }}'
+  mode: single
+- id: '3613227136325'
+  alias: q1 yAnna Arrives Zone
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.iphone_von_anna_zone_name
+    from: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.to_state.state != "Home"}}'
+  - condition: template
+    value_template: '{{trigger.to_state.state != "stationary"}}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Anna Arrives at Zone
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.iphone_von_anna_zone_distance") }}'
+  mode: single
+- id: '1613227167768'
+  alias: q1 yAnna Leaves Home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.iphone_von_anna_zone_name
+    to: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.from_state.state == "Home"}}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Anna Leaves Home
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.iphone_von_anna_zone_distance") }}'
+  mode: single
+- id: '1613227208178'
+  alias: q1 yAnna Leaves Zone
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.iphone_von_anna_zone_name
+    to: Away
+  condition:
+  - condition: template
+    value_template: '{{trigger.from_state.state != "Home"}}'
+  - condition: template
+    value_template: '{{trigger.from_state.state != "stationary"}}'
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Anna Leaves Zone
+      message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state
+        }}, Distance: {{ states("sensor.iphone_von_anna_zone_distance") }}'
+  mode: single
+- id: '1619947201101'
+  alias: q1 Heating HC1 too cold
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc1_trigger
+    to: too-cold
+    for: 00:20:00
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":3, "id":1}'
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: HC1 too cold.
+  mode: queued
+  max: 10
+- id: '1619947216142'
+  alias: q1 Heating HC1 too warm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc1_trigger
+    to: too-warm
+    for: 00:20:00
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-3, "id":1}'
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: HC1 too warm.
+  mode: queued
+  max: 10
+- id: '1619947230644'
+  alias: q1 Heating HC1 back to ok
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc1_trigger
+    to: ok
+    for: 00:20:00
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":0, "id":1}'
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: HC1 back to ok.
+  mode: queued
+  max: 10
+- id: '2619947486597'
+  alias: q1 Heating HC2 back to ok
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc2_trigger
+    to: ok
+    for: 00:20:00
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":0, "id":2}'
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: HC2 back to ok.
+  mode: queued
+  max: 10
+- id: '1619947486597'
+  alias: q1 Heating HC3 back to ok
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc3_trigger
+    to: ok
+    for: 00:20:00
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":0, "id":3}'
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: HC3 back to ok.
+  mode: queued
+  max: 10
+- id: '1619947535330'
+  alias: q1 Heating HC2 too cold
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc2_trigger
+    to: too-cold
+    for: 00:20:00
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":3, "id":2}'
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: HC2 too cold.
+  mode: queued
+  max: 10
+- id: '1619947571072'
+  alias: q1 Heating HC3 too cold
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc3_trigger
+    to: too-cold
+    for: 00:20:00
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":3, "id":3}'
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: HC3 too cold.
+  mode: queued
+  max: 10
+- id: '1619947620277'
+  alias: q1 Heating HC2 too warm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc2_trigger
+    to: too-warm
+    for: 00:20:00
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-3, "id":2}'
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: HC2 too warm.
+  mode: queued
+  max: 10
+- id: '1619947659246'
+  alias: q1 Heating HC3 too warm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc3_trigger
+    to: too-warm
+    for: 00:20:00
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-3, "id":3}'
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: HC3 too warm.
+  mode: queued
+  max: 10
+- id: '1619977422966'
+  alias: q1 Heating HC2vsHC1 too warm
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc2vshc1_trigger
+    to: too-warm
+    for: 00:20:00
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":-3, "id":2}'
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: HC2 vs HC1 too warm.
+  mode: queued
+  max: 10
+- id: '1619977475725'
+  alias: q1 Heating HC2 vs HC1 back to ok
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.heating_hc2vshc1_trigger
+    to: ok
+    for: 00:20:00
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: ems-esp/thermostat
+      payload: '{"cmd":"offsettemp","data":0, "id":2}'
+  - service: script.notify_stefan_heating
+    data:
+      title: Heating
+      message: HC2 vs HC1 back to ok.
+  mode: queued
+  max: 10
+- id: '1621879897477'
+  alias: q1 Heating Check HC1
+  description: ''
+  trigger:
+  - platform: time
+    at: 09:00
+  condition:
+  - condition: state
+    entity_id: sensor.heating_hc1_trigger
+    state: too-warm
+  - condition: state
+    entity_id: sensor.thermostat_hc1_offset_temperature
+    state: '0'
+  action:
+  - service: notify.mobile_app_swaiphone
+    data:
+      title: Hinweis
+      message: HC1 too warm and offset not -3
+  mode: single
+- id: '1609245232653'
+  alias: q3 Wenn dunkel draußen,  Außenlicht an
+  description: Außenlicht an, wenn dunkel draußen
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.dunkel_draussen
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.licht_aussen
+  mode: single
+- id: '1609245648666'
+  alias: q3 Wenn hell draußen, Außenlicht aus
+  description: Außenlicht aus, wenn hell draußen
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.dunkel_draussen
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.licht_aussen
+  mode: single
+- id: '1608480614730'
+  alias: q3 Wenn Haustür geöffnet wird und dunkel draußen, dann Flur-EG Licht an und
+    LED-Fluter an
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.haustur
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.dunkel_draussen
+    state: 'on'
+  action:
+  - type: turn_on
+    device_id: d824de0a6c667da98e0f508d5d4129e5
+    entity_id: switch.eg_flur_licht
+    domain: switch
+  - type: turn_on
+    device_id: 33202a9524f56b2023ed57884e81af71
+    entity_id: switch.shelly25_garage_channel_2
+    domain: switch
+  - service: script.schalte_aussenlicht_fur_5min_an
+    data: {}
+  mode: queued
+  max: 10
+- id: '1640523966930'
+  alias: test turn off after n minutes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.swatrigger
+    from: 'off'
+    to: 'on'
+  - platform: time
+    at: input_datetime.swadatetime
+  - platform: homeassistant
+    event: start
+  action:
+  - variables:
+      swaobject: input_boolean.swaswitch
+      is_on: '{{ is_state(swaobject, ''on'') }}'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.platform == ''state'' and not is_on }}'
+      sequence:
+      - service: input_boolean.turn_on
+        target:
+          entity_id: '{{ swaobject }}'
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.swadatetime
+        data:
+          timestamp: '{{ (now() + timedelta(minutes=5)).timestamp()| int(0)  }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.platform == ''state'' and is_on }}'
+      sequence:
+      - service: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.swadatetime
+        data:
+          timestamp: '{{ (now() + timedelta(minutes=5)).timestamp()| int(0)  }}'
+    - conditions:
+      - condition: template
+        value_template: '{{ (trigger.platform == ''time'' or trigger.platform == ''homeassistant''
+          ) and is_on }}'
+      sequence:
+      - service: input_boolean.turn_off
+        target:
+          entity_id: '{{ swaobject }}'
+  mode: single
