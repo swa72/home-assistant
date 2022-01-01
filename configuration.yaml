@@ -146,7 +146,6 @@ recorder:
       - sensor.gas3_uptime
       - sensor.sleepac_uptime
       - sensor.roofac_uptime
-      - sensor.boiler_burner_current_power
       - sensor.boiler_total_heat_operating_time
       - sensor.roofac_wifi_signal
       - sensor.gas3_wifi_signal
