@@ -35,7 +35,7 @@
       - sensor.iphone*
       - sensor.jphone*
       - sensor.mixer*
-      - sensor.openweathermap*
+#      - sensor.openweathermap*
       - sensor.*_rssi
       - sensor.*_uptime
       - sensor.*_device_temperature

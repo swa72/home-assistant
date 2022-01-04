@@ -168,7 +168,7 @@ influxdb:
   include:
     entities:
       - weather.home
-      - weather.openweathermap
+#      - weather.openweathermap
       - weather.accuweather
       - binary_sensor.heating_active
       - binary_sensor.warm_water_dhw_active      
@@ -198,7 +198,7 @@ influxdb:
       - sensor.thermostat*
       - sensor.solar*
       - sensor.accuweather*
-      - sensor.openweathermap*
+#      - sensor.openweathermap*
       - sensor.multi*
       - sensor.dew*
       - sensor.heating*
