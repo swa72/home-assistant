@@ -57,32 +57,37 @@
     service: hassio.addon_stdin
   mode: single
 - id: '1609858165994'
-  alias: q3 Wenn dunkel draußen, dann Windfanglicht an
-  description: Windfanglicht an, wenn dunkel draußen
+  alias: q3 Windfanglicht bei Dunkelheit
+  description: Windfanglicht an, wenn dunkel draußen; aus, wenn es hell wird
   trigger:
   - platform: state
     entity_id: binary_sensor.dunkel_draussen
     from: 'off'
     to: 'on'
-  condition: []
-  action:
-  - service: switch.turn_on
-    data: {}
-    entity_id: switch.licht_windfang
-  mode: single
-- id: '1609858227328'
-  alias: q3 Wenn hell draußen, dann Windfanglicht  aus
-  description: Windfanglicht  aus, wenn hell draußen
-  trigger:
+    id: an
   - platform: state
     entity_id: binary_sensor.dunkel_draussen
+    id: aus
     from: 'on'
     to: 'off'
   condition: []
   action:
-  - service: switch.turn_off
-    data: {}
-    entity_id: switch.licht_windfang
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: an
+      sequence:
+      - service: switch.turn_on
+        target:
+          entity_id: switch.licht_windfang
+    - conditions:
+      - condition: trigger
+        id: aus
+      sequence:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.licht_windfang
+    default: []
   mode: single
 - id: '1609924669215'
   alias: q3 Wenn Volvo zuhause und lönger als 15min offen dann abschließen
@@ -649,7 +654,7 @@
           area_id:
           - og_schlaf
           - og_elternbad
-          - og_clara
+          - kidsgross
         data:
           position: 40
     default: []
@@ -696,59 +701,13 @@
     target:
       entity_id: cover.shelly25_dg_anna_rolladen
   mode: single
-- id: '1632479086952'
-  alias: Power Save bei Stefan
-  description: ''
-  trigger:
-  - platform: time
-    at: 07:15
-    id: morgens
-  - platform: time
-    at: '20:00'
-    id: abends20
-  - platform: time
-    id: abends22
-    at: '22:00'
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: or
-        conditions:
-        - condition: trigger
-          id: abends20
-        - condition: trigger
-          id: abends22
-      - condition: state
-        entity_id: binary_sensor.stefan_working_in_office
-        state: 'off'
-      sequence:
-      - service: switch.turn_off
-        target:
-          entity_id: switch.shellyp_dg_stefan_tisch
-    - conditions:
-      - condition: trigger
-        id: morgens
-      - condition: time
-        weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        after: 07:15
-      sequence:
-      - service: switch.turn_on
-        target:
-          entity_id: switch.shellyp_dg_stefan_tisch
-    default: []
-  mode: single
 - id: '1632543105220'
   alias: Power Save bei Waschmaschine
   description: ''
   trigger:
   - platform: numeric_state
     entity_id: sensor.shellys_wama_power
-    below: '3'
+    below: '4'
     above: '0'
     for:
       hours: 1
@@ -769,7 +728,7 @@
   - condition: numeric_state
     entity_id: sensor.shellys_wama_power
     above: '0'
-    below: '3'
+    below: '4'
   - service: script.notify_people_who_are_present
     data:
       title: Hinweis
@@ -1117,8 +1076,8 @@
         }}'
   mode: single
 - id: '1635933038164'
-  alias: Advanced Rolladen Clara v2
-  description: Rolladensteuerung Clara zeitgesteuert Wochentags/Wochenende
+  alias: Advanced Rolladen KidsGross
+  description: Rolladensteuerung KidsGross zeitgesteuert Wochentags/Wochenende
   trigger:
   - platform: time
     at: input_datetime.cover_morning_weekday
@@ -1387,15 +1346,15 @@
   - platform: time
     at: '22:00'
     id: ausaus
-  condition:
-  - condition: state
-    entity_id: calendar.ferien
-    state: 'off'
+  condition: []
   action:
   - choose:
     - conditions:
       - condition: trigger
         id: an
+      - condition: state
+        entity_id: calendar.ferien
+        state: 'off'
       sequence:
       - service: switch.turn_on
         target:
@@ -1463,7 +1422,7 @@
           entity_id: '{{ swaobject }}'
   mode: single
 - id: '1640788626220'
-  alias: Heizung Konstantin Wochentags runterregeln
+  alias: Heizung KidsGross Wochentags runterregeln
   description: Regelt die Heizung von 0700-1130 auf 18 Grad. Läuft nicht an Wochenende
     und in Ferien.
   trigger:
@@ -1489,7 +1448,7 @@
       temperature: 18
   mode: single
 - id: '1640796447418'
-  alias: Heizung Clara Wochentags runterregeln
+  alias: Heizung KidsKlein Wochentags runterregeln
   description: Regelt die Heizung von 0700-1130 auf 18 Grad. Läuft nicht an Wochenende
     und in Ferien.
   trigger:
@@ -1515,7 +1474,7 @@
       entity_id: climate.kidsklein
   mode: single
 - id: '1640852446580'
-  alias: 'Heizung Konstantin Offset '
+  alias: 'Heizung KidsGross Offset '
   description: ''
   trigger:
   - platform: state
@@ -1542,7 +1501,7 @@
         '
   mode: single
 - id: '1640852486884'
-  alias: Heizung Clara Offset
+  alias: Heizung KidsKlein Offset
   description: ''
   trigger:
   - platform: state

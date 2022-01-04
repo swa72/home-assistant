@@ -347,7 +347,7 @@ one_time_water_on:
   - service: mqtt.publish
     data:
       topic: ems-esp/boiler
-      payload: '{"cmd":"wwonetime","data":1}'
+      payload: '{"cmd":"wwtapactivated","data":1}'
       qos: '1'
   mode: single
   alias: Heating Water One-time On

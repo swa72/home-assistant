@@ -1,4 +1,5 @@
 #!/bin/bash
+date >> /config/git-last.txt
 cd /config
 git add .
 git status
