@@ -46,6 +46,7 @@ logger:
   default: warning
   logs:
     homeassistant.helpers.template: error
+    homeassistant.components.shell_command: debug
 #  see https://github.com/home-assistant/core/issues/58653 for next line
     fritzconnection: info
 # for reolink
