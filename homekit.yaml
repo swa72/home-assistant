@@ -66,6 +66,8 @@
       - switch.iphone6_*
       - switch.camera3*
       - switch.camera4*
+      - binary_sensor.*_connection_state
+      - binary_sensor.*_link
     exclude_entities:
       - binary_sensor.abend_eg_wohnzimmer_tuer_zu
       - binary_sensor.dachfenster_offen_regentag
@@ -139,6 +141,9 @@
       - sensor.stefan_west_temperature
       - sensor.og_clara_temperature
       - sensor.og_konstantin_temperature
+      - binary_sensor.iphone_focus
+      - binary_sensor.doorbell_pressed
+      - binary_sensor.iphone_focus
     include_entities:
       - script.haustur_offnen
       - cover.eltern_schlafzimmer

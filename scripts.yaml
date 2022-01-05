@@ -89,7 +89,7 @@ notify_stefan:
   mode: queued
   max: 10
 notify_parents:
-  alias: Notify Julia and Stefan
+  alias: Notify parents
   sequence:
   - service: notify.mobile_app_iphone
     data:

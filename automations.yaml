@@ -536,7 +536,6 @@
       hours: 1
       minutes: 0
       seconds: 0
-      milliseconds: 0
     id: entfeuchtervoll
   condition: []
   action:
@@ -545,10 +544,7 @@
       - condition: trigger
         id: entfeuchtervoll
       sequence:
-      - service: script.notify_stefan
-        data:
-          title: Hinweis
-          message: Entfeuchter seit 1h nicht mehr angelaufen. Voll?
+      - service: script.notify_parents
       - service: script.alexa_tts_entfeuchter_voll
     default: []
   mode: single
@@ -1534,4 +1530,59 @@
           circuit: 2
           offset: 0
     default: []
+  mode: single
+- id: '1641374827418'
+  alias: Send a camera snapshot to Julia when doorbell is pressed
+  description: ''
+  use_blueprint:
+    path: vorion/send-camera-snapshot-notification-on-motion.yaml
+    input:
+      notification_message: Look who is there :-)
+      motion_sensor: binary_sensor.doorbell_pressed
+      camera: camera.garagecam
+      notify_device: b772f74b67a6ee614fe789c89d285156
+      is_ios: true
+      notification_title: Doorbell pressed!
+      delay: 1
+- id: '1641387275830'
+  alias: 'Heizung OG Elternbad Offset '
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.og_elternbad_temperature
+    - sensor.multi_og_elternbad_temperature
+  condition:
+  - condition: template
+    value_template: '{% set tado_temp = states(''sensor.og_elternbad_temperature'')|float(20)
+      %} {% set room_temp = states(''sensor.multi_og_elternbad_temperature'')|float(20)
+      %} {{ (tado_temp - room_temp) | abs > 0.5 }}
+
+      '
+  action:
+  - service: tado.set_climate_temperature_offset
+    target:
+      entity_id: climate.og_elternbad
+    data:
+      offset: '{% set tado_temp = states(''sensor.og_elternbad_temperature'')|float(20)
+        %} {% set room_temp = states(''sensor.multi_og_elternbad_temperature'')|float(20)
+        %} {% set current_offset = state_attr(''climate.og_elternbad'', ''offset_celsius'')
+        %} {{ (-(tado_temp - room_temp) + current_offset)|round(1) }}
+
+        '
+  mode: single
+- id: '1641412297937'
+  alias: Disable motion detection for 5min
+  description: Disable motion detection for 5min after motion has been detected. I
+    receive too many pics.
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.garagecam_person_detected
+    to: 'on'
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    data:
+      message: foo
+      title: motion detected
   mode: single
