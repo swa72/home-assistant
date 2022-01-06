@@ -68,6 +68,12 @@
       - switch.camera4*
       - binary_sensor.*_connection_state
       - binary_sensor.*_link
+      - binary_sensor.*_open_window
+      - binary_sensor.*_early_start
+      - binary_sensor.*_power
+      - binary_sensor.*_overlay
+      - binary_sensor.va*_battery_state
+      - binary_sensor.*_focus
     exclude_entities:
       - binary_sensor.abend_eg_wohnzimmer_tuer_zu
       - binary_sensor.dachfenster_offen_regentag
@@ -91,6 +97,8 @@
       - binary_sensor.thermostat_hc1_summer_mode
       - binary_sensor.thermostat_hc2_summer_mode
       - binary_sensor.thermostat_hc3_summer_mode
+      - binary_sensor.thermostat_ww_disinfection
+      - binary_sensor.thermostat_ww_charge
       - binary_sensor.backups_stale
       - binary_sensor.humidity_eg_buro
       - binary_sensor.humidity_og_clara
@@ -107,7 +115,6 @@
       - binary_sensor.shellys_keller_pumpe_treppe
       - binary_sensor.shellys_poolpump
       - binary_sensor.shellys_wama
-      - binary_sensor.swaiphone_focus
       - light.range_extender_2
       - light.range_extender_3
       - sensor.db_size
@@ -144,6 +151,7 @@
       - binary_sensor.iphone_focus
       - binary_sensor.doorbell_pressed
       - binary_sensor.iphone_focus
+      - person.stefan_mobile
     include_entities:
       - script.haustur_offnen
       - cover.eltern_schlafzimmer
