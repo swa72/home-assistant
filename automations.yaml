@@ -1547,3 +1547,35 @@
           entity_id: '{{ swaobject }}'
     default: []
   mode: single
+- id: '1641549085941'
+  alias: Failed HTTP login attempt notification auto-dismiss
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: persistent_notification.http_login
+  condition:
+  - condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ trigger.to_state.state is not none }}'
+    - condition: template
+      value_template: '{{ states.persistent_notification.http_login is not none }}'
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: '{{ "192.168.178.36" in states.persistent_notification.http_login.attributes.message
+        }}'
+    - condition: template
+      value_template: '{{ "192.168.178.20" in states.persistent_notification.http_login.attributes.message
+        }}'
+    - condition: template
+      value_template: '{{ "192.168.178.46" in states.persistent_notification.http_login.attributes.message
+        }}'
+    - condition: template
+      value_template: '{{ "192.168.178.22" in states.persistent_notification.http_login.attributes.message
+        }}'
+  action:
+  - service: persistent_notification.dismiss
+    data:
+      notification_id: http_login
+  mode: single

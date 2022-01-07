@@ -163,25 +163,10 @@ pjsua_custom_options: '--ip-addr=192.168.178.83'
 ```
 and store mp3 files in folder ```\config\www```. Note that the call is automagically ended after six seconds.
 
-
-
-## File editor
-
-* to remotely edit files
-
-
-## Log Viewer
-
-* to check log files (what else?)
-
-
 ## MariaDB
-
 * Moved from Sqlite to using this https://community.home-assistant.io/t/migrating-home-assistant-database-from-sqlite-to-mariadb/96895/23
 
-
 ## SSH & Web Terminal
-
 * not to be confused with "Terminal & SSH"
 * this is as special version which gives me elevated access to the Raspberry
 
@@ -339,21 +324,25 @@ or
   * works with devices, too
 
 ## Push automation to github
- 
 * an automation to regularly update my config to github (see https://github.com/swa72/home-assistant/blob/main/automations.yaml), credit: https://peyanski.com/automatic-home-assistant-backup-to-github/
+* note that `hassio.addon_stdin` no longer works for this use case
 
 ```
 - id: l1k3
   alias: push HA configuration to GitHub repo
   trigger:
-  - at: '23:23:00'
-    platform: time
+    - at: '23:23'
+      platform: time
   action:
-  - data:
-      addon: a0d7b954_ssh
-      input: /config/gitpush.sh
-    service: hassio.addon_stdin
+    - service: shell_command.push_to_github
+  mode: single
 ```
+And there is an entry in my `configuration.yaml` file with 
+```
+shell_command:
+  push_to_github: /config/gitpush.sh
+```
+
 * note to myself: check your `.gitignore` files if something doesn't get pushed. Images need to be added manually with `git add -f foo.jpg`
 
 ## Fritzbox smart home
@@ -363,7 +352,6 @@ or
 ## Fritzbox Tools
 * no entries anymore in yaml files, all setup with the integrations UI
 * enabled entities `switch.<ipad-xyz>` to monitor kids WIFI 
-
 
 ## Fritzbox call monitor
 * see https://www.home-assistant.io/integrations/fritzbox_callmonitor/
