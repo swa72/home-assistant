@@ -1579,3 +1579,17 @@
     data:
       notification_id: http_login
   mode: single
+- id: '1641663171834'
+  alias: Spotify setup
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - service: media_player.select_source
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      source: Stefans Echo Dot
+  mode: single
