@@ -24,6 +24,7 @@ This file is intended for me to document the quirks I had during setup and for o
   * SRK20ZS-W controlled with ESP (https://github.com/ginkage/MHI-AC-Ctrl-ESPHome)
   * Note to myself: compile the yaml file first, then connect the device to the USB port of the ThinkPad X1 to flash it
 * two fans to keep my basement dry (sort of), [controlled by dew point](README-basement.md)
+* an Amazon Echo dot to announce things and play stuff from Spotify ([described below](#amazon-echo-dot-and-spotify))
 * Shelly 2.5 devices control my roller shutters
 * Shelly 1 device controls my garage door
 * Aqara door/windows sensors, connected thru Zigbee
@@ -95,7 +96,7 @@ trusted_proxies:
 Using this setup, I can access HA locally with http://homeassistant-eth:8123/ and remotely with https://xxx.duckdns.org/.
 This is particularly important as local devices may not be able to use HTTPS, so I can still use HTTP locally.
 
-## AdGuard Home 
+# AdGuard Home 
 
 * filters out ads and other stuff (serves as DNS-server for the Fritzbox)
 
@@ -117,7 +118,7 @@ keyfile: privkey.pem
 	* check DNSv6-Server auch über Router Advertisement bekanntgeben (RFC 5006) and set "Lokaler DNSv6-Server:" to fd00:0:0:0:e228:6dff:fe11:406b (internal IPv6 address of Fritzbox)
 	* DHCPv6-Server im Heimnetz: DHCPv6-Server in der FRITZ!Box für das Heimnetz aktivieren: check "Nur DNS-Server zuweisen"
 
-## DSS VoIP Notifier
+# DSS VoIP Notifier
 
 * using my Fritzbox as a SIP server (HA can initiate calls and play audio stuff using tts)
 * install https://github.com/sdesalve/hassio-addons/tree/master/dss_voip as a simple add-on (Supervisor | Add-on Store | ... (top right) | Repositories | add https://github.com/sdesalve/hassio-addons)
@@ -163,10 +164,10 @@ pjsua_custom_options: '--ip-addr=192.168.178.83'
 ```
 and store mp3 files in folder ```\config\www```. Note that the call is automagically ended after six seconds.
 
-## MariaDB
+# MariaDB
 * Moved from Sqlite to using this https://community.home-assistant.io/t/migrating-home-assistant-database-from-sqlite-to-mariadb/96895/23
 
-## SSH & Web Terminal
+# SSH & Web Terminal
 * not to be confused with "Terminal & SSH"
 * this is as special version which gives me elevated access to the Raspberry
 
@@ -186,11 +187,11 @@ packages: []
 init_commands: []
 ```
 
-## Backup to Google Drive
+# Backup to Google Drive
 * installed "Home Assistant Google Drive Backup" from Supervisors' add-ons
 * working with the stock install, just disabled mariadb
 
-## Samba share
+# Samba share
 
 * to be able to access and edit files on the Raspberry from a Windows machine
 
@@ -213,25 +214,62 @@ veto_files:
 compatibility_mode: false
 ```
 
-## deCONZ
+# deCONZ
 
 * to run my ZigBee devices
 
-## HACS: Alexa Media Player
+# HACS: Alexa Media Player
 
 * see https://github.com/custom-components/alexa_media_player/wiki
 * no "Cookie import" or "Configuration.yaml" required 
 * do not forget to enter the OTP code at the end (https://www.amazon.com/a/settings/approval/addbackup)
 * https://community.home-assistant.io/t/alexa-tts-announcement-from-lovelace-ui-and-without-nabu-casa-alexa-media-player/259980/7
 
+# Amazon Echo Dot and Spotify
 
-## motionEye
+* see above for the Alexa Media Player stuff
+* to connect Spotify, I followed the stock description at https://www.home-assistant.io/integrations/spotify/ 
+* I could not connect to Spotify using https as Redirect URI, my Redirect URI is `http://192.168.178.83:8123/auth/external/callback` and I also added one user under Users and Access (my spotify login).
+* Before using the Echo Dot as a device for spotify, you have to run
+
+```
+alias: Spotify setup
+description: ''
+trigger:
+  - platform: homeassistant
+    event: start
+condition: []
+action:
+  - service: media_player.select_source
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      source: Stefans Echo Dot
+mode: single
+```
+
+Note that `spotify_swa72` is my media player. You can simply add another media player to lovelace. Or use a script to play a certain playlist 
+
+```
+alias: Spotify play playlist
+sequence:
+  - service: media_player.play_media
+    data:
+      media_content_id: >-
+        https://open.spotify.com/playlist/37i9dQZF1DXaIrEwuQ3hyy?si=887717bbbc1f46e9
+      media_content_type: playlist
+    target:
+      entity_id: media_player.spotify_swa72
+mode: single
+```
+
+# motionEye
 
 * an old iPhone serving as a guinea pig camera
 * for motionEye's webhooks I had to install NGINX as add-on (see https://community.home-assistant.io/t/motioneye-integration/194350/42)
 * triggers action if motion is detected 
 
-### Reolink E1 pro camera
+# Reolink E1 pro camera
 * on IP `192.168.178.75`; access to the internet normally blocked by the router
 * motionEye add-on
 
@@ -256,7 +294,7 @@ compatibility_mode: false
 * to get the PTZ controls of the camera to work, I integrated the camera also thru the ONVIF integration
 
 
-### Reolink RLC-511WA camera
+# Reolink RLC-511WA camera
 * on IP `192.168.178.32`; access to the internet normally blocked by the router
 * integrated using https://github.com/fwestenberg/reolink_dev/
   * provides switches to turn functions on and off
@@ -269,7 +307,7 @@ compatibility_mode: false
     * `rtsp://192.168.178.32:554/h264Preview_01_sub` at 640x480, 10fps
     * section "Video streaming" at 10fps, 100%, Off, 8083, disabled, off
 
-### ftp add-on
+# ftp add-on
 * to receive images and movies from the RLC-511WA camera, I've setup the ftp add-on
 
 ```
@@ -299,6 +337,48 @@ users:
     share: true
     ssl: false
 log_level: debug
+```
+
+# Fritzbox smart home
+* add the integration "AVM FRITZ!SmartHome"
+* use the user and password combination of the Fritzbox istelf to authenticate
+
+# Fritzbox Tools
+* no entries anymore in yaml files, all setup with the integrations UI
+* enabled entities `switch.<ipad-xyz>` to monitor kids WIFI 
+
+# Fritzbox call monitor
+* see https://www.home-assistant.io/integrations/fritzbox_callmonitor/
+* Host: 192.168.178.1
+* Port 1012
+* Username hacallmon (using user hacallmon on Fritzbox)
+* Passwort of user XXX
+* you may need to enable the call monitor after a restart of the Fritzbox using "To activate the call monitor on your FRITZ!Box, dial #96*5* from any phone connected to it."
+* hacallmon has rights to ...
+  * FRITZ!Box Einstellungen
+	* Sprachnachrichten, Faxnachrichten, FRITZ!App Fon und Anrufliste
+	* Smart Home
+
+# Influxdb
+* installed with default settings
+```
+auth: true
+reporting: true
+ssl: true
+certfile: fullchain.pem
+keyfile: privkey.pem
+envvars: []
+```
+
+# Grafana
+* installed with configuration (note the plugin to visualize discrete values)
+```
+plugins:
+  - natel-discrete-panel
+env_vars: []
+ssl: true
+certfile: fullchain.pem
+keyfile: privkey.pem
 ```
 
 # Useful stuff
@@ -345,47 +425,6 @@ shell_command:
 
 * note to myself: check your `.gitignore` files if something doesn't get pushed. Images need to be added manually with `git add -f foo.jpg`
 
-## Fritzbox smart home
-* add the integration "AVM FRITZ!SmartHome"
-* use the user and password combination of the Fritzbox istelf to authenticate
-
-## Fritzbox Tools
-* no entries anymore in yaml files, all setup with the integrations UI
-* enabled entities `switch.<ipad-xyz>` to monitor kids WIFI 
-
-## Fritzbox call monitor
-* see https://www.home-assistant.io/integrations/fritzbox_callmonitor/
-* Host: 192.168.178.1
-* Port 1012
-* Username hacallmon (using user hacallmon on Fritzbox)
-* Passwort of user XXX
-* you may need to enable the call monitor after a restart of the Fritzbox using "To activate the call monitor on your FRITZ!Box, dial #96*5* from any phone connected to it."
-* hacallmon has rights to ...
-  * FRITZ!Box Einstellungen
-	* Sprachnachrichten, Faxnachrichten, FRITZ!App Fon und Anrufliste
-	* Smart Home
-
-## Influxdb
-* installed with default settings
-```
-auth: true
-reporting: true
-ssl: true
-certfile: fullchain.pem
-keyfile: privkey.pem
-envvars: []
-```
-
-## Grafana
-* installed with configuration (note the plugin to visualize discrete values)
-```
-plugins:
-  - natel-discrete-panel
-env_vars: []
-ssl: true
-certfile: fullchain.pem
-keyfile: privkey.pem
-```
 
 ## notepad++ tips
 * Editing files with Notepad++
