@@ -807,3 +807,13 @@ alexa_tts_entfeuchter_voll:
     target:
       entity_id: media_player.stefans_echo_dot
   mode: single
+spotify_play_playlist:
+  alias: Spotify play playlist
+  sequence:
+  - service: media_player.play_media
+    data:
+      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DXaIrEwuQ3hyy?si=887717bbbc1f46e9
+      media_content_type: playlist
+    target:
+      entity_id: media_player.spotify_swa72
+  mode: single
