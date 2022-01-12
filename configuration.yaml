@@ -1,4 +1,3 @@
-
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
@@ -11,10 +10,10 @@ homeassistant:
 # check out https://www.home-assistant.io/lovelace/dashboards-and-views/
 #
 # lovelace:
-  # mode: yaml
-  # resources:
-    # - url: /local/lovelace-auto-entities/auto-entities.js
-      # type: module
+# mode: yaml
+# resources:
+# - url: /local/lovelace-auto-entities/auto-entities.js
+# type: module
 #
 #
 #
@@ -25,19 +24,19 @@ frontend:
 # uncomment to increase loglevel
 #
 # logger:
-  # default: info
-  # logs:
-    # custom_components.icloud3.pyicloud_ic3: debug
-    # custom_components.icloud3.device_tracker: debug
+# default: info
+# logs:
+# custom_components.icloud3.pyicloud_ic3: debug
+# custom_components.icloud3.device_tracker: debug
 
 # logger:
-  # default: warn
-  # logs:
-    # homeassistant.components.recorder: debug
+# default: warn
+# logs:
+# homeassistant.components.recorder: debug
 # # temporary solution as per https://github.com/emsesp/EMS-ESP/issues/756
-    # homeassistant.helpers.template: error
+# homeassistant.helpers.template: error
 # # lets see more stuff in the logs from mqtt
-    # homeassistant.components.mqtt: debug
+# homeassistant.components.mqtt: debug
 
 #
 # avoid template errors in ems-esp
@@ -47,7 +46,7 @@ logger:
   logs:
     homeassistant.helpers.template: error
     homeassistant.components.shell_command: debug
-#  see https://github.com/home-assistant/core/issues/58653 for next line
+    #  see https://github.com/home-assistant/core/issues/58653 for next line
     fritzconnection: info
 # for reolink
 #    custom_components.reolink_dev: debug
@@ -63,7 +62,7 @@ wake_on_lan:
 #
 tts:
   - platform: google_translate
-    language: 'de'
+    language: "de"
     service_name: google_translate_say
     base_url: !secret base_url
 #
@@ -168,10 +167,10 @@ influxdb:
   include:
     entities:
       - weather.home
-#      - weather.openweathermap
+      #      - weather.openweathermap
       - weather.accuweather
       - binary_sensor.heating_active
-      - binary_sensor.warm_water_dhw_active      
+      - binary_sensor.warm_water_dhw_active
       - sensor.swaweathermetno
       - sensor.swaweathermetno_condition
       - sensor.swaweathermetno_templow
@@ -179,16 +178,16 @@ influxdb:
       - counter.kellerpumpe
       - counter.dew_fans
       - climate.roofac
-#      - sensor.roofac_uptime
-#      - sensor.gas3_uptime
+      #      - sensor.roofac_uptime
+      #      - sensor.gas3_uptime
       - climate.sleepac
-#      - sensor.sleepac_uptime
+      #      - sensor.sleepac_uptime
       - sensor.regen_heute
       - sensor.rel_humidity
       - sensor.hum_abs_basement
       - sensor.smlreadertotalenergyconsumption
-# floods the database as it comes in too often
-#      - sensor.smlreaderpower
+      # floods the database as it comes in too often
+      #      - sensor.smlreaderpower
       - sensor.influxdb_db_size
       - sensor.gasverbrauch
     entity_globs:
@@ -198,7 +197,7 @@ influxdb:
       - sensor.thermostat*
       - sensor.solar*
       - sensor.accuweather*
-#      - sensor.openweathermap*
+      #      - sensor.openweathermap*
       - sensor.multi*
       - sensor.dew*
       - sensor.heating*
@@ -209,14 +208,14 @@ influxdb:
 #
 #
 counter:
-    kellerpumpe:
-      initial: 0
-      step: 1
-      icon: mdi:water-pump
-    dew_fans:
-      initial: 0
-      step: 1
-      icon: mdi:fan
+  kellerpumpe:
+    initial: 0
+    step: 1
+    icon: mdi:water-pump
+  dew_fans:
+    initial: 0
+    step: 1
+    icon: mdi:fan
 #
 # power and gas meters
 #
@@ -227,7 +226,7 @@ utility_meter:
   gasverbrauch_daily:
     source: sensor.gasverbrauch
     cycle: daily
-  gasverbrauch_weekly:  
+  gasverbrauch_weekly:
     source: sensor.gasverbrauch
     cycle: weekly
   gasverbrauch_monthly:
@@ -236,8 +235,8 @@ utility_meter:
   gasverbrauch_yearly:
     source: sensor.gasverbrauch
     cycle: yearly
-#
-#
+  #
+  #
   smlpower_hourly:
     source: sensor.smlreadertotalenergyconsumption
     cycle: hourly
@@ -253,9 +252,9 @@ utility_meter:
   smlpower_yearly:
     source: sensor.smlreadertotalenergyconsumption
     cycle: yearly
-    
-#
-#
+
+  #
+  #
   regen_daily:
     source: sensor.regen_heute
     cycle: daily
@@ -271,22 +270,22 @@ spotify:
 #
 panel_custom:
   - name: Server Controls
-    url_path: config/server_control  # url_path needs to be unique for each panel_custom config
+    url_path: config/server_control # url_path needs to be unique for each panel_custom config
     sidebar_title: Server Controls
     sidebar_icon: mdi:server # https://materialdesignicons.com/
-    module_url: /local/panel-redirect.js  # 'local' is '/config/www/'
+    module_url: /local/panel-redirect.js # 'local' is '/config/www/'
   - name: Logs
     url_path: config/logs
     sidebar_title: Logs
     sidebar_icon: mdi:math-log
     module_url: /local/panel-redirect.js
-# -1
-  - name: Keller
+  # -1
+  - name: Basement
     url_path: lovelace/keller
     sidebar_title: -1
     sidebar_icon: mdi:home-floor-negative-1
     module_url: /local/panel-redirect.js
-  - name: Basement
+  - name: Ground Floor
     url_path: lovelace/eg
     sidebar_title: 0
     sidebar_icon: mdi:home-floor-0
@@ -306,9 +305,13 @@ panel_custom:
     sidebar_title: Einfahrt
     sidebar_icon: mdi:garage-variant
     module_url: /local/panel-redirect.js
- 
 #
 #
 #
 shell_command:
   push_to_github: /config/gitpush.sh
+#
+# to show camera live feed on wall tablet: use browser_mod
+#
+browser_mod:
+  prefix: "browser_"

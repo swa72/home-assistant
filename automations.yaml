@@ -1593,3 +1593,21 @@
     data:
       source: Stefans Echo Dot
   mode: single
+- id: '1642007555930'
+  alias: Popup camera stream on wall tablet when doorbell pressed
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.doorbell_pressed
+    to: 'on'
+  condition: []
+  action:
+  - service: browser_mod.more_info
+    data:
+      entity_id: camera.camera3
+      deviceID:
+      - b174e12b-9abd3035
+  - service: light.turn_on
+    target:
+      entity_id: light.fire_tablet_screen
+  mode: single

@@ -811,19 +811,24 @@ spotify_play_playlist:
   alias: Spotify play playlist and shuffle
   sequence:
   - service: media_player.volume_set
-    target:
-      entity_id: media_player.spotify_swa72
     data:
-      volume_level: 0.2
+      volume_level: 0.15
+    target:
+      entity_id: media_player.stefans_echo_dot
   - service: media_player.play_media
     data:
       media_content_id: https://open.spotify.com/playlist/37i9dQZF1DXaIrEwuQ3hyy?si=887717bbbc1f46e9
       media_content_type: playlist
     target:
-      entity_id: media_player.spotify_swa72
+      entity_id: media_player.stefans_echo_dot
   - service: media_player.shuffle_set
     target:
       entity_id: media_player.spotify_swa72
     data:
       shuffle: true
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.15
+    target:
+      entity_id: media_player.stefans_echo_dot
   mode: single
