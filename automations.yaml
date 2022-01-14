@@ -641,6 +641,9 @@
           milliseconds: 0
       - condition: time
         after: 09:00
+      - condition: numeric_state
+        entity_id: sensor.boiler_outside_temperature
+        above: '10'
       sequence:
       - service: cover.set_cover_position
         target:
@@ -1629,7 +1632,7 @@
   action:
   - service: tado.set_climate_temperature_offset
     target:
-      entity_id: climate.og_elternbad
+      entity_id: climate.dg_stefan
     data:
       offset: '{% set tado_temp = states(''sensor.dg_stefan_temperature'')|float(20)
         %} {% set room_temp = states(''sensor.multi_dg_stefan_temperature'')|float(20)
