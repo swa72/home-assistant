@@ -35,7 +35,7 @@
       - sensor.iphone*
       - sensor.jphone*
       - sensor.mixer*
-#      - sensor.openweathermap*
+      #      - sensor.openweathermap*
       - sensor.*_rssi
       - sensor.*_uptime
       - sensor.*_device_temperature
@@ -74,6 +74,10 @@
       - binary_sensor.*_overlay
       - binary_sensor.va*_battery_state
       - binary_sensor.*_focus
+      - light.browser*
+      - switch.fire*
+      - light.fire*
+      - switch.stefan_s*
     exclude_entities:
       - binary_sensor.abend_eg_wohnzimmer_tuer_zu
       - binary_sensor.dachfenster_offen_regentag
@@ -105,7 +109,7 @@
       - binary_sensor.humidity_og_konstantin
       - binary_sensor.humidity_og_elternbad
       - binary_sensor.humidity_og_elternschlaf
-      - binary_sensor.humidity_og_schlaf      
+      - binary_sensor.humidity_og_schlaf
       - binary_sensor.emsesp
       - binary_sensor.gas
       - binary_sensor.roofac
@@ -172,7 +176,7 @@
     switch.shellys_silvia:
       name: Silvia
     switch.wake_up_thinkpad_t43:
-    # siri does not understand "thinkpad" :-/
+      # siri does not understand "thinkpad" :-/
       name: Notebook
     switch.shellyp_dg_stefan_tisch:
       name: Schreibtisch
