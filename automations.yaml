@@ -1641,3 +1641,35 @@
 
         '
   mode: single
+- id: '1642524431688'
+  alias: Chare Firetablet
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.fire_tablet_battery_level
+    above: '80'
+    id: stopcharge
+  - platform: numeric_state
+    entity_id: sensor.fire_tablet_battery_level
+    id: startcharge
+    below: '15'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: stopcharge
+      sequence:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.shellys_firetablet
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: startcharge
+      sequence:
+      - service: switch.turn_on
+        target:
+          entity_id: switch.shellys_firetablet
+    default: []
+  mode: single

@@ -315,3 +315,8 @@ shell_command:
 #
 browser_mod:
   prefix: "browser_"
+  devices:
+    4829eb14-9690bdf4:
+      name: Thinkpad
+    b174e12b-9abd3035:
+      name: Firetablet
