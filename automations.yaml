@@ -1673,3 +1673,22 @@
           entity_id: switch.shellys_firetablet
     default: []
   mode: single
+- id: '1642611883513'
+  alias: 'Notify Stefan of stale entities '
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: /45
+  condition: []
+  action:
+  - variables:
+      stale: "{{ expand('group.tempsensors')\n   | selectattr('last_changed', 'lt',\
+        \ now()-timedelta(seconds=7200)) \n   | map(attribute='entity_id') | join(',\
+        \ ') }}\n"
+  - condition: template
+    value_template: '{{ stale | count > 0 }}'
+  - service: notify.mobile_app_iphone
+    data:
+      title: Stale Entities Found (no change in 2h)
+      message: '{{ stale }}'
+  mode: single

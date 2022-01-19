@@ -5,10 +5,10 @@ dachfenster:
   name: Fenster DG
   icon: mdi:window-open
   entities:
-  - binary_sensor.fenster_dachbad
-  - binary_sensor.fenster_anna
-  - binary_sensor.fenster_o
-  - binary_sensor.fenster_sw
+    - binary_sensor.fenster_dachbad
+    - binary_sensor.fenster_anna
+    - binary_sensor.fenster_o
+    - binary_sensor.fenster_sw
 #
 #
 #
@@ -16,7 +16,7 @@ ogfenster:
   name: Fenster OG
   icon: mdi:window-open
   entities:
-  - binary_sensor.fenster_og_clara
+    - binary_sensor.fenster_og_clara
 
 #
 #
@@ -25,7 +25,7 @@ egfenster:
   name: Fenster EG
   icon: mdi:window-open
   entities:
-  - binary_sensor.fenster_eg_gaeste
+    - binary_sensor.fenster_eg_gaeste
 
 #
 # meine familie
@@ -33,39 +33,39 @@ egfenster:
 family:
   name: Familie
   entities:
-  - person.stefan
-  - person.julia
-  - person.anna
+    - person.stefan
+    - person.julia
+    - person.anna
 #
 # alle fenster
 #
 fenster:
   name: Fenster
-#  icon: mdi:window-open
+  #  icon: mdi:window-open
   entities:
-  - group.dachfenster
-  - group.ogfenster
-  - group.egfenster
+    - group.dachfenster
+    - group.ogfenster
+    - group.egfenster
 #
 # alle außentüren
 #
 tueren:
   name: Türen
-#  icon: mdi:door
+  #  icon: mdi:door
   entities:
-  - binary_sensor.haustur
-  - binary_sensor.kellertur
-  - binary_sensor.garagentur
+    - binary_sensor.haustur
+    - binary_sensor.kellertur
+    - binary_sensor.garagentur
 #
 #
 #
 oeffnungen:
   name: Alle Türen und Fenster
-#  icon: mdi:home-alert
+  #  icon: mdi:home-alert
   entities:
-  - group.fenster
-  - group.tueren
-  
+    - group.fenster
+    - group.tueren
+
 servers:
   name: all major esp and shelly devices
   all: true
@@ -88,3 +88,21 @@ einfahrt:
     - switch.licht_aussen
     - switch.eg_flur_licht
     - switch.shelly25_garage_channel_2
+#
+# all temp sensors
+#
+tempsensors:
+  name: All temp sensors which are monitored
+  entities:
+    - sensor.multi_dg_anna_temperature
+    - sensor.multi_dg_bad_temperature
+    - sensor.multi_dg_stefan_temperature
+    - sensor.multi_eg_buro_temperature
+    - sensor.multi_keller_gross_temperature
+    - sensor.multi_keller_wasch_temperature
+    - sensor.multi_og_aussen_temperature
+    - sensor.multi_og_clara_temperature
+    - sensor.multi_og_elternbad_temperature
+    - sensor.multi_og_kinderbad_temperature
+    - sensor.multi_og_konstantin_temperature
+    - sensor.multi_og_schlaf_temperature
