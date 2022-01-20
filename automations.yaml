@@ -1683,10 +1683,14 @@
   action:
   - variables:
       stale: "{{ expand('group.tempsensors')\n   | selectattr('last_changed', 'lt',\
-        \ now()-timedelta(seconds=7200)) \n   | map(attribute='entity_id') | join(',\
+        \ now()-timedelta(seconds=14400)) \n   | map(attribute='entity_id') | join(',\
         \ ') }}\n"
-  - condition: template
-    value_template: '{{ stale | count > 0 }}'
+  - condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ stale | count > 0 }}'
+    - condition: template
+      value_template: '{{ stale != ''sensor.multi_og_aussen_temperature'' }}'
   - service: notify.mobile_app_iphone
     data:
       title: Stale Entities Found (no change in 2h)
