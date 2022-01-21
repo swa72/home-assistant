@@ -788,6 +788,11 @@
     data:
       title: Heating
       message: foo bar {{ trigger.id }}
+  - service: logbook.log
+    data:
+      entity_id: automation.fake_test_automation
+      message: some message
+      name: automation.fake_test_automation
   mode: single
 - id: '1634980794843'
   alias: Advanced Heating Forecast v2
@@ -811,13 +816,12 @@
   - condition: state
     entity_id: sensor.heating_warmnextday
     state: warm
-  - service: system_log.write
+  - service: logbook.log
     data:
-      level: critical
-      logger: swa-log
-      message: Tomorrow will be warm ({{states('input_text.heating_forecast_condition')}}/
-        {{states('input_number.heating_forecast_temperature')}}). All offsets -3.
-        If temp at night below 17, heating will likely still be off.
+      message: Tomorrow will be warm ({{states('input_text.heating_forecast_condition')}}/     {{states('input_number.heating_forecast_temperature')}}).
+        All offsets -3. If temp at night below 17, heating will likely still be off.
+      name: automation.advanced_heating_forecast_v2
+      entity_id: automation.advanced_heating_forecast_v2
   - service: script.heating_change_offset
     data:
       origin: automation.advanced_heating_forecast
@@ -860,10 +864,10 @@
         - fri
       sequence:
       - service: script.heating_set_room_temp_low
-      - service: system_log.write
+      - service: logbook.log
         data:
-          level: critical
-          logger: swa-log
+          entity_id: automation.advanced_heating_workdays_v2
+          name: automation.advanced_heating_workdays_v2
           message: Started script.heating_set_room_temp_low
     - conditions:
       - condition: trigger
@@ -875,10 +879,10 @@
         - fri
       sequence:
       - service: script.heating_set_room_temp_high
-      - service: system_log.write
+      - service: logbook.log
         data:
-          level: critical
-          logger: swa-log
+          entity_id: automation.advanced_heating_workdays_v2
+          name: automation.advanced_heating_workdays_v2
           message: Started script.heating_set_room_temp_high
     default: []
   mode: single
@@ -1595,6 +1599,11 @@
       entity_id: media_player.spotify_swa72
     data:
       source: Stefans Echo Dot
+  - service: logbook.log
+    data:
+      entity_id: automation.spotify_setup
+      message: Changed source to Stefans Echo Dot
+      name: automation.spotify_setup
   mode: single
 - id: '1642007555930'
   alias: Popup camera stream on wall tablet when doorbell pressed
@@ -1642,7 +1651,7 @@
         '
   mode: single
 - id: '1642524431688'
-  alias: Chare Firetablet
+  alias: Charge Firetablet
   description: ''
   trigger:
   - platform: numeric_state
@@ -1652,7 +1661,7 @@
   - platform: numeric_state
     entity_id: sensor.fire_tablet_battery_level
     id: startcharge
-    below: '15'
+    below: '20'
   condition: []
   action:
   - choose:

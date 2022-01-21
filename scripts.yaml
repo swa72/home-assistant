@@ -580,22 +580,22 @@ run_lufter_for_2h:
   mode: single
 dehumidify_basement:
   sequence:
-  - service: system_log.write
+  - service: logbook.log
     data:
+      entity_id: script.dehumidify_basement
       message: Running dehumidify_basement script
-      logger: swa-log
-      level: critical
+      name: script.dehumidify_basement
   - repeat:
       while:
       - condition: state
         entity_id: sensor.dew_runfan
         state: 'True'
       sequence:
-      - service: system_log.write
+      - service: logbook.log
         data:
+          entity_id: script.dehumidify_basement
           message: Running fans, run {{ repeat.index }}
-          logger: swa-log
-          level: critical
+          name: script.dehumidify_basement
       - service: counter.increment
         target:
           entity_id: counter.dew_fans
@@ -619,15 +619,6 @@ mqtt_test:
       qos: '1'
   mode: single
   alias: mqtt test
-test_log:
-  sequence:
-  - service: system_log.write
-    data:
-      message: dfdfdfgdgdg {{now().strftime("%Y-%m-%d %H:%M")}}
-      level: critical
-      logger: swa-log
-  mode: single
-  alias: Test log
 heating_set_room_temp_high:
   alias: Heating Set Room Temp High
   sequence:
@@ -643,12 +634,12 @@ heating_set_room_temp_high:
       payload: '{"cmd":"temp","data":{{states(''input_number.heating_temp_high'')|int}},
         "id":2}'
       qos: '1'
-  - service: system_log.write
+  - service: logbook.log
     data:
+      entity_id: script.heating_set_room_temp_high
       message: Setting Heating Circuits to {{states('input_number.heating_temp_high')|int}}°C
         at {{now().strftime("%Y-%m-%d %H:%M")}}
-      level: critical
-      logger: swa-log
+      name: script.heating_set_room_temp_high
   - delay:
       hours: 0
       minutes: 10
@@ -678,12 +669,12 @@ heating_set_room_temp_low:
       payload: '{"cmd":"temp","data":{{states(''input_number.heating_temp_low'')|int}},
         "id":2}'
       qos: '1'
-  - service: system_log.write
+  - service: logbook.log
     data:
-      message: Setting Heating Circuits to {{states('input_number.heating_temp_low')|int}}°C
+      entity_id: script.heating_set_room_temp_low
+      message: Setting Heating Circuits to {{states('input_number.heating_temp_high')|int}}°C
         at {{now().strftime("%Y-%m-%d %H:%M")}}
-      level: critical
-      logger: swa-log
+      name: script.heating_set_room_temp_low
   - delay:
       hours: 0
       minutes: 10
@@ -730,12 +721,12 @@ play_lounge:
 heating_control:
   alias: Heating control
   sequence:
-  - service: system_log.write
+  - service: logbook.log
     data:
-      level: critical
-      logger: swa-log
-      message: '''Heating control sends {"cmd":"{{states(''input_select.hcontrol_cmd'')}}","data":{{states(''input_number.hcontrol_data'')|int}},"id":{{states(''input_select.hcontrol_id'')}}}
-        at {{now().strftime("%Y-%m-%d %H:%M")}}'''
+      entity_id: script.heating_control
+      name: script.heating_control
+      message: '''Heating control sends     {"cmd":"{{states(''input_select.hcontrol_cmd'')}}","data":{{states(''input_number.hcontrol_data'')|int}},"id":{{states(''input_select.hcontrol_id'')}}}     at
+        {{now().strftime("%Y-%m-%d %H:%M")}}'''
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
@@ -755,8 +746,10 @@ heating_offset_script_trigger:
 heating_change_offset:
   alias: Heating change offset
   sequence:
-  - service: system_log.write
+  - service: logbook.log
     data:
+      entity_id: script.heating_change_offset
+      name: script.heating_change_offset
       message: Heating {{circuit}} offset {{offset}} time {{now().strftime("%Y-%m-%d
         %H:%M")}}, source {{origin}}
   - service: mqtt.publish
@@ -772,8 +765,10 @@ heating_change_offset:
   - condition: template
     value_template: '{{ states(''sensor.thermostat_hc'' ~ circuit ~ ''_offset_temperature'')|float
       != offset}}'
-  - service: system_log.write
+  - service: logbook.log
     data:
+      entity_id: script.heating_change_offset
+      name: script.heating_change_offset
       message: Heating {{circuit}} offset {{offset}} time {{now().strftime("%Y-%m-%d
         %H:%M")}}, source {{origin}} did not work. Check manually.
   fields:
@@ -832,21 +827,95 @@ spotify_play_playlist:
     target:
       entity_id: media_player.stefans_echo_dot
   mode: single
-spotify_play_random_playlist:
-  alias: Spotify play random playlist
+spotify_background_jazz:
+  alias: Spotify background jazz
   sequence:
-  - service: media_player.play_media
-    data:
-      media_content_id: '{{[''https://open.spotify.com/playlist/37i9dQZF1DXaIrEwuQ3hyy?si=887717bbbc1f46e9'',
-        ''https://open.spotify.com/playlist/37i9dQZF1DWYUYYlhkTuEn?si=1ec4a5ce54964da1'',
-        ''https://open.spotify.com/playlist/37i9dQZF1DWV7EzJMK2FUI?si=a7c92239da964efc'']
-        | random }}'
-      media_content_type: playlist
+  - service: media_player.volume_set
     target:
-      entity_id: media_player.stefans_echo_dot
+      entity_id: media_player.spotify_swa72
+    data:
+      volume_level: 0.15
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DWV7EzJMK2FUI?si=174a31e15e5242c0
+      media_content_type: playlist
   - service: media_player.shuffle_set
     target:
       entity_id: media_player.spotify_swa72
     data:
       shuffle: true
+  - service: media_player.media_next_track
+    data:
+      entity_id: media_player.spotify_swa72
+  mode: single
+'1642781471741':
+  alias: Spotify yoga electronica
+  sequence:
+  - service: media_player.volume_set
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      volume_level: 0.15
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DWYUYYlhkTuEn?si=819fdd46afdf4d51
+      media_content_type: playlist
+  - service: media_player.shuffle_set
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      shuffle: true
+  - service: media_player.media_next_track
+    data:
+      entity_id: media_player.spotify_swa72
+  mode: single
+'1642781487603':
+  alias: Spotify soft pop hits
+  sequence:
+  - service: media_player.volume_set
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      volume_level: 0.15
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DWTwnEm1IYyoj?si=6bc1dd54b3864137
+      media_content_type: playlist
+  - service: media_player.shuffle_set
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      shuffle: true
+  - service: media_player.media_next_track
+    data:
+      entity_id: media_player.spotify_swa72
+  mode: single
+'1642781503669':
+  alias: Spotify chill vibes
+  sequence:
+  - service: media_player.volume_set
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      volume_level: 0.15
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DX889U0CL85jj?si=d4165ce8136f4b9e
+      media_content_type: playlist
+  - service: media_player.shuffle_set
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      shuffle: true
+  - service: media_player.media_next_track
+    data:
+      entity_id: media_player.spotify_swa72
   mode: single
