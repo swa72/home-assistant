@@ -30,7 +30,6 @@
     - type: load_1m
     - type: load_5m
     - type: load_15m
-    - type: last_boot
 #
 # gives a new entity after restart
 #

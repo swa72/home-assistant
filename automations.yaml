@@ -786,8 +786,8 @@
   action:
   - service: script.notify_stefan_heating
     data:
-      title: Heating
-      message: foo bar {{ trigger.id }}
+      title: automation.fake_test_automation
+      message: foo bar {{ trigger.id }} {{ trigger.platform }}
   - service: logbook.log
     data:
       entity_id: automation.fake_test_automation

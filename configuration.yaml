@@ -259,12 +259,18 @@ utility_meter:
     source: sensor.regen_heute
     cycle: daily
 #
-#
+# for the spotify integration
 #
 spotify:
   client_id: !secret spotify_clientid
   client_secret: !secret spotify_secret
-
+#
+# for spotcast (requirement of spotify-card)
+#
+spotcast:
+  sp_dc: !secret sp_dc
+  sp_key: !secret sp_key
+  country: DE #optional, added in 3.6.24
 #
 #
 #
