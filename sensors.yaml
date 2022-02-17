@@ -700,3 +700,12 @@
         states('sensor.gasverbrauch_daily') | float 
         ) / (now().day-1) | float * numdays) | round(0)}}
         {% endif %}
+
+- platform: template
+  sensors:
+    entfeuchter_costs:
+      friendly_name_template: "Entfeuchter Kosten/Monat"
+      value_template: >-
+        {% set daysdiff=(as_timestamp(now()) - as_timestamp('2021-9-08 00:00:00')) | timestamp_custom("%j") | float %}
+        {% set average=(states('sensor.shellys_keller_entfeuchter_energy')|float / daysdiff) | round(2) %}
+        {{ average * 0.32 * 30 }}
