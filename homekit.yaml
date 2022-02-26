@@ -80,12 +80,10 @@
       - switch.stefan_s*
     exclude_entities:
       - binary_sensor.abend_eg_wohnzimmer_tuer_zu
-      - binary_sensor.dachfenster_offen_regentag
       - binary_sensor.dunkel_draussen
       - binary_sensor.haus_offen_keiner_zuhause
       - binary_sensor.nachts_tuerauf
       - binary_sensor.people_home
-      - binary_sensor.rainy_day
       - binary_sensor.rpi_power_status
       - binary_sensor.shelly1_garage_input
       - binary_sensor.stefan_working_in_office
@@ -93,11 +91,6 @@
       - binary_sensor.updater
       - binary_sensor.volvo_zuhause_und_offen
       - binary_sensor.garagentur
-      - binary_sensor.humidity_clara
-      - binary_sensor.humidity_konstantin
-      - binary_sensor.humidity_clara
-      - binary_sensor.humidity_elternbad
-      - binary_sensor.humidity_elternschlaf
       - binary_sensor.thermostat_hc1_summer_mode
       - binary_sensor.thermostat_hc2_summer_mode
       - binary_sensor.thermostat_hc3_summer_mode
@@ -108,7 +101,6 @@
       - binary_sensor.humidity_og_clara
       - binary_sensor.humidity_og_konstantin
       - binary_sensor.humidity_og_elternbad
-      - binary_sensor.humidity_og_elternschlaf
       - binary_sensor.humidity_og_schlaf
       - binary_sensor.emsesp
       - binary_sensor.gas
@@ -119,13 +111,9 @@
       - binary_sensor.shellys_keller_pumpe_treppe
       - binary_sensor.shellys_poolpump
       - binary_sensor.shellys_wama
-      - light.range_extender_2
-      - light.range_extender_3
       - sensor.db_size
       - sensor.hacs
       - sensor.heating_differential
-      - sensor.icloud3_event_log
-      - sensor.influx_db_size
       - sensor.last_boot
       - sensor.load_15m
       - sensor.load_1m
@@ -133,8 +121,6 @@
       - sensor.memory_use_percent
       - sensor.processor_temperature
       - sensor.regen_heute
-      - sensor.samba_backup
-      - sensor.service_code
       - sensor.swa_fake
       - sensor.swaweathermetno
       - sensor.uptime
@@ -151,11 +137,9 @@
       - sensor.stefan_ost_temperature
       - sensor.stefan_west_temperature
       - sensor.og_clara_temperature
-      - sensor.og_konstantin_temperature
       - binary_sensor.iphone_focus
       - binary_sensor.doorbell_pressed
       - binary_sensor.iphone_focus
-      - person.stefan_mobile
     include_entities:
       - script.haustur_offnen
       - cover.eltern_schlafzimmer
@@ -175,7 +159,7 @@
       name: Anna Rolladen
     switch.shellys_silvia:
       name: Silvia
-    switch.wake_up_thinkpad_t43:
+    switch.wake_up_thinkpad_t430:
       # siri does not understand "thinkpad" :-/
       name: Notebook
     switch.shellyp_dg_stefan_tisch:

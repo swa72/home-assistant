@@ -1,776 +1,798 @@
 alexa_doorbell:
   alias: Alexa Sound
   sequence:
-  - service: media_player.play_media
-    data:
-      entity_id: media_player.stefans_echo_dot
-      media_content_type: sound
-      media_content_id: amzn_sfx_doorbell_chime_01
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.stefans_echo_dot
+        media_content_type: sound
+        media_content_id: amzn_sfx_doorbell_chime_01
   mode: single
 alexa_wama_fertig:
   alias: Alexa tts Waschmaschine ist fertig.
   sequence:
-  - service: media_player.volume_set
-    data:
-      volume_level: 0.5
-    entity_id: media_player.stefans_echo_dot
-  - service: notify.alexa_media
-    data:
-      target: media_player.stefans_echo_dot
-      message: Hallo, die Waschmaschine ist fertig.
+    - service: media_player.volume_set
       data:
-        type: tts
-  - service: media_player.volume_set
-    data:
-      volume_level: 0.2
-    target:
+        volume_level: 0.5
       entity_id: media_player.stefans_echo_dot
+    - service: notify.alexa_media
+      data:
+        target: media_player.stefans_echo_dot
+        message: Hallo, die Waschmaschine ist fertig.
+        data:
+          type: tts
+    - service: media_player.volume_set
+      data:
+        volume_level: 0.2
+      target:
+        entity_id: media_player.stefans_echo_dot
   mode: single
 haustur_offnen:
   alias: Haustür öffnen
   sequence:
-  - service: hassio.addon_stdin
-    data:
-      addon: 89275b70_dss_voip
-      input:
-        call_sip_uri: sip:**1@192.168.178.1:5060
-        audio_file_url: https://swa.duckdns.org/local/open_door_short.mp3
-        call_duration: '6'
-  - delay: 00:00:10
+    - service: hassio.addon_stdin
+      data:
+        addon: 89275b70_dss_voip
+        input:
+          call_sip_uri: sip:**1@192.168.178.1:5060
+          audio_file_url: https://swa.duckdns.org/local/open_door_short.mp3
+          call_duration: "6"
+    - delay: 00:00:10
   mode: single
 clara_tur_zu_und_leiser:
   alias: Call Clara Tür zu und leiser
   sequence:
-  - service: hassio.addon_stdin
-    data:
-      addon: 89275b70_dss_voip
-      input:
-        call_sip_uri: sip:**611@192.168.178.1:5060
-        message_tts: Bitte Tür schließen und leiser sein. Danke.
-        call_duration: '20'
+    - service: hassio.addon_stdin
+      data:
+        addon: 89275b70_dss_voip
+        input:
+          call_sip_uri: sip:**611@192.168.178.1:5060
+          message_tts: Bitte Tür schließen und leiser sein. Danke.
+          call_duration: "20"
   mode: single
 konstantin_tur_zu_und_leiser:
   alias: Call Konstantin Tür zu und leiser
   sequence:
-  - service: hassio.addon_stdin
-    data:
-      addon: 89275b70_dss_voip
-      input:
-        call_sip_uri: sip:**612@192.168.178.1:5060
-        message_tts: Bitte Tür schließen und leiser sein. Danke.
-        call_duration: '20'
+    - service: hassio.addon_stdin
+      data:
+        addon: 89275b70_dss_voip
+        input:
+          call_sip_uri: sip:**612@192.168.178.1:5060
+          message_tts: Bitte Tür schließen und leiser sein. Danke.
+          call_duration: "20"
   mode: single
 alexa_tts_katzentur_offnen:
   alias: Alexa tts Katzentür öffnen.
   sequence:
-  - service: media_player.volume_set
-    data:
-      volume_level: 0.5
-    entity_id: media_player.stefans_echo_dot
-  - service: notify.alexa_media
-    data:
-      target: media_player.stefans_echo_dot
-      message: Bitte die Wohnzimmertür für Katzen offen lassen.
+    - service: media_player.volume_set
       data:
-        type: tts
-  - service: media_player.volume_set
-    data:
-      volume_level: 0.2
-    target:
+        volume_level: 0.5
       entity_id: media_player.stefans_echo_dot
+    - service: notify.alexa_media
+      data:
+        target: media_player.stefans_echo_dot
+        message: Bitte die Wohnzimmertür für Katzen offen lassen.
+        data:
+          type: tts
+    - service: media_player.volume_set
+      data:
+        volume_level: 0.2
+      target:
+        entity_id: media_player.stefans_echo_dot
   mode: single
 notify_stefan:
   alias: Notify stefan
   sequence:
-  - service: notify.mobile_app_iphone
-    data:
-      title: '{{ title }}'
-      message: '{{ message }}'
+    - service: notify.mobile_app_iphone
+      data:
+        title: "{{ title }}"
+        message: "{{ message }}"
   mode: queued
   max: 10
 notify_parents:
   alias: Notify parents
   sequence:
-  - service: notify.mobile_app_iphone
-    data:
-      title: '{{ title }}'
-      message: '{{ message }}'
-  - service: notify.mobile_app_jphone
-    data:
-      title: '{{ title }}'
-      message: '{{ message }}'
+    - service: notify.mobile_app_iphone
+      data:
+        title: "{{ title }}"
+        message: "{{ message }}"
+    - service: notify.mobile_app_jphone
+      data:
+        title: "{{ title }}"
+        message: "{{ message }}"
   mode: single
 urgent_notify_stefan:
   alias: Notify stefan critically
   sequence:
-  - service: notify.mobile_app_iphone
-    data:
-      title: '{{ title }}'
-      message: '{{ message }}'
+    - service: notify.mobile_app_iphone
       data:
-        push:
-          sound:
-            name: default
-            critical: 1
-            volume: 0.3
+        title: "{{ title }}"
+        message: "{{ message }}"
+        data:
+          push:
+            sound:
+              name: default
+              critical: 1
+              volume: 0.3
   mode: single
 notify_people_who_are_present:
   alias: Notify people who are present
   sequence:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ is_state(''person.stefan'', ''home'') }}'
-      sequence:
-      - service: notify.mobile_app_iphone
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ is_state(''person.julia'', ''home'') and is_state(''input_boolean.swa_debug_mode'',
-          ''off'') }}'
-      sequence:
-      - service: notify.mobile_app_jphone
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ is_state(''person.anna'', ''home'') and is_state(''input_boolean.swa_debug_mode'',
-          ''off'') }}'
-      sequence:
-      - service: notify.mobile_app_iphone_von_anna
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: "{{ is_state('person.stefan', 'home') }}"
+          sequence:
+            - service: notify.mobile_app_iphone
+              data:
+                title: "{{ title }}"
+                message: "{{ message }}"
+    - choose:
+        - conditions:
+            - condition: template
+              value_template:
+                "{{ is_state('person.julia', 'home') and is_state('input_boolean.swa_debug_mode',
+                'off') }}"
+          sequence:
+            - service: notify.mobile_app_jphone
+              data:
+                title: "{{ title }}"
+                message: "{{ message }}"
+    - choose:
+        - conditions:
+            - condition: template
+              value_template:
+                "{{ is_state('person.anna', 'home') and is_state('input_boolean.swa_debug_mode',
+                'off') }}"
+          sequence:
+            - service: notify.mobile_app_iphone_von_anna
+              data:
+                title: "{{ title }}"
+                message: "{{ message }}"
   mode: parallel
   max: 10
 notify_people:
   alias: Notify people
   sequence:
-  - choose:
-    - conditions: '{{ 1==1 }}'
-      sequence:
-      - service: notify.mobile_app_iphone
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-  - choose:
-    - conditions: '{{ 1==1 and is_state(''input_boolean.swa_debug_mode'', ''off'')
-        }}'
-      sequence:
-      - service: notify.mobile_app_jphone
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-  - choose:
-    - conditions: '{{ 1==1 and is_state(''input_boolean.swa_debug_mode'', ''off'')
-        }}'
-      sequence:
-      - service: notify.mobile_app_iphone_von_anna
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
+    - choose:
+        - conditions: "{{ 1==1 }}"
+          sequence:
+            - service: notify.mobile_app_iphone
+              data:
+                title: "{{ title }}"
+                message: "{{ message }}"
+    - choose:
+        - conditions:
+            "{{ 1==1 and is_state('input_boolean.swa_debug_mode', 'off')
+            }}"
+          sequence:
+            - service: notify.mobile_app_jphone
+              data:
+                title: "{{ title }}"
+                message: "{{ message }}"
+    - choose:
+        - conditions:
+            "{{ 1==1 and is_state('input_boolean.swa_debug_mode', 'off')
+            }}"
+          sequence:
+            - service: notify.mobile_app_iphone_von_anna
+              data:
+                title: "{{ title }}"
+                message: "{{ message }}"
   mode: single
 urgent_notify_people_who_are_present:
   alias: Notify people urgently who are present
   sequence:
-  - choose:
-    - conditions: '{{ is_state(''person.stefan'', ''home'') }}'
-      sequence:
-      - service: notify.mobile_app_iphone
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-          data:
-            push:
-              sound:
-                name: default
-                critical: 1
-                volume: 0.3
-  - choose:
-    - conditions: '{{ is_state(''person.julia'', ''home'') and is_state(''input_boolean.swa_debug_mode'',
-        ''off'') }}'
-      sequence:
-      - service: notify.mobile_app_jphone
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-          data:
-            push:
-              sound:
-                name: default
-                critical: 1
-                volume: 0.3
-  - choose:
-    - conditions: '{{ is_state(''person.anna'', ''home'') and is_state(''input_boolean.swa_debug_mode'',
-        ''off'') }}'
-      sequence:
-      - service: notify.mobile_app_iphone_von_anna
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-          data:
-            push:
-              sound:
-                name: default
-                critical: 1
-                volume: 0.3
+    - choose:
+        - conditions: "{{ is_state('person.stefan', 'home') }}"
+          sequence:
+            - service: notify.mobile_app_iphone
+              data:
+                title: "{{ title }}"
+                message: "{{ message }}"
+                data:
+                  push:
+                    sound:
+                      name: default
+                      critical: 1
+                      volume: 0.3
+    - choose:
+        - conditions:
+            "{{ is_state('person.julia', 'home') and is_state('input_boolean.swa_debug_mode',
+            'off') }}"
+          sequence:
+            - service: notify.mobile_app_jphone
+              data:
+                title: "{{ title }}"
+                message: "{{ message }}"
+                data:
+                  push:
+                    sound:
+                      name: default
+                      critical: 1
+                      volume: 0.3
+    - choose:
+        - conditions:
+            "{{ is_state('person.anna', 'home') and is_state('input_boolean.swa_debug_mode',
+            'off') }}"
+          sequence:
+            - service: notify.mobile_app_iphone_von_anna
+              data:
+                title: "{{ title }}"
+                message: "{{ message }}"
+                data:
+                  push:
+                    sound:
+                      name: default
+                      critical: 1
+                      volume: 0.3
   mode: single
 urgent_notify_people:
   alias: Notify people urgently
   sequence:
-  - choose:
-    - conditions: '{{ 1==1 }}'
-      sequence:
-      - service: notify.mobile_app_iphone
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-          data:
-            push:
-              sound:
-                name: default
-                critical: 1
-                volume: 0.3
-  - choose:
-    - conditions: '{{ 1==1 and is_state(''input_boolean.swa_debug_mode'', ''off'')
-        }}'
-      sequence:
-      - service: notify.mobile_app_jphone
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-          data:
-            push:
-              sound:
-                name: default
-                critical: 1
-                volume: 0.3
-  - choose:
-    - conditions: '{{ 1==1 and is_state(''input_boolean.swa_debug_mode'', ''off'')
-        }}'
-      sequence:
-      - service: notify.mobile_app_iphone_von_anna
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-          data:
-            push:
-              sound:
-                name: default
-                critical: 1
-                volume: 0.3
+    - choose:
+        - conditions: "{{ 1==1 }}"
+          sequence:
+            - service: notify.mobile_app_iphone
+              data:
+                title: "{{ title }}"
+                message: "{{ message }}"
+                data:
+                  push:
+                    sound:
+                      name: default
+                      critical: 1
+                      volume: 0.3
+    - choose:
+        - conditions:
+            "{{ 1==1 and is_state('input_boolean.swa_debug_mode', 'off')
+            }}"
+          sequence:
+            - service: notify.mobile_app_jphone
+              data:
+                title: "{{ title }}"
+                message: "{{ message }}"
+                data:
+                  push:
+                    sound:
+                      name: default
+                      critical: 1
+                      volume: 0.3
+    - choose:
+        - conditions:
+            "{{ 1==1 and is_state('input_boolean.swa_debug_mode', 'off')
+            }}"
+          sequence:
+            - service: notify.mobile_app_iphone_von_anna
+              data:
+                title: "{{ title }}"
+                message: "{{ message }}"
+                data:
+                  push:
+                    sound:
+                      name: default
+                      critical: 1
+                      volume: 0.3
   mode: single
 erinnere_stefan_ans_trinken:
   alias: Erinnere Stefan ans Trinken
   sequence:
-  - repeat:
-      while:
-      - condition: state
-        entity_id: binary_sensor.stefan_working_in_office
-        state: 'on'
-      sequence:
-      - delay:
-          hours: 1
-          minutes: 0
-          seconds: 0
-          milliseconds: 0
-      - service: script.notify_stefan
-        data:
-          title: Hinweis
-          message: Trink ein Glas Wasser
+    - repeat:
+        while:
+          - condition: state
+            entity_id: binary_sensor.stefan_working_in_office
+            state: "on"
+        sequence:
+          - delay:
+              hours: 1
+              minutes: 0
+              seconds: 0
+              milliseconds: 0
+          - service: script.notify_stefan
+            data:
+              title: Hinweis
+              message: Trink ein Glas Wasser
   mode: single
 erinnere_stefan_ans_luften:
   alias: Erinnere Stefan ans Lüften
   sequence:
-  - repeat:
-      while:
-      - condition: state
-        entity_id: binary_sensor.stefan_working_in_office
-        state: 'on'
-      sequence:
-      - delay:
-          hours: 2
-          minutes: 0
-          seconds: 0
-          milliseconds: 0
-      - service: script.notify_stefan
-        data:
-          title: Hinweis
-          message: Bitte einmal lüften.
+    - repeat:
+        while:
+          - condition: state
+            entity_id: binary_sensor.stefan_working_in_office
+            state: "on"
+        sequence:
+          - delay:
+              hours: 2
+              minutes: 0
+              seconds: 0
+              milliseconds: 0
+          - service: script.notify_stefan
+            data:
+              title: Hinweis
+              message: Bitte einmal lüften.
   mode: single
 call_stefan:
   alias: Call Stefan in the office
   sequence:
-  - service: hassio.addon_stdin
-    data:
-      addon: 89275b70_dss_voip
-      input:
-        call_sip_uri: sip:**614@192.168.178.1:5060
-        message_tts: Führe mich nicht in Versuchung.
-        call_duration: '20'
+    - service: hassio.addon_stdin
+      data:
+        addon: 89275b70_dss_voip
+        input:
+          call_sip_uri: sip:**614@192.168.178.1:5060
+          message_tts: Führe mich nicht in Versuchung.
+          call_duration: "20"
   mode: single
 call_anna_tisch_decken:
   alias: Call Anna Tisch decken
   sequence:
-  - service: hassio.addon_stdin
-    data:
-      addon: 89275b70_dss_voip
-      input:
-        call_sip_uri: sip:**615@192.168.178.1:5060
-        message_tts: Bitte runter kommen und Tisch decken.
-        call_duration: '20'
+    - service: hassio.addon_stdin
+      data:
+        addon: 89275b70_dss_voip
+        input:
+          call_sip_uri: sip:**615@192.168.178.1:5060
+          message_tts: Bitte runter kommen und Tisch decken.
+          call_duration: "20"
   mode: single
 schalte_aussenlicht_fur_5min_an:
   alias: Schalte Aussenlicht für 5min an
   sequence:
-  - type: turn_on
-    device_id: 5d726789f88ff8800753b26abd0bf956
-    entity_id: switch.licht_aussen
-    domain: switch
-  - delay:
-      hours: 0
-      minutes: 5
-      seconds: 0
-      milliseconds: 0
-  - type: turn_off
-    device_id: 5d726789f88ff8800753b26abd0bf956
-    entity_id: switch.licht_aussen
-    domain: switch
+    - type: turn_on
+      device_id: 5d726789f88ff8800753b26abd0bf956
+      entity_id: switch.licht_aussen
+      domain: switch
+    - delay:
+        hours: 0
+        minutes: 5
+        seconds: 0
+        milliseconds: 0
+    - type: turn_off
+      device_id: 5d726789f88ff8800753b26abd0bf956
+      entity_id: switch.licht_aussen
+      domain: switch
   mode: single
 one_time_water_on:
   sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/boiler
-      payload: '{"cmd":"wwtapactivated","data":1}'
-      qos: '1'
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/boiler
+        payload: '{"cmd":"wwtapactivated","data":1}'
+        qos: "1"
   mode: single
   alias: Heating Water One-time On
 one_time_water_off:
   sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/boiler
-      payload: '{"cmd":"wwonetime","data":0}'
-      qos: '1'
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/boiler
+        payload: '{"cmd":"wwonetime","data":0}'
+        qos: "1"
   mode: single
   alias: Heating Water One-time Off
 heating_reset_offsets:
   alias: Heating Reset Offsets
   sequence:
-  - service: script.heating_change_offset
-    data:
-      origin: script.Heating Reset Offsets
-      circuit: 1
-      offset: 0
-  - service: script.heating_change_offset
-    data:
-      origin: script.Heating Reset Offsets
-      circuit: 2
-      offset: 0
-  - service: script.heating_change_offset
-    data:
-      origin: script.Heating Reset Offsets
-      circuit: 3
-      offset: 0
+    - service: script.heating_change_offset
+      data:
+        origin: script heating Reset Offsets
+        circuit: 1
+        offset: 0
+    - service: script.heating_change_offset
+      data:
+        origin: script heating Reset Offsets
+        circuit: 2
+        offset: 0
+    - service: script.heating_change_offset
+      data:
+        origin: script heating Reset Offsets
+        circuit: 3
+        offset: 0
   mode: single
 heating_burner_up:
   alias: Heating burner up
   sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/boiler
-      payload: '{"cmd":"burnPeriod","data":10}'
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 5
-      milliseconds: 0
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/boiler
-      payload: '{"cmd":"boilHystOff","data":3}'
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 5
-      milliseconds: 0
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/boiler
-      payload: '{"cmd":"boilHystOn","data":-3}'
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/boiler
+        payload: '{"cmd":"burnPeriod","data":10}'
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 5
+        milliseconds: 0
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/boiler
+        payload: '{"cmd":"boilHystOff","data":3}'
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 5
+        milliseconds: 0
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/boiler
+        payload: '{"cmd":"boilHystOn","data":-3}'
   mode: single
 heating_burner_down:
   alias: Heating burner down
   sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/boiler
-      payload: '{"cmd":"burnPeriod","data":45}'
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 5
-      milliseconds: 0
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/boiler
-      payload: '{"cmd":"boilHystOff","data":6}'
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 5
-      milliseconds: 0
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/boiler
-      payload: '{"cmd":"boilHystOn","data":-6}'
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/boiler
+        payload: '{"cmd":"burnPeriod","data":45}'
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 5
+        milliseconds: 0
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/boiler
+        payload: '{"cmd":"boilHystOff","data":6}'
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 5
+        milliseconds: 0
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/boiler
+        payload: '{"cmd":"boilHystOn","data":-6}'
   mode: single
 heating_lower_offsets_hc1_hc2:
   alias: Heating Lower Offsets HC1 HC2
   sequence:
-  - service: script.heating_change_offset
-    data:
-      origin: script.Heating Lower Offsets HC1 HC2
-      circuit: 1
-      offset: -3
-  - service: script.heating_change_offset
-    data:
-      origin: script.Heating Lower Offsets HC1 HC2
-      circuit: 2
-      offset: -3
+    - service: script.heating_change_offset
+      data:
+        origin: script heating Lower Offsets HC1 HC2
+        circuit: 1
+        offset: -3
+    - service: script.heating_change_offset
+      data:
+        origin: script heating Lower Offsets HC1 HC2
+        circuit: 2
+        offset: -3
   mode: single
 heating_activated:
   alias: Heating Set Activated On
   sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/boiler
-      payload: '{"cmd":"heatingactivated","data":"on"}'
-      qos: '1'
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/boiler
+        payload: '{"cmd":"heatingactivated","data":"on"}'
+        qos: "1"
   mode: single
 heating_set_activated_off:
   alias: Heating Set Activated Off
   sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/boiler
-      payload: '{"cmd":"heatingactivated","data":"off"}'
-      qos: '1'
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/boiler
+        payload: '{"cmd":"heatingactivated","data":"off"}'
+        qos: "1"
   mode: single
 heating_hc1_mode_auto:
   alias: Heating hc1 mode auto
   sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"mode","data":"auto", "id":1}'
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/thermostat
+        payload: '{"cmd":"mode","data":"auto", "id":1}'
   mode: single
 heating_hc1_mode_manual:
   alias: Heating hc1 mode manual
   sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"mode","data":"eco", "id":1}'
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/thermostat
+        payload: '{"cmd":"mode","data":"eco", "id":1}'
   mode: single
 deconz_refresh:
   alias: deconz-refresh
   sequence:
-  - service: deconz.device_refresh
-    data:
-      bridgeid: 00212E066FC0
+    - service: deconz.device_refresh
+      data:
+        bridgeid: 00212E066FC0
   mode: single
 deconz_removed_orphaned:
   alias: deconz-removed orphaned
   sequence:
-  - service: deconz.remove_orphaned_entries
-    data:
-      bridgeid: 00212E066FC0
+    - service: deconz.remove_orphaned_entries
+      data:
+        bridgeid: 00212E066FC0
   mode: single
 notify_stefan_heating:
   alias: Notify stefan heating
   sequence:
-  - service: notify.mobile_app_iphone
-    data:
-      title: '{{ title }}'
-      message: '{{ message }}'
+    - service: notify.mobile_app_iphone
+      data:
+        title: "{{ title }}"
+        message: "{{ message }}"
   mode: queued
   max: 10
 turn_on_ac_at_stefans_office:
   alias: Turn on AC at Stefans office
   sequence:
-  - service: climate.set_fan_mode
-    target:
-      entity_id: climate.roofac
-    data:
-      fan_mode: low
-  - service: climate.set_temperature
-    target:
-      entity_id: climate.roofac
-    data:
-      temperature: 25
-      hvac_mode: cool
+    - service: climate.set_fan_mode
+      target:
+        entity_id: climate.roofac
+      data:
+        fan_mode: low
+    - service: climate.set_temperature
+      target:
+        entity_id: climate.roofac
+      data:
+        temperature: 25
+        hvac_mode: cool
   mode: restart
 turn_on_ac_at_parents_sleeping_room:
   alias: Turn on AC at parents sleeping room
   sequence:
-  - service: climate.set_fan_mode
-    data:
-      fan_mode: low
-    target:
-      entity_id: climate.sleepac
-  - service: climate.set_temperature
-    target:
-      entity_id:
-      - climate.sleepac
-    data:
-      temperature: 24
-      hvac_mode: cool
+    - service: climate.set_fan_mode
+      data:
+        fan_mode: low
+      target:
+        entity_id: climate.sleepac
+    - service: climate.set_temperature
+      target:
+        entity_id:
+          - climate.sleepac
+      data:
+        temperature: 24
+        hvac_mode: cool
   mode: restart
 run_poolpump_for_1h:
   sequence:
-  - service: switch.turn_on
-    target:
-      entity_id: switch.shellys_poolpump
-  - delay:
-      hours: 1
-      minutes: 0
-      seconds: 0
-      milliseconds: 0
-  - service: switch.turn_off
-    target:
-      entity_id: switch.shellys_poolpump
+    - service: switch.turn_on
+      target:
+        entity_id: switch.shellys_poolpump
+    - delay:
+        hours: 1
+        minutes: 0
+        seconds: 0
+        milliseconds: 0
+    - service: switch.turn_off
+      target:
+        entity_id: switch.shellys_poolpump
   mode: single
   alias: Run poolpump for 1h
 run_poolpump_for_2h:
   alias: Run poolpump for 2h
   sequence:
-  - service: switch.turn_on
-    target:
-      entity_id: switch.shellys_poolpump
-  - delay:
-      hours: 2
-      minutes: 0
-      seconds: 0
-      milliseconds: 0
-  - service: switch.turn_off
-    target:
-      entity_id: switch.shellys_poolpump
+    - service: switch.turn_on
+      target:
+        entity_id: switch.shellys_poolpump
+    - delay:
+        hours: 2
+        minutes: 0
+        seconds: 0
+        milliseconds: 0
+    - service: switch.turn_off
+      target:
+        entity_id: switch.shellys_poolpump
   mode: single
 run_lufter_for_2h:
   alias: Run Luefter1 for 2h
   sequence:
-  - service: switch.turn_on
-    target:
-      entity_id: switch.shellys_keller_luefter1
-  - delay:
-      hours: 2
-      minutes: 0
-      seconds: 0
-      milliseconds: 0
-  - service: switch.turn_off
-    target:
-      entity_id: switch.shellys_keller_luefter1
+    - service: switch.turn_on
+      target:
+        entity_id: switch.shellys_keller_luefter1
+    - delay:
+        hours: 2
+        minutes: 0
+        seconds: 0
+        milliseconds: 0
+    - service: switch.turn_off
+      target:
+        entity_id: switch.shellys_keller_luefter1
   mode: single
 dehumidify_basement:
   sequence:
-  - service: logbook.log
-    data:
-      entity_id: script.dehumidify_basement
-      message: Running dehumidify_basement script
-      name: script.dehumidify_basement
-  - repeat:
-      while:
-      - condition: state
-        entity_id: sensor.dew_runfan
-        state: 'True'
-      sequence:
-      - service: logbook.log
-        data:
-          entity_id: script.dehumidify_basement
-          message: Running fans, run {{ repeat.index }}
-          name: script.dehumidify_basement
-      - service: counter.increment
-        target:
-          entity_id: counter.dew_fans
-      - service: switch.turn_on
-        target:
-          entity_id: switch.shellys_keller_luefter1
-      - delay: '{{ states(''input_number.dew_duration_fan'') | multiply(60) | int
-          }}'
-      - service: switch.turn_off
-        target:
-          entity_id: switch.shellys_keller_luefter1
-      - delay: '{{ states(''input_number.dew_fan_wait'') | multiply(60) | int }}'
+    - service: logbook.log
+      data:
+        entity_id: script.dehumidify_basement
+        message: Running dehumidify_basement script
+        name: script.dehumidify_basement
+    - repeat:
+        while:
+          - condition: state
+            entity_id: sensor.dew_runfan
+            state: "True"
+        sequence:
+          - service: logbook.log
+            data:
+              entity_id: script.dehumidify_basement
+              message: Running fans, run {{ repeat.index }}
+              name: script.dehumidify_basement
+          - service: counter.increment
+            target:
+              entity_id: counter.dew_fans
+          - service: switch.turn_on
+            target:
+              entity_id: switch.shellys_keller_luefter1
+          - delay:
+              "{{ states('input_number.dew_duration_fan') | multiply(60) | int
+              }}"
+          - service: switch.turn_off
+            target:
+              entity_id: switch.shellys_keller_luefter1
+          - delay: "{{ states('input_number.dew_fan_wait') | multiply(60) | int }}"
   mode: single
   alias: De-humidify basement
 mqtt_test:
   sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"datetime","data":"ntp"}'
-      qos: '1'
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/thermostat
+        payload: '{"cmd":"datetime","data":"ntp"}'
+        qos: "1"
   mode: single
   alias: mqtt test
 heating_set_room_temp_high:
   alias: Heating Set Room Temp High
   sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"temp","data":{{states(''input_number.heating_temp_high'')|int}},
-        "id":1}'
-      qos: '1'
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"temp","data":{{states(''input_number.heating_temp_high'')|int}},
-        "id":2}'
-      qos: '1'
-  - service: logbook.log
-    data:
-      entity_id: script.heating_set_room_temp_high
-      message: Setting Heating Circuits to {{states('input_number.heating_temp_high')|int}}°C
-        at {{now().strftime("%Y-%m-%d %H:%M")}}
-      name: script.heating_set_room_temp_high
-  - delay:
-      hours: 0
-      minutes: 10
-      seconds: 0
-      milliseconds: 0
-  - condition: template
-    value_template: "{{ states('sensor.thermostat_hc1_selected_room_temperature')|\
-      \ float != states('input_number.heating_temp_high')|float or\n   states('sensor.thermostat_hc2_selected_room_temperature')|\
-      \ float != states('input_number.heating_temp_high')|float }}"
-  - service: script.notify_stefan_heating
-    data:
-      title: Heating
-      message: Setting high temp did not work. Check heating.
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/thermostat
+        payload:
+          '{"cmd":"temp","data":{{states(''input_number.heating_temp_high'')|int}},
+          "id":1}'
+        qos: "1"
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/thermostat
+        payload:
+          '{"cmd":"temp","data":{{states(''input_number.heating_temp_high'')|int}},
+          "id":2}'
+        qos: "1"
+    - service: logbook.log
+      data:
+        entity_id: script.heating_set_room_temp_high
+        message:
+          Setting Heating Circuits to {{states('input_number.heating_temp_high')|int}}°C
+          at {{now().strftime("%Y-%m-%d %H:%M")}}
+        name: script.heating_set_room_temp_high
+    - delay:
+        hours: 0
+        minutes: 10
+        seconds: 0
+        milliseconds: 0
+    - condition: template
+      value_template:
+        "{{ states('sensor.thermostat_hc1_selected_room_temperature')|\
+        \ float != states('input_number.heating_temp_high')|float or\n   states('sensor.thermostat_hc2_selected_room_temperature')|\
+        \ float != states('input_number.heating_temp_high')|float }}"
+    - service: script.notify_stefan_heating
+      data:
+        title: Heating
+        message: Setting high temp did not work. Check heating.
   mode: single
 heating_set_room_temp_low:
   alias: Heating Set Room Temp Low
   sequence:
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"temp","data":{{states(''input_number.heating_temp_low'')|int}},
-        "id":1}'
-      qos: '1'
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"temp","data":{{states(''input_number.heating_temp_low'')|int}},
-        "id":2}'
-      qos: '1'
-  - service: logbook.log
-    data:
-      entity_id: script.heating_set_room_temp_low
-      message: Setting Heating Circuits to {{states('input_number.heating_temp_high')|int}}°C
-        at {{now().strftime("%Y-%m-%d %H:%M")}}
-      name: script.heating_set_room_temp_low
-  - delay:
-      hours: 0
-      minutes: 10
-      seconds: 0
-      milliseconds: 0
-  - condition: template
-    value_template: "{{ states('sensor.thermostat_hc1_selected_room_temperature')|\
-      \ float != states('input_number.heating_temp_low')|float or\n   states('sensor.thermostat_hc2_selected_room_temperature')|\
-      \ float != states('input_number.heating_temp_low')|float }}"
-  - service: script.notify_stefan_heating
-    data:
-      title: Heating
-      message: Setting low temp did not work. Check heating.
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/thermostat
+        payload:
+          '{"cmd":"temp","data":{{states(''input_number.heating_temp_low'')|int}},
+          "id":1}'
+        qos: "1"
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/thermostat
+        payload:
+          '{"cmd":"temp","data":{{states(''input_number.heating_temp_low'')|int}},
+          "id":2}'
+        qos: "1"
+    - service: logbook.log
+      data:
+        entity_id: script.heating_set_room_temp_low
+        message:
+          Setting Heating Circuits to {{states('input_number.heating_temp_high')|int}}°C
+          at {{now().strftime("%Y-%m-%d %H:%M")}}
+        name: script.heating_set_room_temp_low
+    - delay:
+        hours: 0
+        minutes: 10
+        seconds: 0
+        milliseconds: 0
+    - condition: template
+      value_template:
+        "{{ states('sensor.thermostat_hc1_selected_room_temperature')|\
+        \ float != states('input_number.heating_temp_low')|float or\n   states('sensor.thermostat_hc2_selected_room_temperature')|\
+        \ float != states('input_number.heating_temp_low')|float }}"
+    - service: script.notify_stefan_heating
+      data:
+        title: Heating
+        message: Setting low temp did not work. Check heating.
   mode: single
 play_swr3:
   alias: Play swr3
   sequence:
-  - service: media_player.volume_set
-    data:
-      volume_level: 0.15
-    target:
-      entity_id: media_player.stefans_echo_dot
-  - service: media_player.play_media
-    data:
-      entity_id: media_player.stefans_echo_dot
-      media_content_id: play SWR3 on tunein
-      media_content_type: custom
+    - service: media_player.volume_set
+      data:
+        volume_level: 0.15
+      target:
+        entity_id: media_player.stefans_echo_dot
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.stefans_echo_dot
+        media_content_id: play SWR3 on tunein
+        media_content_type: custom
   mode: single
 play_lounge:
   alias: Play lounge
   sequence:
-  - service: media_player.volume_set
-    data:
-      volume_level: 0.15
-    target:
-      entity_id: media_player.stefans_echo_dot
-  - service: media_player.play_media
-    data:
-      media_content_type: custom
-      media_content_id: play Milano Lounge on tunein
-    target:
-      entity_id: media_player.stefans_echo_dot
+    - service: media_player.volume_set
+      data:
+        volume_level: 0.15
+      target:
+        entity_id: media_player.stefans_echo_dot
+    - service: media_player.play_media
+      data:
+        media_content_type: custom
+        media_content_id: play Milano Lounge on tunein
+      target:
+        entity_id: media_player.stefans_echo_dot
   mode: single
 heating_control:
   alias: Heating control
   sequence:
-  - service: logbook.log
-    data:
-      entity_id: script.heating_control
-      name: script.heating_control
-      message: '''Heating control sends     {"cmd":"{{states(''input_select.hcontrol_cmd'')}}","data":{{states(''input_number.hcontrol_data'')|int}},"id":{{states(''input_select.hcontrol_id'')}}}     at
-        {{now().strftime("%Y-%m-%d %H:%M")}}'''
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"{{states(''input_select.hcontrol_cmd'')}}","data":{{states(''input_number.hcontrol_data'')|int}},
-        "id":{{states(''input_select.hcontrol_id'')}} }'
-      qos: '1'
+    - service: logbook.log
+      data:
+        entity_id: script.heating_control
+        name: script.heating_control
+        message:
+          '''Heating control sends     {"cmd":"{{states(''input_select.hcontrol_cmd'')}}","data":{{states(''input_number.hcontrol_data'')|int}},"id":{{states(''input_select.hcontrol_id'')}}}     at
+          {{now().strftime("%Y-%m-%d %H:%M")}}'''
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/thermostat
+        payload:
+          '{"cmd":"{{states(''input_select.hcontrol_cmd'')}}","data":{{states(''input_number.hcontrol_data'')|int}},
+          "id":{{states(''input_select.hcontrol_id'')}} }'
+        qos: "1"
   mode: single
 heating_offset_script_trigger:
   alias: Heating offset script trigger
   sequence:
-  - service: script.heating_change_offset
-    data:
-      origin: script.heating_offset_script_trigger
-      circuit: 3
-      offset: 0
+    - service: script.heating_change_offset
+      data:
+        origin: script.heating_offset_script_trigger
+        circuit: 3
+        offset: 0
   mode: single
 heating_change_offset:
   alias: Heating change offset
   sequence:
-  - service: logbook.log
-    data:
-      entity_id: script.heating_change_offset
-      name: script.heating_change_offset
-      message: Heating {{circuit}} offset {{offset}} time {{now().strftime("%Y-%m-%d
-        %H:%M")}}, source {{origin}}
-  - service: mqtt.publish
-    data:
-      topic: ems-esp/thermostat
-      payload: '{"cmd":"offsettemp","data":{{offset}}, "id":{{circuit}}}'
-      qos: '1'
-  - delay:
-      hours: 0
-      minutes: 1
-      seconds: 0
-      milliseconds: 0
-  - condition: template
-    value_template: '{{ states(''sensor.thermostat_hc'' ~ circuit ~ ''_offset_temperature'')|float
-      != offset}}'
-  - service: logbook.log
-    data:
-      entity_id: script.heating_change_offset
-      name: script.heating_change_offset
-      message: Heating {{circuit}} offset {{offset}} time {{now().strftime("%Y-%m-%d
-        %H:%M")}}, source {{origin}} did not work. Check manually.
+    - service: logbook.log
+      data:
+        entity_id: script.heating_change_offset
+        name: script.heating_change_offset
+        message:
+          Heating {{circuit}} offset {{offset}} time {{now().strftime("%Y-%m-%d
+          %H:%M")}}, source {{origin}}
+    - service: mqtt.publish
+      data:
+        topic: ems-esp/thermostat
+        payload: '{"cmd":"offsettemp","data":{{offset}}, "id":{{circuit}}}'
+        qos: "1"
+    - delay:
+        hours: 0
+        minutes: 1
+        seconds: 0
+        milliseconds: 0
+    - condition: template
+      value_template:
+        "{{ states('sensor.thermostat_hc' ~ circuit ~ '_offset_temperature')|float
+        != offset}}"
+    - service: logbook.log
+      data:
+        entity_id: script.heating_change_offset
+        name: script.heating_change_offset
+        message:
+          Heating {{circuit}} offset {{offset}} time {{now().strftime("%Y-%m-%d
+          %H:%M")}}, source {{origin}} did not work. Check manually.
   fields:
     origin:
       description: The service/automation that called this script
@@ -786,136 +808,136 @@ heating_change_offset:
 alexa_tts_entfeuchter_voll:
   alias: Alexa tts Entfeuchter voll
   sequence:
-  - service: media_player.volume_set
-    data:
-      volume_level: 0.5
-    entity_id: media_player.stefans_echo_dot
-  - service: notify.alexa_media
-    data:
-      target: media_player.stefans_echo_dot
-      message: Hallo, der Entfeuchter ist voll.
+    - service: media_player.volume_set
       data:
-        type: tts
-  - service: media_player.volume_set
-    data:
-      volume_level: 0.2
-    target:
+        volume_level: 0.5
       entity_id: media_player.stefans_echo_dot
+    - service: notify.alexa_media
+      data:
+        target: media_player.stefans_echo_dot
+        message: Hallo, der Entfeuchter ist voll.
+        data:
+          type: tts
+    - service: media_player.volume_set
+      data:
+        volume_level: 0.2
+      target:
+        entity_id: media_player.stefans_echo_dot
   mode: single
 spotify_play_playlist:
   alias: Spotify play playlist and shuffle
   sequence:
-  - service: media_player.volume_set
-    data:
-      volume_level: 0.15
-    target:
-      entity_id: media_player.stefans_echo_dot
-  - service: media_player.play_media
-    data:
-      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DXaIrEwuQ3hyy?si=887717bbbc1f46e9
-      media_content_type: playlist
-    target:
-      entity_id: media_player.stefans_echo_dot
-  - service: media_player.shuffle_set
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      shuffle: true
-  - service: media_player.volume_set
-    data:
-      volume_level: 0.15
-    target:
-      entity_id: media_player.stefans_echo_dot
+    - service: media_player.volume_set
+      data:
+        volume_level: 0.15
+      target:
+        entity_id: media_player.stefans_echo_dot
+    - service: media_player.play_media
+      data:
+        media_content_id: https://open.spotify.com/playlist/37i9dQZF1DXaIrEwuQ3hyy?si=887717bbbc1f46e9
+        media_content_type: playlist
+      target:
+        entity_id: media_player.stefans_echo_dot
+    - service: media_player.shuffle_set
+      target:
+        entity_id: media_player.spotify_swa72
+      data:
+        shuffle: true
+    - service: media_player.volume_set
+      data:
+        volume_level: 0.15
+      target:
+        entity_id: media_player.stefans_echo_dot
   mode: single
 spotify_background_jazz:
   alias: Spotify background jazz
   sequence:
-  - service: media_player.volume_set
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      volume_level: 0.15
-  - service: media_player.play_media
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DWV7EzJMK2FUI?si=174a31e15e5242c0
-      media_content_type: playlist
-  - service: media_player.shuffle_set
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      shuffle: true
-  - service: media_player.media_next_track
-    data:
-      entity_id: media_player.spotify_swa72
+    - service: media_player.volume_set
+      target:
+        entity_id: media_player.spotify_swa72
+      data:
+        volume_level: 0.15
+    - service: media_player.play_media
+      target:
+        entity_id: media_player.spotify_swa72
+      data:
+        media_content_id: https://open.spotify.com/playlist/37i9dQZF1DWV7EzJMK2FUI?si=174a31e15e5242c0
+        media_content_type: playlist
+    - service: media_player.shuffle_set
+      target:
+        entity_id: media_player.spotify_swa72
+      data:
+        shuffle: true
+    - service: media_player.media_next_track
+      data:
+        entity_id: media_player.spotify_swa72
   mode: single
-'1642781471741':
+"1642781471741":
   alias: Spotify yoga electronica
   sequence:
-  - service: media_player.volume_set
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      volume_level: 0.15
-  - service: media_player.play_media
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DWYUYYlhkTuEn?si=819fdd46afdf4d51
-      media_content_type: playlist
-  - service: media_player.shuffle_set
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      shuffle: true
-  - service: media_player.media_next_track
-    data:
-      entity_id: media_player.spotify_swa72
+    - service: media_player.volume_set
+      target:
+        entity_id: media_player.spotify_swa72
+      data:
+        volume_level: 0.15
+    - service: media_player.play_media
+      target:
+        entity_id: media_player.spotify_swa72
+      data:
+        media_content_id: https://open.spotify.com/playlist/37i9dQZF1DWYUYYlhkTuEn?si=819fdd46afdf4d51
+        media_content_type: playlist
+    - service: media_player.shuffle_set
+      target:
+        entity_id: media_player.spotify_swa72
+      data:
+        shuffle: true
+    - service: media_player.media_next_track
+      data:
+        entity_id: media_player.spotify_swa72
   mode: single
-'1642781487603':
+"1642781487603":
   alias: Spotify soft pop hits
   sequence:
-  - service: media_player.volume_set
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      volume_level: 0.15
-  - service: media_player.play_media
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DWTwnEm1IYyoj?si=6bc1dd54b3864137
-      media_content_type: playlist
-  - service: media_player.shuffle_set
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      shuffle: true
-  - service: media_player.media_next_track
-    data:
-      entity_id: media_player.spotify_swa72
+    - service: media_player.volume_set
+      target:
+        entity_id: media_player.spotify_swa72
+      data:
+        volume_level: 0.15
+    - service: media_player.play_media
+      target:
+        entity_id: media_player.spotify_swa72
+      data:
+        media_content_id: https://open.spotify.com/playlist/37i9dQZF1DWTwnEm1IYyoj?si=6bc1dd54b3864137
+        media_content_type: playlist
+    - service: media_player.shuffle_set
+      target:
+        entity_id: media_player.spotify_swa72
+      data:
+        shuffle: true
+    - service: media_player.media_next_track
+      data:
+        entity_id: media_player.spotify_swa72
   mode: single
-'1642781503669':
+"1642781503669":
   alias: Spotify chill vibes
   sequence:
-  - service: media_player.volume_set
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      volume_level: 0.15
-  - service: media_player.play_media
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DX889U0CL85jj?si=d4165ce8136f4b9e
-      media_content_type: playlist
-  - service: media_player.shuffle_set
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      shuffle: true
-  - service: media_player.media_next_track
-    data:
-      entity_id: media_player.spotify_swa72
+    - service: media_player.volume_set
+      target:
+        entity_id: media_player.spotify_swa72
+      data:
+        volume_level: 0.15
+    - service: media_player.play_media
+      target:
+        entity_id: media_player.spotify_swa72
+      data:
+        media_content_id: https://open.spotify.com/playlist/37i9dQZF1DX889U0CL85jj?si=d4165ce8136f4b9e
+        media_content_type: playlist
+    - service: media_player.shuffle_set
+      target:
+        entity_id: media_player.spotify_swa72
+      data:
+        shuffle: true
+    - service: media_player.media_next_track
+      data:
+        entity_id: media_player.spotify_swa72
   mode: single

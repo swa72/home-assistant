@@ -130,10 +130,9 @@ recorder:
       - switch.adguard*
       - sensor.smlpower_*
     entities:
-      - sensor.icloud3_event_log
-      - sensor.swaiphone_info
-      - sensor.jphone_info
-      - sensor.iphone_von_anna_info
+      #      - sensor.swaiphone_info
+      #      - sensor.jphone_info
+      #      - sensor.iphone_von_anna_info
       - sensor.smlreaderdeviceid
       - sensor.smlreadermanufacturer
       - sensor.smlreaderpower
@@ -152,7 +151,7 @@ recorder:
       - sensor.smlpower_daily
       - sensor.smlpower_yearly
       - sensor.shelly25_og_schlafli_rssi
-      - camera.iphone6
+#      - camera.iphone6
 #
 #
 #
@@ -169,8 +168,8 @@ influxdb:
       - weather.home
       #      - weather.openweathermap
       - weather.accuweather
-      - binary_sensor.heating_active
-      - binary_sensor.warm_water_dhw_active
+      #      - binary_sensor.heating_active
+      #      - binary_sensor.warm_water_dhw_active
       - sensor.swaweathermetno
       - sensor.swaweathermetno_condition
       - sensor.swaweathermetno_templow
