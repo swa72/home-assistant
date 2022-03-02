@@ -77,7 +77,7 @@ servers:
     - binary_sensor.shelly1_garage
     - binary_sensor.shelly25_garage
     - binary_sensor.shellys_keller_pumpe_treppe
-    - binary_sensor.shellys_poolpump
+#    - binary_sensor.shellys_poolpump
     - binary_sensor.shellys_wama
 #
 #
