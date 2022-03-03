@@ -89,7 +89,7 @@ template: !include_dir_merge_list templates/
 # see https://community.home-assistant.io/t/motioneye-integration/194350
 #
 stream:
-camera: !include cameras.yaml
+# camera: !include cameras.yaml
 #
 #
 #
