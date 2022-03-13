@@ -1147,7 +1147,7 @@
     input:
       notification_message: '{{ motion_sensor_name }} detected movement!'
       motion_sensor: binary_sensor.garagecam_person_detected
-      camera: camera.garagecam
+      camera: camera.mpeggaragecam
       notify_device: 20e9e482dc45d545dcb6222c8f32454a
       is_ios: true
       notification_title: Motion person detected!
@@ -1197,7 +1197,7 @@
     input:
       notification_message: Look who is there :-)
       motion_sensor: binary_sensor.doorbell_pressed
-      camera: camera.garagecam
+      camera: camera.mpeggaragecam
       notify_device: 20e9e482dc45d545dcb6222c8f32454a
       is_ios: true
       notification_title: Doorbell pressed!
@@ -1474,7 +1474,7 @@
     input:
       notification_message: Look who is there :-)
       motion_sensor: binary_sensor.doorbell_pressed
-      camera: camera.garagecam
+      camera: camera.mpeggaragecam
       notify_device: b772f74b67a6ee614fe789c89d285156
       is_ios: true
       notification_title: Doorbell pressed!
@@ -1617,9 +1617,10 @@
   - service: button.press
     target:
       entity_id: button.fire_tablet_bring_to_foreground
+    data: {}
   - service: browser_mod.more_info
     data:
-      entity_id: camera.camera3
+      entity_id: camera.mpeggaragecam
       deviceID:
       - b174e12b-9abd3035
   mode: single
