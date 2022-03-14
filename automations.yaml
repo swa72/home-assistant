@@ -1706,3 +1706,26 @@
       title: Stale Entities Found (no change in 2h)
       message: '{{ stale }}'
   mode: single
+- id: '1647289595553'
+  alias: Stefan DG zu warm
+  description: Run only once every six hours.
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.multi_dg_stefan_temperature
+    above: '23'
+  - platform: state
+    entity_id: binary_sensor.stefan_working_in_office
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.multi_dg_stefan_temperature
+    above: '23'
+  - condition: template
+    value_template: '{{(as_timestamp(now()) - as_timestamp(state_attr(this.entity_id,
+      ''last_triggered'') | default(0)) | int > 21600 )}}'
+  action:
+  - service: notify.mobile_app_iphone
+    data:
+      message: Office too hot.
+      title: Warning
+  mode: single
