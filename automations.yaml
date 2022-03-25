@@ -1729,3 +1729,33 @@
       message: Office too hot.
       title: Warning
   mode: single
+- id: '1648194455595'
+  alias: Rainfall sensor update
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.precipitation_heidelberg
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.precipitation_heidelberg
+    above: '0'
+  - condition: template
+    value_template: '{{ trigger.from_state.state not in [''unknown'', ''unavailable'']
+      }}'
+  - condition: template
+    value_template: '{{ trigger.to_state.state not in [''unknown'', ''unavailable'']
+      }}'
+  - condition: template
+    value_template: '{{ trigger.from_state.state != trigger.to_state.state }}'
+  action:
+  - service: mqtt.publish
+    data:
+      payload: '{{ now() }}'
+      topic: home-assistant/variable/last_rainfall
+      retain: true
+  - service: mqtt.publish
+    data:
+      payload: '{{ states(''sensor.precipitation_heidelberg'') }}'
+      topic: home-assistant/variable/last_rainfall_amount
+      retain: true
+  mode: single

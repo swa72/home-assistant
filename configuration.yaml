@@ -189,6 +189,7 @@ influxdb:
       #      - sensor.smlreaderpower
       - sensor.influxdb_db_size
       - sensor.gasverbrauch
+      - sensor.precipitation_heidelberg
     entity_globs:
       - sensor.shellys_keller*
       - sensor.boiler*
@@ -203,7 +204,6 @@ influxdb:
       - binary_sensor.boiler*
       - binary_sensor.mixer*
       - binary_sensor.solar*
-
 #
 #
 counter:
