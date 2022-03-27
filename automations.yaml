@@ -1623,6 +1623,8 @@
       entity_id: camera.mpeggaragecam
       deviceID:
       - b174e12b-9abd3035
+  - service: script.alexa_doorbell_2
+    data: {}
   mode: single
 - id: '1642090677023'
   alias: Heizung DG Stefan Offset

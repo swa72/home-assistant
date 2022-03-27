@@ -922,3 +922,21 @@ spotify_background_jazz:
     data:
       entity_id: media_player.spotify_swa72
   mode: single
+alexa_doorbell_2:
+  alias: Alexa Doorbell
+  sequence:
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.7
+    entity_id: media_player.stefans_echo_dot
+  - service: media_player.play_media
+    data:
+      media_content_type: sound
+      media_content_id: amzn_sfx_doorbell_01
+    target:
+      entity_id: media_player.stefans_echo_dot
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.2
+    entity_id: media_player.stefans_echo_dot
+  mode: single
