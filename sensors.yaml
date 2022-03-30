@@ -730,6 +730,11 @@
 #
 - platform: template
   sensors:
+    dwd_last_rainfall_friendly:
+      value_template: >-
+        {{ as_timestamp(states('sensor.dwd_last_rainfall')) | timestamp_custom('%A, %-d. %B') }}
+- platform: template
+  sensors:
     dwd_dayswithoutrain:
       friendly_name_template: "DWD Days without rain"
       value_template: >-
