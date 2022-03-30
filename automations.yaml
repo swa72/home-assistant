@@ -1761,3 +1761,18 @@
       topic: home-assistant/variable/last_rainfall_amount
       retain: true
   mode: single
+- id: '1648655236587'
+  alias: Rainfall sensor warning
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.dwd_dayswithoutrain
+    above: '3'
+  condition:
+  action:
+  - service: script.notify_stefan
+    data:
+      title: Hinweis
+      message: 'Achtung: seit {{states(''sensor.dwd_dayswithoutrain'')}} Tagen kein
+        Regen. Forecast checken und ggf. heute abend Garten sprengen.'
+  mode: single

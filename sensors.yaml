@@ -733,5 +733,9 @@
     dwd_dayswithoutrain:
       friendly_name_template: "DWD Days without rain"
       value_template: >-
-        {% set daysdiff=(as_timestamp(now()) - as_timestamp(states('sensor.dwd_last_rainfall'))) | timestamp_custom("%j") | float %}
-        {{ (daysdiff - 1) | int }}
+        {% set year=as_timestamp(states('sensor.dwd_last_rainfall')) | timestamp_custom('%Y') %}
+        {% set month=as_timestamp(states('sensor.dwd_last_rainfall')) | timestamp_custom('%m') %}
+        {% set day=as_timestamp(states('sensor.dwd_last_rainfall')) | timestamp_custom('%d') %}
+        {% set new= year + '-' + month + '-' + day + ' 00:00:00' %}
+        {% set daysdiff=(as_timestamp(now()) - as_timestamp(new)) | timestamp_custom("%j") | float %}
+        {{ (daysdiff-1) | int }}
