@@ -1765,10 +1765,11 @@
   alias: Rainfall sensor warning
   description: ''
   trigger:
-  - platform: numeric_state
-    entity_id: sensor.dwd_dayswithoutrain
-    above: '3'
+  - platform: time
+    at: '18:00:00'
   condition:
+  - condition: template
+    value_template: '{{ (states(''sensor.dwd_dayswithoutrain'')|int) % 4 == 0 }}'
   action:
   - service: script.notify_stefan
     data:
