@@ -462,7 +462,7 @@ shell_command:
   * calibrate
   * connect to local WIFI
   * set DNS in fritzbox
-  * update firmware of shelly
+  * update firmware of shelly using http://archive.shelly-tools.de
   * add device name
 * I had a mess of devices and entities ...
   * delete all shelly integrations one by one .. (after having completed the renaming orgy)
