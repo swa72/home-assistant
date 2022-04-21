@@ -61,9 +61,20 @@
   db_url: !secret db_url
   queries:
     - name: DB size
-      query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024, 1) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
+      query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / (1024*1024), 1) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
       column: "value"
-      unit_of_measurement: kB
+      unit_of_measurement: MB
+#
+#
+#
+- platform: sql
+  db_url: !secret db_url
+  queries:
+    - name: Entfeuchter Grand Total
+      query: "SELECT * FROM statistics WHERE metadata_id=103 ORDER BY id DESC LIMIT 1;"
+      column: "sum"
+      unit_of_measurement: kWh 
+
 #
 #
 #
@@ -709,7 +720,7 @@
       unit_of_measurement: "€"
       value_template: >-
         {% set daysdiff=(as_timestamp(now()) - as_timestamp('2021-9-08 00:00:00')) | timestamp_custom("%j") | float %}
-        {% set average=(states('sensor.shellys_keller_entfeuchter_energy')|float / daysdiff) | round(2) %}
+        {% set average=(states('sensor.entfeuchter_grand_total')|float / daysdiff) | round(2) %}
         {{ (average * 0.32 * 30) | round(2) }}
 
 #
