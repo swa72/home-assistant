@@ -73,7 +73,7 @@
     - name: Entfeuchter Grand Total
       query: "SELECT * FROM statistics WHERE metadata_id=103 ORDER BY id DESC LIMIT 1;"
       column: "sum"
-      unit_of_measurement: kWh 
+      unit_of_measurement: kWh
 
 #
 #
@@ -715,6 +715,31 @@
 
 - platform: template
   sensors:
+    gasverbrauch_forecast2:
+      friendly_name_template: "Gasverbrauch bis Monatsende"
+      unit_of_measurement: "m³"
+      value_template: >-
+        {% if now().month in [1,3,5,7,8,10,12] %}
+        {% set numdays=31 %} 
+        {% elif now().month in [4,6,9,11] %}
+        {% set numdays=30 %}
+        {% elif now().month == 2 and ((now().year-2000) % 4 >0) %}
+        {% set numdays=28 %}
+        {% elif now().month == 2 and ((now().year-2000) % 4 == 0) %}
+        {% set numdays=29 %}
+        {% endif %}
+        {% if now().day == 1 %}
+        N/A
+        {% else %}
+        {{ ((
+        states('sensor.gasverbrauch_monthly')| float - 
+        states('sensor.gasverbrauch_daily') | float 
+        ) + 
+        (states('sensor.gasverbrauch_weekly')|float /7)| float * numdays) | round(0)}}
+        {% endif %}
+
+- platform: template
+  sensors:
     entfeuchter_costs:
       friendly_name_template: "Entfeuchter Kosten/Monat"
       unit_of_measurement: "€"
@@ -728,14 +753,14 @@
 #
 - platform: mqtt
   name: "DWD Last Rainfall"
-  state_topic: 'home-assistant/variable/last_rainfall'
+  state_topic: "home-assistant/variable/last_rainfall"
   value_template: "{{ value }}"
   qos: 0
 - platform: mqtt
   name: "DWD Last Rainfall Amount"
-  state_topic: 'home-assistant/variable/last_rainfall_amount'
+  state_topic: "home-assistant/variable/last_rainfall_amount"
   value_template: "{{ value }}"
-  qos: 0  
+  qos: 0
 #
 #
 #
