@@ -26,6 +26,7 @@ template:
               {% set buttons = states.button|selectattr('state','eq','unavailable')|list %}
               {{ (entities + buttons)
                 |rejectattr('entity_id','in',state_attr('group.ignored_unavailable_entities','entity_id'))
+                |rejectattr('entity_id', 'search', '(sensor.browser_|media_player.browser_|light.browser_|iphone6|hp_laserjet_200|binary_sensor.boiler_ww_|sensor.stefan_s_2nd_fire_next|sensor.stefans_echo_dot_next)')
                 |rejectattr('last_changed','ge',ignore_ts)
                 |map(attribute='entity_id')|list }}
             {% endif %}
@@ -37,7 +38,18 @@ group:
     entities:
       - sensor.unavailable_entities # prevent template loop warnings?
       - binary_sensor.updater # always unknown after restart
-
+      - binary_sensor.boiler_charging_type
+      - binary_sensor.boiler_disinfecting
+      - binary_sensor.livingroom_file_stored
+      - binary_sensor.livingroom_motion
+      - climate.dg_stefan
+      - device_tracker.iphonebwi
+      - binary_sensor.fritz_box_7490_connectivity
+      - media_player.fire_tablet_media_player
+      - person.tablet
+      - switch.fritz_box_7490_port_forward_home_assistant
+      - switch.fritz_box_7490_wi_fi_hades
+      - switch.stefans_echo_dot_repeat_switch
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
   filters:
