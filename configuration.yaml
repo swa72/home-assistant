@@ -7,6 +7,11 @@ homeassistant:
     "binary_sensor.fenster*":
       device_class: window
 #
+#
+#
+  packages: !include_dir_named packages
+
+#
 # check out https://www.home-assistant.io/lovelace/dashboards-and-views/
 #
 # lovelace:
