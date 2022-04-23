@@ -50,6 +50,8 @@ group:
       - switch.fritz_box_7490_port_forward_home_assistant
       - switch.fritz_box_7490_wi_fi_hades
       - switch.stefans_echo_dot_repeat_switch
+      - light.ikea_repeater_1
+      - light.ikea_repeater_2
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
   filters:
