@@ -1769,7 +1769,8 @@
     at: '18:00:00'
   condition:
   - condition: template
-    value_template: '{{ (states(''sensor.dwd_dayswithoutrain'')|int) % 4 == 0 }}'
+    value_template: '{{ (states(''sensor.dwd_dayswithoutrain'')|int) % 4 == 0 and
+      states(''sensor.dwd_dayswithoutrain'')|int != 0 }}'
   action:
   - service: script.notify_stefan
     data:
