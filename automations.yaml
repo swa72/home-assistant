@@ -1778,3 +1778,44 @@
       message: 'Achtung: seit {{states(''sensor.dwd_dayswithoutrain'')}} Tagen kein
         Regen. Forecast checken und ggf. heute abend Garten sprengen.'
   mode: single
+- id: '1652541844794'
+  alias: Wenn SZ abends zu warm, turn on A/C
+  description: ''
+  trigger:
+  - platform: time
+    at: '19:00:00'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.multi_og_schlaf_temperature
+    above: '24'
+  action:
+  - service: notify.mobile_app_iphone
+    data:
+      title: Hinweis
+      data:
+        actions:
+        - action: Turn_On_AC
+          title: Turn On AC Now
+      message: Schlafzimmer zu warm. Long tap for action.
+  - wait_for_trigger:
+    - platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: Turn_On_AC
+  - service: script.turn_on_ac_at_parents_sleeping_room
+    data: {}
+  mode: single
+- id: '1652542876674'
+  alias: Last one left ...
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: zone.home
+    below: '1'
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone
+    data:
+      title: Hinweis
+      message: Last one left home.
+  mode: single
