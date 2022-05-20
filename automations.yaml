@@ -1804,7 +1804,7 @@
         actionName: Turn_On_AC
   - service: script.turn_on_ac_at_parents_sleeping_room
     data: {}
-  mode: single
+  mode: restart
 - id: '1652542876674'
   alias: Last one left ...
   description: ''
