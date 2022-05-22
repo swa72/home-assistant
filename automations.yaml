@@ -526,7 +526,7 @@
           message: Heizungsdruck über 1h unter 1.9 bar.
   mode: single
 - id: '1632288672635'
-  alias: Advanced Basement Dehumidifier
+  alias: q3 Notify, if basement dehumidifier is full
   description: ''
   trigger:
   - platform: state
@@ -545,7 +545,9 @@
         id: entfeuchtervoll
       sequence:
       - service: script.notify_parents
+        data: {}
       - service: script.alexa_tts_entfeuchter_voll
+        data: {}
     default: []
   mode: single
 - id: '1632424762898'
