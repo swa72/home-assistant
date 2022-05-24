@@ -1814,10 +1814,29 @@
   - platform: numeric_state
     entity_id: zone.home
     below: '1'
+  - platform: numeric_state
+    entity_id: zone.home
+    above: '0'
   condition: []
   action:
-  - service: notify.mobile_app_iphone
-    data:
-      title: Hinweis
-      message: Last one left home.
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: zone.home
+        state: '0'
+      sequence:
+      - service: notify.mobile_app_iphone
+        data:
+          title: Hinweis
+          message: Last one left home.
+    - conditions:
+      - condition: state
+        entity_id: zone.home
+        state: '1'
+      sequence:
+      - service: notify.mobile_app_iphone
+        data:
+          title: Hinweis
+          message: First one arrived at home.
+    default: []
   mode: single
