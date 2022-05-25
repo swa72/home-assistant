@@ -57,6 +57,9 @@ group:
       - device_tracker.iphone_von_anna_6
       - sensor.iphone_von_anna_battery_state_2
       - sensor.iphone_von_konstantin_battery_state
+      - sensor.ph
+      - sensor.temp
+      - media_player.stefans_2_echo_dot
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
   filters:
