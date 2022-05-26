@@ -1841,3 +1841,129 @@
           message: First one arrived at home.
     default: []
   mode: single
+- id: '1653582309740'
+  alias: Basement fan control with dewpoint
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.dew_delta_ok
+    from: 'False'
+    to: 'True'
+    id: ready2startfan
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.dewtimer_runfan
+    id: runfanfinished
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.dewtimer_pausefan
+    id: pausefanfinished
+  - platform: time_pattern
+    hours: '12'
+    minutes: '00'
+    seconds: '00'
+    id: noon
+  - platform: homeassistant
+    event: start
+    id: hastart
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - ready2startfan
+        - hastart
+      - condition: state
+        entity_id: sensor.dew_delta_ok
+        state: 'True'
+      - condition: state
+        entity_id: sensor.dew_humidity_ok
+        state: 'True'
+      - condition: state
+        entity_id: sensor.dew_temp_ok
+        state: 'True'
+      - condition: state
+        entity_id: sensor.dew_timewindow_ok
+        state: 'True'
+      - condition: numeric_state
+        entity_id: counter.dew_index
+        below: '5'
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.shellys_keller_luefter1
+      - service: timer.start
+        data: {}
+        target:
+          entity_id: timer.dewtimer_runfan
+      - service: counter.increment
+        data: {}
+        target:
+          entity_id: counter.dew_index
+    - conditions:
+      - condition: trigger
+        id: runfanfinished
+      sequence:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.shellys_keller_luefter1
+      - service: timer.start
+        data: {}
+        target:
+          entity_id: timer.dewtimer_pausefan
+    - conditions:
+      - condition: trigger
+        id: pausefanfinished
+      sequence:
+      - service: notify.persistent_notification
+        data:
+          message: fan finished once
+    - conditions:
+      - condition: trigger
+        id: noon
+      sequence:
+      - service: counter.reset
+        data: {}
+        target:
+          entity_id: counter.dew_index
+    default: []
+  mode: single
+- id: '1653590240171'
+  alias: Stefan away
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.stefan_location
+    to: Away
+    id: stefanaway
+  - platform: state
+    entity_id:
+    - sensor.stefan_location
+    to: Extended Away
+    id: stefanextendedaway
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: stefanaway
+      sequence:
+      - service: notify.mobile_app_iphone
+        data:
+          message: Stefan is away
+    - conditions:
+      - condition: trigger
+        id: stefanextendedaway
+      sequence:
+      - service: notify.mobile_app_iphone
+        data:
+          message: Stefan is extended away
+    default: []
+  mode: single
