@@ -641,6 +641,7 @@
           minutes: 0
           seconds: 0
           milliseconds: 0
+        enabled: false
       - condition: time
         after: 09:00
       - condition: numeric_state
