@@ -216,10 +216,6 @@ counter:
     initial: 0
     step: 1
     icon: mdi:water-pump
-  dew_fans:
-    initial: 0
-    step: 1
-    icon: mdi:fan
 #
 # power and gas meters
 #

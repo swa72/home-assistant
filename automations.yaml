@@ -424,51 +424,6 @@
         }} '
       notify_device: 20e9e482dc45d545dcb6222c8f32454a
       server_group: group.servers
-- id: '1629920509114'
-  alias: Advanced Basement Fan control
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: sensor.dew_runfan
-    from: 'False'
-    to: 'True'
-    id: runfantrue
-  - platform: homeassistant
-    event: start
-    id: homestart
-  - platform: state
-    entity_id: sensor.dew_runfan
-    id: runfanfalse
-    from: 'True'
-    to: 'False'
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
-      milliseconds: 0
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: or
-        conditions:
-        - condition: trigger
-          id: runfantrue
-        - condition: trigger
-          id: homestart
-      - condition: template
-        value_template: '{{ is_state(''script.dehumidify_basement'', ''off'')  }}'
-      sequence:
-      - service: script.dehumidify_basement
-    - conditions:
-      - condition: trigger
-        id: runfanfalse
-      sequence:
-      - service: switch.turn_off
-        target:
-          entity_id: switch.shellys_keller_luefter1
-    default: []
-  mode: single
 - id: '1631904142960'
   alias: Advanced Heating Monitor_
   description: Sends message to Stefan if heating shows non-regular codes,  checks
@@ -1869,6 +1824,11 @@
   - platform: homeassistant
     event: start
     id: hastart
+  - platform: event
+    event_type: dew_event
+    event_data:
+      foo: bar
+    id: waitfinished
   condition: []
   action:
   - choose:
@@ -1877,6 +1837,7 @@
         id:
         - ready2startfan
         - hastart
+        - waitfinished
       - condition: state
         entity_id: sensor.dew_delta_ok
         state: 'True'
@@ -1898,7 +1859,8 @@
         target:
           entity_id: switch.shellys_keller_luefter1
       - service: timer.start
-        data: {}
+        data:
+          duration: '{{(states(''input_number.dew_duration_fan'')|float*60)|int}}'
         target:
           entity_id: timer.dewtimer_runfan
       - service: counter.increment
@@ -1914,7 +1876,8 @@
         target:
           entity_id: switch.shellys_keller_luefter1
       - service: timer.start
-        data: {}
+        data:
+          duration: '{{(states(''input_number.dew_fan_wait'')|float*60)|int}}'
         target:
           entity_id: timer.dewtimer_pausefan
     - conditions:
@@ -1923,7 +1886,11 @@
       sequence:
       - service: notify.persistent_notification
         data:
-          message: fan finished once
+          message: Fan finished run {{ states('counter.dew_index') }}
+        enabled: false
+      - event: dew_event
+        event_data:
+          foo: bar
     - conditions:
       - condition: trigger
         id: noon
@@ -1933,7 +1900,7 @@
         target:
           entity_id: counter.dew_index
     default: []
-  mode: single
+  mode: queued
 - id: '1653590240171'
   alias: Stefan away
   description: ''
@@ -1966,4 +1933,31 @@
         data:
           message: Stefan is extended away
     default: []
+  mode: single
+- id: '1653661171784'
+  alias: swaDemoB
+  description: ''
+  trigger:
+  - platform: time
+    at: '12:00:00'
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    data:
+      title: foo
+      message: 'platform: {{ trigger.platform }}/entity_id: {{ trigger.entity_id }}/trigger.id:
+        {{ trigger.id }}'
+  mode: single
+- id: '1653661290042'
+  alias: swaDemoA
+  description: ''
+  trigger:
+  - platform: time
+    at: '12:00:00'
+  condition: []
+  action:
+  - service: automation.trigger
+    data: {}
+    target:
+      entity_id: automation.swademob
   mode: single

@@ -578,38 +578,6 @@ run_lufter_for_2h:
     target:
       entity_id: switch.shellys_keller_luefter1
   mode: single
-dehumidify_basement:
-  sequence:
-  - service: logbook.log
-    data:
-      entity_id: script.dehumidify_basement
-      message: Running dehumidify_basement script
-      name: script.dehumidify_basement
-  - repeat:
-      while:
-      - condition: state
-        entity_id: sensor.dew_runfan
-        state: 'True'
-      sequence:
-      - service: logbook.log
-        data:
-          entity_id: script.dehumidify_basement
-          message: Running fans, run {{ repeat.index }}
-          name: script.dehumidify_basement
-      - service: counter.increment
-        target:
-          entity_id: counter.dew_fans
-      - service: switch.turn_on
-        target:
-          entity_id: switch.shellys_keller_luefter1
-      - delay: '{{ states(''input_number.dew_duration_fan'') | multiply(60) | int
-          }}'
-      - service: switch.turn_off
-        target:
-          entity_id: switch.shellys_keller_luefter1
-      - delay: '{{ states(''input_number.dew_fan_wait'') | multiply(60) | int }}'
-  mode: single
-  alias: De-humidify basement
 mqtt_test:
   sequence:
   - service: mqtt.publish

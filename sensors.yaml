@@ -496,8 +496,6 @@
       value_template: "{{ states('sensor.multi_keller_gross_temperature')|float > states('input_number.dew_temp_no_fan')|float }}"
     dew_timewindow_ok:
       value_template: "{{ now().hour > 21 or now().hour < 8 }}"
-    dew_runfan:
-      value_template: "{{ states('sensor.dew_delta_ok') == 'True' and states('sensor.dew_humidity_ok') == 'True' and states('sensor.dew_temp_ok') == 'True' and states('sensor.dew_timewindow_ok') == 'True' }}"
     hum_abs_basement:
       value_template: >-
         {% set h, t = states('sensor.multi_keller_gross_humidity') | float, states('sensor.multi_keller_gross_temperature') %}
@@ -595,10 +593,6 @@
       value_template: "{{ states('sensor.dewpoint_outside')|float < states('sensor.dew_og_clara')|float }}"
     dew_og_kinderbad_open_window:
       value_template: "{{ states('sensor.dewpoint_outside')|float < states('sensor.dew_og_kinderbad')|float }}"
-    #
-    #
-    dew_monitoring_runing:
-      value_template: "{{'running' if is_state('script.dehumidify_basement', 'on') else 'not running'}}"
     #
     # entfeuchter cycles in 30min. if this stops, the device is simply full
     #
