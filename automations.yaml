@@ -154,7 +154,6 @@
     target:
       entity_id:
       - counter.kellerpumpe
-      - counter.dew_fans
   mode: single
 - id: '1611515523821'
   alias: q3 zAlexa Media Player TTS/Announce from Lovelace UI
@@ -1805,7 +1804,7 @@
     - sensor.dew_delta_ok
     from: 'False'
     to: 'True'
-    id: ready2startfan
+    id: dewdeltaok
   - platform: event
     event_type: timer.finished
     event_data:
@@ -1829,13 +1828,26 @@
     event_data:
       foo: bar
     id: waitfinished
+  - platform: state
+    entity_id:
+    - binary_sensor.dew_timeframe
+    from: 'True'
+    to: 'False'
+    id: timeframeend
+  - platform: state
+    entity_id:
+    - binary_sensor.dew_timeframe
+    from: 'False'
+    to: 'True'
+    id: timeframebegin
   condition: []
   action:
   - choose:
     - conditions:
       - condition: trigger
         id:
-        - ready2startfan
+        - timeframebegin
+        - dewdeltaok
         - hastart
         - waitfinished
       - condition: state
@@ -1848,7 +1860,7 @@
         entity_id: sensor.dew_temp_ok
         state: 'True'
       - condition: state
-        entity_id: sensor.dew_timewindow_ok
+        entity_id: binary_sensor.dew_timeframe
         state: 'True'
       - condition: numeric_state
         entity_id: counter.dew_index
@@ -1860,7 +1872,7 @@
           entity_id: switch.shellys_keller_luefter1
       - service: timer.start
         data:
-          duration: '{{(states(''input_number.dew_duration_fan'')|float*60)|int}}'
+          duration: '{{states(''input_number.dew_duration_fan'')|int*60}}'
         target:
           entity_id: timer.dewtimer_runfan
       - service: counter.increment
@@ -1877,7 +1889,7 @@
           entity_id: switch.shellys_keller_luefter1
       - service: timer.start
         data:
-          duration: '{{(states(''input_number.dew_fan_wait'')|float*60)|int}}'
+          duration: '{{states(''input_number.dew_fan_wait'')|int*60}}'
         target:
           entity_id: timer.dewtimer_pausefan
     - conditions:
@@ -1887,7 +1899,6 @@
       - service: notify.persistent_notification
         data:
           message: Fan finished run {{ states('counter.dew_index') }}
-        enabled: false
       - event: dew_event
         event_data:
           foo: bar
@@ -1899,7 +1910,22 @@
         data: {}
         target:
           entity_id: counter.dew_index
-    default: []
+    - conditions:
+      - condition: trigger
+        id: timeframeend
+      sequence:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.shellys_keller_luefter1
+    default:
+    - service: notify.persistent_notification
+      data:
+        title: Fan control basement
+        message: ' delta_ok {{states(''sensor.dew_delta_ok'')}} {{''\n''-}} hum_ok
+          {{states(''sensor.dew_humidity_ok'')}} {{''\n''-}}temp_ok {{states(''sensor.dew_temp_ok'')}}
+          {{''\n''-}}time_ok {{states(''binary_sensor.dew_timeframe'')}} {{''\n''-}}index
+          {{states(''counter.dew_index'')}}'
   mode: queued
 - id: '1653590240171'
   alias: Stefan away
@@ -1909,55 +1935,64 @@
     entity_id:
     - sensor.stefan_location
     to: Away
-    id: stefanaway
+    id: away
   - platform: state
     entity_id:
     - sensor.stefan_location
     to: Extended Away
-    id: stefanextendedaway
+    id: extendedaway
+  - platform: state
+    entity_id:
+    - sensor.stefan_location
+    to: Home
+    id: home
+  - platform: state
+    entity_id:
+    - sensor.stefan_location
+    to: Just Arrived
+    id: justarrived
+  - platform: state
+    entity_id:
+    - sensor.stefan_location
+    to: Just Left
+    id: justleft
   condition: []
   action:
   - choose:
     - conditions:
       - condition: trigger
-        id: stefanaway
+        id: home
+      sequence:
+      - service: notify.mobile_app_iphone
+        data:
+          message: Stefan is at home
+    - conditions:
+      - condition: trigger
+        id: away
       sequence:
       - service: notify.mobile_app_iphone
         data:
           message: Stefan is away
     - conditions:
       - condition: trigger
-        id: stefanextendedaway
+        id: extendedaway
       sequence:
       - service: notify.mobile_app_iphone
         data:
           message: Stefan is extended away
+    - conditions:
+      - condition: trigger
+        id: justarrived
+      sequence:
+      - service: notify.mobile_app_iphone
+        data:
+          message: Stefan just arrived
+    - conditions:
+      - condition: trigger
+        id: justleft
+      sequence:
+      - service: notify.mobile_app_iphone
+        data:
+          message: Stefan just left
     default: []
-  mode: single
-- id: '1653661171784'
-  alias: swaDemoB
-  description: ''
-  trigger:
-  - platform: time
-    at: '12:00:00'
-  condition: []
-  action:
-  - service: notify.persistent_notification
-    data:
-      title: foo
-      message: 'platform: {{ trigger.platform }}/entity_id: {{ trigger.entity_id }}/trigger.id:
-        {{ trigger.id }}'
-  mode: single
-- id: '1653661290042'
-  alias: swaDemoA
-  description: ''
-  trigger:
-  - platform: time
-    at: '12:00:00'
-  condition: []
-  action:
-  - service: automation.trigger
-    data: {}
-    target:
-      entity_id: automation.swademob
   mode: single

@@ -164,3 +164,7 @@
       name: Notebook
     switch.shellyp_dg_stefan_tisch:
       name: Schreibtisch
+    climate.roofac:
+      name: Klimaanlage
+    climate.sleepac:
+      name: Klimaanlage      
