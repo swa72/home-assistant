@@ -104,14 +104,12 @@ trigger:
   - platform: state
     entity_id:
       - binary_sensor.dew_timeframe
-    from: 'True'
-    to: 'False'
+    to: 'off'
     id: timeframeend
   - platform: state
     entity_id:
       - binary_sensor.dew_timeframe
-    from: 'False'
-    to: 'True'
+    to: 'on'
     id: timeframebegin
 condition: []
 action:
@@ -134,7 +132,7 @@ action:
             state: 'True'
           - condition: state
             entity_id: binary_sensor.dew_timeframe
-            state: 'True'
+            state: 'on'
           - condition: numeric_state
             entity_id: counter.dew_index
             below: '5'
@@ -191,13 +189,18 @@ action:
             data: {}
             target:
               entity_id: switch.shellys_keller_luefter1
+          - service: timer.cancel
+            data: {}
+            target:
+              entity_id:
+                - timer.dewtimer_pausefan
+                - timer.dewtimer_runfan
     default:
       - service: notify.persistent_notification
         data:
           title: Fan control basement
           message: ' delta_ok {{states(''sensor.dew_delta_ok'')}} {{''\n''-}} hum_ok {{states(''sensor.dew_humidity_ok'')}} {{''\n''-}}temp_ok {{states(''sensor.dew_temp_ok'')}} {{''\n''-}}time_ok {{states(''binary_sensor.dew_timeframe'')}} {{''\n''-}}index {{states(''counter.dew_index'')}}'
 mode: queued
-
 ```
 
 The user interface to configure everything in a dashboard
@@ -218,6 +221,8 @@ entities:
   - entity: sensor.dew_humidity_ok
   - entity: sensor.dew_temp_ok
   - entity: counter.dew_index
+  - entity: timer.dewtimer_runfan
+  - entity: timer.dewtimer_pausefan
   - type: divider
   - entity: sensor.shellys_keller_luefter1_power
   - entity: switch.shellys_keller_luefter1
