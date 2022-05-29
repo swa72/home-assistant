@@ -1994,9 +1994,33 @@
     - conditions:
       - condition: trigger
         id: justleft
+      - condition: state
+        entity_id: switch.shellyp_dg_stefan_tisch
+        state: 'on'
       sequence:
       - service: notify.mobile_app_iphone
         data:
-          message: Stefan just left
+          title: Stefan just left
+          message: Schreibtisch ist an.
+    - conditions:
+      - condition: trigger
+        id: justleft
+      - condition: template
+        value_template: '{{ states(''climate.roofac'') != ''off'' }}'
+      sequence:
+      - service: notify.mobile_app_iphone
+        data:
+          title: Stefan just left
+          message: Klimaanlage im DG ist an.
+    - conditions:
+      - condition: trigger
+        id: justleft
+      - condition: template
+        value_template: '{{ states(''climate.sleepac'') != ''off'' }}'
+      sequence:
+      - service: notify.mobile_app_iphone
+        data:
+          title: Stefan just left
+          message: Klimaanlage im Schlafzimmer ist an.
     default: []
   mode: single

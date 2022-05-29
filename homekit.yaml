@@ -150,6 +150,7 @@
       - cover.shelly25_og_schlafre
       - climate.roofac
       - climate.sleepac
+      - script.buro
   entity_config:
     cover.eltern_schlafzimmer:
       name: Schlafzimmer
@@ -168,3 +169,5 @@
       name: Klimaanlage
     climate.sleepac:
       name: Klimaanlage      
+    script.buro:
+      name: Büro

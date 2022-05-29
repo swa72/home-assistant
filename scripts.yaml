@@ -908,3 +908,21 @@ alexa_doorbell_2:
       volume_level: 0.2
     entity_id: media_player.stefans_echo_dot
   mode: single
+buro:
+  alias: Büro
+  sequence:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.shellyp_dg_stefan_tisch
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.wake_up_thinkpad_t430
+  mode: single
+  icon: mdi:chair-rolling
