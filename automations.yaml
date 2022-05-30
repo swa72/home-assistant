@@ -1897,6 +1897,7 @@
       - service: notify.persistent_notification
         data:
           message: Fan finished run {{ states('counter.dew_index') }}
+        enabled: false
       - event: dew_event
         event_data:
           foo: bar
@@ -1930,6 +1931,7 @@
           {{states(''sensor.dew_humidity_ok'')}} {{''\n''-}}temp_ok {{states(''sensor.dew_temp_ok'')}}
           {{''\n''-}}time_ok {{states(''binary_sensor.dew_timeframe'')}} {{''\n''-}}index
           {{states(''counter.dew_index'')}}'
+      enabled: false
   mode: queued
 - id: '1653590240171'
   alias: Stefan away
