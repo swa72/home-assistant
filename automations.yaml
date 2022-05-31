@@ -619,7 +619,7 @@
   trigger:
   - platform: numeric_state
     entity_id: sensor.multi_dg_anna_temperature
-    above: '22'
+    above: '23'
     for:
       hours: 0
       minutes: 5
@@ -638,14 +638,6 @@
     - fri
     - sat
     - sun
-  - condition: state
-    entity_id: weather.accuweather
-    state: sunny
-    for:
-      hours: 0
-      minutes: 10
-      seconds: 0
-      milliseconds: 0
   - condition: numeric_state
     entity_id: sensor.multi_dg_anna_temperature
     above: '22'
@@ -653,6 +645,7 @@
   - service: cover.close_cover
     target:
       entity_id: cover.shelly25_dg_anna_rolladen
+    data: {}
   mode: single
 - id: '1632543105220'
   alias: Power Save bei Waschmaschine
@@ -1862,7 +1855,7 @@
         state: 'on'
       - condition: numeric_state
         entity_id: counter.dew_index
-        below: '5'
+        below: '7'
       sequence:
       - service: switch.turn_on
         data: {}
