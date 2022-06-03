@@ -128,7 +128,7 @@ tts:
   - platform: google_translate
     language: 'de'
     service_name: google_translate_say
-    base_url: https://xxx.duckdns.org
+    --base_url: https://xxx.duckdns.org-- # deprecated since 2022.5‚
 ```
 * configuration (note that ```192.168.178.1``` is the IP address of my Fritzbox, and ```192.168.178.83``` is the IP address of my Raspberry
 ```

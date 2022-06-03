@@ -6,9 +6,9 @@ homeassistant:
   customize_glob:
     "binary_sensor.fenster*":
       device_class: window
-#
-#
-#
+  #
+  #
+  #
   packages: !include_dir_named packages
 
 #
@@ -69,7 +69,8 @@ tts:
   - platform: google_translate
     language: "de"
     service_name: google_translate_say
-    base_url: !secret base_url
+# deprecated 2022.5
+#    base_url: !secret base_url
 #
 #
 #
