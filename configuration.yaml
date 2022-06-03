@@ -91,6 +91,39 @@ homekit: !include homekit.yaml
 template: !include_dir_merge_list templates/
 
 #
+# power meter
+#
+# reload in HA with "template entities", see also customize.yaml
+#
+mqtt:
+  sensor:
+  - name: "SMLReaderManufacturer"
+    state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:96.50.1/1/value"
+  - name: "SMLReaderDeviceID"
+    state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:96.1.0/255/value"
+  - name: "SMLReaderCounter"
+    state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:1.8.0/255/value"
+    unit_of_measurement: "kWh"
+    device_class: energy
+  - name: "SMLReaderPower"
+    state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:16.7.0/255/value"
+    unit_of_measurement: "W"
+    device_class: power
+#
+#
+#
+  - name: "DWD Last Rainfall"
+    state_topic: "home-assistant/variable/last_rainfall"
+    value_template: "{{ value }}"
+    qos: 0
+  - name: "DWD Last Rainfall Amount"
+    state_topic: "home-assistant/variable/last_rainfall_amount"
+    value_template: "{{ value }}"
+    qos: 0
+#
+
+
+#
 # for camera stuff to work
 # see https://community.home-assistant.io/t/motioneye-integration/194350
 #
@@ -110,10 +143,10 @@ input_text:
     initial: !secret swalandline
 #
 # https://www.home-assistant.io/integrations/google/
-#
-google:
-  client_id: !secret googleclientid
-  client_secret: !secret googleclientsecret
+# deprecated with 2022.6
+# google:
+  # client_id: !secret googleclientid
+  # client_secret: !secret googleclientsecret
 #
 #
 #
@@ -261,10 +294,10 @@ utility_meter:
     cycle: daily
 #
 # for the spotify integration
-#
-spotify:
-  client_id: !secret spotify_clientid
-  client_secret: !secret spotify_secret
+# deprecated with 2022.6
+# spotify:
+  # client_id: !secret spotify_clientid
+  # client_secret: !secret spotify_secret
 #
 # for spotcast (requirement of spotify-card)
 #

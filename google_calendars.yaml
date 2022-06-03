@@ -4,35 +4,35 @@
   - device_id: kalenderwochen
     ignore_availability: true
     name: Kalenderwochen
-    track: true
+#    track: true
 
 - cal_id: stefan.waldherr@gmail.com
   entities:
   - device_id: stefan
     ignore_availability: true
     name: Stefan
-    track: false
+#    track: false
 
 - cal_id: k4s9ro1f0rno2flap4eg2k6mls@group.calendar.google.com
   entities:
   - device_id: anna
     ignore_availability: true
     name: Anna
-    track: true
+#    track: true
 
 - cal_id: juliaklormann@gmail.com
   entities:
   - device_id: julia
     ignore_availability: true
     name: Julia
-    track: false
+#    track: false
 
 - cal_id: u1grvmsjlh541e1cc2krgdup6g@group.calendar.google.com
   entities:
   - device_id: ferien
     ignore_availability: true
     name: ferien
-    track: true
+#    track: true
 
 - cal_id: nhmfsqm5u40i35tqdj06e3fsj0@group.calendar.google.com
   entities:
@@ -45,53 +45,53 @@
     ignore_availability: true
     name: ha-silvia
     search: "Silvia"
-    track: true
+#    track: true
 
 - cal_id: ngj325mmipl03it0fdplrua52o@group.calendar.google.com
   entities:
   - device_id: elisa
     ignore_availability: true
     name: Elisa
-    track: false
+#    track: false
 
 - cal_id: nngc9v8phgbvbihu172r1l9sns3avdkv@import.calendar.google.com
   entities:
   - device_id: clubwebman_tournament_calendar_service
     ignore_availability: true
     name: ClubWebMan Tournament Calendar Service
-    track: false
+#    track: false
 
 - cal_id: addressbook#contacts@group.v.calendar.google.com
   entities:
   - device_id: geburtstage
     ignore_availability: true
     name: Geburtstage
-    track: false
+#    track: false
 
 - cal_id: a4tods2911mj2al1snkvhbb2ec@group.calendar.google.com
   entities:
   - device_id: stefan_travel
     ignore_availability: true
     name: Stefan-Travel
-    track: false
+#    track: false
 
 - cal_id: de.german#holiday@group.v.calendar.google.com
   entities:
   - device_id: feiertage_in_deutschland
     ignore_availability: true
     name: Feiertage in Deutschland
-    track: false
+#    track: false
 
 - cal_id: mamo4vikprm0ne74eo1e6kjqjo@group.calendar.google.com
   entities:
   - device_id: clara
     ignore_availability: true
     name: Clara
-    track: false
+#    track: false
 
 - cal_id: ufd9s30u0md6dvduu1jdejqkeg@group.calendar.google.com
   entities:
   - device_id: konstantin
     ignore_availability: true
     name: Konstantin
-    track: false
+#    track: false

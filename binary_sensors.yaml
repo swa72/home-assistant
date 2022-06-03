@@ -26,9 +26,9 @@
       friendly_name: "Dunkel draußen"
       value_template: >-
         {% if now().hour > 12 %}
-        {{ state_attr('sun.sun', 'elevation')|float < 3 }}
+        {{ state_attr('sun.sun', 'elevation')|float(default=0) < 3 }}
         {% else %}
-        {{ state_attr('sun.sun', 'elevation')|float < -3 }}
+        {{ state_attr('sun.sun', 'elevation')|float(default=0) < -3 }}
         {% endif %}
 #
 #
@@ -57,7 +57,7 @@
     sun_up:
       friendly_name: "On, wenn Sonne aufgegangen."
       value_template: >-
-       {{ state_attr('sun.sun', 'elevation')|float > 0 }}
+       {{ state_attr('sun.sun', 'elevation')|float(default=0)  > 0 }}
 #
 # Using openweathermap forecast
 #
@@ -119,7 +119,7 @@
     stefan_working_in_office:
       friendly_name: On, wenn Stefan im Office ist
       value_template: >-
-         {% set p0 = states('sensor.shellyp_dg_stefan_tisch_power') | float > 45 %}
+         {% set p0 = states('sensor.shellyp_dg_stefan_tisch_power') | float(default=0)  > 45 %}
          {{ 'true' if p0 else 'false' }}
 #
 #
@@ -127,7 +127,7 @@
     humidity_og_schlaf:
       friendly_name: "Elternschlafzimmer hat zu hohe Luftfeuchtigkeit"
       value_template: >-
-        {% set p0 = states('sensor.multi_og_schlaf_humidity') | float >= states('input_number.humidity_warning') | float %}
+        {% set p0 = states('sensor.multi_og_schlaf_humidity') | float(default=0)  >= states('input_number.humidity_warning') | float(default=0)  %}
         {{ 'true' if p0 else 'false' }}
 #
 #
@@ -135,7 +135,7 @@
     humidity_og_elternbad:
       friendly_name: "Elternbad hat zu hohe Luftfeuchtigkeit"
       value_template: >-
-        {% set p0 = states('sensor.multi_og_elternbad_humidity') | float >= states('input_number.humidity_warning') | float %}
+        {% set p0 = states('sensor.multi_og_elternbad_humidity') | float(default=0)  >= states('input_number.humidity_warning') | float(default=0)  %}
         {{ 'true' if p0 else 'false' }}
 #
 #
@@ -143,7 +143,7 @@
     humidity_og_konstantin:
       friendly_name: "Konstantins Zimmer hat zu hohe Luftfeuchtigkeit"
       value_template: >-
-        {% set p0 = states('sensor.multi_og_konstantin_humidity') | float > states('input_number.humidity_warning') | float %}
+        {% set p0 = states('sensor.multi_og_konstantin_humidity') | float(default=0)  > states('input_number.humidity_warning') | float(default=0)  %}
         {{ 'true' if p0 else 'false' }}
 #
 #
@@ -151,7 +151,7 @@
     humidity_og_clara:
       friendly_name: "Claras Zimmer hat zu hohe Luftfeuchtigkeit"
       value_template: >-
-        {% set p0 = states('sensor.multi_og_clara_humidity') | float >= states('input_number.humidity_warning') | float %}
+        {% set p0 = states('sensor.multi_og_clara_humidity') | float(default=0)  >= states('input_number.humidity_warning') | float(default=0)  %}
         {{ 'true' if p0 else 'false' }}
 #
 #
@@ -159,7 +159,7 @@
     humidity_eg_buro:
       friendly_name: "Büro EG hat zu hohe Luftfeuchtigkeit"
       value_template: >-
-        {% set p0 = states('sensor.multi_eg_buro_humidity') | float >= states('input_number.humidity_warning') | float %}
+        {% set p0 = states('sensor.multi_eg_buro_humidity') | float(default=0)  >= states('input_number.humidity_warning') | float(default=0)  %}
         {{ 'true' if p0 else 'false' }}
 #
 #
