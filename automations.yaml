@@ -527,7 +527,7 @@
   - platform: numeric_state
     entity_id: sensor.multi_og_schlaf_temperature
     id: warmesschlafzimmer
-    above: '23'
+    above: '24'
     for:
       hours: 0
       minutes: 0
