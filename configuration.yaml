@@ -53,11 +53,10 @@ logger:
     homeassistant.components.shell_command: debug
     #  see https://github.com/home-assistant/core/issues/58653 for next line
     fritzconnection: info
-# for reolink
-#    custom_components.reolink_dev: debug
-#    custom_components.reolink_dev.base.data: warning
-#    reolink: debug
-
+    # for reolink
+    custom_components.reolink_dev: debug
+    custom_components.reolink_dev.base.data: warning
+    reolink: debug
 #
 # to turn on my pc
 #
@@ -97,31 +96,30 @@ template: !include_dir_merge_list templates/
 #
 mqtt:
   sensor:
-  - name: "SMLReaderManufacturer"
-    state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:96.50.1/1/value"
-  - name: "SMLReaderDeviceID"
-    state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:96.1.0/255/value"
-  - name: "SMLReaderCounter"
-    state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:1.8.0/255/value"
-    unit_of_measurement: "kWh"
-    device_class: energy
-  - name: "SMLReaderPower"
-    state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:16.7.0/255/value"
-    unit_of_measurement: "W"
-    device_class: power
+    - name: "SMLReaderManufacturer"
+      state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:96.50.1/1/value"
+    - name: "SMLReaderDeviceID"
+      state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:96.1.0/255/value"
+    - name: "SMLReaderCounter"
+      state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:1.8.0/255/value"
+      unit_of_measurement: "kWh"
+      device_class: energy
+    - name: "SMLReaderPower"
+      state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:16.7.0/255/value"
+      unit_of_measurement: "W"
+      device_class: power
+    #
+    #
+    #
+    - name: "DWD Last Rainfall"
+      state_topic: "home-assistant/variable/last_rainfall"
+      value_template: "{{ value }}"
+      qos: 0
+    - name: "DWD Last Rainfall Amount"
+      state_topic: "home-assistant/variable/last_rainfall_amount"
+      value_template: "{{ value }}"
+      qos: 0
 #
-#
-#
-  - name: "DWD Last Rainfall"
-    state_topic: "home-assistant/variable/last_rainfall"
-    value_template: "{{ value }}"
-    qos: 0
-  - name: "DWD Last Rainfall Amount"
-    state_topic: "home-assistant/variable/last_rainfall_amount"
-    value_template: "{{ value }}"
-    qos: 0
-#
-
 
 #
 # for camera stuff to work
@@ -145,8 +143,8 @@ input_text:
 # https://www.home-assistant.io/integrations/google/
 # deprecated with 2022.6
 # google:
-  # client_id: !secret googleclientid
-  # client_secret: !secret googleclientsecret
+# client_id: !secret googleclientid
+# client_secret: !secret googleclientsecret
 #
 #
 #
@@ -296,8 +294,8 @@ utility_meter:
 # for the spotify integration
 # deprecated with 2022.6
 # spotify:
-  # client_id: !secret spotify_clientid
-  # client_secret: !secret spotify_secret
+# client_id: !secret spotify_clientid
+# client_secret: !secret spotify_secret
 #
 # for spotcast (requirement of spotify-card)
 #
