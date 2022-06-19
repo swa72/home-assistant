@@ -32,6 +32,7 @@ logger:
 
 # Enable Home Assistant API
 api:
+  reboot_timeout: 120s
 
 ota:
 
