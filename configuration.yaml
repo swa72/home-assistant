@@ -79,7 +79,7 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 notify: !include notifications.yaml
 sensor: !include sensors.yaml
-device_tracker: !include devicetrackers.yaml
+#device_tracker: !include devicetrackers.yaml
 #alert: !include alerts.yaml
 http: !include http.yaml
 cover: !include covers.yaml

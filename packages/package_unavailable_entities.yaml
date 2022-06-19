@@ -60,6 +60,36 @@ group:
       - sensor.ph
       - sensor.temp
       - media_player.stefans_2_echo_dot
+      - device_tracker.android_2
+      - device_tracker.galaxy_a53_5g
+      - device_tracker.honor_7x_715d683076b6dc72
+      - device_tracker.iphone_2_2
+      - device_tracker.iphone_von_anna_2_2
+      - device_tracker.jpad_air_2_3
+      - device_tracker.laptop_1qnmles6
+      - device_tracker.pc_192_168_178_46_2
+      - device_tracker.pc_192_168_178_57
+      - device_tracker.pc_192_168_178_58
+      - device_tracker.pc_192_168_178_62
+      - device_tracker.pc_192_168_178_77
+      - device_tracker.pc_192_168_178_79
+      - device_tracker.peters_iphone
+      - device_tracker.s20_von_gerd
+      - device_tracker.samsung_galaxy_s7
+      - switch.android_2_internet_access
+      - switch.galaxy_a53_5g_internet_access
+      - switch.honor_7x_715d683076b6dc72_internet_access
+      - switch.laptop_1qnmles6_internet_access
+      - switch.pc_192_168_178_46_internet_access_2
+      - switch.pc_192_168_178_57_internet_access
+      - switch.pc_192_168_178_58_internet_access
+      - switch.pc_192_168_178_62_internet_access
+      - switch.pc_192_168_178_77_internet_access
+      - switch.pc_192_168_178_79_internet_access
+      - switch.peters_iphone_internet_access
+      - switch.s20_von_gerd_internet_access
+      - switch.samsung_galaxy_s7_internet_access
+
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
   filters:

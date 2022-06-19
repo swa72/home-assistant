@@ -533,6 +533,13 @@
       minutes: 0
       seconds: 0
       milliseconds: 0
+  - platform: homeassistant
+    event: start
+    id: hastart
+  - platform: event
+    event_type:
+    - automation_reloaded
+    id: automation_reloaded
   condition: []
   action:
   - choose:
@@ -558,6 +565,9 @@
       - condition: state
         entity_id: calendar.ferien
         state: 'off'
+      - condition: numeric_state
+        entity_id: sensor.multi_og_schlaf_temperature
+        below: '24'
       sequence:
       - scene: scene.schlafzimmer_morgen
     - conditions:
@@ -573,6 +583,9 @@
       - condition: state
         entity_id: calendar.ferien
         state: 'on'
+      - condition: numeric_state
+        entity_id: sensor.multi_og_schlaf_temperature
+        below: '24'
       sequence:
       - scene: scene.schlafzimmer_morgen
     - conditions:
@@ -582,22 +595,26 @@
         weekday:
         - sat
         - sun
+      - condition: numeric_state
+        entity_id: sensor.multi_og_schlaf_temperature
+        below: '24'
       sequence:
       - scene: scene.schlafzimmer_morgen
     - conditions:
-      - condition: trigger
-        id: warmesschlafzimmer
-      - condition: state
-        entity_id: weather.accuweather
-        state: sunny
-        for:
-          hours: 0
-          minutes: 0
-          seconds: 0
-          milliseconds: 0
-        enabled: false
+      - condition: or
+        conditions:
+        - condition: trigger
+          id: warmesschlafzimmer
+        - condition: trigger
+          id: hastart
+        - condition: trigger
+          id: automation_reloaded
+      - condition: numeric_state
+        entity_id: sensor.multi_og_schlaf_temperature
+        above: '24'
       - condition: time
-        after: 09:00
+        after: input_datetime.cover_morning_holiday
+        before: '21:00:00'
       - condition: numeric_state
         entity_id: sensor.boiler_outside_temperature
         above: '10'
@@ -607,7 +624,6 @@
           area_id:
           - og_schlaf
           - og_elternbad
-          - kidsgross
         data:
           position: 40
     default: []
@@ -2018,4 +2034,17 @@
           title: Stefan just left
           message: Klimaanlage im Schlafzimmer ist an.
     default: []
+  mode: single
+- id: '1655667895530'
+  alias: early espresso
+  description: ''
+  trigger:
+  - platform: time
+    at: 05:30:00
+  condition: []
+  action:
+  - service: switch.turn_on
+    data: {}
+    target:
+      device_id: bc58f97050eebd88ad0456555080e14a
   mode: single
