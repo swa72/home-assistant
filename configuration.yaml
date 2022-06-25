@@ -32,7 +32,7 @@ frontend:
 # default: info
 # logs:
 # custom_components.icloud3.pyicloud_ic3: debug
-# custom_components.icloud3.device_tracker: debug
+# custom_components.icloud3.device_trackbug
 
 # logger:
 # default: warn
@@ -50,7 +50,7 @@ logger:
   default: warning
   logs:
     homeassistant.helpers.template: error
-    homeassistant.components.shell_command: debug    #  see https://github.com/home-assistant/core/issues/58653 for next line
+    homeassistant.components.shell_command: debug #  see https://github.com/home-assistant/core/issues/58653 for next line
     fritzconnection: info
     # for reolink
     custom_components.reolink_dev: debug
