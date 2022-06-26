@@ -50,12 +50,15 @@ logger:
   default: warning
   logs:
     homeassistant.helpers.template: error
-    homeassistant.components.shell_command: debug #  see https://github.com/home-assistant/core/issues/58653 for next line
+    homeassistant.components.shell_command: debug
+    # see https://github.com/home-assistant/core/issues/58653 for next line
+    homeassistant.components.fritz: debug
     fritzconnection: info
     # for reolink
     custom_components.reolink_dev: debug
     custom_components.reolink_dev.base.data: warning
     reolink: debug
+
 #
 # to turn on my pc
 #
@@ -187,6 +190,9 @@ recorder:
       - sensor.smlpower_daily
       - sensor.smlpower_yearly
       - sensor.shelly25_og_schlafli_rssi
+  include:
+    entities:
+      - device_tracker.iphone
 #      - camera.iphone6
 #
 #

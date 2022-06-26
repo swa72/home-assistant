@@ -507,7 +507,7 @@
       friendly_name: "Absolute humidity basement"
     dew_difference:
       unit_of_measurement: "°C"
-      value_template: "{{ (states('sensor.dewpoint_basement')|float(default=0) - states('sensor.dewpoint_outside')|float) | round(2) }}"
+      value_template: "{{ (states('sensor.dewpoint_basement')|float(default=0) - states('sensor.dewpoint_outside')|float(default=0)) | round(2) }}"
     #
     #
     #
