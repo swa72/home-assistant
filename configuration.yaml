@@ -193,6 +193,7 @@ recorder:
   include:
     entities:
       - device_tracker.iphone
+      - sensor.tesla_wall_connector_energy
 #      - camera.iphone6
 #
 #
@@ -232,6 +233,7 @@ influxdb:
       - sensor.influxdb_db_size
       - sensor.gasverbrauch
       - sensor.precipitation_heidelberg
+      - sensor.tesla_wall_connector_energy
     entity_globs:
       - sensor.shellys_keller*
       - sensor.boiler*
