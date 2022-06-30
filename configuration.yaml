@@ -233,6 +233,12 @@ influxdb:
       - sensor.influxdb_db_size
       - sensor.gasverbrauch
       - sensor.precipitation_heidelberg
+      - sensor.tesla_last_charge_session
+      - sensor.tesla_last_charging_session_kwh
+      - sensor.tesla_wall_connector_state
+      - sensor.tesla_wall_connector_energy
+      - binary_sensor.tesla_wall_connector_contactor_closed
+      - binary_sensor.tesla_wall_connector_vehicle_connected
     entity_globs:
       - sensor.shellys_keller*
       - sensor.boiler*
@@ -247,7 +253,6 @@ influxdb:
       - binary_sensor.boiler*
       - binary_sensor.mixer*
       - binary_sensor.solar*
-      - sensor.tesla*
 #
 #
 counter:
