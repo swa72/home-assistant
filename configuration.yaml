@@ -233,7 +233,6 @@ influxdb:
       - sensor.influxdb_db_size
       - sensor.gasverbrauch
       - sensor.precipitation_heidelberg
-      - sensor.tesla_wall_connector_energy
     entity_globs:
       - sensor.shellys_keller*
       - sensor.boiler*
@@ -248,6 +247,7 @@ influxdb:
       - binary_sensor.boiler*
       - binary_sensor.mixer*
       - binary_sensor.solar*
+      - sensor.tesla*
 #
 #
 counter:
@@ -365,3 +365,18 @@ browser_mod:
       name: Thinkpad
     b174e12b-9abd3035:
       name: Firetablet
+#
+#
+#
+rest:
+  - authentication: basic
+    username: ""
+    password: ""
+    scan_interval: 90
+    resource: http://192.168.178.36/api/1/vitals
+    sensor:
+      - name: "Tesla last charge session"
+        value_template: "{{ value_json.session_energy_wh }}"
+        device_class: energy
+        state_class: measurement
+        unit_of_measurement: "Wh"
