@@ -2048,3 +2048,21 @@
     target:
       device_id: bc58f97050eebd88ad0456555080e14a
   mode: single
+- id: '1656754284656'
+  alias: Rolladen um 1100 runter wenn warm
+  description: ''
+  trigger:
+  - platform: time
+    at: '11:00:00'
+  - platform: time
+    at: '13:00:00'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.multi_og_schlaf_temperature
+    above: '24'
+  action:
+  - service: scene.turn_on
+    data: {}
+    target:
+      entity_id: scene.schlafzimmer_halbdunkel
+  mode: single
