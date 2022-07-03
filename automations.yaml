@@ -2066,3 +2066,22 @@
     target:
       entity_id: scene.schlafzimmer_halbdunkel
   mode: single
+- id: '1656859295892'
+  alias: Wenn ORP unter Schwellwert dann Nachricht an Julia und Stefan
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.pool_orp
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    below: '620'
+  condition: []
+  action:
+  - service: notify.all_ios_parent_phones
+    data:
+      title: Pool needs help
+      message: Temp {{states('sensor.pool_temp')|round(0)}}°C.   PH {{ states('sensor.pool_ph')|round(0)}}pH.   ORP
+        {{ states('sensor.pool_orp')|round(0)}}mV
+  mode: single
