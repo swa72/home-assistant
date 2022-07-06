@@ -2016,8 +2016,9 @@
     - conditions:
       - condition: trigger
         id: justleft
-      - condition: template
-        value_template: '{{ states(''climate.roofac'') != ''off'' }}'
+      - condition: state
+        entity_id: binary_sensor.roofac_on
+        state: 'on'
       sequence:
       - service: notify.mobile_app_iphone
         data:
@@ -2026,8 +2027,9 @@
     - conditions:
       - condition: trigger
         id: justleft
-      - condition: template
-        value_template: '{{ states(''climate.sleepac'') != ''off'' }}'
+      - condition: state
+        entity_id: binary_sensor.sleepac_on
+        state: 'on'
       sequence:
       - service: notify.mobile_app_iphone
         data:

@@ -3,25 +3,24 @@
 #
 - platform: template
   sensors:
-
-#
-#
-#
+    #
+    #
+    #
     camera1_motion:
       friendly_name: "iPhone Camera - Movement"
       device_class: motion
       value_template: "{{ is_state('input_boolean.camera1_motion_detected', 'on') }}"
-#
-#
-#      
+    #
+    #
+    #
     garagentur:
       friendly_name: "Garagentür"
       device_class: garage_door
       # off = closed; on = open
       value_template: "{{ is_state('cover.garage_door', 'open') }}"
-#
-#
-#      
+    #
+    #
+    #
     dunkel_draussen:
       friendly_name: "Dunkel draußen"
       value_template: >-
@@ -30,9 +29,9 @@
         {% else %}
         {{ state_attr('sun.sun', 'elevation')|float(default=0) < -3 }}
         {% endif %}
-#
-#
-#
+    #
+    #
+    #
     nachts_tuerauf:
       friendly_name: "Nachts und Tuer geht auf"
       value_template: >-
@@ -41,136 +40,143 @@
         {{ 'true' if p0 and p1 else 'false' }}
       attribute_templates:
         offenetuer: "{% set w = expand( 'group.tueren' ) | selectattr('state', 'eq', 'on') | map(attribute='name') | list %}{{ w }}"
-#
-# false if not evening
-# false if closed
-#
+    #
+    # false if not evening
+    # false if closed
+    #
     abend_eg_wohnzimmer_tuer_zu:
-      friendly_name: "On, wenn Abend und EG Wohnzimmertür geschlossen."  
+      friendly_name: "On, wenn Abend und EG Wohnzimmertür geschlossen."
       value_template: >-
         {% set p0 = now().hour > 20 or now().hour < 6 %}
         {% set p1 = states('binary_sensor.eg_wohnzimmer_tuer') == "off" %} 
         {{ 'true' if p0 and p1 else 'false' }}
-#
-#
-#
+    #
+    #
+    #
     sun_up:
       friendly_name: "On, wenn Sonne aufgegangen."
       value_template: >-
-       {{ state_attr('sun.sun', 'elevation')|float(default=0)  > 0 }}
-#
-# Using openweathermap forecast
-#
+        {{ state_attr('sun.sun', 'elevation')|float(default=0)  > 0 }}
+    #
+    # Using openweathermap forecast
+    #
     # rainy_day:
-      # friendly_name: On, wenn Regen in den nächsten 4h
-      # value_template: >-
-        # {% if is_state('weather.openweathermap', 'unavailable') %}
-        # {{ false }}
-        # {% else %}
-        # {% set p0 = state_attr('weather.openweathermap', 'forecast')[0].condition == "rainy" %}
-        # {% set p1 = state_attr('weather.openweathermap', 'forecast')[1].condition == "rainy" %}
-        # {% set p2 = state_attr('weather.openweathermap', 'forecast')[2].condition == "rainy" %}
-        # {% set p3 = state_attr('weather.openweathermap', 'forecast')[3].condition == "rainy" %}
-        # {{ true if p0 or p1 or p2 or p3 else false }}
-        # {% endif %}
-#
-# 
-#
+    # friendly_name: On, wenn Regen in den nächsten 4h
+    # value_template: >-
+    # {% if is_state('weather.openweathermap', 'unavailable') %}
+    # {{ false }}
+    # {% else %}
+    # {% set p0 = state_attr('weather.openweathermap', 'forecast')[0].condition == "rainy" %}
+    # {% set p1 = state_attr('weather.openweathermap', 'forecast')[1].condition == "rainy" %}
+    # {% set p2 = state_attr('weather.openweathermap', 'forecast')[2].condition == "rainy" %}
+    # {% set p3 = state_attr('weather.openweathermap', 'forecast')[3].condition == "rainy" %}
+    # {{ true if p0 or p1 or p2 or p3 else false }}
+    # {% endif %}
+    #
+    #
+    #
     # dachfenster_offen_regentag:
-      # friendly_name: On, wenn Regen kommt und Dachfenster offen
-      # value_template: >-
-        # {% set p0 = states('group.dachfenster') == 'on' %}
-        # {% set p1 = states('binary_sensor.rainy_day') == 'on' %}
-        # {{ 'on' if p0 and p1 else 'off' }}
+    # friendly_name: On, wenn Regen kommt und Dachfenster offen
+    # value_template: >-
+    # {% set p0 = states('group.dachfenster') == 'on' %}
+    # {% set p1 = states('binary_sensor.rainy_day') == 'on' %}
+    # {{ 'on' if p0 and p1 else 'off' }}
 
-#
-# set the device class in customize.yaml
-#
-# returns True or False
-#
+    #
+    # set the device class in customize.yaml
+    #
+    # returns True or False
+    #
     people_home:
       friendly_name: On, wenn min. eine Person im Haus
       value_template: >-
-         {{ is_state('person.stefan', 'home') or
-            is_state('person.julia', 'home') or
-            is_state('person.anna', 'home') }}
-#
-#
-#
+        {{ is_state('person.stefan', 'home') or
+           is_state('person.julia', 'home') or
+           is_state('person.anna', 'home') }}
+    #
+    #
+    #
     haus_offen_keiner_zuhause:
       friendly_name: On, wenn keiner Zuhause ist und ein Öffnung offen ist.
       value_template: >-
-         {% set p0 = states('binary_sensor.people_home') == "off" %}
-         {% set p1 = states('group.oeffnungen') == "on" %}
-         {{ 'true' if p0 and p1 else 'false' }}
+        {% set p0 = states('binary_sensor.people_home') == "off" %}
+        {% set p1 = states('group.oeffnungen') == "on" %}
+        {{ 'true' if p0 and p1 else 'false' }}
 
-#
-# binary_sensor.su_xp1654_door_lock = on -> locked
-#
+    #
+    # binary_sensor.su_xp1654_door_lock = on -> locked
+    #
     volvo_zuhause_und_offen:
       friendly_name: On, wenn Volvo zuhause und nicht abgeschlossen ist.
       value_template: >-
-         {% set p0 = states('device_tracker.volvo_su_xp1654') == "home" %}
-         {% set p1 = states('binary_sensor.su_xp1654_door_lock')== "off" %}
-         {{ 'true' if p0 and p1 else 'false' }}
-#
-# 10 Watt not sufficient
-#
+        {% set p0 = states('device_tracker.volvo_su_xp1654') == "home" %}
+        {% set p1 = states('binary_sensor.su_xp1654_door_lock')== "off" %}
+        {{ 'true' if p0 and p1 else 'false' }}
+    #
+    # 10 Watt not sufficient
+    #
     stefan_working_in_office:
       friendly_name: On, wenn Stefan im Office ist
       value_template: >-
-         {% set p0 = states('sensor.shellyp_dg_stefan_tisch_power') | float(default=0)  > 45 %}
-         {{ 'true' if p0 else 'false' }}
-#
-#
-#
+        {% set p0 = states('sensor.shellyp_dg_stefan_tisch_power') | float(default=0)  > 45 %}
+        {{ 'true' if p0 else 'false' }}
+    #
+    #
+    #
     humidity_og_schlaf:
       friendly_name: "Elternschlafzimmer hat zu hohe Luftfeuchtigkeit"
       value_template: >-
         {% set p0 = states('sensor.multi_og_schlaf_humidity') | float(default=0)  >= states('input_number.humidity_warning') | float(default=0)  %}
         {{ 'true' if p0 else 'false' }}
-#
-#
-#
+    #
+    #
+    #
     humidity_og_elternbad:
       friendly_name: "Elternbad hat zu hohe Luftfeuchtigkeit"
       value_template: >-
         {% set p0 = states('sensor.multi_og_elternbad_humidity') | float(default=0)  >= states('input_number.humidity_warning') | float(default=0)  %}
         {{ 'true' if p0 else 'false' }}
-#
-#
-#
+    #
+    #
+    #
     humidity_og_konstantin:
       friendly_name: "Konstantins Zimmer hat zu hohe Luftfeuchtigkeit"
       value_template: >-
         {% set p0 = states('sensor.multi_og_konstantin_humidity') | float(default=0)  > states('input_number.humidity_warning') | float(default=0)  %}
         {{ 'true' if p0 else 'false' }}
-#
-#
-#
+    #
+    #
+    #
     humidity_og_clara:
       friendly_name: "Claras Zimmer hat zu hohe Luftfeuchtigkeit"
       value_template: >-
         {% set p0 = states('sensor.multi_og_clara_humidity') | float(default=0)  >= states('input_number.humidity_warning') | float(default=0)  %}
         {{ 'true' if p0 else 'false' }}
-#
-#
-#
+    #
+    #
+    #
     humidity_eg_buro:
       friendly_name: "Büro EG hat zu hohe Luftfeuchtigkeit"
       value_template: >-
         {% set p0 = states('sensor.multi_eg_buro_humidity') | float(default=0)  >= states('input_number.humidity_warning') | float(default=0)  %}
         {{ 'true' if p0 else 'false' }}
-#
-#
-#
-#
-#
-#
+    #
+    #
+    #
+    #
+    #
+    #
     doorbell_pressed:
       friendly_name: "Doorbell was pressed, call initiated"
-      value_template: "{{ states('sensor.phone_modem') == 'ring' }}" 
-
+      value_template: "{{ states('sensor.phone_modem') == 'ring' }}"
+    #
+    #
+    #
+    roofac_on:
+      value_template: "{{ states('climate.roofac') != 'off' }}"
+    sleepac_on:
+      value_template: "{{ states('climate.sleepac') != 'off' }}"
+#
 #
 #
 
@@ -201,11 +207,10 @@
 - platform: ping
   name: sleepac
   host: 192.168.178.45
-  
+
 - platform: rest
   resource: !secret livingroom_motion_url
   name: Motion Livingroom
   scan_interval: 5
   value_template: "{{ value_json[0].value.state }}"
   device_class: motion
-  
