@@ -1660,9 +1660,9 @@
   condition: []
   action:
   - variables:
-      stale: "{{ expand('group.tempsensors')\n   | selectattr('last_changed', 'lt',\
-        \ now()-timedelta(seconds=14400)) \n   | map(attribute='entity_id') | join(',\
-        \ ') }}\n"
+      stale: "{{ expand('group.tempsensors')\n   | selectattr('last_changed', 'lt',
+        now()-timedelta(seconds=14400)) \n   | map(attribute='entity_id') | join(',
+        ') }}\n"
   - condition: and
     conditions:
     - condition: template
@@ -1694,7 +1694,8 @@
   action:
   - service: notify.mobile_app_iphone
     data:
-      message: Office too hot.
+      message: Office too hot. {{ states('sensor.multi_dg_stefan_temperature') | float
+        | round(1) }}°C
       title: Warning
   mode: single
 - id: '1648194455595'
