@@ -615,10 +615,9 @@ heating_set_room_temp_high:
       seconds: 0
       milliseconds: 0
   - condition: template
-    value_template: "{{ states('sensor.thermostat_hc1_selected_room_temperature')|\
-      \ float != states('sensor.thermostat_hc1_comfort_temperature')|float or\n  \
-      \ states('sensor.thermostat_hc2_selected_room_temperature')| float != states('sensor.thermostat_hc2_comfort_temperature')|float\
-      \ }}"
+    value_template: "{{ states('sensor.thermostat_hc1_selected_room_temperature')|
+      float != states('sensor.thermostat_hc1_comfort_temperature')|float or\n   states('sensor.thermostat_hc2_selected_room_temperature')|
+      float != states('sensor.thermostat_hc2_comfort_temperature')|float }}"
   - service: script.notify_stefan_heating
     data:
       title: Heating
@@ -652,9 +651,9 @@ heating_set_room_temp_low:
       seconds: 0
       milliseconds: 0
   - condition: template
-    value_template: "{{ states('sensor.thermostat_hc1_selected_room_temperature')|\
-      \ float != states('sensor.thermostat_hc1_eco_temperature')|float or\n   states('sensor.thermostat_hc2_selected_room_temperature')|\
-      \ float != states('sensor.thermostat_hc2_eco_temperature')|float }}"
+    value_template: "{{ states('sensor.thermostat_hc1_selected_room_temperature')|
+      float != states('sensor.thermostat_hc1_eco_temperature')|float or\n   states('sensor.thermostat_hc2_selected_room_temperature')|
+      float != states('sensor.thermostat_hc2_eco_temperature')|float }}"
   - service: script.notify_stefan_heating
     data:
       title: Heating
@@ -926,3 +925,20 @@ buro:
       entity_id: switch.wake_up_thinkpad_t430
   mode: single
   icon: mdi:chair-rolling
+hecken_waessern:
+  alias: Hecken waessern
+  sequence:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.shellys_garage_grossehecke
+  - delay:
+      hours: 1
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.hecke
+  mode: single
