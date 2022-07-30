@@ -81,3 +81,83 @@
       entity_only: true
     cover.shelly25_og_elternbad:
       entity_only: true
+- id: '1659181983434'
+  name: DG Stefan Fastdunkel
+  entities:
+    cover.velux_external_cover:
+      current_position: 6
+      friendly_name: Stefan Ost
+      supported_features: 7
+      device_class: shutter
+      state: opening
+    cover.velux_external_cover_2:
+      current_position: 5
+      friendly_name: Stefan West
+      supported_features: 7
+      device_class: shutter
+      state: opening
+  metadata:
+    cover.velux_external_cover:
+      entity_only: true
+    cover.velux_external_cover_2:
+      entity_only: true
+- id: '1659182031811'
+  name: DG Stefan Offen
+  entities:
+    cover.velux_external_cover:
+      current_position: 15
+      friendly_name: Stefan Ost
+      supported_features: 7
+      device_class: shutter
+      state: opening
+    cover.velux_external_cover_2:
+      current_position: 15
+      friendly_name: Stefan West
+      supported_features: 7
+      device_class: shutter
+      state: opening
+  metadata:
+    cover.velux_external_cover:
+      entity_only: true
+    cover.velux_external_cover_2:
+      entity_only: true
+- id: '1659182082521'
+  name: DG Stefan Halboffen
+  entities:
+    cover.velux_external_cover:
+      current_position: 50
+      friendly_name: Stefan Ost
+      supported_features: 7
+      device_class: shutter
+      state: open
+    cover.velux_external_cover_2:
+      current_position: 50
+      friendly_name: Stefan West
+      supported_features: 7
+      device_class: shutter
+      state: open
+  metadata:
+    cover.velux_external_cover:
+      entity_only: true
+    cover.velux_external_cover_2:
+      entity_only: true
+- id: '1659182113178'
+  name: DG Stefan Dunkel
+  entities:
+    cover.velux_external_cover:
+      current_position: 0
+      friendly_name: Stefan Ost
+      supported_features: 7
+      device_class: shutter
+      state: closed
+    cover.velux_external_cover_2:
+      current_position: 0
+      friendly_name: Stefan West
+      supported_features: 7
+      device_class: shutter
+      state: closed
+  metadata:
+    cover.velux_external_cover:
+      entity_only: true
+    cover.velux_external_cover_2:
+      entity_only: true
