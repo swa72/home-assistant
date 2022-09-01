@@ -359,7 +359,7 @@
       action_on: '{{ ''ON_'' ~ context.id }}'
       action_nothing: '{{ ''NOTHING_'' ~ context.id }}'
   - alias: q1 Ask a question
-    service: notify.mobile_app_iphone
+    service: notify.mobile_app_iphonebwi12bwi12
     data:
       message: Temp too hot in office. Turn on AC?
       data:
@@ -1164,7 +1164,7 @@
       notification_message: Look who is there :-)
       motion_sensor: binary_sensor.doorbell_pressed
       camera: camera.mpeggaragecam
-      notify_device: 20e9e482dc45d545dcb6222c8f32454a
+      notify_device: 433037e716d3d27ae2dd99df7a9818b0
       is_ios: true
       notification_title: Doorbell pressed!
       delay: 1
@@ -1669,7 +1669,7 @@
       value_template: '{{ stale | count > 0 }}'
     - condition: template
       value_template: '{{ stale != ''sensor.multi_og_aussen_temperature'' }}'
-  - service: notify.mobile_app_iphone
+  - service: notify.mobile_app_iphonebwi12
     data:
       title: Stale Entities Found (no change in 2h)
       message: '{{ stale }}'
@@ -1692,7 +1692,7 @@
     value_template: '{{(as_timestamp(now()) - as_timestamp(state_attr(this.entity_id,
       ''last_triggered'') | default(0)) | int > 21600 )}}'
   action:
-  - service: notify.mobile_app_iphone
+  - service: notify.mobile_app_iphonebwi12
     data:
       message: Office too hot. {{ states('sensor.multi_dg_stefan_temperature') | float
         | round(1) }}°C
@@ -1756,7 +1756,7 @@
     entity_id: sensor.multi_og_schlaf_temperature
     above: '24'
   action:
-  - service: notify.mobile_app_iphone
+  - service: notify.mobile_app_iphonebwi12
     data:
       title: Hinweis
       data:
@@ -1790,7 +1790,7 @@
         entity_id: zone.home
         state: '0'
       sequence:
-      - service: notify.mobile_app_iphone
+      - service: notify.mobile_app_iphonebwi12
         data:
           title: Hinweis
           message: Last one left home.
@@ -1799,7 +1799,7 @@
         entity_id: zone.home
         state: '1'
       sequence:
-      - service: notify.mobile_app_iphone
+      - service: notify.mobile_app_iphonebwi12
         data:
           title: Hinweis
           message: First one arrived at home.
@@ -1979,28 +1979,28 @@
       - condition: trigger
         id: home
       sequence:
-      - service: notify.mobile_app_iphone
+      - service: notify.mobile_app_iphonebwi12
         data:
           message: Stefan is at home
     - conditions:
       - condition: trigger
         id: away
       sequence:
-      - service: notify.mobile_app_iphone
+      - service: notify.mobile_app_iphonebwi12
         data:
           message: Stefan is away
     - conditions:
       - condition: trigger
         id: extendedaway
       sequence:
-      - service: notify.mobile_app_iphone
+      - service: notify.mobile_app_iphonebwi12
         data:
           message: Stefan is extended away
     - conditions:
       - condition: trigger
         id: justarrived
       sequence:
-      - service: notify.mobile_app_iphone
+      - service: notify.mobile_app_iphonebwi12
         data:
           message: Stefan just arrived
     - conditions:
@@ -2010,7 +2010,7 @@
         entity_id: switch.shellyp_dg_stefan_tisch
         state: 'on'
       sequence:
-      - service: notify.mobile_app_iphone
+      - service: notify.mobile_app_iphonebwi12
         data:
           title: Stefan just left
           message: Schreibtisch ist an.
@@ -2021,7 +2021,7 @@
         entity_id: binary_sensor.roofac_on
         state: 'on'
       sequence:
-      - service: notify.mobile_app_iphone
+      - service: notify.mobile_app_iphonebwi12
         data:
           title: Stefan just left
           message: Klimaanlage im DG ist an.
@@ -2032,7 +2032,7 @@
         entity_id: binary_sensor.sleepac_on
         state: 'on'
       sequence:
-      - service: notify.mobile_app_iphone
+      - service: notify.mobile_app_iphonebwi12
         data:
           title: Stefan just left
           message: Klimaanlage im Schlafzimmer ist an.
@@ -2087,4 +2087,39 @@
       title: Pool needs help
       message: Temp {{states('sensor.pool_temp')|round(0)}}°C.   PH {{ states('sensor.pool_ph')|round(0)}}pH.   ORP
         {{ states('sensor.pool_orp')|round(0)}}mV
+  mode: single
+- id: '1662041910397'
+  alias: Espresso counter
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.shellys_silvia_power
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+    above: '200'
+  condition: []
+  action:
+  - repeat:
+      until:
+      - condition: template
+        value_template: '{{ states(''sensor.shellys_silvia_power'')|float == 0 }}'
+      sequence:
+      - wait_for_trigger:
+        - platform: numeric_state
+          entity_id: sensor.shellys_silvia_power
+          for:
+            hours: 0
+            minutes: 0
+            seconds: 12
+          above: '800'
+      - service: counter.increment
+        data: {}
+        target:
+          entity_id: counter.espresso
+  - service: notify.mobile_app_iphonebwi12
+    data:
+      message: '+1'
+      title: Espresso
   mode: single
