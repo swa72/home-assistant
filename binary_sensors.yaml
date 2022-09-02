@@ -176,6 +176,12 @@
       value_template: "{{ states('climate.roofac') != 'off' }}"
     sleepac_on:
       value_template: "{{ states('climate.sleepac') != 'off' }}"
+    #
+    #
+    #
+    silvia_idle:
+      friendly_name: "Silvia idles"
+      value_template: "{{ states('sensor.shellys_silvia_power')|float(default=0) > 0 and states('sensor.shellys_silvia_power')|float(default=0) < 175  }}"    
 #
 #
 #

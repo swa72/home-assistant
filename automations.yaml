@@ -2098,7 +2098,17 @@
       hours: 0
       minutes: 1
       seconds: 0
-    above: '200'
+    above: '800'
+    id: silviastarted
+  - platform: state
+    entity_id:
+    - binary_sensor.silvia_idle
+    id: silviaidle
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
   condition: []
   action:
   - repeat:
@@ -2113,13 +2123,9 @@
             hours: 0
             minutes: 0
             seconds: 12
-          above: '800'
+          above: '400'
       - service: counter.increment
         data: {}
         target:
           entity_id: counter.espresso
-  - service: notify.mobile_app_iphonebwi12
-    data:
-      message: '+1'
-      title: Espresso
   mode: single
