@@ -39,32 +39,28 @@ group:
       - sensor.unavailable_entities # prevent template loop warnings?
       - binary_sensor.updater # always unknown after restart
       - binary_sensor.boiler_charging_type
+      - binary_sensor.boiler_dhw_active
+      - binary_sensor.boiler_dhw_charging
+      - binary_sensor.boiler_dhw_recharging
+      - binary_sensor.boiler_dhw_temperature_ok
       - binary_sensor.boiler_disinfecting
+      - binary_sensor.fritz_box_7490_connectivity
       - binary_sensor.livingroom_file_stored
       - binary_sensor.livingroom_motion
+      - binary_sensor.shellys_poolpump_overheating
+      - binary_sensor.shellys_poolpump_overpowering
+      - button.shellys_poolpump_ota_update
+      - button.shellys_poolpump_reboot
       - climate.dg_stefan
-      - device_tracker.iphonebwi
-      - binary_sensor.fritz_box_7490_connectivity
-      - media_player.fire_tablet_media_player
-      - person.tablet
-      - switch.fritz_box_7490_port_forward_home_assistant
-      - switch.fritz_box_7490_wi_fi_hades
-      - switch.stefans_echo_dot_repeat_switch
-      - light.ikea_repeater_1
-      - light.ikea_repeater_2
-      - switch.swajpad_internet_access
-      - switch.stefans_echo_dot_shuffle_switch
-      - device_tracker.iphone_von_anna_6
-      - sensor.iphone_von_anna_battery_state_2
-      - sensor.iphone_von_konstantin_battery_state
-      - sensor.ph
-      - sensor.temp
-      - media_player.stefans_2_echo_dot
       - device_tracker.android_2
       - device_tracker.galaxy_a53_5g
+      - device_tracker.galaxy_tab_s6_lite
       - device_tracker.honor_7x_715d683076b6dc72
+      - device_tracker.iphone_2
       - device_tracker.iphone_2_2
       - device_tracker.iphone_von_anna_2_2
+      - device_tracker.iphone_von_anna_6
+      - device_tracker.iphonebwi
       - device_tracker.jpad_air_2_3
       - device_tracker.laptop_1qnmles6
       - device_tracker.pc_192_168_178_46_2
@@ -76,8 +72,42 @@ group:
       - device_tracker.peters_iphone
       - device_tracker.s20_von_gerd
       - device_tracker.samsung_galaxy_s7
+      - device_tracker.t430_lan
+      - device_tracker.t430_vm_wiso
+      - light.ikea_repeater_1
+      - light.ikea_repeater_2
+      - media_player.fire_tablet_media_player
+      - media_player.stefans_2_echo_dot
+      - person.tablet
+      - sensor.boiler_dhw_active_time
+      - sensor.boiler_dhw_current_tap_water_flow
+      - sensor.boiler_dhw_set_temperature
+      - sensor.boiler_dhw_starts
+      - sensor.boiler_dhw_type
+      - sensor.iphone_battery_state
+      - sensor.iphone_von_anna_battery_state_2
+      - sensor.iphone_von_konstantin_battery_state
+      - sensor.ph
+      - sensor.pool_bssid
+      - sensor.pool_esphome_version
+      - sensor.pool_ip
+      - sensor.pool_orp
+      - sensor.pool_ph
+      - sensor.pool_ssid
+      - sensor.pool_temp
+      - sensor.pool_uptime
+      - sensor.pool_wifi_signal
+      - sensor.shellys_poolpump_energy
+      - sensor.shellys_poolpump_power
+      - sensor.stefans_ipad_geocoded_location
+      - sensor.temp
       - switch.android_2_internet_access
+      - switch.boiler_dhw_disinfecting
+      - switch.boiler_dhw_one_time_charging
+      - switch.fritz_box_7490_port_forward_home_assistant
+      - switch.fritz_box_7490_wi_fi_hades
       - switch.galaxy_a53_5g_internet_access
+      - switch.galaxy_tab_s6_lite_internet_access
       - switch.honor_7x_715d683076b6dc72_internet_access
       - switch.laptop_1qnmles6_internet_access
       - switch.pc_192_168_178_46_internet_access_2
@@ -89,6 +119,12 @@ group:
       - switch.peters_iphone_internet_access
       - switch.s20_von_gerd_internet_access
       - switch.samsung_galaxy_s7_internet_access
+      - switch.shellys_poolpump
+      - switch.stefans_echo_dot_repeat_switch
+      - switch.stefans_echo_dot_shuffle_switch
+      - switch.swajpad_internet_access
+      - switch.t430_lan_internet_access
+      - switch.t430_vm_wiso_internet_access
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
