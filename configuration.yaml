@@ -362,14 +362,14 @@ shell_command:
   push_to_github: /config/gitpush.sh
 #
 # to show camera live feed on wall tablet: use browser_mod
-#
-browser_mod:
-  prefix: "browser_"
-  devices:
-    4829eb14-9690bdf4:
-      name: Thinkpad
-    b174e12b-9abd3035:
-      name: Firetablet
+# this section was version 1
+#browser_mod:
+#  prefix: "browser_"
+#  devices:
+#    4829eb14-9690bdf4:
+#      name: Thinkpad
+#    b174e12b-9abd3035:
+#      name: Firetablet
 #
 #
 #
