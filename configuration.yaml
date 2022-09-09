@@ -86,7 +86,8 @@ sensor: !include sensors.yaml
 #alert: !include alerts.yaml
 http: !include http.yaml
 cover: !include covers.yaml
-volvooncall: !include volvo.yaml
+# deprecated yaml with 2022.9
+#volvooncall: !include volvo.yaml
 switch: !include switches.yaml
 homekit: !include homekit.yaml
 template: !include_dir_merge_list templates/
