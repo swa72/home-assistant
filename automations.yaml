@@ -1576,7 +1576,8 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.doorbell_pressed
+    entity_id:
+    - binary_sensor.doorbell_pressed
     to: 'on'
   condition: []
   action:
@@ -1586,9 +1587,9 @@
     data: {}
   - service: browser_mod.more_info
     data:
-      entity_id: camera.mpeggaragecam
-      deviceID:
-      - b174e12b-9abd3035
+      entity: camera.mpeggaragecam
+    target:
+      device_id: c7f89cc7d1b7dc68db4d82e8893a23ee
   - service: script.alexa_doorbell_2
     data: {}
   mode: single
