@@ -127,6 +127,29 @@ group:
       - switch.t430_vm_wiso_internet_access
       - device_tracker.pool
       - switch.pool_internet_access
+      - binary_sensor.731a166f_25d1d5bb
+      - binary_sensor.731a166f_25d1d5bb_browser_dark_mode
+      - binary_sensor.731a166f_25d1d5bb_browser_fullykiosk
+      - binary_sensor.9456b1a3_208a3c42
+      - binary_sensor.9456b1a3_208a3c42_browser_dark_mode
+      - binary_sensor.9456b1a3_208a3c42_browser_fullykiosk
+      - light.731a166f_25d1d5bb_screen
+      - light.9456b1a3_208a3c42_screen
+      - media_player.731a166f_25d1d5bb
+      - media_player.9456b1a3_208a3c42
+      - sensor.731a166f_25d1d5bb_browser_height
+      - sensor.731a166f_25d1d5bb_browser_path
+      - sensor.731a166f_25d1d5bb_browser_user
+      - sensor.731a166f_25d1d5bb_browser_useragent
+      - sensor.731a166f_25d1d5bb_browser_visibility
+      - sensor.731a166f_25d1d5bb_browser_width
+      - sensor.9456b1a3_208a3c42_browser_height
+      - sensor.9456b1a3_208a3c42_browser_path
+      - sensor.9456b1a3_208a3c42_browser_user
+      - sensor.9456b1a3_208a3c42_browser_useragent
+      - sensor.9456b1a3_208a3c42_browser_visibility
+      - sensor.9456b1a3_208a3c42_browser_width
+
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
