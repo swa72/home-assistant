@@ -1208,7 +1208,8 @@
     to: 'on'
     id: an
   - platform: state
-    entity_id: calendar.ha_schreibtisch
+    entity_id:
+    - calendar.ha_schreibtisch
     id: aus
     to: 'off'
   - platform: time
@@ -1223,10 +1224,14 @@
       - condition: state
         entity_id: calendar.ferien
         state: 'off'
+      - condition: state
+        entity_id: person.stefan
+        state: home
       sequence:
       - service: switch.turn_on
         target:
           entity_id: switch.shellyp_dg_stefan_tisch
+        data: {}
     - conditions:
       - condition: or
         conditions:
@@ -1241,6 +1246,7 @@
       - service: switch.turn_off
         target:
           entity_id: switch.shellyp_dg_stefan_tisch
+        data: {}
     default: []
   mode: single
 - id: '1640540334226'
