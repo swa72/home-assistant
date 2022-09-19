@@ -412,7 +412,7 @@ heating_burner_up:
   - service: mqtt.publish
     data:
       topic: ems-esp/boiler
-      payload: '{"cmd":"boilHystOff","data":3}'
+      payload: '{"cmd":"boilhystoff","data":3}'
   - delay:
       hours: 0
       minutes: 0
@@ -421,7 +421,7 @@ heating_burner_up:
   - service: mqtt.publish
     data:
       topic: ems-esp/boiler
-      payload: '{"cmd":"boilHystOn","data":-3}'
+      payload: '{"cmd":"boilhyston","data":-3}'
   mode: single
 heating_burner_down:
   alias: Heating burner down
@@ -429,7 +429,7 @@ heating_burner_down:
   - service: mqtt.publish
     data:
       topic: ems-esp/boiler
-      payload: '{"cmd":"burnPeriod","data":45}'
+      payload: '{"cmd":"burnperiod","data":45}'
   - delay:
       hours: 0
       minutes: 0
@@ -438,7 +438,7 @@ heating_burner_down:
   - service: mqtt.publish
     data:
       topic: ems-esp/boiler
-      payload: '{"cmd":"boilHystOff","data":6}'
+      payload: '{"cmd":"boilhystoff","data":6}'
   - delay:
       hours: 0
       minutes: 0
@@ -447,7 +447,7 @@ heating_burner_down:
   - service: mqtt.publish
     data:
       topic: ems-esp/boiler
-      payload: '{"cmd":"boilHystOn","data":-6}'
+      payload: '{"cmd":"boilhyston","data":-6}'
   mode: single
 heating_lower_offsets_hc1_hc2:
   alias: Heating Lower Offsets HC1 HC2
@@ -611,13 +611,13 @@ heating_set_room_temp_high:
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"temp","data":{{states(''sensor.thermostat_hc1_comfort_temperature'')|int}},
+      payload: '{"cmd":"seltemp","data":{{states(''sensor.thermostat_hc1_comfort_temperature'')|int}},
         "id":1}'
       qos: '1'
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"temp","data":{{states(''sensor.thermostat_hc2_comfort_temperature'')|int}},
+      payload: '{"cmd":"seltemp","data":{{states(''sensor.thermostat_hc2_comfort_temperature'')|int}},
         "id":2}'
       qos: '1'
   - service: logbook.log
@@ -647,13 +647,13 @@ heating_set_room_temp_low:
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"temp","data":{{states(''sensor.thermostat_hc1_eco_temperature'')|int}},
+      payload: '{"cmd":"seltemp","data":{{states(''sensor.thermostat_hc1_eco_temperature'')|int}},
         "id":1}'
       qos: '1'
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"temp","data":{{states(''sensor.thermostat_hc2_eco_temperature'')|int}},
+      payload: '{"cmd":"seltemp","data":{{states(''sensor.thermostat_hc2_eco_temperature'')|int}},
         "id":2}'
       qos: '1'
   - service: logbook.log
