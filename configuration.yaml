@@ -211,13 +211,13 @@ influxdb:
     entities:
       - weather.home
       #      - weather.openweathermap
-      - weather.accuweather
+      # - weather.accuweather
       #      - binary_sensor.heating_active
       #      - binary_sensor.warm_water_dhw_active
-      - sensor.swaweathermetno
-      - sensor.swaweathermetno_condition
-      - sensor.swaweathermetno_templow
-      - sensor.swaweathermetno_temphigh
+      # - sensor.swaweathermetno
+      # - sensor.swaweathermetno_condition
+      # - sensor.swaweathermetno_templow
+      # - sensor.swaweathermetno_temphigh
       - counter.kellerpumpe
       - counter.dew_fans
       - climate.roofac
@@ -246,7 +246,7 @@ influxdb:
       - sensor.mixer*
       - sensor.thermostat*
       - sensor.solar*
-      - sensor.accuweather*
+      # - sensor.accuweather*
       #      - sensor.openweathermap*
       - sensor.multi*
       - sensor.dew*
