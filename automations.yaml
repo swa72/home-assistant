@@ -2136,3 +2136,16 @@
         target:
           entity_id: counter.espresso
   mode: single
+- id: '1664826413987'
+  alias: HA started
+  description: Notify Stefan that HA started.
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - service: notify.mobile_app_iphonebwi12
+    data:
+      message: HA started.
+      title: Info
+  mode: single
