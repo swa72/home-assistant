@@ -421,7 +421,7 @@
     input:
       message: ' Hint: network connection lost for devices: {{ disconnected_servers
         }} '
-      notify_device: 20e9e482dc45d545dcb6222c8f32454a
+      notify_device: 433037e716d3d27ae2dd99df7a9818b0
       server_group: group.servers
 - id: '1631904142960'
   alias: Advanced Heating Monitor_

@@ -330,32 +330,31 @@ panel_custom:
     sidebar_title: Logs
     sidebar_icon: mdi:math-log
     module_url: /local/panel-redirect.js
-  # -1
-  - name: Basement
-    url_path: lovelace/keller
-    sidebar_title: -1
-    sidebar_icon: mdi:home-floor-negative-1
-    module_url: /local/panel-redirect.js
-  - name: Ground Floor
-    url_path: lovelace/eg
-    sidebar_title: 0
-    sidebar_icon: mdi:home-floor-0
-    module_url: /local/panel-redirect.js
-  - name: First Floor
-    url_path: lovelace/og
-    sidebar_title: 1
-    sidebar_icon: mdi:home-floor-1
-    module_url: /local/panel-redirect.js
-  - name: Second Floor
-    url_path: lovelace/dg
-    sidebar_title: 2
-    sidebar_icon: mdi:home-floor-2
-    module_url: /local/panel-redirect.js
-  - name: Einfahrt
-    url_path: lovelace/outdoor
-    sidebar_title: Einfahrt
-    sidebar_icon: mdi:garage-variant
-    module_url: /local/panel-redirect.js
+  # - name: Basement
+    # url_path: lovelace/keller
+    # sidebar_title: -1
+    # sidebar_icon: mdi:home-floor-negative-1
+    # module_url: /local/panel-redirect.js
+  # - name: Ground Floor
+    # url_path: lovelace/eg
+    # sidebar_title: 0
+    # sidebar_icon: mdi:home-floor-0
+    # module_url: /local/panel-redirect.js
+  # - name: First Floor
+    # url_path: lovelace/og
+    # sidebar_title: 1
+    # sidebar_icon: mdi:home-floor-1
+    # module_url: /local/panel-redirect.js
+  # - name: Second Floor
+    # url_path: lovelace/dg
+    # sidebar_title: 2
+    # sidebar_icon: mdi:home-floor-2
+    # module_url: /local/panel-redirect.js
+  # - name: Einfahrt
+    # url_path: lovelace/outdoor
+    # sidebar_title: Einfahrt
+    # sidebar_icon: mdi:garage-variant
+    # module_url: /local/panel-redirect.js
 #
 #
 #
