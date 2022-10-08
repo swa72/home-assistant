@@ -27,6 +27,8 @@ This file is intended for me to document the quirks I had during setup and for o
 * an Amazon Echo dot to announce things and play stuff from Spotify ([described below](#amazon-echo-dot-and-spotify))
 * Shelly 2.5 devices control my roller shutters
 * Shelly 1 device controls my garage door
+* two Velux solar roller shutters (SSL SK08 0000S)
+  * one Velux App Control KIG 300 controls the two roller shutters and provides an Apple HomeKit controller (which in turn provides access to HA)
 * Aqara door/windows sensors, connected thru Zigbee
 * Aqara temp/humidity/pressure sensors, connected thru Zigbee
 * a Wifi Pool Kit from Atlas Scientific to show pool data (see https://atlas-scientific.com/kits/wi-fi-pool-kit/)

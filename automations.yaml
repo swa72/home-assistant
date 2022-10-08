@@ -1114,7 +1114,7 @@
       notification_message: '{{ motion_sensor_name }} detected movement!'
       motion_sensor: binary_sensor.garagecam_person_detected
       camera: camera.mpeggaragecam
-      notify_device: 20e9e482dc45d545dcb6222c8f32454a
+      notify_device: 433037e716d3d27ae2dd99df7a9818b0
       is_ios: true
       notification_title: Motion person detected!
       delay: 1
