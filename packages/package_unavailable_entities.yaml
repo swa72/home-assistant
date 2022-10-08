@@ -149,6 +149,12 @@ group:
       - sensor.9456b1a3_208a3c42_browser_useragent
       - sensor.9456b1a3_208a3c42_browser_visibility
       - sensor.9456b1a3_208a3c42_browser_width
+      - light.dimmable_light_3
+      - sensor.iphone_von_anna_2_battery_state
+      - device_tracker.iphone_von_anna_2
+      - binary_sensor.shellys_keller_entfeuchter_firmware_update
+      
+      
 
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
