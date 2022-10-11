@@ -196,6 +196,10 @@ recorder:
       - device_tracker.iphone
       - sensor.tesla_wall_connector_energy
 #      - camera.iphone6
+      - sensor.watermeter_main
+      - input_number.watermeter_main
+      - sensor.watermeter_garden
+      - input_number.watermeter_garden
 #
 #
 #
@@ -297,12 +301,34 @@ utility_meter:
   smlpower_yearly:
     source: sensor.smlreadertotalenergyconsumption
     cycle: yearly
-
   #
   #
   regen_daily:
     source: sensor.regen_heute
     cycle: daily
+#
+#
+#
+  watermeter_main_yearly:
+    source: sensor.watermeter_main
+    cycle: yearly
+    name: Wasser Haus Jahr
+  watermeter_main_monthly:
+    source: sensor.watermeter_main
+    cycle: monthly
+    name: Wasser Haus Monat
+#
+#
+#
+  watermeter_garden_yearly:
+    source: sensor.watermeter_garden
+    cycle: yearly
+    name: Wasser Garten Jahr
+  watermeter_garden_monthly:
+    source: sensor.watermeter_garden
+    cycle: monthly
+    name: Wasser Garten Monat
+
 #
 # for the spotify integration
 # deprecated with 2022.6

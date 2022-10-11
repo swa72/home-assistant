@@ -16,6 +16,7 @@ This file is intended for me to document the quirks I had during setup and for o
 * Raspberry 4 running more or less the latest Home Assistant version
   * initially connected thru wifi, later moved to ethernet and directly connected to the Fritzbox
   * conbee USB stick to [manage ZigBee network](README-zigbee.md)
+* a Tesla Gen 3 Wall Connector, so I can whether the car charges (and how much)
 * [a Buderus Logamax Plus GB192i heating controlled with EMS-ESP](README-heating.md)
 * [a Cyble pulse sensor that reads my gas meter with an ESP](esphome/README-gas.md)
 * [an ESP8266 that reads my power meter](README-powermeter.md)

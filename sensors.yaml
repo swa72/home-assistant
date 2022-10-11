@@ -754,3 +754,28 @@
       #      state_class: measurement
       unit_of_measurement: "kWh"
       value_template: "{{ (states('sensor.tesla_last_charge_session') | float(default=0) / 1000) | round(2) }}"
+#
+#
+#
+#
+- platform: filter
+  name: "Silvia power avg"
+  entity_id: sensor.shellys_silvia_power
+  filters:
+    - filter: time_simple_moving_average
+      window_size: "00:03"
+#
+#
+#
+- platform: template
+  sensors:
+    watermeter_main:
+      friendly_name: "Wasser Haus"
+      unit_of_measurement: "m3"
+      value_template: "{{ states('input_number.watermeter_main') | round(3) }}"
+- platform: template
+  sensors:
+    watermeter_garden:
+      friendly_name: "Wasser Garten"
+      unit_of_measurement: "m3"
+      value_template: "{{ states('input_number.watermeter_garden') | round(3) }}"

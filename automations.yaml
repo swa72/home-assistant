@@ -2149,3 +2149,140 @@
       message: HA started.
       title: Info
   mode: single
+- id: '1665475720792'
+  alias: Silvia Running Or Not
+  description: On iff Silvia has recently started, or power greater zero and either
+    HA restarted or automation reloaded.
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.shellys_silvia_power
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    above: 0
+    id: silvia_on_for_min
+  - platform: state
+    entity_id:
+    - sensor.shellys_silvia_power
+    to: '0.0'
+    id: silvia_turned_off
+  - platform: homeassistant
+    event: start
+    id: ha_started
+  - platform: event
+    event_type: call_service
+    event_data:
+      domain: automation
+      service: reload
+    id: automation_reload
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: silvia_on_for_min
+      sequence:
+      - service: input_boolean.turn_on
+        data: {}
+        target:
+          entity_id: input_boolean.silvia_running
+    - conditions:
+      - condition: trigger
+        id: ha_started
+      sequence:
+      - if:
+        - condition: numeric_state
+          entity_id: sensor.shellys_silvia_power
+          above: 0
+        - condition: numeric_state
+          entity_id: sensor.shellys_silvia_power
+          below: 200
+        then:
+        - service: input_boolean.turn_on
+          data: {}
+          target:
+            entity_id: input_boolean.silvia_running
+        else:
+        - service: input_boolean.turn_off
+          data: {}
+          target:
+            entity_id: input_boolean.silvia_running
+    - conditions:
+      - condition: trigger
+        id: automation_reload
+      sequence:
+      - if:
+        - condition: numeric_state
+          entity_id: sensor.shellys_silvia_power
+          above: 0
+        - condition: numeric_state
+          entity_id: sensor.shellys_silvia_power
+          below: 200
+        then:
+        - service: input_boolean.turn_on
+          data: {}
+          target:
+            entity_id: input_boolean.silvia_running
+        else:
+        - service: input_boolean.turn_off
+          data: {}
+          target:
+            entity_id: input_boolean.silvia_running
+    - conditions:
+      - condition: trigger
+        id: silvia_turned_off
+      sequence:
+      - service: input_boolean.turn_off
+        data: {}
+        target:
+          entity_id: input_boolean.silvia_running
+  mode: single
+- id: '1665476596754'
+  alias: Silvia counter
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.shellys_silvia_power
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 12
+    above: '400'
+  condition: []
+  action:
+  - if:
+    - condition: state
+      entity_id: input_boolean.silvia_running
+      state: 'on'
+    then:
+    - service: counter.increment
+      data: {}
+      target:
+        entity_id: counter.silvia
+    else:
+    - service: notify.mobile_app_iphonebwi12
+      data:
+        title: Hinweis
+        message: Counter Silvia not increased
+  mode: single
+- id: '1665485215974'
+  alias: Watermeter read
+  description: ''
+  trigger:
+  - platform: time
+    at: '19:00:00'
+  condition:
+  - condition: template
+    value_template: '{{(now().strftime("%d")|int>=24) and (now().strftime("%d")|int
+      <=31) and (now().strftime("%w")|int==0)}}'
+  action:
+  - service: notify.mobile_app_iphonebwi12
+    data:
+      message: Read water meter (long press me)
+      data:
+        actions:
+        - action: URI
+          title: Open Url
+          uri: /lovelace/meters
+  mode: single
