@@ -20,7 +20,7 @@ And here are the two automations
 
 ## Silvia counter
 
-```
+```yaml
 alias: Silvia counter
 description: ""
 trigger:
@@ -52,7 +52,7 @@ mode: single
 
 ## Silvia Running Or Not
   
-```
+```yaml
 alias: Silvia Running Or Not
 description: ""
 trigger:
