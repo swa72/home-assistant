@@ -2265,6 +2265,7 @@
       data:
         title: Hinweis
         message: Counter Silvia not increased
+      enabled: false
   mode: single
 - id: '1665485215974'
   alias: Watermeter read
