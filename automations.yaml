@@ -2095,47 +2095,6 @@
       message: Temp {{states('sensor.pool_temp')|round(0)}}°C.   PH {{ states('sensor.pool_ph')|round(0)}}pH.   ORP
         {{ states('sensor.pool_orp')|round(0)}}mV
   mode: single
-- id: '1662041910397'
-  alias: Espresso counter
-  description: ''
-  trigger:
-  - platform: numeric_state
-    entity_id: sensor.shellys_silvia_power
-    for:
-      hours: 0
-      minutes: 1
-      seconds: 0
-    above: '800'
-    id: silviastarted
-  - platform: state
-    entity_id:
-    - binary_sensor.silvia_idle
-    id: silviaidle
-    to: 'on'
-    for:
-      hours: 0
-      minutes: 2
-      seconds: 0
-  condition: []
-  action:
-  - repeat:
-      until:
-      - condition: template
-        value_template: '{{ states(''sensor.shellys_silvia_power'')|float == 0 }}'
-      sequence:
-      - wait_for_trigger:
-        - platform: numeric_state
-          entity_id: sensor.shellys_silvia_power
-          for:
-            hours: 0
-            minutes: 0
-            seconds: 12
-          above: '400'
-      - service: counter.increment
-        data: {}
-        target:
-          entity_id: counter.espresso
-  mode: single
 - id: '1664826413987'
   alias: HA started
   description: Notify Stefan that HA started.

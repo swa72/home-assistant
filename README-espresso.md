@@ -47,6 +47,7 @@ action:
         data:
           title: Hinweis
           message: Counter Silvia not increased
+        enabled: false
 mode: single
 ```
 
