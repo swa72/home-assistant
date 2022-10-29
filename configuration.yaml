@@ -195,7 +195,7 @@ recorder:
     entities:
       - device_tracker.iphone
       - sensor.tesla_wall_connector_energy
-#      - camera.iphone6
+      #      - camera.iphone6
       - sensor.watermeter_main
       - input_number.watermeter_main
       - sensor.watermeter_garden
@@ -306,9 +306,9 @@ utility_meter:
   regen_daily:
     source: sensor.regen_heute
     cycle: daily
-#
-#
-#
+  #
+  #
+  #
   watermeter_main_yearly:
     source: sensor.watermeter_main
     cycle: yearly
@@ -317,9 +317,14 @@ utility_meter:
     source: sensor.watermeter_main
     cycle: monthly
     name: Wasser Haus Monat
-#
-#
-#
+  watermeter_main_weekly:
+    source: sensor.watermeter_main
+    cycle: weekly
+    name: Wasser Haus Woche
+
+    #
+  #
+  #
   watermeter_garden_yearly:
     source: sensor.watermeter_garden
     cycle: yearly
@@ -328,6 +333,10 @@ utility_meter:
     source: sensor.watermeter_garden
     cycle: monthly
     name: Wasser Garten Monat
+  watermeter_garden_weekly:
+    source: sensor.watermeter_garden
+    cycle: weekly
+    name: Wasser Garten Woche
 
 #
 # for the spotify integration
@@ -357,35 +366,35 @@ panel_custom:
     sidebar_icon: mdi:math-log
     module_url: /local/panel-redirect.js
   # - name: Basement
-    # url_path: lovelace/keller
-    # sidebar_title: -1
-    # sidebar_icon: mdi:home-floor-negative-1
-    # module_url: /local/panel-redirect.js
+  # url_path: lovelace/keller
+  # sidebar_title: -1
+  # sidebar_icon: mdi:home-floor-negative-1
+  # module_url: /local/panel-redirect.js
   # - name: Ground Floor
-    # url_path: lovelace/eg
-    # sidebar_title: 0
-    # sidebar_icon: mdi:home-floor-0
-    # module_url: /local/panel-redirect.js
+  # url_path: lovelace/eg
+  # sidebar_title: 0
+  # sidebar_icon: mdi:home-floor-0
+  # module_url: /local/panel-redirect.js
   # - name: First Floor
-    # url_path: lovelace/og
-    # sidebar_title: 1
-    # sidebar_icon: mdi:home-floor-1
-    # module_url: /local/panel-redirect.js
+  # url_path: lovelace/og
+  # sidebar_title: 1
+  # sidebar_icon: mdi:home-floor-1
+  # module_url: /local/panel-redirect.js
   # - name: Second Floor
-    # url_path: lovelace/dg
-    # sidebar_title: 2
-    # sidebar_icon: mdi:home-floor-2
-    # module_url: /local/panel-redirect.js
+  # url_path: lovelace/dg
+  # sidebar_title: 2
+  # sidebar_icon: mdi:home-floor-2
+  # module_url: /local/panel-redirect.js
   # - name: Einfahrt
-    # url_path: lovelace/outdoor
-    # sidebar_title: Einfahrt
-    # sidebar_icon: mdi:garage-variant
-    # module_url: /local/panel-redirect.js
+  # url_path: lovelace/outdoor
+  # sidebar_title: Einfahrt
+  # sidebar_icon: mdi:garage-variant
+  # module_url: /local/panel-redirect.js
 #
 #
 #
 shell_command:
-  push_to_github: '/config/gitpush.sh > /dev/null 2>&1'
+  push_to_github: "/config/gitpush.sh > /dev/null 2>&1"
 #
 # to show camera live feed on wall tablet: use browser_mod
 # this section was version 1
