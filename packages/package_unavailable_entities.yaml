@@ -153,9 +153,25 @@ group:
       - sensor.iphone_von_anna_2_battery_state
       - device_tracker.iphone_von_anna_2
       - binary_sensor.shellys_keller_entfeuchter_firmware_update
-      
-      
-
+      - device_tracker.anna_t430
+      - device_tracker.ipad_von_clausw
+      - device_tracker.iphone
+      - device_tracker.iphone_5
+      - device_tracker.iphone_von_anna
+      - device_tracker.pc_192_168_178_38
+      - device_tracker.pc_192_168_178_41
+      - device_tracker.pc_192_168_178_60
+      - device_tracker.shellys_poolpump
+      - sensor.hacs
+      - switch.anna_t430_internet_access
+      - switch.ipad_von_clausw_internet_access
+      - switch.iphone_internet_access
+      - switch.iphone_internet_access_2
+      - switch.iphone_von_anna_internet_access
+      - switch.pc_192_168_178_38_internet_access
+      - switch.pc_192_168_178_41_internet_access
+      - switch.pc_192_168_178_60_internet_access
+      - switch.shellys_poolpump_internet_access
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
