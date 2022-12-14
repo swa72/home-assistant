@@ -178,8 +178,8 @@
       - service: script.notify_people_who_are_present
         data:
           title: Hinweis
-          message: Waschmaschine ist fertig seit {{ now().hour }}:{{ now().minute
-            }}.
+          message: Waschmaschine ist fertig seit {{ '{:02}:{:02}'.format(now().hour,
+            now().minute) }}.
       - service: script.turn_on
         data: {}
         entity_id: script.alexa_wama_fertig
