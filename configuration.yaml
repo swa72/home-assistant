@@ -244,6 +244,8 @@ influxdb:
       - sensor.tesla_wall_connector_energy
       - binary_sensor.tesla_wall_connector_contactor_closed
       - binary_sensor.tesla_wall_connector_vehicle_connected
+      - sensor.temperature_heidelberg
+      - sensor.swa_home_outdoor_temperature
     entity_globs:
       - sensor.shellys_keller*
       - sensor.boiler*
