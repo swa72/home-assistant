@@ -200,6 +200,8 @@ recorder:
       - input_number.watermeter_main
       - sensor.watermeter_garden
       - input_number.watermeter_garden
+      - device_tracker.destination_location_tracker
+      - device_tracker.location_tracker
 #
 #
 #

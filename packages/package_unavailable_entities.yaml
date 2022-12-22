@@ -181,6 +181,9 @@ group:
       - sensor.this_device_next_timer
 # indoor cam
       - binary_sensor.livingroom_cell_motion_detection
+# tesla integration
+      - sensor.arrival_time
+      - sensor.distance_to_arrival
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
