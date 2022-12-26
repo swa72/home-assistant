@@ -185,6 +185,11 @@ group:
       - sensor.arrival_time
       - sensor.distance_to_arrival
       - sensor.time_charge_complete
+# aussen temp
+      - sensor.multi_og_aussen_humidity
+      - sensor.multi_og_aussen_pressure
+      - sensor.multi_og_aussen_temperature
+      - sensor.og_aussen_battery_level
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
