@@ -185,6 +185,7 @@ group:
       - sensor.arrival_time
       - sensor.distance_to_arrival
       - sensor.time_charge_complete
+      - device_tracker.destination_location_tracker
 # aussen temp
       - sensor.multi_og_aussen_humidity
       - sensor.multi_og_aussen_pressure
