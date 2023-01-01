@@ -2247,14 +2247,14 @@
           uri: /lovelace/meters
   mode: single
 - id: '1671871958843'
-  alias: q3 Notify, wenn 2000 Uhr und Tesla weniger als 200km
+  alias: q3 Notify, wenn 2000 Uhr und Tesla weniger als 300km
   description: ''
   trigger:
   - platform: time
     at: '20:00:00'
   condition:
   - condition: template
-    value_template: '{{ states(''sensor.range'') | float < 200 }}'
+    value_template: '{{ states(''sensor.range'') | float < 300 }}'
   - condition: template
     value_template: '{{ states(''device_tracker.destination_location_tracker'') ==
       ''home'' }}'
@@ -2264,5 +2264,5 @@
   - service: script.notify_people_who_are_present
     data:
       title: Hinweis
-      message: Der Tesla hat nur noch {{ states('sensor.range') }}l Reichweite.
+      message: Der Tesla hat nur noch {{ states('sensor.range') }}km Reichweite.
   mode: single
