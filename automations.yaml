@@ -2266,3 +2266,19 @@
       title: Hinweis
       message: Der Tesla hat nur noch {{ states('sensor.range') }}km Reichweite.
   mode: single
+- id: '1672679486579'
+  alias: Notify people to clean Silvia
+  description: Notify people who are present, if Silvia is more than 90 espresso deep
+  trigger:
+  - platform: time
+    at: '18:00:00'
+  condition:
+  - condition: numeric_state
+    entity_id: counter.silvia
+    above: 90
+  action:
+  - service: script.notify_people_who_are_present
+    data:
+      title: Hinweis
+      message: Silvia hat mehr als 90 Espresso zubereitet - bitte reinigen.
+  mode: single
