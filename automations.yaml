@@ -2252,19 +2252,20 @@
   trigger:
   - platform: time
     at: '20:00:00'
+  - platform: time
+    at: 08:30:00
   condition:
   - condition: template
     value_template: '{{ states(''sensor.range'') | float < 300 }}'
   - condition: template
-    value_template: '{{ states(''device_tracker.destination_location_tracker'') ==
-      ''home'' }}'
+    value_template: '{{ states(''device_tracker.location_tracker'') == ''home'' }}'
   - condition: template
     value_template: '{{ states(''binary_sensor.charger'') == ''off'' }}'
   action:
   - service: script.notify_people_who_are_present
     data:
       title: Hinweis
-      message: Der Tesla hat nur noch {{ states('sensor.range') }}km Reichweite.
+      message: Der Tesla hat nur noch {{ states('sensor.range') | round(0)}}km Reichweite.
   mode: single
 - id: '1672679486579'
   alias: Notify people to clean Silvia
@@ -2281,4 +2282,20 @@
     data:
       title: Hinweis
       message: Silvia hat mehr als 90 Espresso zubereitet - bitte reinigen.
+  mode: single
+- id: '1672759483746'
+  alias: Tesla Wall Charger no longer connected
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.tesla_wall_connector_vehicle_connected
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - service: script.notify_people_who_are_present
+    data:
+      title: Hinweis
+      message: Die Tesla Wallbox ist nicht mehr in Nutzung.
   mode: single
