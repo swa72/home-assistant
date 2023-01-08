@@ -154,6 +154,8 @@ group:
       - switch.swajpad_internet_access
       - switch.t430_lan_internet_access
       - switch.t430_vm_wiso_internet_access
+      - binary_sensor.731a166f_25d1d5bb_browser_charging
+      - sensor.731a166f_25d1d5bb_browser_battery
 # pool stuff 
       - switch.shellys_poolpump_internet_access
       - switch.pool_internet_access
