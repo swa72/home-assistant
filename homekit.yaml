@@ -12,6 +12,10 @@
       - switch
       - scenes
     exclude_entity_globs:
+      - binary_sensor.731*
+      - light.731*
+      - binary_sensor.945*
+      - light.945*
       - binary_sensor.boiler*
       - binary_sensor.mixer*
       - binary_sensor.solar*
@@ -168,6 +172,6 @@
     climate.roofac:
       name: Klimaanlage
     climate.sleepac:
-      name: Klimaanlage      
+      name: Klimaanlage
     script.buro:
       name: Büro
