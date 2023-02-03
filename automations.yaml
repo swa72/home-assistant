@@ -1112,7 +1112,7 @@
     path: vorion/send-camera-snapshot-notification-on-motion.yaml
     input:
       notification_message: '{{ motion_sensor_name }} detected movement!'
-      motion_sensor: binary_sensor.garagecam_person_detected
+      motion_sensor: binary_sensor.garagecam_person
       camera: camera.mpeggaragecam
       notify_device: 433037e716d3d27ae2dd99df7a9818b0
       is_ios: true
@@ -1163,7 +1163,7 @@
     input:
       notification_message: Look who is there :-)
       motion_sensor: binary_sensor.doorbell_pressed
-      camera: camera.mpeggaragecam
+      camera: camera.garagecam_sub
       notify_device: 433037e716d3d27ae2dd99df7a9818b0
       is_ios: true
       notification_title: Doorbell pressed!
@@ -1446,7 +1446,7 @@
     input:
       notification_message: Look who is there :-)
       motion_sensor: binary_sensor.doorbell_pressed
-      camera: camera.mpeggaragecam
+      camera: camera.garagecam_sub
       notify_device: b772f74b67a6ee614fe789c89d285156
       is_ios: true
       notification_title: Doorbell pressed!
@@ -1484,7 +1484,7 @@
     after main door opens. I receive too many pics.
   trigger:
   - platform: state
-    entity_id: binary_sensor.garagecam_person_detected
+    entity_id: binary_sensor.garagecam_person
     to: 'on'
   - platform: time
     at: input_datetime.motion
@@ -1593,7 +1593,9 @@
     data: {}
   - service: browser_mod.more_info
     data:
-      entity: camera.mpeggaragecam
+      entity: camera.garagecam_sub
+      large: false
+      ignore_popup_card: false
     target:
       device_id: c7f89cc7d1b7dc68db4d82e8893a23ee
   - service: script.alexa_doorbell_2
