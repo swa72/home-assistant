@@ -3,158 +3,23 @@
 #
 - filter:
     include_domains:
-      - binary_sensor
-      - climate
       - cover
-      - light
       - person
-      - sensor
-      - switch
       - scenes
-    exclude_entity_globs:
-      - binary_sensor.731*
-      - light.731*
-      - binary_sensor.945*
-      - light.945*
-      - binary_sensor.boiler*
-      - binary_sensor.mixer*
-      - binary_sensor.solar*
-      - binary_sensor.*_overpowering
-      - binary_sensor.*_cloud
-      - binary_sensor.*_firmware_update
-      - binary_sensor.*_overheating
-      - binary_sensor.*_channel_1_input
-      - binary_sensor.*_channel_2_input
-      - binary_sensor.su_xp*
-      - sensor.accuweather*
-      - sensor.adguard*
-      - sensor.boiler*
-      - sensor.solar*
-      - sensor.*_energy
-      - sensor.*_power
-      - sensor.*_battery_level
-      - sensor.fritz_box*
-      - sensor.glances*
-      - sensor.hp_laserjet*
-      - sensor.iphone*
-      - sensor.jphone*
-      - sensor.mixer*
-      #      - sensor.openweathermap*
-      - sensor.*_rssi
-      - sensor.*_uptime
-      - sensor.*_device_temperature
-      - sensor.sk_heidelberg*
-      - sensor.stefans_echo*
-      - sensor.stefans_ipad*
-      - sensor.su_xp165*
-      - sensor.swaiphone*
-      - sensor.thermostat*
-      - sensor.dew_*
-      - sensor.dewpoint*
-      - switch.adguard*
-      - switch.stefans_echo*
-      - script.*
-      - light.ikea_repeater*
-      - switch.one_time_water
-      - switch.shelly25_garage*
-      - switch.fritz_box*
-      - binary_sensor.internetgateway*
-      - switch.*_internet_access
-      - switch.livingroom*
-      - switch.garagecam*
-      - binary_sensor.garagecam_*
-      - binary_sensor.camera1_*
-      - binary_sensor.livingroom_*
-      - binary_sensor.iphone6_*
-      - binary_sensor.fritz_box_*
-      - switch.iphone6_*
-      - switch.camera3*
-      - switch.camera4*
-      - binary_sensor.*_connection_state
-      - binary_sensor.*_link
-      - binary_sensor.*_open_window
-      - binary_sensor.*_early_start
-      - binary_sensor.*_power
-      - binary_sensor.*_overlay
-      - binary_sensor.va*_battery_state
-      - binary_sensor.*_focus
-      - light.browser*
-      - switch.fire*
-      - light.fire*
-      - switch.stefan_s*
-    exclude_entities:
-      - binary_sensor.abend_eg_wohnzimmer_tuer_zu
-      - binary_sensor.dunkel_draussen
-      - binary_sensor.haus_offen_keiner_zuhause
-      - binary_sensor.nachts_tuerauf
-      - binary_sensor.people_home
-      - binary_sensor.rpi_power_status
-      - binary_sensor.shelly1_garage_input
-      - binary_sensor.stefan_working_in_office
-      - binary_sensor.sun_up
-      - binary_sensor.updater
-      - binary_sensor.volvo_zuhause_und_offen
-      - binary_sensor.garagentur
-      - binary_sensor.thermostat_hc1_summer_mode
-      - binary_sensor.thermostat_hc2_summer_mode
-      - binary_sensor.thermostat_hc3_summer_mode
-      - binary_sensor.thermostat_ww_disinfection
-      - binary_sensor.thermostat_ww_charge
-      - binary_sensor.backups_stale
-      - binary_sensor.humidity_eg_buro
-      - binary_sensor.humidity_og_clara
-      - binary_sensor.humidity_og_konstantin
-      - binary_sensor.humidity_og_elternbad
-      - binary_sensor.humidity_og_schlaf
-      - binary_sensor.emsesp
-      - binary_sensor.gas
-      - binary_sensor.roofac
-      - binary_sensor.sleepac
-      - binary_sensor.shelly1_garage
-      - binary_sensor.shelly25_garage
-      - binary_sensor.shellys_keller_pumpe_treppe
-      - binary_sensor.shellys_poolpump
-      - binary_sensor.shellys_wama
-      - sensor.db_size
-      - sensor.hacs
-      - sensor.heating_differential
-      - sensor.last_boot
-      - sensor.load_15m
-      - sensor.load_1m
-      - sensor.load_5m
-      - sensor.memory_use_percent
-      - sensor.processor_temperature
-      - sensor.regen_heute
-      - sensor.swa_fake
-      - sensor.swaweathermetno
-      - sensor.uptime
-      - switch.shelly1_garage
-      - switch.shellys_keller_pumpe_treppe
-      - switch.shellys_wama
-      - sensor.anna_temperature
-      - sensor.anna_bad_temperature
-      - sensor.eg_freezer_temperature
-      - sensor.eg_wohnzimmer_glas_tuer_temperature
-      - sensor.fenster_eg_gaeste_temperature
-      - sensor.haustur_temperature
-      - sensor.kellertur_temperature
-      - sensor.stefan_ost_temperature
-      - sensor.stefan_west_temperature
-      - sensor.og_clara_temperature
-      - binary_sensor.iphone_focus
-      - binary_sensor.doorbell_pressed
-      - binary_sensor.iphone_focus
+      - climate
     include_entities:
       - script.haustur_offnen
-      - cover.eltern_schlafzimmer
-      - cover.shelly25_og_clara
-      - cover.shelly25_dg_anna_rolladen
-      - cover.shelly25_og_elternbad
-      - cover.shelly25_og_schlafli
-      - cover.shelly25_og_schlafre
-      - climate.roofac
-      - climate.sleepac
       - script.buro
+      - switch.wake_up_thinkpad_t430
+      - switch.shellyp_dg_stefan_tisch
+      - switch.shellys_silvia
+      - switch.wintergarten
+    exclude_entities:
+      - climate.hvac_climate_system
+      - cover.frunk
+      - cover.trunk
+      - cover.windows
+      - cover.charger_door      
   entity_config:
     cover.eltern_schlafzimmer:
       name: Schlafzimmer
@@ -175,3 +40,5 @@
       name: Klimaanlage
     script.buro:
       name: Büro
+    cover.shelly25_og_clara:
+      name: Konstantin Rolladen
