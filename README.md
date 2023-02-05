@@ -302,6 +302,7 @@ mode: single
 * integrated using https://github.com/fwestenberg/reolink_dev/
   * provides switches to turn functions on and off
   * the key for me to get motion detection running, was to make sure that I could access HA locally with HTTP
+  * make sure that the camera has a normal user (not just admin)
 * processing the image is done thru motioneye like above
   * the camera has two streams
     * Clear (high-res) at 2560x1920, 20 fps, 4096, 2
