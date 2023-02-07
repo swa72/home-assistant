@@ -779,3 +779,18 @@
       friendly_name: "Wasser Garten"
       unit_of_measurement: "m3"
       value_template: "{{ states('input_number.watermeter_garden') | round(3) }}"
+#
+# for badge view
+# 
+- platform: template
+  sensors:
+    dwdoutdoortemp:
+      friendly_name: "Outdoor"
+      unit_of_measurement: "°C"
+      value_template: "{{ state_attr('weather.dwd_weather_heidelberg', 'temperature') | round(0) }}"
+- platform: template
+  sensors:
+    teslarange:
+      friendly_name: "Range"
+      unit_of_measurement: "km"
+      value_template: "{{ states('sensor.range') | round(0) }}"
