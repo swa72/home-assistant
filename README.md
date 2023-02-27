@@ -295,6 +295,7 @@ mode: single
 * The stream is in turn provided by motionEye (see configuration of the camera, section "Video Streaming")
   <img src="./image/motioneye.png" width="400">
 * to get the PTZ controls of the camera to work, I integrated the camera also thru the ONVIF integration
+* snapshots are located under `\\192.168.178.83\share\motioneye\Camera2`
 
 
 # Reolink RLC-511WA camera
