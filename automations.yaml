@@ -2278,7 +2278,7 @@
   condition:
   - condition: numeric_state
     entity_id: counter.silvia
-    above: 90
+    above: 81
   action:
   - service: script.notify_people_who_are_present
     data:
