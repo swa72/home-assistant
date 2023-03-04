@@ -2283,7 +2283,9 @@
   - service: script.notify_people_who_are_present
     data:
       title: Hinweis
-      message: Silvia hat mehr als 90 Espresso zubereitet - bitte reinigen.
+      message: 'Silvia hat mehr als 80 Espresso zubereitet - bitte reinigen. Letzmalig
+        erinnert vor Tagen: {{ (as_timestamp(now()) - as_timestamp(state_attr("automation.notify_people_to_clean_silvia",
+        "last_triggered")) ) | timestamp_custom("%j")| int }}'
   mode: single
 - id: '1672759483746'
   alias: Tesla Wall Charger no longer connected
