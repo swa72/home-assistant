@@ -2278,12 +2278,12 @@
   condition:
   - condition: numeric_state
     entity_id: counter.silvia
-    above: 81
+    above: 61
   action:
   - service: script.notify_people_who_are_present
     data:
       title: Hinweis
-      message: 'Silvia hat mehr als 80 Espresso zubereitet - bitte reinigen. Letzmalig
+      message: 'Silvia hat mehr als 60 Espresso zubereitet - bitte reinigen. Letzmalig
         erinnert vor Tagen: {{ (as_timestamp(now()) - as_timestamp(state_attr("automation.notify_people_to_clean_silvia",
         "last_triggered")) ) | timestamp_custom("%j")| int }}'
   mode: single
