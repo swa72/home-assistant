@@ -193,6 +193,15 @@ group:
       - sensor.multi_og_aussen_pressure
       - sensor.multi_og_aussen_temperature
       - sensor.og_aussen_battery_level
+# Misc
+      - sensor.system_tx_reads
+      - sensor.system_tx_writes
+      - switch.livingroom_autofocus
+      - switch.livingroom_ir_lamp
+      - switch.livingroom_wiper
+      - update.gas3_firmware
+      - update.roofac_firmware
+      - update.sleepac_firmware
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
