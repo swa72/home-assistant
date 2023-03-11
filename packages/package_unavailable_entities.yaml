@@ -202,6 +202,12 @@ group:
       - update.gas3_firmware
       - update.roofac_firmware
       - update.sleepac_firmware
+      - sensor.solar_cylinder_pump_modulation_ps5
+      - sensor.solar_maximum_tank_temperature
+      - sensor.solar_pump_modulation_ps1
+      - sensor.solar_pump_working_time
+      - sensor.solar_tank_bottom_temperature_ts2
+# 
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
