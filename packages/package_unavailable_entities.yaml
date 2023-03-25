@@ -40,6 +40,7 @@ group:
       - binary_sensor.updater # always unknown after restart
 # swa custom stuff
       - binary_sensor.731a166f_25d1d5bb
+      - binary_sensor.731a166f_25d1d5bb_browser_charging
       - binary_sensor.731a166f_25d1d5bb_browser_dark_mode
       - binary_sensor.731a166f_25d1d5bb_browser_fullykiosk
       - binary_sensor.9456b1a3_208a3c42
@@ -58,10 +59,14 @@ group:
       - climate.dg_stefan
       - device_tracker.android_2
       - device_tracker.anna_t430
+      - device_tracker.apple_watch_von_julia
+      - device_tracker.apple_watch_von_julia_2
+      - device_tracker.apple_watch_von_julia_4
       - device_tracker.galaxy_a53_5g
       - device_tracker.galaxy_tab_s6_lite
       - device_tracker.honor_7x_715d683076b6dc72
       - device_tracker.ipad_von_clausw
+      - device_tracker.ipadbwipro11_2
       - device_tracker.iphone
       - device_tracker.iphone_2
       - device_tracker.iphone_2_2
@@ -69,9 +74,20 @@ group:
       - device_tracker.iphone_von_anna
       - device_tracker.iphone_von_anna_2
       - device_tracker.iphone_von_anna_2_2
+      - device_tracker.iphone_von_anna_2_3
+      - device_tracker.iphone_von_anna_2_4
+      - device_tracker.iphone_von_anna_2_5
       - device_tracker.iphone_von_anna_6
       - device_tracker.iphonebwi
+      - device_tracker.iphonebwi12_3
+      - device_tracker.iphoneclarase2020
+      - device_tracker.iphoneclarase2020_2
+      - device_tracker.jpad_air_2_2
       - device_tracker.jpad_air_2_3
+      - device_tracker.jpad_air_2_5
+      - device_tracker.jphone_3
+      - device_tracker.jphone_4
+      - device_tracker.jphone_6
       - device_tracker.laptop_1qnmles6
       - device_tracker.pc_192_168_178_38
       - device_tracker.pc_192_168_178_41
@@ -87,6 +103,7 @@ group:
       - device_tracker.s20_von_gerd
       - device_tracker.samsung_galaxy_s7
       - device_tracker.shellys_poolpump
+      - device_tracker.stefans_ipad_3
       - device_tracker.t430_lan
       - device_tracker.t430_vm_wiso
       - light.731a166f_25d1d5bb_screen
@@ -99,6 +116,7 @@ group:
       - media_player.fire_tablet_media_player
       - media_player.stefans_2_echo_dot
       - person.tablet
+      - sensor.731a166f_25d1d5bb_browser_battery
       - sensor.731a166f_25d1d5bb_browser_height
       - sensor.731a166f_25d1d5bb_browser_path
       - sensor.731a166f_25d1d5bb_browser_user
@@ -111,17 +129,35 @@ group:
       - sensor.9456b1a3_208a3c42_browser_useragent
       - sensor.9456b1a3_208a3c42_browser_visibility
       - sensor.9456b1a3_208a3c42_browser_width
+      - sensor.apple_watch_von_julia_battery_state
+      - sensor.apple_watch_von_julia_battery_state_2
+      - sensor.apple_watch_von_julia_battery_state_4
       - sensor.boiler_dhw_active_time
       - sensor.boiler_dhw_current_tap_water_flow
       - sensor.boiler_dhw_set_temperature
       - sensor.boiler_dhw_starts
       - sensor.boiler_dhw_type
       - sensor.hacs
+      - sensor.ipadbwipro11_battery_state_2
       - sensor.iphone_battery_state
       - sensor.iphone_von_anna_2_battery_state
+      - sensor.iphone_von_anna_2_battery_state_3
+      - sensor.iphone_von_anna_2_battery_state_4
+      - sensor.iphone_von_anna_2_battery_state_5
       - sensor.iphone_von_anna_battery_state_2
       - sensor.iphone_von_konstantin_battery_state
+      - sensor.iphone_von_konstantin_battery_state_2
+      - sensor.iphonebwi12_battery_state_2
+      - sensor.iphoneclarase2020_battery_state
+      - sensor.iphoneclarase2020_battery_state_2
+      - sensor.jpad_air_2_battery_state
+      - sensor.jpad_air_2_battery_state_2
+      - sensor.jpad_air_2_battery_state_4
+      - sensor.jphone_battery_state_2
+      - sensor.jphone_battery_state_3
+      - sensor.jphone_battery_state_5
       - sensor.solcast_api_remaining
+      - sensor.stefans_ipad_battery_state_2
       - sensor.stefans_ipad_geocoded_location
       - switch.android_2_internet_access
       - switch.anna_t430_internet_access
@@ -154,8 +190,6 @@ group:
       - switch.swajpad_internet_access
       - switch.t430_lan_internet_access
       - switch.t430_vm_wiso_internet_access
-      - binary_sensor.731a166f_25d1d5bb_browser_charging
-      - sensor.731a166f_25d1d5bb_browser_battery
 # pool stuff 
       - switch.shellys_poolpump_internet_access
       - switch.pool_internet_access
