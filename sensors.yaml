@@ -787,10 +787,10 @@
     dwdoutdoortemp:
       friendly_name: "Outdoor"
       unit_of_measurement: "°C"
-      value_template: "{{ state_attr('weather.dwd_weather_heidelberg', 'temperature') | round(0) }}"
+      value_template: "{{ state_attr('weather.dwd_weather_heidelberg', 'temperature') | float(default=0) | round(0) }}"
 - platform: template
   sensors:
     teslarange:
       friendly_name: "Range"
       unit_of_measurement: "km"
-      value_template: "{{ states('sensor.range') | round(0) }}"
+      value_template: "{{ states('sensor.range') | float(default=0) | round(0) }}"
