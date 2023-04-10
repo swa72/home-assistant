@@ -76,10 +76,18 @@
       friendly_name: shelly25_og_elternbad
       supported_features: 15
       state: open
+    cover.shelly25_og_schlafre:
+      current_position: 15
+      device_class: shutter
+      friendly_name: shelly25_og_schlafre
+      supported_features: 15
+      state: open
   metadata:
     cover.shelly25_og_schlafli:
       entity_only: true
     cover.shelly25_og_elternbad:
+      entity_only: true
+    cover.shelly25_og_schlafre:
       entity_only: true
 - id: '1659181983434'
   name: DG Stefan Fastdunkel
