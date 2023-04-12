@@ -38,7 +38,7 @@ group:
     entities:
       - sensor.unavailable_entities # prevent template loop warnings?
       - binary_sensor.updater # always unknown after restart
-# swa custom stuff
+      # swa custom stuff
       - binary_sensor.731a166f_25d1d5bb
       - binary_sensor.731a166f_25d1d5bb_browser_charging
       - binary_sensor.731a166f_25d1d5bb_browser_dark_mode
@@ -190,7 +190,7 @@ group:
       - switch.swajpad_internet_access
       - switch.t430_lan_internet_access
       - switch.t430_vm_wiso_internet_access
-# pool stuff 
+      # pool stuff
       - switch.shellys_poolpump_internet_access
       - switch.pool_internet_access
       - sensor.temp
@@ -211,23 +211,23 @@ group:
       - sensor.shellys_poolpump_power
       - sensor.ph
       - switch.shellys_poolpump
-# alexa stuff
+      # alexa stuff
       - sensor.this_device_next_alarm
       - sensor.this_device_next_reminder
       - sensor.this_device_next_timer
-# indoor cam
+      # indoor cam
       - binary_sensor.livingroom_cell_motion_detection
-# tesla integration
+      # tesla integration
       - sensor.arrival_time
       - sensor.distance_to_arrival
       - sensor.time_charge_complete
       - device_tracker.destination_location_tracker
-# aussen temp
+      # aussen temp
       - sensor.multi_og_aussen_humidity
       - sensor.multi_og_aussen_pressure
       - sensor.multi_og_aussen_temperature
       - sensor.og_aussen_battery_level
-# Misc
+      # Misc
       - sensor.system_tx_reads
       - sensor.system_tx_writes
       - switch.livingroom_autofocus
@@ -241,7 +241,8 @@ group:
       - sensor.solar_pump_modulation_ps1
       - sensor.solar_pump_working_time
       - sensor.solar_tank_bottom_temperature_ts2
-# 
+      - siren.garagecam_siren
+#
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:

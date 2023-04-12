@@ -422,5 +422,5 @@ rest:
       - name: "Tesla last charge session"
         value_template: "{{ value_json.session_energy_wh }}"
         device_class: energy
-        state_class: measurement
+        state_class: total_increasing
         unit_of_measurement: "Wh"
