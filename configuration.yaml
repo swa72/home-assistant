@@ -157,6 +157,7 @@ recorder:
   exclude:
     entity_globs:
       - sensor.adguard*
+      - sensor.watchman*
       - binary_sensor.*overheating
       - binary_sensor.*overpowering
       - device_tracker.*
@@ -358,17 +359,17 @@ spotcast:
 #
 #
 #
-panel_custom:
-  - name: Server Controls
-    url_path: config/server_control # url_path needs to be unique for each panel_custom config
-    sidebar_title: Server Controls
-    sidebar_icon: mdi:server # https://materialdesignicons.com/
-    module_url: /local/panel-redirect.js # 'local' is '/config/www/'
-  - name: Logs
-    url_path: config/logs
-    sidebar_title: Logs
-    sidebar_icon: mdi:math-log
-    module_url: /local/panel-redirect.js
+#panel_custom:
+#  - name: Server Controls
+#    url_path: config/server_control # url_path needs to be unique for each panel_custom config
+#    sidebar_title: Server Controls
+#    sidebar_icon: mdi:server # https://materialdesignicons.com/
+#    module_url: /local/panel-redirect.js # 'local' is '/config/www/'
+#  - name: Logs
+#    url_path: config/logs
+#    sidebar_title: Logs
+#    sidebar_icon: mdi:math-log
+#    module_url: /local/panel-redirect.js
   # - name: Basement
   # url_path: lovelace/keller
   # sidebar_title: -1
