@@ -242,7 +242,14 @@ group:
       - sensor.solar_pump_working_time
       - sensor.solar_tank_bottom_temperature_ts2
       - siren.garagecam_siren
-#
+      - sensor.sk_heidelberg_deaths
+      - sensor.sk_heidelberg_recovered
+      - sensor.sk_heidelberg_weekincidence
+      - sensor.sk_heidelberg_casesper100k
+      - sensor.sk_heidelberg_newcases
+      - sensor.sk_heidelberg_newdeaths
+      - sensor.sk_heidelberg_newrecovered
+      - sensor.sk_heidelberg_count
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
