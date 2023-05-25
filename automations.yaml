@@ -2303,3 +2303,31 @@
       title: Hinweis
       message: Die Tesla Wallbox ist nicht mehr in Nutzung.
   mode: single
+- id: '1685033987732'
+  alias: Garage button in iOS
+  description: garage button
+  trigger:
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: Garage
+  condition: []
+  action:
+  - service: cover.open_cover
+    data: {}
+    target:
+      entity_id: cover.garage_door
+  mode: single
+- id: '1685034600317'
+  alias: Haustur iOS
+  description: Haustur iOS
+  trigger:
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: Haustur
+  condition: []
+  action:
+  - service: script.haustur_offnen
+    data: {}
+  mode: single

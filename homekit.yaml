@@ -16,6 +16,8 @@
       - switch.wintergarten
     exclude_entities:
       - climate.hvac_climate_system
+      - scene.dg_stefan_dunkel
+      - scene.dg_stefan_fastdunkel
       - cover.frunk
       - cover.trunk
       - cover.windows

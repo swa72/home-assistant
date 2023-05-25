@@ -425,3 +425,38 @@ rest:
         device_class: energy
         state_class: total_increasing
         unit_of_measurement: "Wh"
+
+# - alias: "garage button"
+  # trigger:
+    # platform: event
+    # event_type: ios.action_fired
+    # event_data:
+      # actionName: garage button
+  # action:
+    # service: cover.open_cover
+    # data:
+      # entity_id:
+        # - cover.garage_door
+
+# ios:
+  # actions:
+    # - name: Fred
+      # background_color: "#000000"
+      # label:
+        # text: "Hello, World"
+        # color: "#ff0000"
+      # icon:
+        # icon: earth
+        # color: "#ffffff"
+
+# automation:
+  # - alias: "Garage button"
+    # initial_state: true
+    # trigger:
+      # - platform: event
+        # event_type: ios.action_fired
+        # event_data:
+          # actionName: "garage button"
+    # action:
+      # - service: cover.open_cover
+        # entity_id: cover.garage_door
