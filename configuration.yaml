@@ -370,31 +370,31 @@ spotcast:
 #    sidebar_title: Logs
 #    sidebar_icon: mdi:math-log
 #    module_url: /local/panel-redirect.js
-  # - name: Basement
-  # url_path: lovelace/keller
-  # sidebar_title: -1
-  # sidebar_icon: mdi:home-floor-negative-1
-  # module_url: /local/panel-redirect.js
-  # - name: Ground Floor
-  # url_path: lovelace/eg
-  # sidebar_title: 0
-  # sidebar_icon: mdi:home-floor-0
-  # module_url: /local/panel-redirect.js
-  # - name: First Floor
-  # url_path: lovelace/og
-  # sidebar_title: 1
-  # sidebar_icon: mdi:home-floor-1
-  # module_url: /local/panel-redirect.js
-  # - name: Second Floor
-  # url_path: lovelace/dg
-  # sidebar_title: 2
-  # sidebar_icon: mdi:home-floor-2
-  # module_url: /local/panel-redirect.js
-  # - name: Einfahrt
-  # url_path: lovelace/outdoor
-  # sidebar_title: Einfahrt
-  # sidebar_icon: mdi:garage-variant
-  # module_url: /local/panel-redirect.js
+# - name: Basement
+# url_path: lovelace/keller
+# sidebar_title: -1
+# sidebar_icon: mdi:home-floor-negative-1
+# module_url: /local/panel-redirect.js
+# - name: Ground Floor
+# url_path: lovelace/eg
+# sidebar_title: 0
+# sidebar_icon: mdi:home-floor-0
+# module_url: /local/panel-redirect.js
+# - name: First Floor
+# url_path: lovelace/og
+# sidebar_title: 1
+# sidebar_icon: mdi:home-floor-1
+# module_url: /local/panel-redirect.js
+# - name: Second Floor
+# url_path: lovelace/dg
+# sidebar_title: 2
+# sidebar_icon: mdi:home-floor-2
+# module_url: /local/panel-redirect.js
+# - name: Einfahrt
+# url_path: lovelace/outdoor
+# sidebar_title: Einfahrt
+# sidebar_icon: mdi:garage-variant
+# module_url: /local/panel-redirect.js
 #
 #
 #
@@ -427,36 +427,40 @@ rest:
         unit_of_measurement: "Wh"
 
 # - alias: "garage button"
-  # trigger:
-    # platform: event
-    # event_type: ios.action_fired
-    # event_data:
-      # actionName: garage button
-  # action:
-    # service: cover.open_cover
-    # data:
-      # entity_id:
-        # - cover.garage_door
+# trigger:
+# platform: event
+# event_type: ios.action_fired
+# event_data:
+# actionName: garage button
+# action:
+# service: cover.open_cover
+# data:
+# entity_id:
+# - cover.garage_door
 
-# ios:
-  # actions:
-    # - name: Fred
-      # background_color: "#000000"
-      # label:
-        # text: "Hello, World"
-        # color: "#ff0000"
-      # icon:
-        # icon: earth
-        # color: "#ffffff"
-
-# automation:
-  # - alias: "Garage button"
-    # initial_state: true
-    # trigger:
-      # - platform: event
-        # event_type: ios.action_fired
-        # event_data:
-          # actionName: "garage button"
-    # action:
-      # - service: cover.open_cover
-        # entity_id: cover.garage_door
+ios:
+  actions:
+    - name: Garage
+      background_color: "#000000"
+      label:
+        text: "Toggle garage"
+        color: "#ff0000"
+      icon:
+        icon: garage_variant
+        color: "#ffffff"
+    - name: Haustuer
+      background_color: "#000000"
+      label:
+        text: "Haustuer offnen"
+        color: "#ff0000"
+      icon:
+        icon: door_open
+        color: "#ffffff"
+    - name: Tesla
+      background_color: "#000000"
+      label:
+        text: "Open trunk"
+        color: "#ff0000"
+      icon:
+        icon: car_electric
+        color: "#ffffff"
