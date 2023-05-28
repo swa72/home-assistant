@@ -441,26 +441,58 @@ rest:
 ios:
   actions:
     - name: Garage
-      background_color: "#000000"
+      background_color: "#555555"
       label:
-        text: "Toggle garage"
-        color: "#ff0000"
+        text: "Garage"
+        color: "#f2f3f4"
       icon:
         icon: garage_variant
-        color: "#ffffff"
+        color: "#f2f3f4"
     - name: Haustuer
-      background_color: "#000000"
+      background_color: "#555555"
       label:
-        text: "Haustuer offnen"
-        color: "#ff0000"
+        text: "Haustür öffnen"
+        color: "#f2f3f4"
       icon:
         icon: door_open
-        color: "#ffffff"
+        color: "#f2f3f4"
     - name: Tesla
-      background_color: "#000000"
+      background_color: "#555555"
       label:
-        text: "Open trunk"
-        color: "#ff0000"
+        text: "Tesla öffnen"
+        color: "#f2f3f4"
       icon:
         icon: car_electric
+        color: "#ffffff"
+    - name: dgoffen
+      background_color: "#555555"
+      label:
+        text: "DG hell"
+        color: "#f2f3f4"
+      icon:
+        icon: home_roof
+        color: "#ffffff"
+    - name: dgvideo
+      background_color: "#555555"
+      label:
+        text: "DG video"
+        color: "#f2f3f4"
+      icon:
+        icon: home_roof
+        color: "#ffffff"
+    - name: szmorgens
+      background_color: "#555555"
+      label:
+        text: "SZ morgens"
+        color: "#f2f3f4"
+      icon:
+        icon: white_balance_sunny
+        color: "#ffffff"
+    - name: szabends
+      background_color: "#555555"
+      label:
+        text: "SZ abends"
+        color: "#f2f3f4"
+      icon:
+        icon: moon_waning_crescent
         color: "#ffffff"
