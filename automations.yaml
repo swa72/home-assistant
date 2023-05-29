@@ -2325,9 +2325,109 @@
   - platform: event
     event_type: ios.action_fired
     event_data:
-      actionName: Haustur
+      actionName: Haustuer
   condition: []
   action:
+  - service: notify.mobile_app_iphonebwi12
+    data:
+      message: haustuer
+    enabled: false
   - service: script.haustur_offnen
     data: {}
+    enabled: true
+  mode: single
+- id: '1685336963150'
+  alias: Tesla button in iOS
+  description: Tesla button in iOS
+  trigger:
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: Tesla
+  condition: []
+  action:
+  - service: notify.mobile_app_iphonebwi12
+    data:
+      message: tesla
+    enabled: false
+  - service: cover.open_cover
+    data: {}
+    target:
+      entity_id: cover.trunk
+  mode: single
+- id: '1685337090913'
+  alias: DGoffen Button in iOS
+  description: DGoffen Button in iOS
+  trigger:
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: dgoffen
+  condition: []
+  action:
+  - service: notify.mobile_app_iphonebwi12
+    data:
+      message: dgoffen
+    enabled: false
+  - service: scene.turn_on
+    target:
+      entity_id: scene.dg_stefan_offen
+    metadata: {}
+  mode: single
+- id: '1685337159213'
+  alias: DGvideo Button in iOS
+  description: DGvideo Button in iOS
+  trigger:
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: dgvideo
+  condition: []
+  action:
+  - service: notify.mobile_app_iphonebwi12
+    data:
+      message: dgvideo
+    enabled: false
+  - service: scene.turn_on
+    target:
+      entity_id: scene.dg_stefan_video
+    metadata: {}
+  mode: single
+- id: '1685337237151'
+  alias: SZmorgens Button in iOS
+  description: SZmorgens Button in iOS
+  trigger:
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: szmorgens
+  condition: []
+  action:
+  - service: notify.mobile_app_iphonebwi12
+    data:
+      message: szmorgens
+    enabled: false
+  - service: scene.turn_on
+    target:
+      entity_id: scene.schlafzimmer_morgen
+    metadata: {}
+  mode: single
+- id: '1685337304628'
+  alias: SZabends Button in iOS
+  description: SZabends Button in iOS
+  trigger:
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: szabends
+  condition: []
+  action:
+  - service: notify.mobile_app_iphonebwi12
+    data:
+      message: szabends
+    enabled: false
+  - service: scene.turn_on
+    target:
+      entity_id: scene.sz_luften_nachts
+    metadata: {}
   mode: single
