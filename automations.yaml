@@ -404,7 +404,7 @@
     entity_id: switch.shellys_poolpump
     domain: switch
   - delay:
-      hours: 5
+      hours: 6
       minutes: 0
       seconds: 0
       milliseconds: 0
