@@ -4,8 +4,8 @@ That itself would not be a problem, but new data is now only received in the new
 Here is an approach to get rid of the problem. You will remove all 
 
 * disable MQTT on the EMS-ESP
-* use MQTT explorer (http://mqtt-explorer.com/), connect to HA's broker and remove everything from homeassistant/*/ems-esp
-* clean HA's entity registry ´.storage/core_entity_registry´, see below
+* use MQTT explorer (http://mqtt-explorer.com/), connect to HA's broker and remove everything from ´´´homeassistant/*/ems-esp´´´
+* clean HA's entity registry ´´´.storage/core_entity_registry´´´, see below
 * restart HA
 * enabled MQTT on the EMS-ESP
 * wait for data to arrive
