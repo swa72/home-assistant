@@ -1,4 +1,4 @@
-## Problem with MQTT
+# Problem with MQTT
 I have noticed a couple of times that my EMS-ESP, MQTT and HA do not play well together. In that case, HA creates numerous copies of already existing entities (you can recognize them with a "_2" postfix.
 That itself would not be a problem, but new data is now only received in the new "_2" entities. However, all my dashboard, energy data or long term stats (Influx) depend on the old entities names.
 Here is an approach to get rid of the problem. You will remove all 
@@ -10,7 +10,7 @@ Here is an approach to get rid of the problem. You will remove all
 * enabled MQTT on the EMS-ESP
 * wait for data to arrive
 
-# Clean HA's entity registry
+## Clean HA's entity registry
 
 This is not for the faint of heart as you will mess around with some of HA's internal data structures.
 
