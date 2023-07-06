@@ -890,7 +890,7 @@
   - choose:
     - conditions:
       - condition: template
-        value_template: '{{ states(''sensor.heating_hc3'') == "ok" and states(''sensor.thermostat_hc3_offset_temperature'')|float
+        value_template: '{{ states(''sensor.heating_hc3'') == "ok" and states(''number.thermostat_hc3_offset_temperature'')|float
           != 0 }}'
       sequence:
       - service: script.heating_change_offset
@@ -900,7 +900,7 @@
           offset: 0
     - conditions:
       - condition: template
-        value_template: '{{ states(''sensor.heating_hc3'') == "too-warm" and states(''sensor.thermostat_hc3_offset_temperature'')|float
+        value_template: '{{ states(''sensor.heating_hc3'') == "too-warm" and states(''number.thermostat_hc3_offset_temperature'')|float
           != -3 }}'
       sequence:
       - service: script.heating_change_offset
@@ -910,7 +910,7 @@
           offset: -3
     - conditions:
       - condition: template
-        value_template: '{{ states(''sensor.heating_hc3'') == "too-cold" and states(''sensor.thermostat_hc3_offset_temperature'')|float
+        value_template: '{{ states(''sensor.heating_hc3'') == "too-cold" and states(''number.thermostat_hc3_offset_temperature'')|float
           != 3 }}'
       sequence:
       - service: script.heating_change_offset
@@ -935,7 +935,7 @@
   - choose:
     - conditions:
       - condition: template
-        value_template: '{{ states(''sensor.heating_hc1'') == "ok" and states(''sensor.thermostat_hc1_offset_temperature'')|float
+        value_template: '{{ states(''sensor.heating_hc1'') == "ok" and states(''number.thermostat_hc1_offset_temperature'')|float
           != 0 }}'
       sequence:
       - service: script.heating_change_offset
@@ -945,7 +945,7 @@
           offset: 0
     - conditions:
       - condition: template
-        value_template: '{{ states(''sensor.heating_hc1'') == "too-warm" and states(''sensor.thermostat_hc1_offset_temperature'')|float
+        value_template: '{{ states(''sensor.heating_hc1'') == "too-warm" and states(''number.thermostat_hc1_offset_temperature'')|float
           != -3 }}'
       sequence:
       - service: script.heating_change_offset
@@ -955,7 +955,7 @@
           offset: -3
     - conditions:
       - condition: template
-        value_template: '{{ states(''sensor.heating_hc1'') == "too-cold" and states(''sensor.thermostat_hc1_offset_temperature'')|float
+        value_template: '{{ states(''sensor.heating_hc1'') == "too-cold" and states(''number.thermostat_hc1_offset_temperature'')|float
           != 3 }}'
       sequence:
       - service: script.heating_change_offset
@@ -984,7 +984,7 @@
   - choose:
     - conditions:
       - condition: template
-        value_template: '{{ states(''sensor.heating_hc2'') == "ok" and states(''sensor.thermostat_hc2_offset_temperature'')|float
+        value_template: '{{ states(''sensor.heating_hc2'') == "ok" and states(''number.thermostat_hc2_offset_temperature'')|float
           != 0 }}'
       sequence:
       - service: script.heating_change_offset
@@ -994,7 +994,7 @@
           offset: 0
     - conditions:
       - condition: template
-        value_template: '{{ states(''sensor.heating_hc2'') == "too-warm" and states(''sensor.thermostat_hc2_offset_temperature'')|float
+        value_template: '{{ states(''sensor.heating_hc2'') == "too-warm" and states(''number.thermostat_hc2_offset_temperature'')|float
           != -3 }}'
       sequence:
       - service: script.heating_change_offset
@@ -1004,7 +1004,7 @@
           offset: -3
     - conditions:
       - condition: template
-        value_template: '{{ states(''sensor.heating_hc2'') == "too-cold" and states(''sensor.thermostat_hc2_offset_temperature'')|float
+        value_template: '{{ states(''sensor.heating_hc2'') == "too-cold" and states(''number.thermostat_hc2_offset_temperature'')|float
           != 3 }}'
       sequence:
       - service: script.heating_change_offset
@@ -1428,7 +1428,7 @@
       - condition: template
         value_template: '{{ states(''sensor.heating_hc2_delta'')|float <= 0.0 }}'
       - condition: template
-        value_template: '{{ states(''sensor.thermostat_hc2_offset_temperature'') !=
+        value_template: '{{ states(''number.thermostat_hc2_offset_temperature'') !=
           ''0'' }}'
       sequence:
       - service: script.heating_change_offset
@@ -2471,4 +2471,52 @@
     data:
       message: N/A
       title: 'Bewässerung beendet: {{ trigger.entity_id }}'
+  mode: single
+- id: '1688653635979'
+  alias: Stefan returned home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - person.stefan
+    from: not_home
+    to: home
+  condition: []
+  action:
+  - alias: q1 Set up variables for the actions
+    variables:
+      action_on: '{{ ''ON_'' ~ context.id }}'
+      action_nothing: '{{ ''NOTHING_'' ~ context.id }}'
+  - alias: q1 Ask a question
+    service: notify.mobile_app_iphonebwi12
+    data:
+      message: Haustür öffnen?
+      data:
+        actions:
+        - action: '{{ action_on }}'
+          title: Ja.
+        - action: '{{ action_nothing }}'
+          title: Nein, danke.
+  - alias: q1 Wait for a response
+    wait_for_trigger:
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ action_on }}'
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ action_nothing }}'
+  - alias: q1 Perform the action
+    choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.event.data.action == action_on}}'
+      sequence:
+      - service: script.haustur_offnen
+        data: {}
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.event.data.action == action_nothing }}'
+      sequence:
   mode: single

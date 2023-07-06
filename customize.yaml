@@ -36,7 +36,7 @@ sensor.solar_energy_today:
   state_class: total_increasing
 sensor.boiler_burner_current_power:
   friendly_name: Boiler Power
-sensor.boiler_selected_flow_temperature:
+number.boiler_selected_flow_temperature:
   friendly_name: Boiler Flow
 sensor.multi_keller_wasch_humidity:
   friendly_name: Wasch

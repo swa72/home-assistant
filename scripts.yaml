@@ -611,26 +611,26 @@ heating_set_room_temp_high:
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"seltemp","data":{{states(''sensor.thermostat_hc1_comfort_temperature'')|int}},
+      payload: '{"cmd":"seltemp","data":{{states(''number.thermostat_hc1_comfort_temperature'')|int}},
         "id":1}'
       qos: '1'
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"seltemp","data":{{states(''sensor.thermostat_hc2_comfort_temperature'')|int}},
+      payload: '{"cmd":"seltemp","data":{{states(''number.thermostat_hc2_comfort_temperature'')|int}},
         "id":2}'
       qos: '1'
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"seltemp","data":{{states(''sensor.thermostat_hc3_comfort_temperature'')|int}},
+      payload: '{"cmd":"seltemp","data":{{states(''number.thermostat_hc3_comfort_temperature'')|int}},
         "id":3}'
       qos: '1'
   - service: logbook.log
     data:
       entity_id: script.heating_set_room_temp_high
-      message: Setting heating circuits to {{states('sensor.thermostat_hc1_comfort_temperature')|int}}°C
-        and {{states('sensor.thermostat_hc2_comfort_temperature')|int}}°C and {{states('sensor.thermostat_hc3_comfort_temperature')|int}}°C
+      message: Setting heating circuits to {{states('number.thermostat_hc1_comfort_temperature')|int}}°C
+        and {{states('number.thermostat_hc2_comfort_temperature')|int}}°C and {{states('number.thermostat_hc3_comfort_temperature')|int}}°C
         at {{now().strftime("%Y-%m-%d %H:%M")}}
       name: script.heating_set_room_temp_high
   - delay:
@@ -639,10 +639,10 @@ heating_set_room_temp_high:
       seconds: 0
       milliseconds: 0
   - condition: template
-    value_template: "{{ states('sensor.thermostat_hc1_selected_room_temperature')|
-      float != states('sensor.thermostat_hc1_comfort_temperature')|float or\n   states('sensor.thermostat_hc2_selected_room_temperature')|
-      float != states('sensor.thermostat_hc2_comfort_temperature')|float or \n   states('sensor.thermostat_hc3_selected_room_temperature')|
-      float != states('sensor.thermostat_hc3_comfort_temperature')|float }}"
+    value_template: "{{ states('number.thermostat_hc1_selected_room_temperature')|
+      float != states('number.thermostat_hc1_comfort_temperature')|float or\n   states('number.thermostat_hc2_selected_room_temperature')|
+      float != states('number.thermostat_hc2_comfort_temperature')|float or \n   states('number.thermostat_hc3_selected_room_temperature')|
+      float != states('number.thermostat_hc3_comfort_temperature')|float }}"
   - service: script.notify_stefan_heating
     data:
       title: Heating
@@ -654,20 +654,20 @@ heating_set_room_temp_low:
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"seltemp","data":{{states(''sensor.thermostat_hc1_eco_temperature'')|int}},
+      payload: '{"cmd":"seltemp","data":{{states(''number.thermostat_hc1_eco_temperature'')|int}},
         "id":1}'
       qos: '1'
   - service: mqtt.publish
     data:
       topic: ems-esp/thermostat
-      payload: '{"cmd":"seltemp","data":{{states(''sensor.thermostat_hc2_eco_temperature'')|int}},
+      payload: '{"cmd":"seltemp","data":{{states(''number.thermostat_hc2_eco_temperature'')|int}},
         "id":2}'
       qos: '1'
   - service: logbook.log
     data:
       entity_id: script.heating_set_room_temp_low
-      message: Setting heating circuits to {{states('sensor.thermostat_hc1_eco_temperature')|int}}°C
-        and {{states('sensor.thermostat_hc2_eco_temperature')|int}}°C at {{now().strftime("%Y-%m-%d
+      message: Setting heating circuits to {{states('number.thermostat_hc1_eco_temperature')|int}}°C
+        and {{states('number.thermostat_hc2_eco_temperature')|int}}°C at {{now().strftime("%Y-%m-%d
         %H:%M")}}
       name: script.heating_set_room_temp_low
   - delay:
@@ -676,9 +676,9 @@ heating_set_room_temp_low:
       seconds: 0
       milliseconds: 0
   - condition: template
-    value_template: "{{ states('sensor.thermostat_hc1_selected_room_temperature')|
-      float != states('sensor.thermostat_hc1_eco_temperature')|float or\n   states('sensor.thermostat_hc2_selected_room_temperature')|
-      float != states('sensor.thermostat_hc2_eco_temperature')|float }}"
+    value_template: "{{ states('number.thermostat_hc1_selected_room_temperature')|
+      float != states('number.thermostat_hc1_eco_temperature')|float or\n   states('number.thermostat_hc2_selected_room_temperature')|
+      float != states('number.thermostat_hc2_eco_temperature')|float }}"
   - service: script.notify_stefan_heating
     data:
       title: Heating
@@ -758,7 +758,7 @@ heating_change_offset:
       seconds: 0
       milliseconds: 0
   - condition: template
-    value_template: '{{ states(''sensor.thermostat_hc'' ~ circuit ~ ''_offset_temperature'')|float
+    value_template: '{{ states(''number.thermostat_hc'' ~ circuit ~ ''_offset_temperature'')|float
       != offset}}'
   - service: logbook.log
     data:
