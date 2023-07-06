@@ -12,7 +12,7 @@ Here is an approach to get rid of the problem. You will remove all
 
 ## Clean HA's entity registry
 
-This is not for the faint of heart as you will mess around with some of HA's internal data structures.
+This is not for the faint of heart as you will mess around with some of HA's internal data structures. Backup data before.
 
 * copy ```.storage/core_entity_registry``` from your server to another place
 * adapt files names (and other stuff) in the below python code and run it. It will create a new file where all relevant entities are removed
