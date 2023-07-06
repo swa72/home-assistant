@@ -11,3 +11,78 @@ Here is an approach to get rid of the problem. You will remove all
 * wait for data to arrive
 
 # Clean HA's entity registry
+
+This is not for the faint of heart as you will mess around with some of HA's internal data structures.
+
+* copy ```.storage/core_entity_registry``` from your server to another place
+* adapt files names (and other stuff) in the below python code and run it. It will create a new file where all relevant entities are removed
+* copy the newly created file back to your server (with the name ```.storage/core_entity_registry```)
+
+
+```python
+# install Anaconda
+# run "Anaconda Navigator"
+# launch "jupyter" app
+# navigate to some folder and create new python notebook
+# save notebook to said folder
+# hit Shift-Enter to execute code
+
+import json
+import re
+
+# open file, must be in the same folder as the jupyter notebook
+f=open('core.entity_registry')
+
+#  returns JSON object as a dictionary
+data = json.load(f)
+
+# create a new dic
+new_entities = []
+
+# go thru all entities and add the ones that DO NOT match the regexp to the new dic
+for item in data["data"]["entities"]:
+# thermostat
+# boiler
+# mixer    
+# solar    
+# system
+    if not re.match ("climate.thermostat_hc.*", item['entity_id']) and \
+        not re.match ("number.thermostat_.*", item['entity_id']) and \
+        not re.match ("select.thermostat_.*", item['entity_id']) and \
+        not re.match ("sensor.id_2", item['entity_id']) and \
+        not re.match ("sensor.thermostat_.*", item['entity_id']) and \
+        not re.match ("switch.thermostat_.*", item['entity_id']) and \
+        not re.match ("binary_sensor.boiler_.*", item['entity_id']) and \
+        not re.match ("number.boiler_.*", item['entity_id']) and \
+        not re.match ("select.boiler_.*", item['entity_id']) and \
+        not re.match ("sensor.boiler_.*", item['entity_id']) and \
+        not re.match ("sensor.id", item['entity_id']) and \
+        not re.match ("switch.boiler_.*", item['entity_id']) and \
+        not re.match ("binary_sensor.mixer_.*", item['entity_id']) and \
+        not re.match ("number.mixer_hc.*", item['entity_id']) and \
+        not re.match ("number.mixer_ww.*", item['entity_id']) and \
+        not re.match ("sensor.mixer_.*", item['entity_id']) and \
+        not re.match ("switch.mixer_hc.*", item['entity_id']) and \
+        not re.match ("binary_sensor.solar.*", item['entity_id']) and \
+        not re.match ("number.solar_.*", item['entity_id']) and \
+        not re.match ("select.solar_.*", item['entity_id']) and \
+        not re.match ("sensor.id_3", item['entity_id']) and \
+        not re.match ("sensor.solar_.*", item['entity_id']) and \
+        not re.match ("switch.solar_.*", item['entity_id']) and \
+        not re.match ("binary_sensor.system_.*", item['entity_id']) and \
+        not re.match ("sensor.system_.*", item['entity_id']):
+            # prettyline = json.dumps(item,indent=2)
+            # print(prettyline)
+            new_entities.append(item)
+
+# save new list to dictionary
+data["data"]["entities"] = new_entities
+
+# write the new file
+with open('core.entity_registry-new', 'w') as outfile:
+    json.dump(data, outfile, indent=2)
+
+# clean up
+f.close()
+outfile.close()
+```
