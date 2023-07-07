@@ -176,6 +176,7 @@ recorder:
       #      - sensor.iphone_von_anna_info
       - sensor.smlreaderdeviceid
       - sensor.smlreadermanufacturer
+      - sensor.smlreadertotalenergyconsumption
       - sensor.smlreaderpower
       - sensor.roofac_wifi_signal
       - sensor.smlreaderpower
