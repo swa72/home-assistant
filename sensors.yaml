@@ -43,17 +43,12 @@
       unit_of_measurement: "degrees"
       value_template: "{{ state_attr('sun.sun', 'elevation') }}"
     #
-    # fake sensor
-    #
-    swa_fake:
-      friendly_name: Fake sensor
-      value_template: "off"
-    #
     #
     #
     regen_heute:
       friendly_name: met.no Precipitation
       value_template: "{{ state_attr('weather.home', 'forecast')[0].precipitation }}"
+
 #
 # breaking change - moved to UI
 #
@@ -462,121 +457,6 @@
 #
 - platform: template
   sensors:
-    rel_humidity:
-      friendly_name: "Relative humidity outside"
-      unit_of_measurement: "%"
-      value_template: "{{ states('sensor.multi_og_aussen_humidity') | float(default=0) }}"
-    dewpoint_outside:
-      unit_of_measurement: "°C"
-      value_template: >-
-        {% set h, t = states('sensor.rel_humidity') | float, states('sensor.thermostat_damped_outdoor_temperature') %}
-        {% if not h or t == 'unknown' -%}
-         'unknown'
-        {%- else %}
-        {% set t = t | float(default=0) %}
-        {% set h = h | float(default=0) %}
-        {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
-        {% endif %}
-    dewpoint_basement:
-      unit_of_measurement: "°C"
-      value_template: >-
-        {% set h, t = states('sensor.multi_keller_gross_humidity') | float, states('sensor.multi_keller_gross_temperature') %}
-        {% if not h or t == 'unknown' -%}
-         'unknown'
-        {%- else %}
-        {% set t = t | float(default=0) %}
-        {% set h = h | float(default=0) %}
-        {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
-        {% endif %}
-    dew_delta_ok:
-      value_template: "{{ states('sensor.dewpoint_basement')|float(default=0) - states('sensor.dewpoint_outside')|float(default=0) > states('input_number.dew_delta')|float(default=0) }}"
-    dew_humidity_ok:
-      value_template: "{{ states('sensor.multi_keller_gross_humidity')|float(default=0) > states('input_number.dew_humidity_no_fan')|float(default=0) }}"
-    dew_temp_ok:
-      value_template: "{{ states('sensor.multi_keller_gross_temperature')|float(default=0) > states('input_number.dew_temp_no_fan')|float(default=0) }}"
-    hum_abs_basement:
-      value_template: >-
-        {% set h, t = states('sensor.multi_keller_gross_humidity') | float, states('sensor.multi_keller_gross_temperature') %}
-        {% if not h or t == 'unknown' -%}
-          'unknown'
-        {%- else %}
-        {% set t = t | float(default=0) %}
-        {{ (h*6.112*2.1674*e**((t*17.67)/(t+243.5))/(t+273.15))|round(2) }}
-        {% endif %}
-      unit_of_measurement: "g/m³"
-      friendly_name: "Absolute humidity basement"
-    dew_difference:
-      unit_of_measurement: "°C"
-      value_template: "{{ (states('sensor.dewpoint_basement')|float(default=0) - states('sensor.dewpoint_outside')|float(default=0)) | round(2) }}"
-    #
-    #
-    #
-    dew_eg_buro:
-      unit_of_measurement: "°C"
-      value_template: >-
-        {% set h, t = states('sensor.multi_eg_buro_humidity') | float, states('sensor.multi_eg_buro_temperature') %}
-        {% if not h or t == 'unknown' -%}
-         'unknown'
-        {%- else %}
-        {% set t = t | float(default=0) %}
-        {% set h = h | float(default=0) %}
-        {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
-        {% endif %}
-    dew_og_schlaf:
-      unit_of_measurement: "°C"
-      value_template: >-
-        {% set h, t = states('sensor.multi_og_schlaf_humidity') | float, states('sensor.multi_og_schlaf_temperature') %}
-        {% if not h or t == 'unknown' -%}
-         'unknown'
-        {%- else %}
-        {% set t = t | float(default=0) %}
-        {% set h = h | float(default=0) %}
-        {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
-        {% endif %}
-    dew_og_elternbad:
-      unit_of_measurement: "°C"
-      value_template: >-
-        {% set h, t = states('sensor.multi_og_elternbad_humidity') | float, states('sensor.multi_og_elternbad_temperature') %}
-        {% if not h or t == 'unknown' -%}
-         'unknown'
-        {%- else %}
-        {% set t = t | float(default=0) %}
-        {% set h = h | float(default=0) %}
-        {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
-        {% endif %}
-    dew_og_konstantin:
-      unit_of_measurement: "°C"
-      value_template: >-
-        {% set h, t = states('sensor.multi_og_konstantin_humidity') | float, states('sensor.multi_og_konstantin_temperature') %}
-        {% if not h or t == 'unknown' -%}
-         'unknown'
-        {%- else %}
-        {% set t = t | float(default=0) %}
-        {% set h = h | float(default=0) %}
-        {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
-        {% endif %}
-    dew_og_clara:
-      unit_of_measurement: "°C"
-      value_template: >-
-        {% set h, t = states('sensor.multi_og_clara_humidity') | float, states('sensor.multi_og_clara_temperature') %}
-        {% if not h or t == 'unknown' -%}
-         'unknown'
-        {%- else %}
-        {% set t = t | float(default=0) %}
-        {% set h = h | float(default=0) %}
-        {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
-        {% endif %}
-    dew_og_kinderbad:
-      unit_of_measurement: "°C"
-      value_template: >-
-        {% set h, t = states('sensor.multi_og_kinderbad_humidity') | float, states('sensor.multi_og_kinderbad_temperature') %}
-        {% if not h or t == 'unknown' -%}f
-         'unknown'
-        {%- else %}
-        {% set t = t | float(default=0) %}
-        {% set h = h | float(default=0) %}
-        {{ (243.04*(log(h/100)+((17.625*t)/(243.04+t)))/(17.625-log(h/100)-((17.625*t)/(243.04+t))))|round(2) }}
-        {% endif %}
     #
     #
     dew_eg_buro_open_window:

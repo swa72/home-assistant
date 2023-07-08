@@ -1,0 +1,111 @@
+#
+# 
+#
+substitutions:
+  name: water
+  friendly_name: ${name}
+  # imp/kWh rate #
+  pulse_rate: '5000'
+  pulse_pin: GPIO12
+
+esphome:
+  name: ${name}
+  platform: ESP32
+  board: esp-wrover-kit
+
+wifi:
+  ssid: !secret wlan_name
+  password: !secret wlan_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "${friendly_name} hotspot"
+    password: "12345678"
+
+captive_portal:
+
+# Enable logging
+logger:
+  # ESP8266 only - disable serial port logging, as the HeatPump component
+  # needs the sole hardware UART on the ESP8266
+  # baud_rate: 0
+
+# Enable Home Assistant API
+api:
+  reboot_timeout: 120s
+
+ota:
+
+# Enable Web server.
+web_server:
+  port: 80
+
+  # Sync time with Home Assistant.
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+# Text sensors with general information.
+text_sensor:
+  # Expose ESPHome version as sensor.
+  - platform: version
+    name: ${name} ESPHome Version
+  # Expose WiFi information as sensors.
+  - platform: wifi_info
+    ip_address:
+      name: ${name} IP
+    ssid:
+      name: ${name} SSID
+    bssid:
+      name: ${name} BSSID
+
+# Sensors with general information.
+sensor:
+  # Uptime sensor.
+  - platform: uptime
+    name: ${name} Uptime
+
+# WiFi Signal sensor.
+  - platform: wifi_signal
+    name: ${name} WiFi Signal
+    update_interval: 60s
+
+#  meter
+- platform: pulse_counter
+    pin: GPIO12
+    update_interval : 6s
+    name: "water pulse"
+    id: water_pulse
+
+- platform: pulse_meter
+    pin: GPIO12
+    name: "Water Pulse Meter"
+    unit_of_measurement: "liter/min"
+    icon: "mdi:water"
+    total:
+      name: "Water Total"
+      unit_of_measurement: "liter"
+
+- platform: pulse_meter
+    pin: GPIO12
+    name: "Water Pulse Meter"
+    unit_of_measurement: "liter/min"
+    icon: "mdi:water"
+    total:
+      name: "Water Meter Total"
+      unit_of_measurement: "m³"
+      id: water_meter_total
+      accuracy_decimals: 3
+      device_class: water
+      state_class: total_increasing
+      filters:
+        - multiply: 0.001
+
+- platform: template
+    name: "Water Usage Liter"
+    id: water_flow_rate
+    accuracy_decimals: 1
+    unit_of_measurement: "l/min"
+    icon: "mdi:water"
+    lambda: return (id(water_pulse).state * 10);
+    update_interval: 6s

@@ -11,25 +11,22 @@ template:
   - sensor:
       - name: "Unavailable Entities"
         unique_id: unavailable_entities
-        icon: "{{ 'mdi:alert-circle' if states('sensor.unavailable_entities')|int(0) > 0 else 'mdi:check-circle' }}"
-        unit_of_measurement: entities
+        icon: "{{ iif(states(this.entity_id)|int(-1) > 0,'mdi:alert-circle','mdi:check-circle') }}"
         state: >
-          {% if state_attr('sensor.unavailable_entities','entity_id') != none %}
-            {{ state_attr('sensor.unavailable_entities','entity_id')|count }}
-          {% endif %}
+          {% set entities = state_attr(this.entity_id,'entity_id') %}
+          {{ entities|count if entities != none else none }}
+        state_class: measurement
         attributes:
           entity_id: >
-            {% if state_attr('group.ignored_unavailable_entities','entity_id') != none %}
-              {% set ignore_seconds = 60 %}
-              {% set ignore_ts = (now().timestamp() - ignore_seconds)|as_datetime %}
-              {% set entities = states|rejectattr('domain','in',['group','button'])|selectattr('state','in',['unavailable','unknown','none'])|list %}
-              {% set buttons = states.button|selectattr('state','eq','unavailable')|list %}
-              {{ (entities + buttons)
-                |rejectattr('entity_id','in',state_attr('group.ignored_unavailable_entities','entity_id'))
-                |rejectattr('entity_id', 'search', '(sensor.browser_|media_player.browser_|light.browser_|iphone6|hp_laserjet_200|binary_sensor.boiler_ww_|sensor.stefan_s_2nd_fire_next|sensor.stefans_echo_dot_next)')
+            {% set ignore_seconds = 60 %}
+            {% set ignored = state_attr('group.ignored_unavailable_entities','entity_id') %}
+            {% set ignore_ts = (now().timestamp() - ignore_seconds)|as_datetime %}
+            {% set entities = states|rejectattr('domain','eq','group')
                 |rejectattr('last_changed','ge',ignore_ts)
-                |map(attribute='entity_id')|list }}
-            {% endif %}
+                |selectattr('state','in',['unavailable','unknown']) %}
+            {% set entities =  entities|rejectattr('entity_id','in',ignored)
+                if ignored != none else entities %}
+            {{ entities|map(attribute='entity_id')|list }}
 
 # REQUIRED - Add any entities you do not wish to monitor in this group.
 # IMPORTANT - This group MUST exist even if empty for sensor template to render.
@@ -250,6 +247,73 @@ group:
       - sensor.sk_heidelberg_newdeaths
       - sensor.sk_heidelberg_newrecovered
       - sensor.sk_heidelberg_count
+      # More after new version
+      - binary_sensor.doors
+      - binary_sensor.iphone6_file_stored
+      - binary_sensor.iphone6_motion
+      - binary_sensor.t1_windows
+      - binary_sensor.user_present
+      - button.flash_lights
+      - button.force_data_update
+      - button.fritz_box_7490_firmware_update
+      - button.fritz_box_7490_reboot
+      - button.fritz_box_7490_reconnect
+      - button.horn
+      - button.livingroom_reboot
+      - button.livingroom_set_system_date_and_time
+      - button.phone_modem_reject
+      - button.remote_start
+      - button.shelly1_garage_reboot
+      - button.shelly25_dg_anna_rolladen_reboot
+      - button.shelly25_eg_flurli_reboot
+      - button.shelly25_eg_flurre_reboot
+      - button.shelly25_garage_reboot
+      - button.shelly25_gartenvorne_reboot
+      - button.shelly25_og_clara_reboot
+      - button.shelly25_og_elternbad_reboot
+      - button.shelly25_og_schlafli_reboot
+      - button.shelly25_og_schlafre_reboot
+      - button.shellyp_dg_stefan_tisch_reboot
+      - button.shellys_eg_wiga_tvreceiver_reboot
+      - button.shellys_firetablet_reboot
+      - button.shellys_garage_grossehecke_reboot
+      - button.shellys_keller_luefter1_reboot
+      - button.shellys_keller_pumpe_treppe_reboot
+      - button.shellys_silvia_reboot
+      - button.shellys_wama_reboot
+      - button.velux_external_cover_identify
+      - button.velux_external_cover_identify_2
+      - button.velux_gateway_identify
+      - camera.iphone6
+      - device_tracker.homeassistant
+      - device_tracker.location_tracker
+      - lock.doors
+      - number.charge_limit
+      - number.charging_amps
+      - select.cabin_overheat_protection
+      - sensor.battery
+      - sensor.browser_18f7d15d_3ee6b624
+      - sensor.browser_3be14006_92d1cbed
+      - sensor.browser_46b14d64_9ba1ef61
+      - sensor.browser_a2f7c760_c6f1bc46
+      - sensor.browser_c755f49c_e98206b8
+      - sensor.browser_f72ffd80_bc5efffc
+      - sensor.hp_laserjet_200_colormfp_m276nw
+      - sensor.hp_laserjet_200_colormfp_m276nw_black_cartridge_hp_cf210x
+      - sensor.hp_laserjet_200_colormfp_m276nw_cyan_cartridge_hp_cf211a
+      - sensor.hp_laserjet_200_colormfp_m276nw_magenta_cartridge_hp_cf213a
+      - sensor.hp_laserjet_200_colormfp_m276nw_yellow_cartridge_hp_cf212a
+      - sensor.stefan_s_2nd_fire_next_alarm
+      - sensor.stefan_s_2nd_fire_next_reminder
+      - sensor.stefan_s_2nd_fire_next_timer
+      - sensor.stefans_echo_dot_next_alarm
+      - sensor.stefans_echo_dot_next_reminder
+      - sensor.stefans_echo_dot_next_timer
+      - switch.heated_steering
+      - switch.homeassistant_internet_access
+      - switch.sentry_mode
+      - switch.valet_mode
+      - update.software_update      
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
