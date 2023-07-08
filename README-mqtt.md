@@ -1,7 +1,10 @@
-# Problem with MQTT
-I have noticed a couple of times that my EMS-ESP, MQTT and HA do not play well together. In that case, HA creates numerous copies of already existing entities (you can recognize them with a "_2" postfix.
-That itself would not be a problem, but new data is now only received in the new "_2" entities. However, all my dashboard, energy data or long term stats (Influx) depend on the old entities names.
-Here is an approach to get rid of the problem. You will remove all 
+# Problem with MQTT and "_2" entities
+I have noticed a couple of times that my EMS-ESP, MQTT and HA do not play well together. In that case, HA creates numerous copies of already existing entities (you can recognize them with a "_2" postfix).
+That itself would not be a problem, but new data is now only received in the new "_2" entities. However, all my dashboards, energy data or long term stats (Influx) among numerous other things depend on the old entity names. 
+
+Here is an approach to get rid of the problem: You will remove all EMS-ESP entities (which come thru MQTT) from HA and restart the EMS-ESP device. All entities are then created automagically again. 
+
+Just follow the following steps (you need some basic skills in Python):
 
 * disable MQTT on the EMS-ESP
 * use MQTT explorer (http://mqtt-explorer.com/), connect to HA's broker and remove everything from ```homeassistant/*/ems-esp```
@@ -15,7 +18,7 @@ Here is an approach to get rid of the problem. You will remove all
 This is not for the faint of heart as you will mess around with some of HA's internal data structures. Backup data before.
 
 * copy ```.storage/core_entity_registry``` from your server to another place
-* adapt files names (and other stuff) in the below python code and run it. It will create a new file where all relevant entities are removed
+* adapt files names (and other stuff) in the python code below and run it. It will create a new file where all relevant entities are removed
 * copy the newly created file back to your server (with the name ```.storage/core_entity_registry```)
 
 
