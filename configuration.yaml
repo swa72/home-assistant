@@ -176,7 +176,8 @@ recorder:
       #      - sensor.iphone_von_anna_info
       - sensor.smlreaderdeviceid
       - sensor.smlreadermanufacturer
-      - sensor.smlreadertotalenergyconsumption
+      # must not exclude or energy dashboard does not work
+      # - sensor.smlreadertotalenergyconsumption
       - sensor.smlreaderpower
       - sensor.roofac_wifi_signal
       - sensor.smlreaderpower
