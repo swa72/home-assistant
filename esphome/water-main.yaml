@@ -2,7 +2,7 @@
 # 
 #
 substitutions:
-  name: watergarden
+  name: watermain
   friendly_name: ${name}
 
 esphome:
@@ -71,27 +71,27 @@ sensor:
   - platform: pulse_counter
     pin: GPIO12
     update_interval : 6s
-    name: "watergarden pulse"
-    id: watergarden_pulse
+    name: "watermain pulse"
+    id: watermain_pulse
 
   - platform: pulse_meter
     pin: GPIO12
-    name: "watergarden Pulse Meter"
+    name: "watermain Pulse Meter"
     unit_of_measurement: "liter/min"
     icon: "mdi:water"
     total:
-      name: "watergarden Total"
+      name: "watermain Total"
       unit_of_measurement: "liter"
 
   - platform: pulse_meter
     pin: GPIO12
-    name: "watergarden Pulse Meter"
+    name: "watermain Pulse Meter"
     unit_of_measurement: "liter/min"
     icon: "mdi:water"
     total:
-      name: "watergarden Meter Total"
+      name: "watermain Meter Total"
       unit_of_measurement: "m³"
-      id: watergarden_meter_total
+      id: watermain_meter_total
       accuracy_decimals: 3
       device_class: water
       state_class: total_increasing
@@ -99,10 +99,10 @@ sensor:
         - multiply: 0.001
 
   - platform: template
-    name: "watergarden Usage Liter"
-    id: watergarden_flow_rate
+    name: "watermain Usage Liter"
+    id: watermain_flow_rate
     accuracy_decimals: 1
     unit_of_measurement: "l/min"
     icon: "mdi:water"
-    lambda: return (id(watergarden_pulse).state * 10);
+    lambda: return (id(watermain_pulse).state * 10);
     update_interval: 6s
