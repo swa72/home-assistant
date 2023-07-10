@@ -69,13 +69,13 @@ sensor:
 
 #  meter
   - platform: pulse_counter
-    pin: GPIO12
+    pin: GPIO14
     update_interval : 6s
     name: "watermain pulse"
     id: watermain_pulse
 
   - platform: pulse_meter
-    pin: GPIO12
+    pin: GPIO14
     name: "watermain Pulse Meter"
     unit_of_measurement: "liter/min"
     icon: "mdi:water"
@@ -84,7 +84,7 @@ sensor:
       unit_of_measurement: "liter"
 
   - platform: pulse_meter
-    pin: GPIO12
+    pin: GPIO14
     name: "watermain Pulse Meter"
     unit_of_measurement: "liter/min"
     icon: "mdi:water"
