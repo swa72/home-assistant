@@ -2519,4 +2519,4 @@
       - condition: template
         value_template: '{{ wait.trigger.event.data.action == action_nothing }}'
       sequence:
-  mode: single
+  mode: restart
