@@ -82,6 +82,7 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 notify: !include notifications.yaml
 sensor: !include sensors.yaml
+#sensor: !include mqtt_room.yaml
 #device_tracker: !include devicetrackers.yaml
 #alert: !include alerts.yaml
 http: !include http.yaml
@@ -498,3 +499,18 @@ ios:
       icon:
         icon: moon_waning_crescent
         color: "#ffffff"
+
+#
+# https://espresense.com/home_assistant
+#
+sensor:
+# One entry for each beacon you want to track
+  - platform: mqtt_room
+# the ID you discovered   
+    device_id: "iphone11_bwi"
+    name: 'iPhone 11 BWI'
+    state_topic: 'espresense/devices/iphone11_bwi'
+# see https://www.home-assistant.io/integrations/mqtt_room/
+    timeout: 10
+# see https://www.home-assistant.io/integrations/mqtt_room/
+    away_timeout: 120
