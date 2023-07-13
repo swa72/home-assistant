@@ -647,3 +647,12 @@
   timeout: 10
 # see https://www.home-assistant.io/integrations/mqtt_room/
   away_timeout: 120
+- platform: mqtt_room
+# the ID you discovered   
+  device_id: "iphoneK"
+  name: 'iPhoneK'
+  state_topic: 'espresense/devices/iphoneK'
+# see https://www.home-assistant.io/integrations/mqtt_room/
+  timeout: 10
+# see https://www.home-assistant.io/integrations/mqtt_room/
+  away_timeout: 120

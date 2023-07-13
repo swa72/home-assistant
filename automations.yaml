@@ -2109,6 +2109,17 @@
     data:
       message: HA started.
       title: Info
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - service: climate.turn_off
+    data: {}
+    target:
+      entity_id:
+      - climate.roofac
+      - climate.sleepac
   mode: single
 - id: '1665475720792'
   alias: Silvia Running Or Not
@@ -2500,3 +2511,32 @@
         value_template: '{{ wait.trigger.event.data.action == action_nothing }}'
       sequence:
   mode: restart
+- id: '1689243429670'
+  alias: Konstantin WiFi aus wenn iPhone außerhalb Raum
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.espresense_esppkidsgross
+    from: 'on'
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    id: roomsensor-disconnected
+  - platform: state
+    entity_id:
+    - sensor.iphone_11_bwi
+    from: esppkidsgross
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+    id: phone-left-room
+  condition: []
+  action:
+  - service: notify.mobile_app_iphonebwi12
+    data:
+      message: Wifi Konstantin {{ trigger.id }}
+      title: Hinweis
+  mode: single
