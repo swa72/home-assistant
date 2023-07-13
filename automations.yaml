@@ -2228,26 +2228,6 @@
         message: Counter Silvia not increased
       enabled: false
   mode: single
-- id: '1665485215974'
-  alias: Watermeter read
-  description: ''
-  trigger:
-  - platform: time
-    at: '19:00:00'
-  condition:
-  - condition: template
-    value_template: '{{(now().strftime("%d")|int>=24) and (now().strftime("%d")|int
-      <=31) and (now().strftime("%w")|int==0)}}'
-  action:
-  - service: notify.mobile_app_iphonebwi12
-    data:
-      message: Read water meter (long press me)
-      data:
-        actions:
-        - action: URI
-          title: Open Url
-          uri: /lovelace/meters
-  mode: single
 - id: '1671871958843'
   alias: q3 Notify, wenn 2000 Uhr und Tesla weniger als 300km
   description: ''

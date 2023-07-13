@@ -1,0 +1,57 @@
+actions:
+  - name: Garage
+    background_color: "#555555"
+    label:
+      text: "Garage"
+      color: "#f2f3f4"
+    icon:
+      icon: garage_variant
+      color: "#f2f3f4"
+  - name: Haustuer
+    background_color: "#555555"
+    label:
+      text: "Haustür öffnen"
+      color: "#f2f3f4"
+    icon:
+      icon: door_open
+      color: "#f2f3f4"
+  - name: Tesla
+    background_color: "#555555"
+    label:
+      text: "Tesla öffnen"
+      color: "#f2f3f4"
+    icon:
+      icon: car_electric
+      color: "#ffffff"
+  - name: dgoffen
+    background_color: "#555555"
+    label:
+      text: "DG hell"
+      color: "#f2f3f4"
+    icon:
+      icon: home_roof
+      color: "#ffffff"
+  - name: dgvideo
+    background_color: "#555555"
+    label:
+      text: "DG video"
+      color: "#f2f3f4"
+    icon:
+      icon: home_roof
+      color: "#ffffff"
+  - name: szmorgens
+    background_color: "#555555"
+    label:
+      text: "SZ morgens"
+      color: "#f2f3f4"
+    icon:
+      icon: white_balance_sunny
+      color: "#ffffff"
+  - name: szabends
+    background_color: "#555555"
+    label:
+      text: "SZ abends"
+      color: "#f2f3f4"
+    icon:
+      icon: moon_waning_crescent
+      color: "#ffffff"

@@ -82,7 +82,6 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 notify: !include notifications.yaml
 sensor: !include sensors.yaml
-#sensor: !include mqtt_room.yaml
 #device_tracker: !include devicetrackers.yaml
 #alert: !include alerts.yaml
 http: !include http.yaml
@@ -92,6 +91,7 @@ cover: !include covers.yaml
 switch: !include switches.yaml
 homekit: !include homekit.yaml
 template: !include_dir_merge_list templates/
+ios: !include ios.yaml
 
 #
 # power meter
@@ -200,10 +200,6 @@ recorder:
       - device_tracker.iphone
       - sensor.tesla_wall_connector_energy
       #      - camera.iphone6
-      - sensor.watermeter_main
-      - input_number.watermeter_main
-      - sensor.watermeter_garden
-      - input_number.watermeter_garden
       - device_tracker.destination_location_tracker
       - device_tracker.location_tracker
 #
@@ -314,37 +310,6 @@ utility_meter:
   regen_daily:
     source: sensor.regen_heute
     cycle: daily
-  #
-  #
-  #
-  watermeter_main_yearly:
-    source: sensor.watermeter_main
-    cycle: yearly
-    name: Wasser Haus Jahr
-  watermeter_main_monthly:
-    source: sensor.watermeter_main
-    cycle: monthly
-    name: Wasser Haus Monat
-  watermeter_main_weekly:
-    source: sensor.watermeter_main
-    cycle: weekly
-    name: Wasser Haus Woche
-
-    #
-  #
-  #
-  watermeter_garden_yearly:
-    source: sensor.watermeter_garden
-    cycle: yearly
-    name: Wasser Garten Jahr
-  watermeter_garden_monthly:
-    source: sensor.watermeter_garden
-    cycle: monthly
-    name: Wasser Garten Monat
-  watermeter_garden_weekly:
-    source: sensor.watermeter_garden
-    cycle: weekly
-    name: Wasser Garten Woche
 
 #
 # for the spotify integration
@@ -428,89 +393,4 @@ rest:
         device_class: energy
         state_class: total_increasing
         unit_of_measurement: "Wh"
-
-# - alias: "garage button"
-# trigger:
-# platform: event
-# event_type: ios.action_fired
-# event_data:
-# actionName: garage button
-# action:
-# service: cover.open_cover
-# data:
-# entity_id:
-# - cover.garage_door
-
-ios:
-  actions:
-    - name: Garage
-      background_color: "#555555"
-      label:
-        text: "Garage"
-        color: "#f2f3f4"
-      icon:
-        icon: garage_variant
-        color: "#f2f3f4"
-    - name: Haustuer
-      background_color: "#555555"
-      label:
-        text: "Haustür öffnen"
-        color: "#f2f3f4"
-      icon:
-        icon: door_open
-        color: "#f2f3f4"
-    - name: Tesla
-      background_color: "#555555"
-      label:
-        text: "Tesla öffnen"
-        color: "#f2f3f4"
-      icon:
-        icon: car_electric
-        color: "#ffffff"
-    - name: dgoffen
-      background_color: "#555555"
-      label:
-        text: "DG hell"
-        color: "#f2f3f4"
-      icon:
-        icon: home_roof
-        color: "#ffffff"
-    - name: dgvideo
-      background_color: "#555555"
-      label:
-        text: "DG video"
-        color: "#f2f3f4"
-      icon:
-        icon: home_roof
-        color: "#ffffff"
-    - name: szmorgens
-      background_color: "#555555"
-      label:
-        text: "SZ morgens"
-        color: "#f2f3f4"
-      icon:
-        icon: white_balance_sunny
-        color: "#ffffff"
-    - name: szabends
-      background_color: "#555555"
-      label:
-        text: "SZ abends"
-        color: "#f2f3f4"
-      icon:
-        icon: moon_waning_crescent
-        color: "#ffffff"
-
-#
-# https://espresense.com/home_assistant
-#
-sensor:
-# One entry for each beacon you want to track
-  - platform: mqtt_room
-# the ID you discovered   
-    device_id: "iphone11_bwi"
-    name: 'iPhone 11 BWI'
-    state_topic: 'espresense/devices/iphone11_bwi'
-# see https://www.home-assistant.io/integrations/mqtt_room/
-    timeout: 10
-# see https://www.home-assistant.io/integrations/mqtt_room/
-    away_timeout: 120
+ 

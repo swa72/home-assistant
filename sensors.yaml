@@ -605,25 +605,6 @@
         {% set daysdiff=(as_timestamp(now()) - as_timestamp('2021-9-08 00:00:00')) | timestamp_custom("%j") | float(default=0) %}
         {% set average=(states('sensor.entfeuchter_grand_total')|float(default=0) / daysdiff) | round(2) %}
         {{ (average * 0.32 * 30) | round(2) }}
-
-#
-#
-- platform: template
-  sensors:
-    dwd_last_rainfall_friendly:
-      value_template: >-
-        {{ as_timestamp(states('sensor.dwd_last_rainfall')) | timestamp_custom('%A, %-d. %B') }}
-- platform: template
-  sensors:
-    dwd_dayswithoutrain:
-      friendly_name_template: "DWD Days without rain"
-      value_template: >-
-        {% set year=as_timestamp(states('sensor.dwd_last_rainfall')) | timestamp_custom('%Y') %}
-        {% set month=as_timestamp(states('sensor.dwd_last_rainfall')) | timestamp_custom('%m') %}
-        {% set day=as_timestamp(states('sensor.dwd_last_rainfall')) | timestamp_custom('%d') %}
-        {% set new= year + '-' + month + '-' + day + ' 00:00:00' %}
-        {% set daysdiff=(as_timestamp(now()) - as_timestamp(new)) | timestamp_custom("%j") | float(default=0) %}
-        {{ (daysdiff-1) | int }}
 #
 #
 #
@@ -645,21 +626,6 @@
     - filter: time_simple_moving_average
       window_size: "00:03"
 #
-#
-#
-- platform: template
-  sensors:
-    watermeter_main:
-      friendly_name: "Wasser Haus"
-      unit_of_measurement: "m3"
-      value_template: "{{ states('input_number.watermeter_main') | round(3) }}"
-- platform: template
-  sensors:
-    watermeter_garden:
-      friendly_name: "Wasser Garten"
-      unit_of_measurement: "m3"
-      value_template: "{{ states('input_number.watermeter_garden') | round(3) }}"
-#
 # for badge view
 # 
 - platform: template
@@ -668,9 +634,16 @@
       friendly_name: "Outdoor"
       unit_of_measurement: "°C"
       value_template: "{{ state_attr('weather.dwd_weather_heidelberg', 'temperature') | float(default=0) | round(0) }}"
-- platform: template
-  sensors:
-    teslarange:
-      friendly_name: "Range"
-      unit_of_measurement: "km"
-      value_template: "{{ states('sensor.range') | float(default=0) | round(0) }}"
+#
+# https://espresense.com/home_assistant
+#
+# One entry for each beacon you want to track
+- platform: mqtt_room
+# the ID you discovered   
+  device_id: "iphone11_bwi"
+  name: 'iPhone 11 BWI'
+  state_topic: 'espresense/devices/iphone11_bwi'
+# see https://www.home-assistant.io/integrations/mqtt_room/
+  timeout: 10
+# see https://www.home-assistant.io/integrations/mqtt_room/
+  away_timeout: 120
