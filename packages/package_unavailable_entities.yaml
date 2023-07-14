@@ -313,7 +313,43 @@ group:
       - switch.homeassistant_internet_access
       - switch.sentry_mode
       - switch.valet_mode
-      - update.software_update      
+      - update.software_update
+      - switch.amelies_ipad_2_internet_access_2
+      - device_tracker.amelies_ipad_2_2
+      - switch.pc_192_168_178_102_internet_access
+      - device_tracker.pc_192_168_178_102
+      - switch.amelies_ipad_2_internet_access
+      - device_tracker.amelies_ipad_2
+      - switch.2109119dg_internet_access
+      - device_tracker.2109119dg
+      - switch.gerlindes_iphone_internet_access
+      - device_tracker.gerlindes_iphone
+      - switch.s21_fe_von_gerd_internet_access
+      - device_tracker.s21_fe_von_gerd
+      - switch.pc_192_168_178_93_internet_access
+      - device_tracker.pc_192_168_178_93
+      - switch.galaxy_s20_fe_5g_internet_access
+      - device_tracker.galaxy_s20_fe_5g
+      - switch.pc_192_168_178_86_internet_access
+      - device_tracker.pc_192_168_178_86
+      - switch.oneplus_8_pro_internet_access
+      - device_tracker.oneplus_8_pro
+      - switch.galaxy_tab_a_internet_access
+      - device_tracker.galaxy_tab_a
+      - switch.android_internet_access
+      - device_tracker.android
+      - switch.galaxy_tab_s6_lite_internet_access_2
+      - device_tracker.galaxy_tab_s6_lite_2
+      - switch.pc_192_168_178_71_internet_access
+      - device_tracker.pc_192_168_178_71
+      - switch.android_3_internet_access
+      - device_tracker.android_3
+      - switch.pc_7629_afff_fe08_6596_internet_access
+      - device_tracker.pc_7629_afff_fe08_6596
+      - switch.pc_192_168_178_24_internet_access
+      - device_tracker.pc_192_168_178_24
+      - switch.firetablet_internet_access
+      - device_tracker.firetablet
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
