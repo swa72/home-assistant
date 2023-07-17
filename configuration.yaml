@@ -202,6 +202,7 @@ recorder:
       #      - camera.iphone6
       - device_tracker.destination_location_tracker
       - device_tracker.location_tracker
+      - sensor.watermain_value
 #
 #
 #
@@ -328,11 +329,11 @@ spotcast:
 #
 #
 panel_custom:
-#  - name: Server Controls
-#    url_path: config/server_control # url_path needs to be unique for each panel_custom config
-#    sidebar_title: Server Controls
-#    sidebar_icon: mdi:server # https://materialdesignicons.com/
-#    module_url: /local/panel-redirect.js # 'local' is '/config/www/'
+  #  - name: Server Controls
+  #    url_path: config/server_control # url_path needs to be unique for each panel_custom config
+  #    sidebar_title: Server Controls
+  #    sidebar_icon: mdi:server # https://materialdesignicons.com/
+  #    module_url: /local/panel-redirect.js # 'local' is '/config/www/'
   - name: Logs
     url_path: config/logs
     sidebar_title: Logs
@@ -393,4 +394,3 @@ rest:
         device_class: energy
         state_class: total_increasing
         unit_of_measurement: "Wh"
- 

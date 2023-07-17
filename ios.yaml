@@ -15,14 +15,14 @@ actions:
     icon:
       icon: door_open
       color: "#f2f3f4"
-  - name: Tesla
-    background_color: "#555555"
-    label:
-      text: "Tesla öffnen"
-      color: "#f2f3f4"
-    icon:
-      icon: car_electric
-      color: "#ffffff"
+  # - name: Tesla
+    # background_color: "#555555"
+    # label:
+      # text: "Tesla öffnen"
+      # color: "#f2f3f4"
+    # icon:
+      # icon: car_electric
+      # color: "#ffffff"
   - name: dgoffen
     background_color: "#555555"
     label:
@@ -55,3 +55,12 @@ actions:
     icon:
       icon: moon_waning_crescent
       color: "#ffffff"
+  - name: dgklima
+    background_color: "#555555"
+    label:
+      text: "DG A/C"
+      color: "#f2f3f4"
+    icon:
+      icon: mdiAirConditioner
+      color: "#ffffff"
+      

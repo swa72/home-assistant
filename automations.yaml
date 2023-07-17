@@ -2540,3 +2540,61 @@
       message: Wifi Konstantin {{ trigger.id }}
       title: Hinweis
   mode: single
+- id: '1689592142929'
+  alias: Notify Stefan of meter problem
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.watermain_problem
+    from:
+    to: 'on'
+    for:
+      hours: 1
+      minutes: 0
+      seconds: 0
+  condition: []
+  action:
+  - service: notify.mobile_app_iphonebwi12
+    data:
+      title: Hinweis
+      message: '{{ trigger.entity_id }} has meter problem: {{ states(''sensor.watermain_error'')
+        }}'
+  mode: single
+- id: '1689599626718'
+  alias: Toggle aircondition in roof
+  description: ''
+  trigger:
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: dgklima
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: climate.roofac
+        state: 'off'
+      sequence:
+      - service: climate.set_fan_mode
+        target:
+          entity_id: climate.roofac
+        data:
+          fan_mode: low
+      - service: climate.set_temperature
+        target:
+          entity_id: climate.roofac
+        data:
+          temperature: 25
+          hvac_mode: cool
+    - conditions:
+      - condition: state
+        entity_id: climate.roofac
+        state: cool
+      sequence:
+      - service: climate.turn_off
+        data: {}
+        target:
+          entity_id: climate.roofac
+  mode: single
