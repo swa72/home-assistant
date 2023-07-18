@@ -1,17 +1,3 @@
-- id: '1608063965030'
-  alias: q3 Wenn neue Version dann Nachricht an Stefan
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.updater
-    from: 'off'
-    to: 'on'
-  action:
-  - service: script.notify_stefan
-    data:
-      title: Hinweis
-      message: Home Assistant {{ state_attr('binary_sensor.updater', 'newest_version')
-        }} is now available.
-  mode: single
 - id: '1608636183988'
   alias: q3 Notify, wenn Fenster zu lange offen und kalt draussen
   description: ''
