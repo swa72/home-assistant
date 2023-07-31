@@ -2537,15 +2537,31 @@
     to: 'on'
     for:
       hours: 1
-      minutes: 0
+      minutes: 30
       seconds: 0
   condition: []
   action:
-  - service: notify.mobile_app_iphonebwi12
-    data:
-      title: Hinweis
-      message: '{{ trigger.entity_id }} has meter problem: {{ states(''sensor.watermain_error'')
-        }}'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ states(''sensor.watermain_error'') is search(''Neg. Rate'')
+          }}'
+      sequence:
+      - service: notify.mobile_app_iphonebwi12
+        data:
+          title: Hinweis
+          message: '{{ trigger.entity_id }} has negative read problem: {{ states(''sensor.watermain_error'')
+            }}'
+      - service: mqtt.publish
+        data:
+          topic: watermain/ctrl/set_prevalue
+          payload: '{"numbersname": "main", "value": -1}'
+    default:
+    - service: notify.mobile_app_iphonebwi12
+      data:
+        title: Hinweis
+        message: '{{ trigger.entity_id }} has other meter problem: {{ states(''sensor.watermain_error'')
+          }}'
   mode: single
 - id: '1689599626718'
   alias: Toggle aircondition in roof
