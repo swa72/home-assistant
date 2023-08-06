@@ -350,6 +350,10 @@ group:
       - device_tracker.pc_192_168_178_24
       - switch.firetablet_internet_access
       - device_tracker.firetablet
+      - sensor.watermain_ip
+      - sensor.watermain_interval
+      - sensor.watermain_hostname
+      - sensor.watermain_mac
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
