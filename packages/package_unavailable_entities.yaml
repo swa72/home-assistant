@@ -354,6 +354,14 @@ group:
       - sensor.watermain_interval
       - sensor.watermain_hostname
       - sensor.watermain_mac
+      - media_player.julias_echo_dot
+      - switch.julias_echo_dot_do_not_disturb_switch
+      - switch.julias_echo_dot_shuffle_switch
+      - switch.julias_echo_dot_repeat_switch
+      - sensor.julias_echo_dot_next_alarm
+      - sensor.julias_echo_dot_next_timer
+      - sensor.julias_echo_dot_next_reminder 
+      - media_player.julias_2_echo_dot 
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:

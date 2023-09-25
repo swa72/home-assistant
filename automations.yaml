@@ -2623,3 +2623,18 @@
         data: {}
     default: []
   mode: single
+- id: '1695623094218'
+  alias: Solcast update
+  description: Solcast update
+  trigger:
+  - platform: time
+    at: '4:00:00'
+  - platform: time
+    at: '10:00:00'
+  - platform: time
+    at: '16:00:00'
+  condition: []
+  action:
+  - service: solcast_solar.update_forecasts
+    data: {}
+  mode: single
