@@ -360,8 +360,29 @@ group:
       - switch.julias_echo_dot_repeat_switch
       - sensor.julias_echo_dot_next_alarm
       - sensor.julias_echo_dot_next_timer
-      - sensor.julias_echo_dot_next_reminder 
-      - media_player.julias_2_echo_dot 
+      - sensor.julias_echo_dot_next_reminder
+      - media_player.julias_2_echo_dot
+      - switch.fritz_repeater_internet_access
+      - device_tracker.fritz_repeater
+      - switch.fritz_repeater_dg_internet_access
+      - device_tracker.fritz_repeater_dg
+      - switch.gerlindes_iphone_internet_access_2
+      - device_tracker.gerlindes_iphone_2
+      - switch.ipad_internet_access_2
+      - device_tracker.ipad_3
+      - switch.watergarden_internet_access_2
+      - device_tracker.watergarden_2
+      - switch.watergarden_internet_access
+      - device_tracker.watergarden
+      - switch.esppkidsgross_internet_access
+      - device_tracker.esppkidsgross
+      - switch.pc_192_168_178_105_internet_access
+      - device_tracker.pc_192_168_178_105
+      - sensor.generic_pcl_laser_printer
+      - switch.iphonevnstantin_internet_access
+      - device_tracker.iphonevnstantin
+      - sensor.su_xp1654_last_trip
+      - lock.su_xp1654_door_lock
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
