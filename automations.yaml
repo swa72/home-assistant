@@ -811,11 +811,11 @@
         id: morning
       - condition: time
         weekday:
-        - mon
-        - thu
+        - wed
         - fri
       sequence:
       - service: script.heating_set_room_temp_low
+        data: {}
       - service: logbook.log
         data:
           entity_id: automation.advanced_heating_workdays_v2
@@ -826,11 +826,11 @@
         id: noon
       - condition: time
         weekday:
-        - mon
-        - thu
+        - wed
         - fri
       sequence:
       - service: script.heating_set_room_temp_high
+        data: {}
       - service: logbook.log
         data:
           entity_id: automation.advanced_heating_workdays_v2
