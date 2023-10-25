@@ -1698,10 +1698,10 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: sensor.precipitation_heidelberg
+    entity_id: sensor.heidelberg_precipitation
   condition:
   - condition: numeric_state
-    entity_id: sensor.precipitation_heidelberg
+    entity_id: sensor.heidelberg_precipitation
     above: '0'
   - condition: template
     value_template: '{{ trigger.from_state.state not in [''unknown'', ''unavailable'']
@@ -1719,7 +1719,7 @@
       retain: true
   - service: mqtt.publish
     data:
-      payload: '{{ states(''sensor.precipitation_heidelberg'') }}'
+      payload: '{{ states(''ssensor.heidelberg_precipitation'') }}'
       topic: home-assistant/variable/last_rainfall_amount
       retain: true
   mode: single
