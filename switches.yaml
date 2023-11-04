@@ -1,14 +1,21 @@
 #
-# remotely wake up my Thinkpad
+# remotely wake up my Thinkpad T430
 #
 - platform: wake_on_lan
   name: Wake up ThinkPad T430
   mac: 28:D2:44:22:A9:79
+
 #
+# remotely wake up my Thinkpad T14
+#
+- platform: wake_on_lan
+  name: Wake up ThinkPad T14
+  mac: 74:5D:22:8D:70:29
+  #
 #
 #
 - platform: template
-  switches: 
+  switches:
     one_time_water:
       friendly_name: OneTimeWater
       value_template: "{{ is_state('sensor.one_time_water', 'on') }}"
