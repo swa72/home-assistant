@@ -383,6 +383,21 @@ group:
       - device_tracker.iphonevnstantin
       - sensor.su_xp1654_last_trip
       - lock.su_xp1654_door_lock
+      - switch.desktop_a12eh96_internet_access
+      - device_tracker.desktop_a12eh96
+      - switch.pc_192_168_178_27_internet_access
+      - device_tracker.pc_192_168_178_27
+      - switch.pc_192_168_178_97_internet_access
+      - device_tracker.pc_192_168_178_97
+      - switch.amelies_iphone_internet_access
+      - device_tracker.amelies_iphone
+      - switch.ipad_internet_access
+      - device_tracker.ipad_2
+      - switch.annas_air_internet_access
+      - switch.t430_wlan_internet_access
+      - device_tracker.annas_air
+      - device_tracker.t430_wlan
+
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
