@@ -1,27 +1,16 @@
-- name: Praxis
-  latitude: !secret plat
-  longitude: !secret plong
-  radius: 50
-  icon: mdi:tooth-outline
 - name: Golfclub
   latitude: 49.37119622706479
   longitude: 8.860988616943361
   radius: 970
   icon: mdi:golf
-- name: Hölderlin
-  latitude: 49.409039565985985
-  longitude: 8.700989484786989
-  radius: 65
-  icon: mdi:school
 - name: Bachstr
   latitude: 49.422799341984486
   longitude: 8.688259720802309
   radius: 50
   icon: mdi:home-floor-b
- # This will override the default home zone
+  # This will override the default home zone
 - name: Home
   latitude: !secret hlat
   longitude: !secret hlong
-  radius: 100
+  radius: 50
   icon: mdi:account-multiple
-
