@@ -2638,3 +2638,23 @@
   - service: solcast_solar.update_forecasts
     data: {}
   mode: single
+- id: '1700766018013'
+  alias: Kinderbad warm
+  description: ''
+  trigger:
+  - platform: time
+    at: 06:01:00
+  condition:
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  action:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.shellys_eg_wiga_tvreceiver
+  mode: single
