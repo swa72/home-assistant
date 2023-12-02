@@ -263,6 +263,14 @@ influxdb:
       - binary_sensor.boiler*
       - binary_sensor.mixer*
       - binary_sensor.solar*
+      - number.boiler*
+      - number.mixer*
+      - number.thermostat*
+      - number.solar*
+      - select.boiler*
+      - select.mixer*
+      - select.thermostat*
+      - select.solar*
 #
 #
 counter:
