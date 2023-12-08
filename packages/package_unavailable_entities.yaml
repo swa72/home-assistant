@@ -397,7 +397,15 @@ group:
       - switch.t430_wlan_internet_access
       - device_tracker.annas_air
       - device_tracker.t430_wlan
-
+      # even more stuff
+      - sensor.dwd_last_rainfall_amount
+      - sensor.boiler_last_error_code
+      - sensor.boiler_next_maintenance_date
+      - number.boiler_time_to_next_maintenance
+      - select.boiler_maintenance_scheduled
+      - sensor.solcast_swahome
+      - update.pool_firmware
+      - sensor.jpad_air_2_battery
 
 # OPTIONAL - filter template loop warnings from the Home Assistant log.
 logger:
