@@ -2658,3 +2658,32 @@
     target:
       entity_id: switch.shellys_eg_wiga_tvreceiver
   mode: single
+- id: '1702141770373'
+  alias: eMail notification charger plugged in
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.tesla_wall_connector_vehicle_connected
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: camera.snapshot
+    target:
+      device_id: 25690f6e83a880a4b64af9e64ba94b4e
+    data:
+      filename: /config/temp/garagegam-foo.jpg
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 10
+      milliseconds: 0
+  - service: notify.email_notification
+    data:
+      message: Tesla charger plugged in
+      title: Tesla charger plugged in
+      data:
+        images:
+        - /config/temp/garagegam-foo.jpg
+  mode: single

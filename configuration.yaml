@@ -3,6 +3,8 @@ default_config:
 
 homeassistant:
   customize: !include customize.yaml
+  allowlist_external_dirs:
+    - /config/temp
   customize_glob:
     "binary_sensor.fenster*":
       device_class: window

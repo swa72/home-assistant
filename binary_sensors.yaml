@@ -186,33 +186,34 @@
 #
 #
 
-- platform: ping
-  name: emsesp
-  host: 192.168.178.90
-- platform: ping
-  name: gas
-  host: 192.168.178.99
-- platform: ping
-  name: roofac
-  host: 192.168.178.44
-- platform: ping
-  name: shelly1_garage
-  host: 192.168.178.59
-- platform: ping
-  name: shelly25_garage
-  host: 192.168.178.89
-- platform: ping
-  name: shellys_keller_pumpe_treppe
-  host: 192.168.178.84
-- platform: ping
-  name: shellys_poolpump
-  host: 192.168.178.26
-- platform: ping
-  name: shellys_wama
-  host: 192.168.178.87
-- platform: ping
-  name: sleepac
-  host: 192.168.178.45
+# ping configuration removed since 2023.12
+# - platform: ping
+  # name: emsesp
+  # host: 192.168.178.90
+# - platform: ping
+  # name: gas
+  # host: 192.168.178.99
+# - platform: ping
+  # name: roofac
+  # host: 192.168.178.44
+# - platform: ping
+  # name: shelly1_garage
+  # host: 192.168.178.59
+# - platform: ping
+  # name: shelly25_garage
+  # host: 192.168.178.89
+# - platform: ping
+  # name: shellys_keller_pumpe_treppe
+  # host: 192.168.178.84
+# - platform: ping
+  # name: shellys_poolpump
+  # host: 192.168.178.26
+# - platform: ping
+  # name: shellys_wama
+  # host: 192.168.178.87
+# - platform: ping
+  # name: sleepac
+  # host: 192.168.178.45
 
 - platform: rest
   resource: !secret livingroom_motion_url
