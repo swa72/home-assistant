@@ -564,6 +564,18 @@
         ) / (now().day-1) | float(default=0) * numdays) | round(0)}}
         {% endif %}
 
+- platform: template
+  sensors:
+    gasverbrauch_forecast4:
+      friendly_name: "Gasverbrauch bis Monatsende v3"
+      unit_of_measurement: "m³"
+      value_template: >-
+        {% if is_state('sensor.gasverbrauch_forecast2', '0') %}
+        {{ this.state | default(0, true) }}
+        {% else %}
+        {{ states('sensor.gasverbrauch_forecast2') }}
+        {% endif %}
+
 # average gas usage per day last week if Monday
 # average gas usage per day this week
 # number of remaining days in current month
@@ -627,7 +639,7 @@
       window_size: "00:03"
 #
 # for badge view
-# 
+#
 - platform: template
   sensors:
     dwdoutdoortemp:
@@ -639,20 +651,20 @@
 #
 # One entry for each beacon you want to track
 - platform: mqtt_room
-# the ID you discovered   
+  # the ID you discovered
   device_id: "iphone11_bwi"
-  name: 'iPhone 11 BWI'
-  state_topic: 'espresense/devices/iphone11_bwi'
-# see https://www.home-assistant.io/integrations/mqtt_room/
+  name: "iPhone 11 BWI"
+  state_topic: "espresense/devices/iphone11_bwi"
+  # see https://www.home-assistant.io/integrations/mqtt_room/
   timeout: 10
-# see https://www.home-assistant.io/integrations/mqtt_room/
+  # see https://www.home-assistant.io/integrations/mqtt_room/
   away_timeout: 120
 - platform: mqtt_room
-# the ID you discovered   
+  # the ID you discovered
   device_id: "iphoneK"
-  name: 'iPhoneK'
-  state_topic: 'espresense/devices/iphoneK'
-# see https://www.home-assistant.io/integrations/mqtt_room/
+  name: "iPhoneK"
+  state_topic: "espresense/devices/iphoneK"
+  # see https://www.home-assistant.io/integrations/mqtt_room/
   timeout: 10
-# see https://www.home-assistant.io/integrations/mqtt_room/
+  # see https://www.home-assistant.io/integrations/mqtt_room/
   away_timeout: 120

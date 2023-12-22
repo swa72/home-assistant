@@ -1467,7 +1467,7 @@
 - id: '1641412297937'
   alias: Disable motion detection for 5min
   description: Disable motion detection for 5min after motion has been detected or
-    after main door opens. I receive too many pics.
+    after main door opens or I have arrived. I receive too many pics.
   trigger:
   - platform: state
     entity_id: binary_sensor.garagecam_person
@@ -1479,6 +1479,11 @@
   - platform: state
     entity_id: binary_sensor.haustur
     to: 'on'
+  - platform: state
+    entity_id:
+    - person.stefan
+    from: not_home
+    to: home
   condition: []
   action:
   - variables:
