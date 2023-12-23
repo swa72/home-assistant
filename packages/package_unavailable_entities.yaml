@@ -1,448 +1,148 @@
 ###################################################################################################
 ## Package - Unavailable Entities Sensor
-## Count and list entities with a state of unavailable, unknown, or none (null)
-## See README for customization options.
+## Count and list entities with a state of unknown or unavailable
+## Home Assistant v2022.5 required. See README for customization options.
 ## https://github.com/jazzyisj/unavailable-entities-sensor/blob/main/README.md
 ###################################################################################################
 
-# NOTE: Home Assistant v2021.12 required.  For older versions please see README
 # REQUIRED - This is the template sensor
+
 template:
   - sensor:
       - name: "Unavailable Entities"
         unique_id: unavailable_entities
         icon: "{{ iif(states(this.entity_id)|int(-1) > 0,'mdi:alert-circle','mdi:check-circle') }}"
+        state_class: measurement
+        unit_of_measurement: entities
         state: >
           {% set entities = state_attr(this.entity_id,'entity_id') %}
           {{ entities|count if entities != none else none }}
-        state_class: measurement
         attributes:
           entity_id: >
             {% set ignore_seconds = 60 %}
             {% set ignored = state_attr('group.ignored_unavailable_entities','entity_id') %}
             {% set ignore_ts = (now().timestamp() - ignore_seconds)|as_datetime %}
-            {% set entities = states|rejectattr('domain','eq','group')
+            {% set entities = states
+                |rejectattr('domain','in',['button','event','group','input_button','input_text','scene'])
                 |rejectattr('last_changed','ge',ignore_ts)
-                |selectattr('state','in',['unavailable','unknown']) %}
-            {% set entities =  entities|rejectattr('entity_id','in',ignored)
-                if ignored != none else entities %}
-            {{ entities|map(attribute='entity_id')|list }}
+                |rejectattr('entity_id','search','device_tracker')
+                |rejectattr('entity_id','search','battery_state')
+                |rejectattr('entity_id','search','internet_access')
+                |rejectattr('entity_id','search','reboot')
+                |rejectattr('entity_id','search','731a166f_25d1d5bb')
+                |rejectattr('entity_id','search','9456b1a3_208a3c42')
+                |rejectattr('entity_id','search','iphone6')
+                |rejectattr('entity_id','search','boiler_dhw_')
+                |rejectattr('entity_id','search','og_aussen')
+                |rejectattr('entity_id','search','sensor.pool|update.pool_firmware')
+                |rejectattr('entity_id','search','light.ikea_repeater')
+                |rejectattr('entity_id','search','_next_alarm')
+                |rejectattr('entity_id','search','_next_reminder')
+                |rejectattr('entity_id','search','_next_timer')
+                |rejectattr('entity_id','search','sensor.browser')%}
+            {% set entities =  entities|rejectattr('entity_id','in',ignored) if ignored != none else entities %}
+            {{ entities|map(attribute='entity_id')|reject('has_value')|list|sort }}
 
-# REQUIRED - Add any entities you do not wish to monitor in this group.
-# IMPORTANT - This group MUST exist even if empty for sensor template to render.
+# OPTIONAL - Add entities you want to ignore to this group.
+
 group:
   ignored_unavailable_entities:
     entities:
-      - sensor.unavailable_entities # prevent template loop warnings?
-      - binary_sensor.updater # always unknown after restart
-      # swa custom stuff
-      - binary_sensor.731a166f_25d1d5bb
-      - binary_sensor.731a166f_25d1d5bb_browser_charging
-      - binary_sensor.731a166f_25d1d5bb_browser_dark_mode
-      - binary_sensor.731a166f_25d1d5bb_browser_fullykiosk
-      - binary_sensor.9456b1a3_208a3c42
-      - binary_sensor.9456b1a3_208a3c42_browser_dark_mode
-      - binary_sensor.9456b1a3_208a3c42_browser_fullykiosk
-      - binary_sensor.boiler_charging_type
-      - binary_sensor.boiler_dhw_active
-      - binary_sensor.boiler_dhw_charging
-      - binary_sensor.boiler_dhw_recharging
-      - binary_sensor.boiler_dhw_temperature_ok
-      - binary_sensor.boiler_disinfecting
-      - binary_sensor.fritz_box_7490_connectivity
-      - binary_sensor.livingroom_file_stored
-      - binary_sensor.livingroom_motion
-      - binary_sensor.shellys_keller_entfeuchter_firmware_update
-      - climate.dg_stefan
-      - device_tracker.android_2
-      - device_tracker.anna_t430
-      - device_tracker.apple_watch_von_julia
-      - device_tracker.apple_watch_von_julia_2
-      - device_tracker.apple_watch_von_julia_4
-      - device_tracker.galaxy_a53_5g
-      - device_tracker.galaxy_tab_s6_lite
-      - device_tracker.honor_7x_715d683076b6dc72
-      - device_tracker.ipad_von_clausw
-      - device_tracker.ipadbwipro11_2
-      - device_tracker.iphone
-      - device_tracker.iphone_2
-      - device_tracker.iphone_2_2
-      - device_tracker.iphone_5
-      - device_tracker.iphone_von_anna
-      - device_tracker.iphone_von_anna_2
-      - device_tracker.iphone_von_anna_2_2
-      - device_tracker.iphone_von_anna_2_3
-      - device_tracker.iphone_von_anna_2_4
-      - device_tracker.iphone_von_anna_2_5
-      - device_tracker.iphone_von_anna_6
-      - device_tracker.iphonebwi
-      - device_tracker.iphonebwi12_3
-      - device_tracker.iphoneclarase2020
-      - device_tracker.iphoneclarase2020_2
-      - device_tracker.jpad_air_2_2
-      - device_tracker.jpad_air_2_3
-      - device_tracker.jpad_air_2_5
-      - device_tracker.jphone_3
-      - device_tracker.jphone_4
-      - device_tracker.jphone_6
-      - device_tracker.laptop_1qnmles6
-      - device_tracker.pc_192_168_178_38
-      - device_tracker.pc_192_168_178_41
-      - device_tracker.pc_192_168_178_46_2
-      - device_tracker.pc_192_168_178_57
-      - device_tracker.pc_192_168_178_58
-      - device_tracker.pc_192_168_178_60
-      - device_tracker.pc_192_168_178_62
-      - device_tracker.pc_192_168_178_77
-      - device_tracker.pc_192_168_178_79
-      - device_tracker.peters_iphone
-      - device_tracker.pool
-      - device_tracker.s20_von_gerd
-      - device_tracker.samsung_galaxy_s7
-      - device_tracker.shellys_poolpump
-      - device_tracker.stefans_ipad_3
-      - device_tracker.t430_lan
-      - device_tracker.t430_vm_wiso
-      - light.731a166f_25d1d5bb_screen
-      - light.9456b1a3_208a3c42_screen
-      - light.dimmable_light_3
-      - light.ikea_repeater_1
-      - light.ikea_repeater_2
-      - media_player.731a166f_25d1d5bb
-      - media_player.9456b1a3_208a3c42
-      - media_player.fire_tablet_media_player
-      - media_player.stefans_2_echo_dot
-      - person.tablet
-      - sensor.731a166f_25d1d5bb_browser_battery
-      - sensor.731a166f_25d1d5bb_browser_height
-      - sensor.731a166f_25d1d5bb_browser_path
-      - sensor.731a166f_25d1d5bb_browser_user
-      - sensor.731a166f_25d1d5bb_browser_useragent
-      - sensor.731a166f_25d1d5bb_browser_visibility
-      - sensor.731a166f_25d1d5bb_browser_width
-      - sensor.9456b1a3_208a3c42_browser_height
-      - sensor.9456b1a3_208a3c42_browser_path
-      - sensor.9456b1a3_208a3c42_browser_user
-      - sensor.9456b1a3_208a3c42_browser_useragent
-      - sensor.9456b1a3_208a3c42_browser_visibility
-      - sensor.9456b1a3_208a3c42_browser_width
-      - sensor.apple_watch_von_julia_battery_state
-      - sensor.apple_watch_von_julia_battery_state_2
-      - sensor.apple_watch_von_julia_battery_state_4
-      - sensor.boiler_dhw_active_time
-      - sensor.boiler_dhw_current_tap_water_flow
-      - sensor.boiler_dhw_set_temperature
-      - sensor.boiler_dhw_starts
-      - sensor.boiler_dhw_type
-      - sensor.hacs
-      - sensor.ipadbwipro11_battery_state_2
-      - sensor.iphone_battery_state
-      - sensor.iphone_von_anna_2_battery_state
-      - sensor.iphone_von_anna_2_battery_state_3
-      - sensor.iphone_von_anna_2_battery_state_4
-      - sensor.iphone_von_anna_2_battery_state_5
-      - sensor.iphone_von_anna_battery_state_2
-      - sensor.iphone_von_konstantin_battery_state
-      - sensor.iphone_von_konstantin_battery_state_2
-      - sensor.iphonebwi12_battery_state_2
-      - sensor.iphoneclarase2020_battery_state
-      - sensor.iphoneclarase2020_battery_state_2
-      - sensor.jpad_air_2_battery_state
-      - sensor.jpad_air_2_battery_state_2
-      - sensor.jpad_air_2_battery_state_4
-      - sensor.jphone_battery_state_2
-      - sensor.jphone_battery_state_3
-      - sensor.jphone_battery_state_5
-      - sensor.solcast_api_remaining
-      - sensor.stefans_ipad_battery_state_2
-      - sensor.stefans_ipad_geocoded_location
-      - switch.android_2_internet_access
-      - switch.anna_t430_internet_access
-      - switch.boiler_dhw_disinfecting
-      - switch.boiler_dhw_one_time_charging
-      - switch.fritz_box_7490_port_forward_home_assistant
-      - switch.fritz_box_7490_wi_fi_hades
-      - switch.galaxy_a53_5g_internet_access
-      - switch.galaxy_tab_s6_lite_internet_access
-      - switch.honor_7x_715d683076b6dc72_internet_access
-      - switch.ipad_von_clausw_internet_access
-      - switch.iphone_internet_access
-      - switch.iphone_internet_access_2
-      - switch.iphone_von_anna_internet_access
-      - switch.laptop_1qnmles6_internet_access
-      - switch.pc_192_168_178_38_internet_access
-      - switch.pc_192_168_178_41_internet_access
-      - switch.pc_192_168_178_46_internet_access_2
-      - switch.pc_192_168_178_57_internet_access
-      - switch.pc_192_168_178_58_internet_access
-      - switch.pc_192_168_178_60_internet_access
-      - switch.pc_192_168_178_62_internet_access
-      - switch.pc_192_168_178_77_internet_access
-      - switch.pc_192_168_178_79_internet_access
-      - switch.peters_iphone_internet_access
-      - switch.s20_von_gerd_internet_access
-      - switch.samsung_galaxy_s7_internet_access
-      - switch.stefans_echo_dot_repeat_switch
-      - switch.stefans_echo_dot_shuffle_switch
-      - switch.swajpad_internet_access
-      - switch.t430_lan_internet_access
-      - switch.t430_vm_wiso_internet_access
-      # pool stuff
-      - switch.shellys_poolpump_internet_access
-      - switch.pool_internet_access
-      - sensor.temp
-      - binary_sensor.shellys_poolpump_overheating
-      - binary_sensor.shellys_poolpump_overpowering
-      - button.shellys_poolpump_ota_update
-      - button.shellys_poolpump_reboot
-      - sensor.pool_bssid
-      - sensor.pool_esphome_version
-      - sensor.pool_ip
-      - sensor.pool_orp
-      - sensor.pool_ph
-      - sensor.pool_ssid
-      - sensor.pool_temp
-      - sensor.pool_uptime
-      - sensor.pool_wifi_signal
-      - sensor.shellys_poolpump_energy
-      - sensor.shellys_poolpump_power
-      - sensor.ph
-      - switch.shellys_poolpump
-      # alexa stuff
-      - sensor.this_device_next_alarm
-      - sensor.this_device_next_reminder
-      - sensor.this_device_next_timer
-      # indoor cam
-      - binary_sensor.livingroom_cell_motion_detection
-      # tesla integration
+      # old tesla stuff
       - sensor.arrival_time
       - sensor.distance_to_arrival
       - sensor.time_charge_complete
-      - device_tracker.destination_location_tracker
-      # aussen temp
-      - sensor.multi_og_aussen_humidity
-      - sensor.multi_og_aussen_pressure
-      - sensor.multi_og_aussen_temperature
-      - sensor.og_aussen_battery_level
-      # Misc
-      - sensor.system_tx_reads
-      - sensor.system_tx_writes
+      # old watermain reader stuff
+      - sensor.watermain_hostname
+      - sensor.watermain_interval
+      - sensor.watermain_ip
+      - sensor.watermain_mac
+      # old livingroom stuff
+      - binary_sensor.livingroom_file_stored
+      - binary_sensor.livingroom_motion
       - switch.livingroom_autofocus
       - switch.livingroom_ir_lamp
       - switch.livingroom_wiper
-      - update.gas3_firmware
-      - update.roofac_firmware
-      - update.sleepac_firmware
-      - sensor.solar_cylinder_pump_modulation_ps5
-      - sensor.solar_maximum_tank_temperature
-      - sensor.solar_pump_modulation_ps1
-      - sensor.solar_pump_working_time
-      - sensor.solar_tank_bottom_temperature_ts2
+      # misc old stuff
       - siren.garagecam_siren
-      - sensor.sk_heidelberg_deaths
-      - sensor.sk_heidelberg_recovered
-      - sensor.sk_heidelberg_weekincidence
-      - sensor.sk_heidelberg_casesper100k
-      - sensor.sk_heidelberg_newcases
-      - sensor.sk_heidelberg_newdeaths
-      - sensor.sk_heidelberg_newrecovered
-      - sensor.sk_heidelberg_count
-      # More after new version
-      - binary_sensor.doors
-      - binary_sensor.iphone6_file_stored
-      - binary_sensor.iphone6_motion
-      - binary_sensor.t1_windows
-      - binary_sensor.user_present
-      - button.flash_lights
-      - button.force_data_update
-      - button.fritz_box_7490_firmware_update
-      - button.fritz_box_7490_reboot
-      - button.fritz_box_7490_reconnect
-      - button.horn
-      - button.livingroom_reboot
-      - button.livingroom_set_system_date_and_time
-      - button.phone_modem_reject
-      - button.remote_start
-      - button.shelly1_garage_reboot
-      - button.shelly25_dg_anna_rolladen_reboot
-      - button.shelly25_eg_flurli_reboot
-      - button.shelly25_eg_flurre_reboot
-      - button.shelly25_garage_reboot
-      - button.shelly25_gartenvorne_reboot
-      - button.shelly25_og_clara_reboot
-      - button.shelly25_og_elternbad_reboot
-      - button.shelly25_og_schlafli_reboot
-      - button.shelly25_og_schlafre_reboot
-      - button.shellyp_dg_stefan_tisch_reboot
-      - button.shellys_eg_wiga_tvreceiver_reboot
-      - button.shellys_firetablet_reboot
-      - button.shellys_garage_grossehecke_reboot
-      - button.shellys_keller_luefter1_reboot
-      - button.shellys_keller_pumpe_treppe_reboot
-      - button.shellys_silvia_reboot
-      - button.shellys_wama_reboot
-      - button.velux_external_cover_identify
-      - button.velux_external_cover_identify_2
-      - button.velux_gateway_identify
-      - camera.iphone6
-      - device_tracker.homeassistant
-      - device_tracker.location_tracker
-      - lock.doors
-      - number.charge_limit
-      - number.charging_amps
-      - select.cabin_overheat_protection
-      - sensor.battery
-      - sensor.browser_18f7d15d_3ee6b624
-      - sensor.browser_3be14006_92d1cbed
-      - sensor.browser_46b14d64_9ba1ef61
-      - sensor.browser_a2f7c760_c6f1bc46
-      - sensor.browser_c755f49c_e98206b8
-      - sensor.browser_f72ffd80_bc5efffc
-      - sensor.hp_laserjet_200_colormfp_m276nw
-      - sensor.hp_laserjet_200_colormfp_m276nw_black_cartridge_hp_cf210x
-      - sensor.hp_laserjet_200_colormfp_m276nw_cyan_cartridge_hp_cf211a
-      - sensor.hp_laserjet_200_colormfp_m276nw_magenta_cartridge_hp_cf213a
-      - sensor.hp_laserjet_200_colormfp_m276nw_yellow_cartridge_hp_cf212a
-      - sensor.stefan_s_2nd_fire_next_alarm
-      - sensor.stefan_s_2nd_fire_next_reminder
-      - sensor.stefan_s_2nd_fire_next_timer
-      - sensor.stefans_echo_dot_next_alarm
-      - sensor.stefans_echo_dot_next_reminder
-      - sensor.stefans_echo_dot_next_timer
-      - switch.heated_steering
-      - switch.homeassistant_internet_access
-      - switch.sentry_mode
-      - switch.valet_mode
-      - update.software_update
-      - switch.amelies_ipad_2_internet_access_2
-      - device_tracker.amelies_ipad_2_2
-      - switch.pc_192_168_178_102_internet_access
-      - device_tracker.pc_192_168_178_102
-      - switch.amelies_ipad_2_internet_access
-      - device_tracker.amelies_ipad_2
-      - switch.2109119dg_internet_access
-      - device_tracker.2109119dg
-      - switch.gerlindes_iphone_internet_access
-      - device_tracker.gerlindes_iphone
-      - switch.s21_fe_von_gerd_internet_access
-      - device_tracker.s21_fe_von_gerd
-      - switch.pc_192_168_178_93_internet_access
-      - device_tracker.pc_192_168_178_93
-      - switch.galaxy_s20_fe_5g_internet_access
-      - device_tracker.galaxy_s20_fe_5g
-      - switch.pc_192_168_178_86_internet_access
-      - device_tracker.pc_192_168_178_86
-      - switch.oneplus_8_pro_internet_access
-      - device_tracker.oneplus_8_pro
-      - switch.galaxy_tab_a_internet_access
-      - device_tracker.galaxy_tab_a
-      - switch.android_internet_access
-      - device_tracker.android
-      - switch.galaxy_tab_s6_lite_internet_access_2
-      - device_tracker.galaxy_tab_s6_lite_2
-      - switch.pc_192_168_178_71_internet_access
-      - device_tracker.pc_192_168_178_71
-      - switch.android_3_internet_access
-      - device_tracker.android_3
-      - switch.pc_7629_afff_fe08_6596_internet_access
-      - device_tracker.pc_7629_afff_fe08_6596
-      - switch.pc_192_168_178_24_internet_access
-      - device_tracker.pc_192_168_178_24
-      - switch.firetablet_internet_access
-      - device_tracker.firetablet
-      - sensor.watermain_ip
-      - sensor.watermain_interval
-      - sensor.watermain_hostname
-      - sensor.watermain_mac
-      - media_player.julias_echo_dot
-      - switch.julias_echo_dot_do_not_disturb_switch
-      - switch.julias_echo_dot_shuffle_switch
-      - switch.julias_echo_dot_repeat_switch
-      - sensor.julias_echo_dot_next_alarm
-      - sensor.julias_echo_dot_next_timer
-      - sensor.julias_echo_dot_next_reminder
-      - media_player.julias_2_echo_dot
-      - switch.fritz_repeater_internet_access
-      - device_tracker.fritz_repeater
-      - switch.fritz_repeater_dg_internet_access
-      - device_tracker.fritz_repeater_dg
-      - switch.gerlindes_iphone_internet_access_2
-      - device_tracker.gerlindes_iphone_2
-      - switch.ipad_internet_access_2
-      - device_tracker.ipad_3
-      - switch.watergarden_internet_access_2
-      - device_tracker.watergarden_2
-      - switch.watergarden_internet_access
-      - device_tracker.watergarden
-      - switch.esppkidsgross_internet_access
-      - device_tracker.esppkidsgross
-      - switch.pc_192_168_178_105_internet_access
-      - device_tracker.pc_192_168_178_105
-      - sensor.generic_pcl_laser_printer
-      - switch.iphonevnstantin_internet_access
-      - device_tracker.iphonevnstantin
-      - sensor.su_xp1654_last_trip
-      - lock.su_xp1654_door_lock
-      - switch.desktop_a12eh96_internet_access
-      - device_tracker.desktop_a12eh96
-      - switch.pc_192_168_178_27_internet_access
-      - device_tracker.pc_192_168_178_27
-      - switch.pc_192_168_178_97_internet_access
-      - device_tracker.pc_192_168_178_97
-      - switch.amelies_iphone_internet_access
-      - device_tracker.amelies_iphone
-      - switch.ipad_internet_access
-      - device_tracker.ipad_2
-      - switch.annas_air_internet_access
-      - switch.t430_wlan_internet_access
-      - device_tracker.annas_air
-      - device_tracker.t430_wlan
-      # even more stuff
-      - sensor.dwd_last_rainfall_amount
-      - sensor.boiler_last_error_code
-      - sensor.boiler_next_maintenance_date
-      - number.boiler_time_to_next_maintenance
-      - select.boiler_maintenance_scheduled
       - sensor.solcast_swahome
-      - update.pool_firmware
-      - sensor.jpad_air_2_battery
-
-# OPTIONAL - filter template loop warnings from the Home Assistant log.
-logger:
-  filters:
-    homeassistant.components.template.template_entity:
-      - "Template loop detected while processing event"
+      - sensor.hacs
+      - sensor.generic_pcl_laser_printer
+      - sensor.dwd_last_rainfall_amount
+      - person.tablet
+      - media_player.julias_2_echo_dot
+      - light.dimmable_light_3
+      - climate.dg_stefan
+      - binary_sensor.updater
 
 # OPTIONAL Example automation to demonstrate how you can utilize this sensor
+
 automation:
   - id: unavailable_entities_notification
     alias: "Unavailable Entities Notification"
-    description: "Create persistent notification if there are unavailable entities, dismiss if none."
+    description: "Create persistent notification if unavailable entities, dismiss if none."
     mode: restart
     trigger:
       - platform: state
         entity_id: sensor.unavailable_entities
+        attribute: entity_id
         to: ~
     condition:
       - condition: template
+        alias: "Sensor state is a valid numerical value"
         value_template: >
           {{ is_number(trigger.from_state.state)
               and is_number(trigger.to_state.state) }}
     action:
-      - choose:
-          conditions:
-            - condition: numeric_state
-              entity_id: sensor.unavailable_entities
-              below: 1
-          sequence:
-            - service: persistent_notification.dismiss
-              data:
-                notification_id: unavailable_entities
-        default:
+      - if:
+          - condition: numeric_state
+            entity_id: sensor.unavailable_entities
+            below: 1
+        then:
+          - service: persistent_notification.dismiss
+            data:
+              notification_id: unavailable_entities
+        else:
           - service: persistent_notification.create
             data:
-              title: "Unavailable Entities"
-              message: >
-                - {{ expand(state_attr('sensor.unavailable_entities','entity_id'))
-                      |map(attribute='entity_id')|join('\n- ') }}
               notification_id: unavailable_entities
+              title: "Unavailable Entities"
+              message: "{{ state_attr('sensor.unavailable_entities','entity_id')|join('\n') }}"
+
+          # OPTIONAL Detailed persistent notification message - courtesy of @ThomDietrich and @warthog9
+
+          # - service: persistent_notification.create
+          #   data:
+          #     notification_id: unavailable_entities2
+          #     title: "Unavailable Entities"
+          #     message: >
+          #       {% set ns = namespace(result=[]) %}
+          #       {% for s in expand(state_attr('sensor.unavailable_entities', 'entity_id')) %}
+          #         {% set ns.result = ns.result + [
+          #             device_attr(s.entity_id, "name") ~ "|" ~ device_id(s.entity_id) ~ "|- **" ~ s.name ~ "**\n"
+          #             ~ "  - *entity_id*: " ~ s.entity_id ~ "\n"
+          #             ~ "  - *state*: " ~ s.state ~ "\n"
+          #           ]
+          #         %}
+          #       {% endfor %}
+
+          #       {% set ns.result = ns.result | sort %}
+          #       {% set lastdev = namespace( id="" ) %}
+          #       {% set tarr = ns.result %}
+          #       {% set ns.result = [] %}
+          #       {% for item in tarr %}
+          #         {% set dev = namespace( id="" ) %}
+          #         {% set entity = namespace( data="" ) %}
+          #         {% set dev.id = item.split("|")[1] %}
+          #         {% set entity.data = item.split("|")[2] %}
+          #         {% if lastdev.id != dev.id %}
+          #           {% if dev.id != 'None' %}
+          #             {% set ns.result = ns.result + [ "**<a href=\"/config/devices/device/" ~ dev.id ~ "\">" ~ device_attr(dev.id, "name") ~ "</a>**" ] %}
+          #           {% else %}
+          #             {% set ns.result = ns.result + [ "**Non-Device Entities**" ] %}
+          #           {% endif %}
+          #           {% set lastdev.id = dev.id %}
+          #         {% endif %}
+          #         {% set ns.result = ns.result + [ entity.data ] %}
+          #       {% endfor %}
+          #       {{ ns.result | join('\n') }}
