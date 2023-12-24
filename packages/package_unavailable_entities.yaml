@@ -7,6 +7,7 @@
 
 # REQUIRED - This is the template sensor
 
+# grab the device id from the URL 
 template:
   - sensor:
       - name: "Unavailable Entities"
@@ -36,9 +37,9 @@ template:
                 |rejectattr('entity_id','search','og_aussen')
                 |rejectattr('entity_id','search','sensor.pool|update.pool_firmware')
                 |rejectattr('entity_id','search','light.ikea_repeater')
-                |rejectattr('entity_id','search','_next_alarm')
-                |rejectattr('entity_id','search','_next_reminder')
-                |rejectattr('entity_id','search','_next_timer')
+                |rejectattr('entity_id','search','_next_alarm|_next_reminder|_next_timer')
+                |rejectattr('entity_id','search','switch.stefans_echo_dot_')
+                |rejectattr('entity_id','in',device_entities('34a8863578f67244135e8b206921bce6'))
                 |rejectattr('entity_id','search','sensor.browser')%}
             {% set entities =  entities|rejectattr('entity_id','in',ignored) if ignored != none else entities %}
             {{ entities|map(attribute='entity_id')|reject('has_value')|list|sort }}

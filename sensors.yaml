@@ -668,3 +668,10 @@
   timeout: 10
   # see https://www.home-assistant.io/integrations/mqtt_room/
   away_timeout: 120
+
+- platform: statistics
+  name: 'Total Gas consumption last 7 days'
+  entity_id: sensor.gasverbrauch
+  state_characteristic: change
+  max_age: 
+    hours: 168
