@@ -95,3 +95,9 @@
     ignore_availability: true
     name: Konstantin
 #    track: false
+
+- cal_id: family08565834230976980308@group.calendar.google.com
+  entities:
+  - device_id: familie
+    ignore_availability: true
+    name: Familie
