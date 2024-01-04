@@ -7,7 +7,7 @@
 
 # REQUIRED - This is the template sensor
 
-# grab the device id from the URL 
+# grab the device id from the URL
 template:
   - sensor:
       - name: "Unavailable Entities"
@@ -75,6 +75,12 @@ group:
       - light.dimmable_light_3
       - climate.dg_stefan
       - binary_sensor.updater
+      - sensor.stefans_ipad_battery
+      # old motion sensor
+      - binary_sensor.presence_62
+      - number.presence_62_duration
+      - sensor.lightlevel_63
+      - sensor.presence_62_battery
 
 # OPTIONAL Example automation to demonstrate how you can utilize this sensor
 
