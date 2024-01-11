@@ -173,13 +173,13 @@
   name: DG Stefan Video
   entities:
     cover.velux_external_cover:
-      current_position: 20
+      current_position: 100
       device_class: shutter
       friendly_name: Stefan Ost
       supported_features: 7
-      state: open
+      state: closing
     cover.velux_external_cover_2:
-      current_position: 26
+      current_position: 12
       device_class: shutter
       friendly_name: Stefan West
       supported_features: 7
