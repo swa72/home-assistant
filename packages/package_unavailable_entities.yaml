@@ -81,6 +81,11 @@ group:
       - number.presence_62_duration
       - sensor.lightlevel_63
       - sensor.presence_62_battery
+      - person.mieter2
+      - stt.home_assistant_cloud
+      - binary_sensor.wintergarten_button_lock_on_device
+      - binary_sensor.wintergarten_button_lock_via_ui
+      
 
 # OPTIONAL Example automation to demonstrate how you can utilize this sensor
 
