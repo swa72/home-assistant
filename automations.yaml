@@ -627,8 +627,10 @@
       minutes: 5
       seconds: 0
       milliseconds: 0
+    id: above23
   - platform: time
     at: '10:01'
+    id: at10
   condition:
   - condition: time
     after: '10:00'
@@ -2691,4 +2693,21 @@
       data:
         images:
         - /config/temp/garagegam-foo.jpg
+  mode: single
+- id: '1705555442124'
+  alias: Anna Rolladen hoch wenn nicht zuhause
+  description: ''
+  trigger:
+  - platform: time
+    at: 08:00:00
+  condition:
+    not:
+    - condition: state
+      entity_id: person.anna
+      state: home
+  action:
+  - service: cover.open_cover
+    target:
+      entity_id: cover.shelly25_dg_anna_rolladen
+    data: {}
   mode: single
