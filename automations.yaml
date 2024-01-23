@@ -2711,3 +2711,25 @@
       entity_id: cover.shelly25_dg_anna_rolladen
     data: {}
   mode: single
+- id: '1706004056913'
+  alias: Turn on heating in Kinderbad using Blueprint
+  description: ''
+  use_blueprint:
+    path: samnewman86/ikea-tradfri-2-button-on-off-switch-long-and-short-presses.yaml
+    input:
+      remote: 85bfc7b87d35da019a50570d2e25f9dc
+      button_on_short:
+      - condition: numeric_state
+        entity_id: sensor.multi_og_kinderbad_temperature
+        below: 22
+      - service: switch.turn_on
+        target:
+          device_id:
+          - 5929cf4364fb0096bd6b45f8d450cc79
+        data: {}
+      button_off_short:
+      - service: switch.turn_off
+        metadata: {}
+        data: {}
+        target:
+          device_id: 5929cf4364fb0096bd6b45f8d450cc79
