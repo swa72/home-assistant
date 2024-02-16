@@ -1408,7 +1408,7 @@
       sequence:
       - service: script.heating_change_offset
         data:
-          origin: automation.advanced_heating_HC2HC1_v2
+          origin: automation.advanced_heating_HC2HC1_v3
           circuit: 2
           offset: '{{ [-(states(''sensor.heating_hc2_delta'')|float/3)|round(0,''floor''),-3]|max
             }}'
@@ -1421,7 +1421,7 @@
       sequence:
       - service: script.heating_change_offset
         data:
-          origin: automation.advanced_heating_HC2HC1_v2
+          origin: automation.advanced_heating_HC2HC1_v3
           circuit: 2
           offset: 0
     default: []
