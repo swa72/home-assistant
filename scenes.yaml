@@ -189,3 +189,27 @@
       entity_only: true
     cover.velux_external_cover_2:
       entity_only: true
+- id: '1708500366056'
+  name: Osten Dunkel
+  entities:
+    cover.velux_external_cover:
+      current_position: 20
+      device_class: shutter
+      friendly_name: Stefan Ost
+      supported_features: 7
+      state: open
+  metadata:
+    cover.velux_external_cover:
+      entity_only: true
+- id: '1708500594429'
+  name: Westen Dunkel
+  entities:
+    cover.velux_external_cover_2:
+      current_position: 20
+      device_class: shutter
+      friendly_name: Stefan West
+      supported_features: 7
+      state: open
+  metadata:
+    cover.velux_external_cover_2:
+      entity_only: true
