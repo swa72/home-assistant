@@ -34,10 +34,10 @@ haustur_offnen:
       addon: 89275b70_dss_voip
       input:
         call_sip_uri: sip:**1@192.168.178.1:5060
-        audio_file_url: https://swa.duckdns.org/local/open_door_short.mp3
+        audio_file_url: http://192.168.178.83:8123/local/open_door_short.mp3
         call_duration: '6'
   - delay: 00:00:10
-  mode: single
+  mode: restart
 clara_tur_zu_und_leiser:
   alias: Call Clara Tür zu und leiser
   sequence:
