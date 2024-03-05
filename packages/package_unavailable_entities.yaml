@@ -85,7 +85,8 @@ group:
       - stt.home_assistant_cloud
       - binary_sensor.wintergarten_button_lock_on_device
       - binary_sensor.wintergarten_button_lock_via_ui
-      
+      - tts.home_assistant_cloud
+      - sensor.cert_expiry_timestamp_swa_duckdns_org
 
 # OPTIONAL Example automation to demonstrate how you can utilize this sensor
 
