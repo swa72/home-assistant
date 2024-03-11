@@ -2504,35 +2504,6 @@
         value_template: '{{ wait.trigger.event.data.action == action_nothing }}'
       sequence:
   mode: restart
-- id: '1689243429670'
-  alias: Konstantin WiFi aus wenn iPhone außerhalb Raum
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.espresense_esppkidsgross
-    from: 'on'
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
-    id: roomsensor-disconnected
-  - platform: state
-    entity_id:
-    - sensor.iphone_11_bwi
-    from: esppkidsgross
-    for:
-      hours: 0
-      minutes: 1
-      seconds: 0
-    id: phone-left-room
-  condition: []
-  action:
-  - service: notify.mobile_app_iphonebwi12
-    data:
-      message: Wifi Konstantin {{ trigger.id }}
-      title: Hinweis
-  mode: single
 - id: '1689592142929'
   alias: Notify Stefan of meter problem
   description: ''
@@ -2733,3 +2704,39 @@
         data: {}
         target:
           device_id: 5929cf4364fb0096bd6b45f8d450cc79
+- id: '1710175433013'
+  description: ''
+  trigger:
+  - platform: time
+    at: '18:30:00'
+  condition:
+  - condition: state
+    entity_id: sensor.ipad_rot
+    state: not_home
+  action:
+  - service: notify.mobile_app_iphonebwi12
+    data:
+      title: Hinweis
+      message: Konstantin iPad fehlt auf Anrichte.
+  mode: single
+- id: '1710175526937'
+  alias: Warnung Konstantin Geraet fehlt
+  description: ''
+  trigger:
+  - platform: time
+    at: '18:30:00'
+  - platform: time
+    at: '18:45:00'
+  - platform: time
+    at: '19:00:00'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.ipad_rot
+    attribute: distance
+    above: 2
+  action:
+  - service: notify.mobile_app_iphonebwi12
+    data:
+      title: Hinweis
+      message: Konstantin iPad fehlt auf Anrichte.
+  mode: single

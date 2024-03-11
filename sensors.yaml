@@ -649,30 +649,35 @@
       value_template: "{{ state_attr('weather.dwd_weather_heidelberg', 'temperature') | float(default=0) | round(0) }}"
 #
 # https://espresense.com/home_assistant
-#
+# see https://www.home-assistant.io/integrations/mqtt_room/#
 # One entry for each beacon you want to track
 - platform: mqtt_room
   # the ID you discovered
-  device_id: "iphone11_bwi"
+  device_id: "bwi_iphone11"
   name: "iPhone 11 BWI"
-  state_topic: "espresense/devices/iphone11_bwi"
-  # see https://www.home-assistant.io/integrations/mqtt_room/
-  timeout: 10
-  # see https://www.home-assistant.io/integrations/mqtt_room/
+  state_topic: "espresense/devices/bwi_iphone11"
+  timeout: 60
   away_timeout: 120
+
 - platform: mqtt_room
   # the ID you discovered
-  device_id: "iphoneK"
-  name: "iPhoneK"
-  state_topic: "espresense/devices/iphoneK"
-  # see https://www.home-assistant.io/integrations/mqtt_room/
-  timeout: 10
-  # see https://www.home-assistant.io/integrations/mqtt_room/
+  device_id: "ipad_rot"
+  name: "iPad Rot"
+  state_topic: "espresense/devices/ipad_rot"
+  timeout: 60
+  away_timeout: 120
+
+- platform: mqtt_room
+  # the ID you discovered
+  device_id: "claraiphone2020"
+  name: "iPhone Clara"
+  state_topic: "espresense/devices/claraiphone2020"
+  timeout: 60
   away_timeout: 120
 
 - platform: statistics
-  name: 'Total Gas consumption last 7 days'
+  name: "Total Gas consumption last 7 days"
   entity_id: sensor.gasverbrauch
   state_characteristic: change
-  max_age: 
+  max_age:
     hours: 168
