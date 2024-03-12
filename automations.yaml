@@ -2720,23 +2720,61 @@
       message: Konstantin iPad fehlt auf Anrichte.
   mode: single
 - id: '1710175526937'
-  alias: Warnung Konstantin Geraet fehlt
+  alias: Warnung Geraet fehlt auf Anrichte
   description: ''
   trigger:
-  - platform: time
-    at: '18:30:00'
-  - platform: time
-    at: '18:45:00'
-  - platform: time
-    at: '19:00:00'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.ipad_rot
-    attribute: distance
-    above: 2
+  - platform: time_pattern
+    hours: 18
+    minutes: /15
+  - platform: time_pattern
+    hours: 19
+    minutes: /15
+  - platform: time_pattern
+    hours: 20
+    minutes: /15
+  condition: []
+  action:
+  - if:
+    - condition: numeric_state
+      entity_id: sensor.ipad_rot
+      attribute: distance
+      above: 2
+    - condition: time
+      after: '18:29:00'
+      before: '20:16:00'
+    then:
+    - service: notify.mobile_app_iphonebwi12
+      metadata: {}
+      data:
+        title: Hinweis
+        message: Konstantin iPad fehlt auf Anrichte.
+  - if:
+    - condition: numeric_state
+      entity_id: sensor.iphone_clara
+      attribute: distance
+      above: 2
+    - condition: time
+      after: '19:29:00'
+      before: '20:16:00'
+    then:
+    - service: notify.mobile_app_iphonebwi12
+      metadata: {}
+      data:
+        title: Hinweis
+        message: Clara iPhone fehlt auf Anrichte.
+  mode: single
+- id: '1710217827661'
+  alias: Warnung ESPresense Geraet fehlt
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.espresense_esppkidsgross_espresense_esppkidsgross
+    to: 'off'
+  condition: []
   action:
   - service: notify.mobile_app_iphonebwi12
     data:
       title: Hinweis
-      message: Konstantin iPad fehlt auf Anrichte.
+      message: ESPresense keine Verbindung mehr.
   mode: single
