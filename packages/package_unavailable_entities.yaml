@@ -87,6 +87,7 @@ group:
       - binary_sensor.wintergarten_button_lock_via_ui
       - tts.home_assistant_cloud
       - sensor.cert_expiry_timestamp_swa_duckdns_org
+      - sensor.stefans_ipad_battery_2
 
 # OPTIONAL Example automation to demonstrate how you can utilize this sensor
 
