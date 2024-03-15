@@ -1,258 +1,86 @@
-
+#
+#
+#
 network:
   port: 7070
+#
+# Debug Level
+#
+log: debug
+levels:
+  cache: error
 
-log: info
+# unique installation id
+plant: 357700821005ee07f7a93604d7c0611d9a081a56f305121a947a4a05a3cae68c
 
+# control cycle interval
 interval: 30s
 
-javascript:
-  - vm: shared
-    script: |
-      state = {
-        residualpower: 500,
-        pvpower: 5000,
-        batterypower: -750,
-        batterySoc: 55,
-        gridpower: -1000,
-        loadpoints: [
-          { enabled: true, vehicleSoc: 62, maxcurrent: 6, phases: 1, chargepower: 0 },
-          { enabled: false, vehicleSoc: 22, maxcurrent: 0, phases: 3, chargepower: 0 }
-        ]
-      };
-      function logState() {
-        console.log("state:", JSON.stringify(state));
-      }
-
+#
+# SML Reader
+#
 meters:
-  - name: grid
-    type: custom
-    power:
-      source: js
-      vm: shared
-      script: |
-        state.gridpower = state.loadpoints[0].chargepower + state.loadpoints[1].chargepower + state.residualpower - batterypower - pvpower;
-        state.gridpower;
-      in:
-        - name: pvpower
-          type: float
-          config:
-            source: js
-            vm: shared
-            script: |
-              state.pvpower = 8000+500*Math.random();
-              state.pvpower
-        - name: batterypower
-          type: float
-          config:
-            source: js
-            vm: shared
-            script: |
-              state.batterypower = state.gridpower > 0 ? 1000 * Math.random() : 0;
-              state.batterypower
-
-  - name: pv
-    type: custom
-    power:
-      source: js
-      vm: shared
-      script: state.pvpower;
-
-  - name: battery
-    type: custom
-    power:
-      source: js
-      vm: shared
-      script: state.batterypower;
-    soc:
-      source: js
-      vm: shared
-      script: |
-        if (state.batterypower < 0) state.batterySoc++; else state.batterySoc--;
-        if (state.batterySoc < 10) state.batterySoc = 90;
-        if (state.batterySoc > 90) state.batterySoc = 10;
-        state.batterySoc;
-    capacity: 13.4
-
-  - name: meter_charger_1
-    type: custom
-    power:
-      source: js
-      vm: shared
-      script: state.loadpoints[0].chargepower;
-
-  - name: meter_charger_2
-    type: custom
-    power:
-      source: js
-      vm: shared
-      script: state.loadpoints[1].chargepower;
-
+- name: grid
+  type: custom
+  power: # Leistung (W)
+    source: mqtt
+    topic: homeassistant/sensor/smartmeter/sensor/1/obis/1-0:16.7.0/255/value
+    scale: -1
+    timeout: 30s # don't accept values older than timeout
+#
+# MQTT Broker
+# must not be homeassistant-eth:1883, homeassistant-eth.local:1883
+mqtt:
+  broker: 192.168.178.83:1883
+  user: swamq
+  password: qw3edc4r
+#
+# Charger
+# must not be TeslaWallConnector-A5ECC1 
 chargers:
-  - name: charger_1
-    type: custom
-    enable:
-      source: js
-      vm: shared
-      script: |
-        logState();
-        var lp = state.loadpoints[0];
-        lp.enabled = enable;
-        enable;
-      out:
-        - name: enable
-          type: bool
-          config:
-            source: js
-            vm: shared
-            script: |
-              if (enable) lp.chargepower = lp.maxcurrent * 230 * lp.phases; else lp.chargepower = 0;
-    enabled:
-      source: js
-      vm: shared
-      script: |
-        state.loadpoints[0].enabled;
-    status:
-      source: js
-      vm: shared
-      script: |
-        if (state.loadpoints[0].enabled) "C"; else "B";
-    maxcurrent:
-      source: js
-      vm: shared
-      script: |
-        logState();
-        var lp = state.loadpoints[0];
-        lp.maxcurrent = maxcurrent;
-        if (lp.enabled) lp.chargepower = lp.maxcurrent * 230 * lp.phases; else lp.chargepower = 0;
-
-  # - name: charger_2
-    # type: custom
-    # enable:
-      # source: js
-      # vm: shared
-      # script: |
-        # logState();
-        # var lp = state.loadpoints[1];
-        # lp.enabled = enable;
-        # if (lp.enabled) lp.chargepower = lp.maxcurrent * 230 * lp.phases; else lp.chargepower = 0;
-    # enabled:
-      # source: js
-      # vm: shared
-      # script: |
-        # state.loadpoints[1].enabled;
-    # status:
-      # source: js
-      # vm: shared
-      # script: |
-        # if (state.loadpoints[1].enabled) "C"; else "B";
-    # maxcurrent:
-      # source: js
-      # vm: shared
-      # script: |
-        # logState();
-        # var lp = state.loadpoints[1];
-        # lp.maxcurrent = maxcurrent;
-        # if (lp.enabled) lp.chargepower = lp.maxcurrent * 230 * lp.phases; else lp.chargepower = 0;
-    # tos: true
-    # phases1p3p:
-      # source: js
-      # vm: shared
-      # script: |
-        # logState();
-        # if (phases === 1) lp.phases = 1; else lp.phases = 3;
-        # lp.phases;
-
-vehicles:
-  - name: vehicle_1
-    title: Tesla T1
-    type: custom
-    soc:
-      source: js
-      vm: shared
-      script: |
-        var lp = state.loadpoints[0];
-        if (lp.chargepower > 0) lp.vehicleSoc+=0.1; else lp.vehicleSoc-=0.1;
-        if (lp.vehicleSoc < 15) lp.vehicleSoc = 80;
-        if (lp.vehicleSoc > 80) lp.vehicleSoc = 15;
-        lp.vehicleSoc;
-    range:
-      source: js
-      vm: shared
-      script: |
-        var lp = state.loadpoints[0]
-        var range = (44 * lp.vehicleSoc) / 15;
-        range
-    capacity: 44
-  # - name: vehicle_2
-    # title: weißes Model 3
-    # type: custom
-    # soc:
-      # source: js
-      # vm: shared
-      # script: |
-        # var lp = state.loadpoints[1];
-        # if (lp.chargepower > 0) lp.vehicleSoc++; else lp.vehicleSoc--;
-        # if (lp.vehicleSoc < 15) lp.vehicleSoc = 75;
-        # if (lp.vehicleSoc > 75) lp.vehicleSoc = 15;
-        # lp.vehicleSoc;
-    # range:
-      # source: js
-      # vm: shared
-      # script: |
-        # var lp = state.loadpoints[1]
-        # var range = (80 * lp.vehicleSoc) / 17;
-        # range
-    # status:
-      # source: js
-      # vm: shared
-      # script: |
-        # "B"
-    # capacity: 80
-  # - name: vehicle_3
-    # type: template
-    # template: offline
-    # title: grüner Honda e
-    # capacity: 8
-  # - name: vehicle_4
-    # type: template
-    # template: offline
-    # title: schwarzes VanMoof
-    # icon: bike
-    # capacity: 0.46
-  # - name: vehicle_5
-    # type: template
-    # template: offline
-    # title: Wärmepumpe
-    # icon: waterheater
-
-site:
-  title: Schönauer Abtweg 2
-  meters:
-    grid: grid
-    pv: pv
-    battery: battery
-
+- type: template
+  template: twc3 
+  host: 192.168.178.36
+  name: wallbox
+#
+# Loadpoints
+#
 loadpoints:
-  - title: Garage
-    charger: charger_1
-    mode: pv
-    meter: meter_charger_1
-    vehicle: vehicle_1
-  # - title: Garage
-    # charger: charger_2
-    # mode: "off"
-    # meter: meter_charger_2
-    # vehicle: vehicle_2
-
+- title: Garage
+  charger: wallbox
+  mode: minpv
+#
+# Vehicles
+#
+vehicles:
+ - name: T1
+   type: template
+   template: tesla
+   accessToken: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InE0dHg3Q1UyYzI2V1BiemwxZjZjanM3QnhzayJ9.eyJpc3MiOiJodHRwczovL2F1dGgudGVzbGEuY29tL29hdXRoMi92My9udHMiLCJhenAiOiIwOGZmODI3ZmEzMWItNGVhNi1iZWQxLTgxN2JlMGFiNDBjOCIsInN1YiI6IjA5NDI4NmMzLWU0OTgtNDRhMS1hZDI1LTI1OTA5MDM0ODQxOSIsImF1ZCI6WyJodHRwczovL2ZsZWV0LWFwaS5wcmQubmEudm4uY2xvdWQudGVzbGEuY29tIiwiaHR0cHM6Ly9mbGVldC1hcGkucHJkLmV1LnZuLmNsb3VkLnRlc2xhLmNvbSIsImh0dHBzOi8vYXV0aC50ZXNsYS5jb20vb2F1dGgyL3YzL3VzZXJpbmZvIl0sInNjcCI6WyJvcGVuaWQiLCJvZmZsaW5lX2FjY2VzcyIsInVzZXJfZGF0YSIsInZlaGljbGVfZGV2aWNlX2RhdGEiLCJ2ZWhpY2xlX2NtZHMiLCJ2ZWhpY2xlX2NoYXJnaW5nX2NtZHMiLCJlbmVyZ3lfZGV2aWNlX2RhdGEiXSwiYW1yIjpbInB3ZCJdLCJleHAiOjE3MTA1NDc2MTksImlhdCI6MTcxMDUxODgxOSwib3VfY29kZSI6IkVVIiwibG9jYWxlIjoiZGUtREUiLCJhdXRoX3RpbWUiOjE3MTA1MTg4MTh9.QOSK3SrWH7UZm2m1OqoOcHOEZEQT0hsEXk41zmJ3v210EEOZbowD1zQ4yPIYBMS5Iu3rtHu--VEeEZ4xIWl5BqRxwkiLGkT9a7mgxbNV6uwR3eJbkjR3wZsohVF6sV6V32qZyAkccT2no3UwFWHpQg0OsE-UpyCs3L3Qy847DltIS8_xyPFw-12J2117-DOZnUE51G_ocjtaP_bbutW7FL8HLjP_lzryypdh028VGcRhVa1luLG29Jqki01MT2Ex6njx-2Q_msBskwgqQ0IiC1jsJB8cYA6VdlWvUwdrAI0fE98k2aKvpywQnSN3x8uCQjE-T29hOILGH4sGm1xF8w
+   refreshToken: EU_3d398dd287fab89b49499cb070d7fb5caa183e8464e23d4cc3c110244249d5c8
+   vin: XP7YGCEL5PB057002
+ # - name: R1
+   # type: template
+   # template: tesla # change `tesla` to `tesla-command`
+   # accessToken: 
+   # refreshToken: 
+   # vin: XP7YGCEK2RB299000
+#
+# My site
+#
+site:
+  title: Schönauer Abtweg
+  meters:
+    grid: grid # grid meter
+#
+# Costs
+# 
 tariffs:
-  currency: EUR # three letter ISO-4217 currency code (default EUR)
+  currency: EUR # (default EUR)
   grid:
     type: fixed
-    price: 0.29 # EUR/kWh
-  feedin:
-    type: fixed
-    price: 0.08 # EUR/kWh
-  co2:
-    type: grünstromindex
-    zip: 69118
+    price: 0.294 # [currency]/kWh
+#
+# trial token, valid until 2024-03-23
+#
+sponsortoken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTExODA4MDAsImlhdCI6MTcxMDA1NzYwMCwiaXNzIjoiZXZjYy5pbyIsInN1YiI6IlRyaWFsIFNwb25zb3JzaGlwIPCfpLkiLCJzcGUiOnRydWUsInNyYyI6Im1hIn0.78UrrdrvELwzWLLrXfZbR8dP9SoN2_8tcYK4zfv1m5c
