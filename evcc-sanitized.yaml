@@ -30,12 +30,19 @@ loadpoints:
   charger: wallbox
   mode: minpv
 vehicles:
- - name: T1
+ - name: T1 # no spaces or special characters
    type: template
    template: tesla
    accessToken: *****
    refreshToken: *****
    vin: *****
+ - name: RainerR1 # no spaces or special characters
+   type: template
+   template: tesla
+   accessToken: *****
+   refreshToken: *****
+   vin: *****
+
 site:
   title: Schönauer Abtweg
   meters:
