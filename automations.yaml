@@ -2771,6 +2771,10 @@
     entity_id:
     - binary_sensor.espresense_esppkidsgross_espresense_esppkidsgross
     to: 'off'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
   condition: []
   action:
   - service: notify.mobile_app_iphonebwi12
