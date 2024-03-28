@@ -2705,6 +2705,7 @@
         target:
           device_id: 5929cf4364fb0096bd6b45f8d450cc79
 - id: '1710175433013'
+  alias: Rotes iPad fehlt auf Anrichte
   description: ''
   trigger:
   - platform: time
