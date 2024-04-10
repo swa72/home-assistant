@@ -2783,3 +2783,51 @@
       title: Hinweis
       message: ESPresense keine Verbindung mehr.
   mode: single
+- id: '1712771738575'
+  alias: DG Cover Wechsel
+  description: ''
+  trigger: []
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ state_attr(''cover.velux_external_cover_2'', ''current_position'')
+          == 100 }}'
+      - condition: template
+        value_template: '{{ state_attr(''cover.velux_external_cover'', ''current_position'')
+          == 100 }}'
+      sequence:
+      - service: scene.turn_on
+        metadata: {}
+        target:
+          entity_id: scene.osten_dunkel
+    - conditions:
+      - condition: template
+        value_template: '{{ state_attr(''cover.velux_external_cover'', ''current_position'')
+          == 20 }}'
+      sequence:
+      - service: cover.open_cover
+        metadata: {}
+        data: {}
+        target:
+          entity_id: cover.velux_external_cover
+      - service: scene.turn_on
+        metadata: {}
+        target:
+          entity_id: scene.westen_dunkel
+    - conditions:
+      - condition: template
+        value_template: '{{ state_attr(''cover.velux_external_cover_2'', ''current_position'')
+          == 20 }}'
+      sequence:
+      - service: cover.open_cover
+        metadata: {}
+        data: {}
+        target:
+          entity_id: cover.velux_external_cover_2
+      - service: scene.turn_on
+        metadata: {}
+        target:
+          entity_id: scene.osten_dunkel
+  mode: single
