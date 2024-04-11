@@ -2748,7 +2748,22 @@
       metadata: {}
       data:
         title: Hinweis
-        message: Konstantin iPad fehlt auf Anrichte.
+        message: Das iPad von Konstantin fehlt auf der Anrichte.
+    - service: media_player.volume_set
+      data:
+        volume_level: 0.5
+      entity_id: media_player.stefans_echo_dot
+    - service: notify.alexa_media
+      data:
+        target: media_player.stefans_echo_dot
+        message: Das iPad von Konstantin fehlt auf der Anrichte.
+        data:
+          type: tts
+    - service: media_player.volume_set
+      data:
+        volume_level: 0.2
+      target:
+        entity_id: media_player.stefans_echo_dot
   - if:
     - condition: numeric_state
       entity_id: sensor.iphone_clara
@@ -2762,7 +2777,22 @@
       metadata: {}
       data:
         title: Hinweis
-        message: Clara iPhone fehlt auf Anrichte.
+        message: Das iPhone von Clara fehlt auf der Anrichte.
+    - service: media_player.volume_set
+      data:
+        volume_level: 0.5
+      entity_id: media_player.stefans_echo_dot
+    - service: notify.alexa_media
+      data:
+        target: media_player.stefans_echo_dot
+        message: Das iPhone von Clara fehlt auf der Anrichte.
+        data:
+          type: tts
+    - service: media_player.volume_set
+      data:
+        volume_level: 0.2
+      target:
+        entity_id: media_player.stefans_echo_dot
   mode: single
 - id: '1710217827661'
   alias: Warnung ESPresense Geraet fehlt
