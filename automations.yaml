@@ -2861,3 +2861,25 @@
         target:
           entity_id: scene.osten_dunkel
   mode: single
+- id: '1712903556652'
+  alias: Notify stefan critically if doorbell pressed and helper set
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.doorbell_pressed
+    to: 'on'
+    from: 'off'
+  condition:
+  - condition: state
+    entity_id: input_boolean.stefan_critical
+    state: 'on'
+  action:
+  - service: script.turn_on
+    target:
+      entity_id: script.urgent_notify_stefan
+    data:
+      variables:
+        title: Tür
+        message: Türklingel wurde gedrückt
+  mode: single
