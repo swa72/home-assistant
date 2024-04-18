@@ -2883,3 +2883,137 @@
         title: Tür
         message: Türklingel wurde gedrückt
   mode: single
+- id: '1713470741508'
+  alias: Stefan Away
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.stefan_away
+    from: 'on'
+    to: 'off'
+  - platform: state
+    entity_id:
+    - input_boolean.stefan_away
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - if:
+    - condition: state
+      entity_id: input_boolean.stefan_away
+      state: 'on'
+    then:
+    - service: notify.persistent_notification
+      metadata: {}
+      data:
+        message: Stefan ist abwesend.
+    - service: automation.turn_off
+      metadata: {}
+      data:
+        stop_actions: true
+      target:
+        entity_id: automation.kalender_schreibtisch
+    - service: automation.turn_off
+      metadata: {}
+      data:
+        stop_actions: true
+      target:
+        entity_id: automation.kalender_silvia
+    - service: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.shellys_silvia
+    - service: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.shellyp_dg_stefan_tisch
+  - if:
+    - condition: state
+      entity_id: input_boolean.stefan_away
+      state: 'off'
+    then:
+    - service: notify.persistent_notification
+      metadata: {}
+      data:
+        message: Stefan ist anwesend.
+    - service: automation.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: automation.kalender_schreibtisch
+    - service: automation.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: automation.kalender_silvia
+  mode: single
+- id: '1713471830418'
+  alias: Family away
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.family_away
+    from: 'on'
+    to: 'off'
+  - platform: state
+    entity_id:
+    - input_boolean.family_away
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - if:
+    - condition: state
+      entity_id: input_boolean.stefan_away
+      state: 'on'
+    then:
+    - service: notify.persistent_notification
+      metadata: {}
+      data:
+        message: Stefan ist abwesend.
+    - service: automation.turn_off
+      metadata: {}
+      data:
+        stop_actions: true
+      target:
+        entity_id: automation.kalender_schreibtisch
+    - service: automation.turn_off
+      metadata: {}
+      data:
+        stop_actions: true
+      target:
+        entity_id: automation.kalender_silvia
+    - service: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.shellys_silvia
+    - service: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.shellyp_dg_stefan_tisch
+  - if:
+    - condition: state
+      entity_id: input_boolean.stefan_away
+      state: 'off'
+    then:
+    - service: notify.persistent_notification
+      metadata: {}
+      data:
+        message: Stefan ist anwesend.
+    - service: automation.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: automation.kalender_schreibtisch
+    - service: automation.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: automation.kalender_silvia
+  mode: single
