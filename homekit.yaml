@@ -10,7 +10,7 @@
     include_entities:
       - script.haustur_offnen
       - script.buro
-      - switch.wake_up_thinkpad_t430
+#      - switch.wake_up_thinkpad_t430
       - switch.shellyp_dg_stefan_tisch
       - switch.shellys_silvia
       - switch.wintergarten
@@ -31,9 +31,9 @@
       name: Anna Rolladen
     switch.shellys_silvia:
       name: Silvia
-    switch.wake_up_thinkpad_t430:
-      # siri does not understand "thinkpad" :-/
-      name: Notebook
+    # switch.wake_up_thinkpad_t430:
+      # # siri does not understand "thinkpad" :-/
+      # name: Notebook
     switch.shellyp_dg_stefan_tisch:
       name: Schreibtisch
     climate.roofac:
@@ -44,3 +44,5 @@
       name: Büro
     cover.shelly25_og_clara:
       name: Konstantin Rolladen
+    script.haustur_offnen:
+      name: Haustür

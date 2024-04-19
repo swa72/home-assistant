@@ -490,131 +490,6 @@
         data: {}
     default: []
   mode: single
-- id: '1632424762898'
-  alias: Advanced Rolladen Schlafzimmer
-  description: Rolladensteuerung Schlafzimmer zeitgesteuert Wochentags/Wochenende
-  trigger:
-  - platform: time
-    at: input_datetime.cover_morning_weekday
-    id: wochentags
-  - platform: time
-    at: input_datetime.cover_morning_holiday
-    id: wochentagsferien
-  - platform: sun
-    event: sunset
-    offset: 00:30:00
-    id: abends1
-  - platform: time
-    at: '21:00'
-    id: abends2
-  - platform: time
-    at: input_datetime.cover_morning_weekend
-    id: wochenende
-  - platform: numeric_state
-    entity_id: sensor.multi_og_schlaf_temperature
-    id: warmesschlafzimmer
-    above: '24'
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 0
-      milliseconds: 0
-  - platform: homeassistant
-    event: start
-    id: hastart
-  - platform: event
-    event_type:
-    - automation_reloaded
-    id: automation_reloaded
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: or
-        conditions:
-        - condition: trigger
-          id: abends1
-        - condition: trigger
-          id: abends2
-      sequence:
-      - scene: scene.schlafzimmer_abend_sommer
-    - conditions:
-      - condition: trigger
-        id: wochentags
-      - condition: time
-        weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
-      - condition: state
-        entity_id: calendar.ferien
-        state: 'off'
-      - condition: numeric_state
-        entity_id: sensor.multi_og_schlaf_temperature
-        below: '24'
-      sequence:
-      - scene: scene.schlafzimmer_morgen
-    - conditions:
-      - condition: trigger
-        id: wochentagsferien
-      - condition: time
-        weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
-      - condition: state
-        entity_id: calendar.ferien
-        state: 'on'
-      - condition: numeric_state
-        entity_id: sensor.multi_og_schlaf_temperature
-        below: '24'
-      sequence:
-      - scene: scene.schlafzimmer_morgen
-    - conditions:
-      - condition: trigger
-        id: wochenende
-      - condition: time
-        weekday:
-        - sat
-        - sun
-      - condition: numeric_state
-        entity_id: sensor.multi_og_schlaf_temperature
-        below: '24'
-      sequence:
-      - scene: scene.schlafzimmer_morgen
-    - conditions:
-      - condition: or
-        conditions:
-        - condition: trigger
-          id: warmesschlafzimmer
-        - condition: trigger
-          id: hastart
-        - condition: trigger
-          id: automation_reloaded
-      - condition: numeric_state
-        entity_id: sensor.multi_og_schlaf_temperature
-        above: '24'
-      - condition: time
-        after: input_datetime.cover_morning_holiday
-        before: '21:00:00'
-      - condition: numeric_state
-        entity_id: sensor.boiler_outside_temperature
-        above: '10'
-      sequence:
-      - service: cover.set_cover_position
-        target:
-          area_id:
-          - og_schlaf
-          - og_elternbad
-        data:
-          position: 40
-    default: []
-  mode: queued
-  max: 10
 - id: '1632469853125'
   alias: Advanced Rolladen Anna
   description: Temperatur-abhängiges Schliessen
@@ -1007,12 +882,6 @@
   alias: Advanced Rolladen KidsGross
   description: Rolladensteuerung KidsGross zeitgesteuert Wochentags/Wochenende
   trigger:
-  - platform: time
-    at: input_datetime.cover_morning_weekday
-    id: wochentags
-  - platform: time
-    at: input_datetime.cover_morning_holiday
-    id: wochentagsferien
   - platform: sun
     event: sunset
     offset: 00:30:00
@@ -1020,9 +889,6 @@
   - platform: time
     at: '19:45'
     id: abends2
-  - platform: time
-    at: input_datetime.cover_morning_weekend
-    id: wochenende
   condition: []
   action:
   - choose:
@@ -1039,57 +905,6 @@
           position: 5
         target:
           entity_id: cover.shelly25_og_clara
-    - conditions:
-      - condition: trigger
-        id: wochentags
-      - condition: time
-        weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
-      - condition: state
-        entity_id: calendar.ferien
-        state: 'off'
-      sequence:
-      - service: cover.set_cover_position
-        target:
-          entity_id: cover.shelly25_og_clara
-        data:
-          position: 100
-    - conditions:
-      - condition: trigger
-        id: wochentagsferien
-      - condition: time
-        weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
-      - condition: state
-        entity_id: calendar.ferien
-        state: 'on'
-      sequence:
-      - service: cover.set_cover_position
-        target:
-          entity_id: cover.shelly25_og_clara
-        data:
-          position: 100
-    - conditions:
-      - condition: trigger
-        id: wochenende
-      - condition: time
-        weekday:
-        - sat
-        - sun
-      sequence:
-      - service: cover.set_cover_position
-        target:
-          entity_id: cover.shelly25_og_clara
-        data:
-          position: 100
     default: []
   mode: queued
   max: 10
@@ -1946,7 +1761,7 @@
       enabled: false
   mode: queued
 - id: '1653590240171'
-  alias: Stefan away
+  alias: Stefan away automatic
   description: ''
   trigger:
   - platform: state
@@ -2968,52 +2783,140 @@
   action:
   - if:
     - condition: state
-      entity_id: input_boolean.stefan_away
+      entity_id: input_boolean.family_away
       state: 'on'
     then:
     - service: notify.persistent_notification
       metadata: {}
       data:
-        message: Stefan ist abwesend.
+        message: Familie ist abwesend.
     - service: automation.turn_off
-      metadata: {}
-      data:
-        stop_actions: true
-      target:
-        entity_id: automation.kalender_schreibtisch
-    - service: automation.turn_off
-      metadata: {}
-      data:
-        stop_actions: true
-      target:
-        entity_id: automation.kalender_silvia
-    - service: switch.turn_off
       metadata: {}
       data: {}
       target:
-        entity_id: switch.shellys_silvia
-    - service: switch.turn_off
+        entity_id: automation.warnung_espresense_geraet_fehlt
+    - service: automation.turn_off
       metadata: {}
       data: {}
       target:
-        entity_id: switch.shellyp_dg_stefan_tisch
+        entity_id: automation.warnung_konstantin_geraet_fehlt
+    - service: automation.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: automation.advanced_heating_workdays_v2
+    - service: automation.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: automation.advanced_heating_hc2hc1_v3
+    - service: select.select_option
+      metadata: {}
+      data:
+        option: 'off'
+      target:
+        entity_id: select.thermostat_dhw_mode
+    - service: select.select_option
+      metadata: {}
+      data:
+        option: manual
+      target:
+        entity_id: select.thermostat_hc1_mode
+    - service: select.select_option
+      metadata: {}
+      data:
+        option: manual
+      target:
+        entity_id: select.thermostat_hc2_mode
+    - service: select.select_option
+      metadata: {}
+      data:
+        option: manual
+      target:
+        entity_id: select.thermostat_hc3_mode
   - if:
     - condition: state
-      entity_id: input_boolean.stefan_away
+      entity_id: input_boolean.family_away
       state: 'off'
     then:
     - service: notify.persistent_notification
       metadata: {}
       data:
-        message: Stefan ist anwesend.
+        message: Familie ist anwesend.
     - service: automation.turn_on
       metadata: {}
       data: {}
       target:
-        entity_id: automation.kalender_schreibtisch
+        entity_id: automation.warnung_espresense_geraet_fehlt
     - service: automation.turn_on
       metadata: {}
       data: {}
       target:
-        entity_id: automation.kalender_silvia
+        entity_id: automation.warnung_konstantin_geraet_fehlt
+    - service: automation.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: automation.advanced_heating_workdays_v2
+    - service: automation.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: automation.advanced_heating_hc2hc1_v3
+    - service: select.select_option
+      metadata: {}
+      data:
+        option: own prog
+      target:
+        entity_id: select.thermostat_dhw_mode
+    - service: select.select_option
+      metadata: {}
+      data:
+        option: auto
+      target:
+        entity_id: select.thermostat_hc1_mode
+    - service: select.select_option
+      metadata: {}
+      data:
+        option: auto
+      target:
+        entity_id: select.thermostat_hc2_mode
+    - service: select.select_option
+      metadata: {}
+      data:
+        option: auto
+      target:
+        entity_id: select.thermostat_hc3_mode
   mode: single
+- id: '1713514008301'
+  alias: Rolladensteuerung Schlafzimmer runter
+  description: Rolladensteuerung Schlafzimmer runter
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: 00:30:00
+    id: abends1
+  - platform: time
+    at: '21:00'
+    id: abends2
+  - platform: homeassistant
+    event: start
+    id: hastart
+  - platform: event
+    event_type:
+    - automation_reloaded
+    id: automation_reloaded
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: trigger
+          id: abends1
+        - condition: trigger
+          id: abends2
+      sequence:
+      - scene: scene.schlafzimmer_abend_sommer
+    default: []
+  max: 10
