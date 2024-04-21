@@ -345,7 +345,7 @@
       action_on: '{{ ''ON_'' ~ context.id }}'
       action_nothing: '{{ ''NOTHING_'' ~ context.id }}'
   - alias: q1 Ask a question
-    service: notify.mobile_app_iphonebwi12bwi12
+    service: notify.mobile_app_iphone15b
     data:
       message: Temp too hot in office. Turn on AC?
       data:
@@ -1486,7 +1486,7 @@
       value_template: '{{ stale | count > 0 }}'
     - condition: template
       value_template: '{{ stale != ''sensor.multi_og_aussen_temperature'' }}'
-  - service: notify.mobile_app_iphonebwi12
+  - service: script.notify_stefan
     data:
       title: Stale Entities Found (no change in 2h)
       message: '{{ stale }}'
@@ -1509,7 +1509,7 @@
     value_template: '{{(as_timestamp(now()) - as_timestamp(state_attr(this.entity_id,
       ''last_triggered'') | default(0)) | int > 21600 )}}'
   action:
-  - service: notify.mobile_app_iphonebwi12
+  - service: script.notify_stefan
     data:
       message: Office too hot. {{ states('sensor.multi_dg_stefan_temperature') | float
         | round(1) }}°C
@@ -1541,7 +1541,7 @@
       retain: true
   - service: mqtt.publish
     data:
-      payload: '{{ states(''ssensor.heidelberg_precipitation'') }}'
+      payload: '{{ states(''sensor.heidelberg_precipitation'') }}'
       topic: home-assistant/variable/last_rainfall_amount
       retain: true
   mode: single
@@ -1573,7 +1573,7 @@
     entity_id: sensor.multi_og_schlaf_temperature
     above: '24'
   action:
-  - service: notify.mobile_app_iphonebwi12
+  - service: notify.mobile_app_iphone15b
     data:
       title: Hinweis
       data:
@@ -1607,7 +1607,7 @@
         entity_id: zone.home
         state: '0'
       sequence:
-      - service: notify.mobile_app_iphonebwi12
+      - service: script.notify_stefan
         data:
           title: Hinweis
           message: Last one left home.
@@ -1616,7 +1616,7 @@
         entity_id: zone.home
         state: '1'
       sequence:
-      - service: notify.mobile_app_iphonebwi12
+      - service: script.notify_stefan
         data:
           title: Hinweis
           message: First one arrived at home.
@@ -1796,28 +1796,28 @@
       - condition: trigger
         id: home
       sequence:
-      - service: notify.mobile_app_iphonebwi12
+      - service: script.notify_stefan
         data:
           message: Stefan is at home
     - conditions:
       - condition: trigger
         id: away
       sequence:
-      - service: notify.mobile_app_iphonebwi12
+      - service: script.notify_stefan
         data:
           message: Stefan is away
     - conditions:
       - condition: trigger
         id: extendedaway
       sequence:
-      - service: notify.mobile_app_iphonebwi12
+      - service: script.notify_stefan
         data:
           message: Stefan is extended away
     - conditions:
       - condition: trigger
         id: justarrived
       sequence:
-      - service: notify.mobile_app_iphonebwi12
+      - service: script.notify_stefan
         data:
           message: Stefan just arrived
     - conditions:
@@ -1827,7 +1827,7 @@
         entity_id: switch.shellyp_dg_stefan_tisch
         state: 'on'
       sequence:
-      - service: notify.mobile_app_iphonebwi12
+      - service: script.notify_stefan
         data:
           title: Stefan just left
           message: Schreibtisch ist an.
@@ -1838,7 +1838,7 @@
         entity_id: binary_sensor.roofac_on
         state: 'on'
       sequence:
-      - service: notify.mobile_app_iphonebwi12
+      - service: script.notify_stefan
         data:
           title: Stefan just left
           message: Klimaanlage im DG ist an.
@@ -1849,7 +1849,7 @@
         entity_id: binary_sensor.sleepac_on
         state: 'on'
       sequence:
-      - service: notify.mobile_app_iphonebwi12
+      - service: script.notify_stefan
         data:
           title: Stefan just left
           message: Klimaanlage im Schlafzimmer ist an.
@@ -1913,7 +1913,7 @@
     event: start
   condition: []
   action:
-  - service: notify.mobile_app_iphonebwi12
+  - service: script.notify_stefan
     data:
       message: HA started.
       title: Info
@@ -2041,7 +2041,7 @@
       target:
         entity_id: counter.silvia
     else:
-    - service: notify.mobile_app_iphonebwi12
+    - service: script.notify_stefan
       data:
         title: Hinweis
         message: Counter Silvia not increased
@@ -2127,7 +2127,7 @@
       actionName: Haustuer
   condition: []
   action:
-  - service: notify.mobile_app_iphonebwi12
+  - service: script.notify_stefan
     data:
       message: haustuer
     enabled: false
@@ -2145,7 +2145,7 @@
       actionName: Tesla
   condition: []
   action:
-  - service: notify.mobile_app_iphonebwi12
+  - service: script.notify_stefan
     data:
       message: tesla
     enabled: false
@@ -2164,7 +2164,7 @@
       actionName: dgoffen
   condition: []
   action:
-  - service: notify.mobile_app_iphonebwi12
+  - service: script.notify_stefan
     data:
       message: dgoffen
     enabled: false
@@ -2183,7 +2183,7 @@
       actionName: dgvideo
   condition: []
   action:
-  - service: notify.mobile_app_iphonebwi12
+  - service: script.notify_stefan
     data:
       message: dgvideo
     enabled: false
@@ -2202,7 +2202,7 @@
       actionName: szmorgens
   condition: []
   action:
-  - service: notify.mobile_app_iphonebwi12
+  - service: script.notify_stefan
     data:
       message: szmorgens
     enabled: false
@@ -2221,7 +2221,7 @@
       actionName: szabends
   condition: []
   action:
-  - service: notify.mobile_app_iphonebwi12
+  - service: script.notify_stefan
     data:
       message: szabends
     enabled: false
@@ -2266,7 +2266,7 @@
     to: 'off'
   condition: []
   action:
-  - service: notify.mobile_app_iphonebwi12
+  - service: script.notify_stefan
     data:
       message: N/A
       title: 'Bewässerung beendet: {{ trigger.entity_id }}'
@@ -2287,7 +2287,7 @@
       action_on: '{{ ''ON_'' ~ context.id }}'
       action_nothing: '{{ ''NOTHING_'' ~ context.id }}'
   - alias: q1 Ask a question
-    service: notify.mobile_app_iphonebwi12
+    service: notify.mobile_app_iphone15b
     data:
       message: Haustür öffnen?
       data:
@@ -2340,7 +2340,7 @@
         value_template: '{{ states(''sensor.watermain_error'') is search(''Neg. Rate'')
           }}'
       sequence:
-      - service: notify.mobile_app_iphonebwi12
+      - service: script.notify_stefan
         data:
           title: Hinweis
           message: '{{ trigger.entity_id }} has negative read problem: {{ states(''sensor.watermain_error'')
@@ -2350,7 +2350,7 @@
           topic: watermain/ctrl/set_prevalue
           payload: '{"numbersname": "main", "value": -1}'
     default:
-    - service: notify.mobile_app_iphonebwi12
+    - service: script.notify_stefan
       data:
         title: Hinweis
         message: '{{ trigger.entity_id }} has other meter problem: {{ states(''sensor.watermain_error'')
@@ -2530,7 +2530,7 @@
     entity_id: sensor.ipad_rot
     state: not_home
   action:
-  - service: notify.mobile_app_iphonebwi12
+  - service: script.notify_stefan
     data:
       title: Hinweis
       message: Konstantin iPad fehlt auf Anrichte.
@@ -2559,7 +2559,7 @@
       after: '18:29:00'
       before: '20:16:00'
     then:
-    - service: notify.mobile_app_iphonebwi12
+    - service: script.notify_stefan
       metadata: {}
       data:
         title: Hinweis
@@ -2588,7 +2588,7 @@
       after: '19:29:00'
       before: '20:16:00'
     then:
-    - service: notify.mobile_app_iphonebwi12
+    - service: script.notify_stefan
       metadata: {}
       data:
         title: Hinweis
@@ -2623,7 +2623,7 @@
       seconds: 0
   condition: []
   action:
-  - service: notify.mobile_app_iphonebwi12
+  - service: script.notify_stefan
     data:
       title: Hinweis
       message: ESPresense keine Verbindung mehr.

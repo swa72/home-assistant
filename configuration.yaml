@@ -223,10 +223,6 @@ influxdb:
       # - weather.accuweather
       #      - binary_sensor.heating_active
       #      - binary_sensor.warm_water_dhw_active
-      # - sensor.swaweathermetno
-      # - sensor.swaweathermetno_condition
-      # - sensor.swaweathermetno_templow
-      # - sensor.swaweathermetno_temphigh
       - counter.kellerpumpe
       - counter.dew_fans
       - climate.roofac
@@ -242,7 +238,7 @@ influxdb:
       #      - sensor.smlreaderpower
       - sensor.influxdb_db_size
       - sensor.gasverbrauch
-      - sensor.precipitation_heidelberg
+      - sensor.heidelberg_precipitation
       - sensor.tesla_last_charge_session
       - sensor.tesla_last_charging_session_kwh
       - sensor.tesla_wall_connector_state
@@ -318,9 +314,9 @@ utility_meter:
     cycle: yearly
   #
   #
-  regen_daily:
-    source: sensor.regen_heute
-    cycle: daily
+  # regen_daily:
+    # source: sensor.regen_heute
+    # cycle: daily
 
 #
 # for the spotify integration
