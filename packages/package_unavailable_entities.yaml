@@ -91,6 +91,7 @@ group:
       - sensor.stefans_ipad_battery_2
       - sensor.apple_watch_von_julia_battery
       - sensor.iphone_von_anna_3_battery
+      - sensor.jpad_air_2_battery
 
 ###################################################################################################
 ## DESCRIPTION: Detailed persistent notification message - courtesy of @ThomDietrich and @warthog9
@@ -155,7 +156,6 @@ automation:
                   {% set ns.result = ns.result + [ entity.data ] %}
                 {% endfor %}
                 {{ ns.result | join('\n') }}
-
 
 # OPTIONAL Example automation to demonstrate how you can utilize this sensor
 

@@ -3,24 +3,32 @@
 # ----------------------
 
 #
+# persistent notifications -> update badge count
+#
+- platform: group
+  name: all_notify
+  services:
+    - service: mobile_app_ipadbwipro11
+    - service: mobile_app_iphone15b
+#
 # omit the "notify." here
 #
 - platform: group
   name: all_ios_devices
   services:
-  - service: mobile_app_jphone
-  - service: mobile_app_iphonebwi
-  - service: mobile_app_stefans_ipad
-  - service: mobile_app_iphone
-  - service: mobile_app_iphone_von_anna
+    - service: mobile_app_jphone
+    - service: mobile_app_iphonebwi
+    - service: mobile_app_stefans_ipad
+    - service: mobile_app_iphone
+    - service: mobile_app_iphone_von_anna
 #
 # omit the "notify." here
 #
 - platform: group
   name: all_ios_parent_phones
   services:
-  - service: mobile_app_iphone
-  - service: mobile_app_jphone
+    - service: mobile_app_iphone
+    - service: mobile_app_jphone
 #
 # dont use message here, will be configured in alert itself
 #
@@ -51,4 +59,3 @@
   recipient: !secret my_email
   sender_name: "HA" #optional
   debug: true
-  

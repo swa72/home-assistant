@@ -1508,6 +1508,9 @@
   - condition: template
     value_template: '{{(as_timestamp(now()) - as_timestamp(state_attr(this.entity_id,
       ''last_triggered'') | default(0)) | int > 21600 )}}'
+  - condition: state
+    entity_id: binary_sensor.stefan_working_in_office
+    state: 'on'
   action:
   - service: script.notify_stefan
     data:
@@ -2340,7 +2343,7 @@
         value_template: '{{ states(''sensor.watermain_error'') is search(''Neg. Rate'')
           }}'
       sequence:
-      - service: script.notify_stefan
+      - service: notify.persistent_notification
         data:
           title: Hinweis
           message: '{{ trigger.entity_id }} has negative read problem: {{ states(''sensor.watermain_error'')
@@ -2350,7 +2353,7 @@
           topic: watermain/ctrl/set_prevalue
           payload: '{"numbersname": "main", "value": -1}'
     default:
-    - service: script.notify_stefan
+    - service: notify.persistent_notification
       data:
         title: Hinweis
         message: '{{ trigger.entity_id }} has other meter problem: {{ states(''sensor.watermain_error'')
@@ -2919,4 +2922,54 @@
       sequence:
       - scene: scene.schlafzimmer_abend_sommer
     default: []
+  max: 10
+- id: '1713992878476'
+  alias: Notify Badge Count
+  description: ''
+  trigger:
+  - platform: persistent_notification
+    update_type:
+    - removed
+    notification_id: ''
+    id: DECREMENT
+  - platform: persistent_notification
+    update_type:
+    - added
+    notification_id: ''
+    id: INCREMENT
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - DECREMENT
+      sequence:
+      - service: counter.decrement
+        target:
+          entity_id: counter.notification_count
+        data: {}
+      - service: notify.all_notify
+        data:
+          message: delete_alert
+          data:
+            push:
+              badge: '{{states(''counter.notification_count'')}}'
+    - conditions:
+      - condition: trigger
+        id:
+        - INCREMENT
+      sequence:
+      - service: counter.increment
+        target:
+          entity_id:
+          - counter.notification_count
+        data: {}
+      - service: notify.all_notify
+        data:
+          message: ''
+          data:
+            push:
+              badge: '{{states(''counter.notification_count'')}}'
+  mode: queued
   max: 10
