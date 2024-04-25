@@ -106,6 +106,7 @@ automation:
         entity_id: sensor.unavailable_entities
         attribute: entity_id
         to: ~
+        for: 1
     condition:
       - condition: template
         alias: "Sensor state is a valid numerical value"
