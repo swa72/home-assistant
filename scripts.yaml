@@ -29,6 +29,10 @@ alexa_wama_fertig:
 haustur_offnen:
   alias: Haustür öffnen
   sequence:
+  - service: script.notify_stefan
+    metadata: {}
+    data:
+      title: Buzzer triggered
   - service: hassio.addon_stdin
     data:
       addon: 89275b70_dss_voip
@@ -511,15 +515,6 @@ deconz_removed_orphaned:
     data:
       bridgeid: 00212E066FC0
   mode: single
-notify_stefan_heating:
-  alias: Notify stefan heating
-  sequence:
-  - service: notify.mobile_app_iphone15b
-    data:
-      title: '{{ title }}'
-      message: '{{ message }}'
-  mode: queued
-  max: 10
 turn_on_ac_at_stefans_office:
   alias: Turn on AC at Stefans office
   sequence:
@@ -643,9 +638,9 @@ heating_set_room_temp_high:
       float != states('number.thermostat_hc1_comfort_temperature')|float or\n   states('number.thermostat_hc2_selected_room_temperature')|
       float != states('number.thermostat_hc2_comfort_temperature')|float or \n   states('number.thermostat_hc3_selected_room_temperature')|
       float != states('number.thermostat_hc3_comfort_temperature')|float }}"
-  - service: script.notify_stefan_heating
+  - service: notify.persistent_notification
     data:
-      title: Heating
+      title: 'Heating '
       message: Setting high temp did not work. Check heating.
   mode: single
 heating_set_room_temp_low:
@@ -679,7 +674,7 @@ heating_set_room_temp_low:
     value_template: "{{ states('number.thermostat_hc1_selected_room_temperature')|
       float != states('number.thermostat_hc1_eco_temperature')|float or\n   states('number.thermostat_hc2_selected_room_temperature')|
       float != states('number.thermostat_hc2_eco_temperature')|float }}"
-  - service: script.notify_stefan_heating
+  - service: notify.persistent_notification
     data:
       title: Heating
       message: Setting low temp did not work. Check heating.
@@ -975,3 +970,17 @@ hecken_waessern:
       text_to_speech_engine: tts.home_assistant_cloud
       media_player:
       - media_player.stefans_echo_dot
+'1714124781990':
+  alias: Notify Stefan only if present
+  sequence:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ is_state(''person.stefan'', ''home'') }}'
+      sequence:
+      - service: notify.mobile_app_iphone15b
+        data:
+          title: '{{ title }}'
+          message: '{{ message }}'
+  mode: queued
+  max: 10

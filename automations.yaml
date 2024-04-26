@@ -407,7 +407,7 @@
     input:
       message: ' Hint: network connection lost for devices: {{ disconnected_servers
         }} '
-      notify_device: 433037e716d3d27ae2dd99df7a9818b0
+      notify_device: fb01246b7faea05d42d7df1ff8e71a1b
       server_group: group.servers
 - id: '1631904142960'
   alias: Advanced Heating Monitor_
@@ -421,7 +421,6 @@
       hours: 0
       minutes: 10
       seconds: 0
-      milliseconds: 0
     id: servicecode
   - platform: time
     at: 00:01
@@ -442,7 +441,7 @@
       - condition: trigger
         id: servicecode
       sequence:
-      - service: script.notify_stefan_heating
+      - service: script.notify_stefan
         data:
           title: Heating
           message: 'Service Code: {{ states(''sensor.boiler_service_code'') }} Service
@@ -460,7 +459,7 @@
       - condition: trigger
         id: heizungsdruck
       sequence:
-      - service: script.notify_stefan_heating
+      - service: notify.persistent_notification
         data:
           title: Heating
           message: Heizungsdruck über 1h unter 1.9 bar.
@@ -917,7 +916,7 @@
       notification_message: '{{ motion_sensor_name }} detected movement!'
       motion_sensor: binary_sensor.garagecam_person
       camera: camera.garagecam_sub
-      notify_device: 433037e716d3d27ae2dd99df7a9818b0
+      notify_device: fb01246b7faea05d42d7df1ff8e71a1b
       is_ios: true
       notification_title: Motion person detected!
       delay: 1
@@ -967,7 +966,7 @@
       notification_message: Look who is there :-)
       motion_sensor: binary_sensor.doorbell_pressed
       camera: camera.garagecam_sub
-      notify_device: 433037e716d3d27ae2dd99df7a9818b0
+      notify_device: fb01246b7faea05d42d7df1ff8e71a1b
       is_ios: true
       notification_title: Doorbell pressed!
       delay: 1
@@ -1902,7 +1901,7 @@
     below: '620'
   condition: []
   action:
-  - service: notify.all_ios_parent_phones
+  - service: script.notify_people_who_are_present
     data:
       title: Pool needs help
       message: Temp {{states('sensor.pool_temp')|round(0)}}°C.   PH {{ states('sensor.pool_ph')|round(0)}}pH.   ORP
@@ -2269,7 +2268,7 @@
     to: 'off'
   condition: []
   action:
-  - service: script.notify_stefan
+  - service: notify.persistent_notification
     data:
       message: N/A
       title: 'Bewässerung beendet: {{ trigger.entity_id }}'
@@ -2522,22 +2521,6 @@
         data: {}
         target:
           device_id: 5929cf4364fb0096bd6b45f8d450cc79
-- id: '1710175433013'
-  alias: Rotes iPad fehlt auf Anrichte
-  description: ''
-  trigger:
-  - platform: time
-    at: '18:30:00'
-  condition:
-  - condition: state
-    entity_id: sensor.ipad_rot
-    state: not_home
-  action:
-  - service: script.notify_stefan
-    data:
-      title: Hinweis
-      message: Konstantin iPad fehlt auf Anrichte.
-  mode: single
 - id: '1710175526937'
   alias: Warnung Geraet fehlt auf Anrichte
   description: ''
@@ -2562,7 +2545,7 @@
       after: '18:29:00'
       before: '20:16:00'
     then:
-    - service: script.notify_stefan
+    - service: script.notify_stefan_if_present
       metadata: {}
       data:
         title: Hinweis
@@ -2591,7 +2574,7 @@
       after: '19:29:00'
       before: '20:16:00'
     then:
-    - service: script.notify_stefan
+    - service: script.notify_stefan_if_present
       metadata: {}
       data:
         title: Hinweis
@@ -2626,10 +2609,14 @@
       seconds: 0
   condition: []
   action:
-  - service: script.notify_stefan
+  - service: script.notify_stefan_if_present
     data:
       title: Hinweis
       message: ESPresense keine Verbindung mehr.
+  - service: notify.persistent_notification
+    data:
+      message: ESPresense keine Verbindung mehr.
+      title: Hinweis
   mode: single
 - id: '1712771738575'
   alias: DG Cover Wechsel
