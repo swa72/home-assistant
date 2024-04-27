@@ -10,43 +10,10 @@
   services:
     - service: mobile_app_ipadbwipro11
     - service: mobile_app_iphone15b
-#
-# omit the "notify." here
-#
-- platform: group
-  name: all_ios_devices
-  services:
-    - service: mobile_app_jphone
-    - service: mobile_app_iphonebwi
-    - service: mobile_app_stefans_ipad
-    - service: mobile_app_iphone
-    - service: mobile_app_iphone_von_anna
-#
-# omit the "notify." here
-#
-- platform: group
-  name: all_ios_parent_phones
-  services:
-    - service: mobile_app_iphone
-    - service: mobile_app_jphone
-#
-# dont use message here, will be configured in alert itself
-#
-- platform: group
-  name: urgent_notification
-  services:
-    - service: all_ios_parent_phones
-      data:
-        title: "Hinweis"
-        data:
-          push:
-            sound:
-              name: default
-              critical: 1
-              volume: 0.3
 
 # Example configuration.yaml entry from https://www.home-assistant.io/integrations/smtp/
 # create an app password, see https://support.google.com/mail/answer/185833
+# used in tesla notification
 - platform: smtp
   name: email_notification
   server: "smtp.gmail.com"

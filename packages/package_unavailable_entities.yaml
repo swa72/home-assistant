@@ -92,6 +92,7 @@ group:
       - sensor.apple_watch_von_julia_battery
       - sensor.iphone_von_anna_3_battery
       - sensor.jpad_air_2_battery
+      - script.notify_stefan_if_present
 
 ###################################################################################################
 ## DESCRIPTION: Detailed persistent notification message - courtesy of @ThomDietrich and @warthog9

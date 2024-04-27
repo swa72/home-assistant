@@ -970,8 +970,8 @@ hecken_waessern:
       text_to_speech_engine: tts.home_assistant_cloud
       media_player:
       - media_player.stefans_echo_dot
-'1714124781990':
-  alias: Notify Stefan only if present
+'1714207361553':
+  alias: Notify Stefan only if really present
   sequence:
   - choose:
     - conditions:
