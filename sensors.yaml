@@ -683,7 +683,7 @@
     hours: 168
 
 #
-#
+# for cover control 
 #
 - platform: template
   sensors:
@@ -696,3 +696,9 @@
     cover_currentposition_dg_cover_west:
       value_template: "{{ state_attr('cover.velux_external_cover_2', 'current_position') | int }}"
       unit_of_measurement: "%"
+      
+- platform: template
+  sensors:
+    cover_currentposition_dg_anna:
+      value_template: "{{ state_attr('cover.shelly25_dg_anna_rolladen', 'current_position') | int }}"
+      unit_of_measurement: "%"      
