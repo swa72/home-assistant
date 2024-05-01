@@ -489,42 +489,6 @@
         data: {}
     default: []
   mode: single
-- id: '1632469853125'
-  alias: Advanced Rolladen Anna
-  description: Temperatur-abhängiges Schliessen
-  trigger:
-  - platform: numeric_state
-    entity_id: sensor.multi_dg_anna_temperature
-    above: '23'
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
-      milliseconds: 0
-    id: above23
-  - platform: time
-    at: '10:01'
-    id: at10
-  condition:
-  - condition: time
-    after: '10:00'
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
-    - sat
-    - sun
-  - condition: numeric_state
-    entity_id: sensor.multi_dg_anna_temperature
-    above: '22'
-  action:
-  - service: cover.close_cover
-    target:
-      entity_id: cover.shelly25_dg_anna_rolladen
-    data: {}
-  mode: single
 - id: '1632543105220'
   alias: Power Save bei Waschmaschine
   description: ''
@@ -2482,23 +2446,6 @@
         images:
         - /config/temp/garagegam-foo.jpg
   mode: single
-- id: '1705555442124'
-  alias: Anna Rolladen hoch wenn nicht zuhause
-  description: ''
-  trigger:
-  - platform: time
-    at: 08:00:00
-  condition:
-    not:
-    - condition: state
-      entity_id: person.anna
-      state: home
-  action:
-  - service: cover.open_cover
-    target:
-      entity_id: cover.shelly25_dg_anna_rolladen
-    data: {}
-  mode: single
 - id: '1706004056913'
   alias: Turn on heating in Kinderbad using Blueprint
   description: ''
@@ -2617,54 +2564,6 @@
     data:
       message: ESPresense keine Verbindung mehr.
       title: Hinweis
-  mode: single
-- id: '1712771738575'
-  alias: DG Cover Wechsel
-  description: ''
-  trigger: []
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ state_attr(''cover.velux_external_cover_2'', ''current_position'')
-          == 100 }}'
-      - condition: template
-        value_template: '{{ state_attr(''cover.velux_external_cover'', ''current_position'')
-          == 100 }}'
-      sequence:
-      - service: scene.turn_on
-        metadata: {}
-        target:
-          entity_id: scene.osten_dunkel
-    - conditions:
-      - condition: template
-        value_template: '{{ state_attr(''cover.velux_external_cover'', ''current_position'')
-          == 20 }}'
-      sequence:
-      - service: cover.open_cover
-        metadata: {}
-        data: {}
-        target:
-          entity_id: cover.velux_external_cover
-      - service: scene.turn_on
-        metadata: {}
-        target:
-          entity_id: scene.westen_dunkel
-    - conditions:
-      - condition: template
-        value_template: '{{ state_attr(''cover.velux_external_cover_2'', ''current_position'')
-          == 20 }}'
-      sequence:
-      - service: cover.open_cover
-        metadata: {}
-        data: {}
-        target:
-          entity_id: cover.velux_external_cover_2
-      - service: scene.turn_on
-        metadata: {}
-        target:
-          entity_id: scene.osten_dunkel
   mode: single
 - id: '1712903556652'
   alias: Notify stefan critically if doorbell pressed and helper set
