@@ -1,5 +1,5 @@
 - id: '1608636183988'
-  alias: q3 Notify, wenn Fenster zu lange offen und kalt draussen
+  alias: Notify, wenn Fenster zu lange offen und kalt draussen
   description: ''
   trigger:
   - platform: state
@@ -32,15 +32,16 @@
         min) offen. Temperatur unter 15°C.'
   mode: single
 - id: l1k3
-  alias: q3 Wenn Mitternacht, push HA configuration to GitHub repo
+  alias: Wenn Mitternacht, push HA configuration to GitHub repo
   trigger:
   - at: '23:23'
     platform: time
   action:
   - service: shell_command.push_to_github
+    data: {}
   mode: single
 - id: '1609858165994'
-  alias: q3 Windfanglicht bei Dunkelheit
+  alias: Windfanglicht bei Dunkelheit
   description: Windfanglicht an, wenn dunkel draußen; aus, wenn es hell wird
   trigger:
   - platform: state
@@ -91,8 +92,8 @@
     entity_id: lock.su_xp1654_door_lock
   mode: single
 - id: '1611480761802'
-  alias: q3 Wenn Garage geöffnet wird und dunkel draußen, dann Flur-EG Licht an und
-    LED-Fluter an
+  alias: Wenn Garage geöffnet wird und dunkel draußen, dann Flur-EG Licht an und LED-Fluter
+    an
   description: ''
   trigger:
   - platform: state
@@ -114,7 +115,7 @@
     domain: switch
   mode: single
 - id: '1611495931370'
-  alias: q3 Wenn Kellerpumpe Treppe anläuft, dann Zähler erhöhen
+  alias: Wenn Kellerpumpe Treppe anläuft, dann Zähler erhöhen
   description: ''
   trigger:
   - platform: numeric_state
@@ -128,7 +129,7 @@
     entity_id: counter.kellerpumpe
   mode: single
 - id: '1611496375383'
-  alias: q3 Wenn Mitternacht, dann Zähler zurücksetzen
+  alias: Wenn Mitternacht, dann Zähler zurücksetzen
   description: ''
   trigger:
   - platform: time
@@ -142,7 +143,7 @@
       - counter.kellerpumpe
   mode: single
 - id: '1611515523821'
-  alias: q3 zAlexa Media Player TTS/Announce from Lovelace UI
+  alias: zAlexa Media Player TTS/Announce from Lovelace UI
   description: ''
   use_blueprint:
     path: NachtaktiverHalbaffe/alexa-tts-announcement-from-lovelace-ui-and-without-nabu-casa-alexa-media-player.yaml
@@ -150,7 +151,7 @@
       message: input_text.swa_alexa_text
       target: input_select.swa_alexa_device
 - id: '1612096410696'
-  alias: q3 Notify, wenn Waschmaschine fertig
+  alias: Notify, wenn Waschmaschine fertig
   description: Waschmaschine fertig
   use_blueprint:
     path: Sbyx/notify-or-do-something-when-an-appliance-like-a-dishwasher-or-washing-machine-finishes.yaml
@@ -166,11 +167,10 @@
           title: Hinweis
           message: Waschmaschine ist fertig seit {{ '{:02}:{:02}'.format(now().hour,
             now().minute) }}.
-      - service: script.turn_on
+      - service: script.alexa_wama_fertig
         data: {}
-        entity_id: script.alexa_wama_fertig
 - id: '1612602466906'
-  alias: q3 Notify, wenn Katzentuer abends geschlossen
+  alias: Notify, wenn Katzentuer abends geschlossen
   description: ''
   trigger:
   - platform: state
@@ -208,7 +208,7 @@
         Benzin.
   mode: single
 - id: '1612709996219'
-  alias: q3 Notify, wenn Garage zu lange offen ist
+  alias: Notify, wenn Garage zu lange offen ist
   description: ''
   trigger:
   - platform: state
@@ -239,7 +239,7 @@
     default: []
   mode: single
 - id: '1612710199273'
-  alias: q3 Notify, wenn Haustür zu lange offen ist
+  alias: Notify, wenn Haustür zu lange offen ist
   description: ''
   trigger:
   - platform: state
@@ -255,7 +255,7 @@
         'temperature') }} Grad draußen."
   mode: single
 - id: '1612710265420'
-  alias: q3 Notify, wenn Kellertür zu lange offen ist
+  alias: Notify, wenn Kellertür zu lange offen ist
   description: ''
   trigger:
   - platform: state
@@ -271,7 +271,7 @@
         'temperature') }} Grad draußen."
   mode: single
 - id: '1612710429192'
-  alias: q3 Urgent Notify, wenn Freezer im Büro zu lange offen ist
+  alias: Urgent Notify, wenn Freezer im Büro zu lange offen ist
   description: ''
   trigger:
   - platform: state
@@ -290,7 +290,7 @@
       message: Freezer im Büro ist (zu lange) offen.
   mode: single
 - id: '1616954536097'
-  alias: q3 Notify parents, wenn Luftfeuchtigkeit zu hoch
+  alias: Notify parents, wenn Luftfeuchtigkeit zu hoch
   description: ''
   trigger:
   - platform: template
@@ -322,8 +322,8 @@
   mode: queued
   max: 10
 - id: '1620553045155'
-  alias: q3 Wenn zu warm im DG oder 0900 Uhr und Stefan im Office, frage Stefan ob
-    AC angestellt werden soll
+  alias: Wenn zu warm im DG oder 0900 Uhr und Stefan im Office, frage Stefan ob AC
+    angestellt werden soll
   description: ''
   trigger:
   - platform: state
@@ -371,6 +371,7 @@
         value_template: '{{ wait.trigger.event.data.action == action_on}}'
       sequence:
       - service: script.turn_on_ac_at_stefans_office
+        data: {}
     - conditions:
       - condition: template
         value_template: '{{ wait.trigger.event.data.action == action_nothing }}'
@@ -378,7 +379,7 @@
   mode: single
   max: 10
 - id: '1623348230796'
-  alias: q3 Wenn Nacht, dann lasse Pool Pumpe laufen
+  alias: Wenn Nacht, dann lasse Pool Pumpe laufen
   description: ''
   trigger:
   - platform: time
@@ -400,7 +401,7 @@
     domain: switch
   mode: single
 - id: '1626027211313'
-  alias: 'q3 Notify Stefan, wenn major shelly und esp devices nicht verfügbar sind '
+  alias: 'Notify Stefan, wenn major shelly und esp devices nicht verfügbar sind '
   description: ''
   use_blueprint:
     path: bfranke1973/device_connectivity_notification.yaml
@@ -465,7 +466,7 @@
           message: Heizungsdruck über 1h unter 1.9 bar.
   mode: single
 - id: '1632288672635'
-  alias: q3 Notify, if basement dehumidifier is full
+  alias: Notify, if basement dehumidifier is full
   description: ''
   trigger:
   - platform: state
@@ -576,7 +577,7 @@
     id: swatrigger
   condition: []
   action:
-  - service: script.notify_stefan_heating
+  - service: script.notify_stefan
     data:
       title: automation.fake_test_automation
       message: foo bar {{ trigger.id }} {{ trigger.platform }}
@@ -885,7 +886,7 @@
       notification_title: Motion person detected!
       delay: 1
 - id: '1636196197673'
-  alias: 'q3 Wenn Person erkannt und dunkel draußen, dann LED-Fluter an '
+  alias: 'Wenn Person erkannt und dunkel draußen, dann LED-Fluter an '
   description: ''
   trigger:
   - platform: state
@@ -1822,7 +1823,7 @@
     default: []
   mode: single
 - id: '1655667895530'
-  alias: early espresso
+  alias: Early espresso
   description: ''
   trigger:
   - platform: time
@@ -2014,7 +2015,7 @@
       enabled: false
   mode: single
 - id: '1671871958843'
-  alias: q3 Notify, wenn 2000 Uhr und Tesla weniger als 300km
+  alias: Notify, wenn 2000 Uhr und Tesla weniger als 300km
   description: ''
   trigger:
   - platform: time
@@ -2053,7 +2054,7 @@
         "last_triggered")) ) | timestamp_custom("%j")| int }}'
   mode: single
 - id: '1672759483746'
-  alias: Tesla Wall Charger no longer connected
+  alias: Notify if Tesla Wall Charger no longer connected
   description: ''
   trigger:
   - platform: state
@@ -2361,7 +2362,7 @@
   mode: single
 - id: '1694323173424'
   alias: Kalender Schreibtisch AusAus
-  description: ''
+  description: Turns off at 2200
   trigger:
   - platform: time
     at: '22:00'
@@ -2396,26 +2397,6 @@
   action:
   - service: solcast_solar.update_forecasts
     data: {}
-  mode: single
-- id: '1700766018013'
-  alias: Kinderbad warm
-  description: ''
-  trigger:
-  - platform: time
-    at: 06:50:00
-  condition:
-  - condition: time
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
-  action:
-  - service: switch.turn_on
-    data: {}
-    target:
-      entity_id: switch.shellys_eg_wiga_tvreceiver
   mode: single
 - id: '1702141770373'
   alias: eMail notification charger plugged in
@@ -2579,13 +2560,10 @@
     entity_id: input_boolean.stefan_critical
     state: 'on'
   action:
-  - service: script.turn_on
-    target:
-      entity_id: script.urgent_notify_stefan
+  - service: script.urgent_notify_stefan
     data:
-      variables:
-        title: Tür
-        message: Türklingel wurde gedrückt
+      title: Tür
+      message: Türklingel wurde gedrückt
   mode: single
 - id: '1713470741508'
   alias: Stefan Away
