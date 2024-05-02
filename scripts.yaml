@@ -841,75 +841,6 @@ spotify_background_jazz:
     data:
       entity_id: media_player.spotify_swa72
   mode: single
-'1642781471741':
-  alias: Spotify yoga electronica
-  sequence:
-  - service: media_player.volume_set
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      volume_level: 0.15
-  - service: media_player.play_media
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DWYUYYlhkTuEn?si=819fdd46afdf4d51
-      media_content_type: playlist
-  - service: media_player.shuffle_set
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      shuffle: true
-  - service: media_player.media_next_track
-    data:
-      entity_id: media_player.spotify_swa72
-  mode: single
-'1642781487603':
-  alias: Spotify soft pop hits
-  sequence:
-  - service: media_player.volume_set
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      volume_level: 0.15
-  - service: media_player.play_media
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DWTwnEm1IYyoj?si=6bc1dd54b3864137
-      media_content_type: playlist
-  - service: media_player.shuffle_set
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      shuffle: true
-  - service: media_player.media_next_track
-    data:
-      entity_id: media_player.spotify_swa72
-  mode: single
-'1642781503669':
-  alias: Spotify chill vibes
-  sequence:
-  - service: media_player.volume_set
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      volume_level: 0.15
-  - service: media_player.play_media
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DX889U0CL85jj?si=d4165ce8136f4b9e
-      media_content_type: playlist
-  - service: media_player.shuffle_set
-    target:
-      entity_id: media_player.spotify_swa72
-    data:
-      shuffle: true
-  - service: media_player.media_next_track
-    data:
-      entity_id: media_player.spotify_swa72
-  mode: single
 alexa_doorbell_2:
   alias: Alexa Doorbell
   sequence:
@@ -945,15 +876,84 @@ hecken_waessern:
     target:
       entity_id: switch.hecke
   mode: single
-'1712805927079':
-  alias: Announce
+spotify_yoga_electronica:
+  alias: Spotify yoga electronica
+  sequence:
+  - service: media_player.volume_set
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      volume_level: 0.15
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DWYUYYlhkTuEn?si=819fdd46afdf4d51
+      media_content_type: playlist
+  - service: media_player.shuffle_set
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      shuffle: true
+  - service: media_player.media_next_track
+    data:
+      entity_id: media_player.spotify_swa72
+  mode: single
+spotify_soft_pop_hits:
+  alias: Spotify soft pop hits
+  sequence:
+  - service: media_player.volume_set
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      volume_level: 0.15
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DWTwnEm1IYyoj?si=6bc1dd54b3864137
+      media_content_type: playlist
+  - service: media_player.shuffle_set
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      shuffle: true
+  - service: media_player.media_next_track
+    data:
+      entity_id: media_player.spotify_swa72
+  mode: single
+spotify_chill_vibes:
+  alias: Spotify chill vibes
+  sequence:
+  - service: media_player.volume_set
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      volume_level: 0.15
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DX889U0CL85jj?si=d4165ce8136f4b9e
+      media_content_type: playlist
+  - service: media_player.shuffle_set
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      shuffle: true
+  - service: media_player.media_next_track
+    data:
+      entity_id: media_player.spotify_swa72
+  mode: single
+announce_via_cloud:
+  alias: Announce via Cloud
   use_blueprint:
     path: balloob/announce-text-to-speech-on-media-player.yaml
     input:
       text_to_speech_engine: tts.home_assistant_cloud
       media_player:
       - media_player.stefans_echo_dot
-'1714207361553':
+notify_stefan_only_if_really_present:
   alias: Notify Stefan only if really present
   sequence:
   - choose:

@@ -2473,7 +2473,7 @@
       after: '18:29:00'
       before: '20:16:00'
     then:
-    - service: script.1714207361553
+    - service: script.notify_stefan_only_if_really_present
       metadata: {}
       data:
         title: Hinweis
@@ -2502,7 +2502,7 @@
       after: '19:29:00'
       before: '20:16:00'
     then:
-    - service: script.1714207361553
+    - service: script.notify_stefan_only_if_really_present
       metadata: {}
       data:
         title: Hinweis
@@ -2537,7 +2537,7 @@
       seconds: 0
   condition: []
   action:
-  - service: script.1714207361553
+  - service: script.notify_stefan_only_if_really_present
     data:
       title: Hinweis
       message: ESPresense keine Verbindung mehr.
