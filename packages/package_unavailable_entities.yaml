@@ -34,6 +34,7 @@ template:
                 |rejectattr('entity_id','search','9456b1a3_208a3c42')
                 |rejectattr('entity_id','search','iphone6')
                 |rejectattr('entity_id','search','boiler_dhw_')
+                 |rejectattr('entity_id','search','adguard')
                 |rejectattr('entity_id','search','og_aussen')
                 |rejectattr('entity_id','search','sensor.pool|update.pool_firmware')
                 |rejectattr('entity_id','search','poolpump')
@@ -93,6 +94,11 @@ group:
       - sensor.iphone_von_anna_3_battery
       - sensor.jpad_air_2_battery
       - script.notify_stefan_if_present
+      - sensor.thermostat_error_code
+      - conversation.home_assistant
+      - update.gas3_firmware
+      - update.roofac_firmware
+      - update.sleepac_firmware
 
 ###################################################################################################
 ## DESCRIPTION: Detailed persistent notification message - courtesy of @ThomDietrich and @warthog9

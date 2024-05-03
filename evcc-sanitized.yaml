@@ -14,7 +14,6 @@ meters:
   power: # Leistung (W)
     source: mqtt
     topic: homeassistant/sensor/smartmeter/sensor/1/obis/1-0:16.7.0/255/value
-    scale: -1
     timeout: 30s # don't accept values older than timeout
 mqtt:
   broker: *****
