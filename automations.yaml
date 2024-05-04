@@ -284,10 +284,20 @@
     for: 00:04:00
   condition: []
   action:
-  - service: script.urgent_notify_people_who_are_present
-    data:
-      title: Hinweis
-      message: Freezer im Büro ist (zu lange) offen.
+  - if:
+    - condition: time
+      after: 09:00:00
+      before: '22:00:00'
+    then:
+    - service: script.urgent_notify_people_who_are_present
+      data:
+        title: Hinweis
+        message: Freezer im Büro ist (zu lange) offen.
+    else:
+    - service: script.notify_people_who_are_present
+      data:
+        title: Hinweis
+        message: Freezer im Büro ist (zu lange) offen.
   mode: single
 - id: '1616954536097'
   alias: Notify parents, wenn Luftfeuchtigkeit zu hoch
