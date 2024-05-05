@@ -152,7 +152,7 @@ input_text:
 # client_id: !secret googleclientid
 # client_secret: !secret googleclientsecret
 #
-#
+# use https://community.home-assistant.io/t/how-to-keep-your-recorder-database-size-under-control/295795
 #
 recorder:
   db_url: !secret db_url
@@ -173,6 +173,8 @@ recorder:
       - sensor.system*
       - switch.adguard*
       - sensor.smlpower_*
+      - sensor.espresense_esppkidsgross*
+      - binary_sensor.espresense_esppkidsgross*
     entities:
       #      - sensor.swaiphone_info
       #      - sensor.jphone_info
@@ -197,6 +199,17 @@ recorder:
       - sensor.smlpower_daily
       - sensor.smlpower_yearly
       - sensor.shelly25_og_schlafli_rssi
+      - sensor.unavailable_entities
+      - sensor.tesla_wall_connector_grid_frequency
+      - sensor.tesla_wall_connector_grid_voltage
+      - sensor.memory_use_percent
+      - sensor.silvia_power_avg
+      - sensor.shellys_silvia_power
+      - sensor.smlreadertotalenergyconsumption
+      - sensor.espresense_esppkidsgross_espresense_esppkidsgross_free_mem
+      - sensor.espresense_esppkidsgross_espresense_esppkidsgross_uptime
+      - binary_sensor.espresense_esppkidsgross_espresense_esppkidsgross
+      
   include:
     entities:
       - device_tracker.iphone
@@ -205,6 +218,7 @@ recorder:
       - device_tracker.destination_location_tracker
       - device_tracker.location_tracker
       - sensor.watermain_value
+      - sensor.filtered_smlreadertotalenergyconsumption
 #
 #
 #

@@ -688,17 +688,25 @@
 - platform: template
   sensors:
     cover_currentposition_dg_cover_east:
-      value_template: "{{ state_attr('cover.velux_external_cover', 'current_position') | int }}"
+      value_template: "{{ state_attr('cover.velux_external_cover', 'current_position') | int(default=100) }}"
       unit_of_measurement: "%"
       
 - platform: template
   sensors:
     cover_currentposition_dg_cover_west:
-      value_template: "{{ state_attr('cover.velux_external_cover_2', 'current_position') | int }}"
+      value_template: "{{ state_attr('cover.velux_external_cover_2', 'current_position') | int(default=100) }}"
       unit_of_measurement: "%"
       
 - platform: template
   sensors:
     cover_currentposition_dg_anna:
-      value_template: "{{ state_attr('cover.shelly25_dg_anna_rolladen', 'current_position') | int }}"
-      unit_of_measurement: "%"      
+      value_template: "{{ state_attr('cover.shelly25_dg_anna_rolladen', 'current_position') | int(default=100) }}"
+      unit_of_measurement: "%"
+      
+#  To throttle a sensor down to 1 value per minute, the window_size should be set to "00:01”.
+- platform: filter
+  name: "filtered smlreadertotalenergyconsumption"
+  entity_id: sensor.smlreadertotalenergyconsumption
+  filters:
+    - filter: time_throttle
+      window_size: "00:01"
