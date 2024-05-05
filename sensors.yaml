@@ -565,17 +565,17 @@
         ) / (now().day-1) | float(default=0) * numdays) | round(0)}}
         {% endif %}
 
-- platform: template
-  sensors:
-    gasverbrauch_forecast4:
-      friendly_name: "Gasverbrauch bis Monatsende v3"
-      unit_of_measurement: "m³"
-      value_template: >-
-        {% if is_state('sensor.gasverbrauch_forecast2', '0') %}
-        {{ this.state | default(0, true) }}
-        {% else %}
-        {{ states('sensor.gasverbrauch_forecast2') }}
-        {% endif %}
+# - platform: template
+  # sensors:
+    # gasverbrauch_forecast4:
+      # friendly_name: "Gasverbrauch bis Monatsende v3"
+      # unit_of_measurement: "m³"
+      # value_template: >-
+        # {% if is_state('sensor.gasverbrauch_forecast2', '0') %}
+        # {{ this.state | default(0, true) }}
+        # {% else %}
+        # {{ states('sensor.gasverbrauch_forecast2') }}
+        # {% endif %}
 
 # average gas usage per day last week if Monday
 # average gas usage per day this week

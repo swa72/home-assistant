@@ -1,7 +1,7 @@
 #!/bin/bash
 date >> /config/git-last.txt
 cd /config
-egrep -v '^#|^\s+#' evcc.yaml |grep . |sed -E 's/(password|user|token|url|host|broker|accessToken|refreshToken|vin).*/\1: *****/' > evcc-sanitized.yaml
+egrep -v '^#|^\s+#' evcc.yaml |grep . |sed -E 's/(password|user|token|url|host|broker|accessToken|refreshToken|vin|title).*/\1: *****/' > evcc-sanitized.yaml
 git add .
 git status
 # Commit changes with message with current date stamp

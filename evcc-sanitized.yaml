@@ -25,7 +25,7 @@ chargers:
   host: *****
   name: wallbox
 loadpoints:
-- title: Garage
+- title: *****
   charger: wallbox
   mode: minpv
 vehicles:
@@ -43,7 +43,7 @@ vehicles:
    vin: *****
 
 site:
-  title: Schönauer Abtweg
+  title: *****
   meters:
     grid: grid # grid meter
 tariffs:
