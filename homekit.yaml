@@ -8,9 +8,10 @@
       - scenes
       - climate
     include_entities:
-      - script.haustur_offnen
+      #      - script.haustur_offnen
+      #- script.haustuer
       - script.buro
-#      - switch.wake_up_thinkpad_t430
+      #      - switch.wake_up_thinkpad_t430
       - switch.shellyp_dg_stefan_tisch
       - switch.shellys_silvia
       - switch.wintergarten
@@ -21,19 +22,21 @@
       - cover.frunk
       - cover.trunk
       - cover.windows
-      - cover.charger_door      
+      - cover.charger_door
   entity_config:
     cover.eltern_schlafzimmer:
       name: Schlafzimmer
     cover.garage_door:
       name: Garagentor
+    cover.haustuer:
+      name: Haustür
     cover.shelly25_dg_anna_rolladen:
       name: Anna Rolladen
     switch.shellys_silvia:
       name: Silvia
     # switch.wake_up_thinkpad_t430:
-      # # siri does not understand "thinkpad" :-/
-      # name: Notebook
+    # # siri does not understand "thinkpad" :-/
+    # name: Notebook
     switch.shellyp_dg_stefan_tisch:
       name: Schreibtisch
     climate.roofac:
@@ -44,5 +47,5 @@
       name: Büro
     cover.shelly25_og_clara:
       name: Konstantin Rolladen
-    script.haustur_offnen:
-      name: Haustür
+#    script.haustuer:
+#      name: Haustür

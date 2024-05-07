@@ -2108,7 +2108,7 @@
     data:
       message: haustuer
     enabled: false
-  - service: script.haustur_offnen
+  - service: script.haustuer
     data: {}
     enabled: true
   mode: single
@@ -2289,7 +2289,7 @@
       - condition: template
         value_template: '{{ wait.trigger.event.data.action == action_on}}'
       sequence:
-      - service: script.haustur_offnen
+      - service: script.haustuer
         data: {}
     - conditions:
       - condition: template

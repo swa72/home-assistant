@@ -26,23 +26,6 @@ alexa_wama_fertig:
     target:
       entity_id: media_player.stefans_echo_dot
   mode: single
-haustur_offnen:
-  alias: Haustür öffnen
-  sequence:
-  - service: script.notify_stefan
-    metadata: {}
-    data:
-      title: Buzzer triggered
-    enabled: false
-  - service: hassio.addon_stdin
-    data:
-      addon: 89275b70_dss_voip
-      input:
-        call_sip_uri: sip:**1@192.168.178.1:5060
-        audio_file_url: http://192.168.178.83:8123/local/open_door_short.mp3
-        call_duration: '6'
-  - delay: 00:00:10
-  mode: restart
 clara_tur_zu_und_leiser:
   alias: Call Clara Tür zu und leiser
   sequence:
@@ -967,3 +950,20 @@ notify_stefan_only_if_really_present:
           message: '{{ message }}'
   mode: queued
   max: 10
+haustuer:
+  alias: Haustuer
+  sequence:
+  - service: script.notify_stefan
+    metadata: {}
+    data:
+      title: Buzzer triggered
+    enabled: false
+  - service: hassio.addon_stdin
+    data:
+      addon: 89275b70_dss_voip
+      input:
+        call_sip_uri: sip:**1@192.168.178.1:5060
+        audio_file_url: http://192.168.178.83:8123/local/open_door_short.mp3
+        call_duration: '6'
+  - delay: 00:00:10
+  mode: restart

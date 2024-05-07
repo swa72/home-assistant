@@ -1,13 +1,12 @@
-
 #
 # Alle Rolladen im Schlafzimmer
 #
 - platform: group
   name: Eltern-Schlafzimmer
-  entities: 
-   - cover.shelly25_og_schlafli
-   - cover.shelly25_og_schlafre
-   - cover.shelly25_og_elternbad
+  entities:
+    - cover.shelly25_og_schlafli
+    - cover.shelly25_og_schlafre
+    - cover.shelly25_og_elternbad
 
 #
 # garage door
@@ -38,3 +37,16 @@
         {% else %}
           mdi:garage
         {% endif %}
+
+- platform: template
+  covers:
+    haustuer:
+      device_class: door
+      friendly_name: "Haustür"
+      value_template: "{% if is_state('binary_sensor.haustur', 'off') %}closed{% else %}open{% endif %}"
+      open_cover:
+        service: script.haustuer
+      close_cover:
+        service: script.haustuer
+      stop_cover:
+        service: script.haustuer
