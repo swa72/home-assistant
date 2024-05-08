@@ -19,8 +19,7 @@
     for: 00:10:00
   condition:
   - condition: numeric_state
-    entity_id: weather.home
-    value_template: '{{ state.attributes.temperature }}'
+    entity_id: sensor.heidelberg_temperature
     below: '15'
   action:
   - service: script.notify_people_who_are_present
@@ -251,8 +250,8 @@
   - service: script.notify_people_who_are_present
     data:
       title: Hinweis
-      message: Haustür ist (zu lange) offen. Es hat {{ state_attr('weather.home',
-        'temperature') }} Grad draußen."
+      message: Haustür ist (zu lange) offen. Es hat {{ states('sensor.heidelberg_temperature')
+        }} Grad draußen."
   mode: single
 - id: '1612710265420'
   alias: Notify, wenn Kellertür zu lange offen ist
@@ -267,8 +266,8 @@
   - service: script.notify_people_who_are_present
     data:
       title: Hinweis
-      message: Kellertür ist (zu lange) offen. Es hat {{ state_attr('weather.home',
-        'temperature') }} Grad draußen."
+      message: Kellertür ist (zu lange) offen. Es hat {{ states('sensor.heidelberg_temperature')
+        }} Grad draußen."
   mode: single
 - id: '1612710429192'
   alias: Urgent Notify, wenn Freezer im Büro zu lange offen ist
@@ -2392,21 +2391,6 @@
           entity_id: switch.shellyp_dg_stefan_tisch
         data: {}
     default: []
-  mode: single
-- id: '1695623094218'
-  alias: Solcast update
-  description: Solcast update
-  trigger:
-  - platform: time
-    at: '4:00:00'
-  - platform: time
-    at: '10:00:00'
-  - platform: time
-    at: '16:00:00'
-  condition: []
-  action:
-  - service: solcast_solar.update_forecasts
-    data: {}
   mode: single
 - id: '1702141770373'
   alias: eMail notification charger plugged in

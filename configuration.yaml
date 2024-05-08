@@ -2,6 +2,8 @@
 default_config:
 
 homeassistant:
+# https://community.home-assistant.io/t/2024-5-tracking-down-instability-issues-caused-by-integrations/724441
+  debug: true
   customize: !include customize.yaml
   allowlist_external_dirs:
     - /config/temp
@@ -209,7 +211,7 @@ recorder:
       - sensor.espresense_esppkidsgross_espresense_esppkidsgross_free_mem
       - sensor.espresense_esppkidsgross_espresense_esppkidsgross_uptime
       - binary_sensor.espresense_esppkidsgross_espresense_esppkidsgross
-      
+
   include:
     entities:
       - device_tracker.iphone
@@ -232,7 +234,7 @@ influxdb:
   default_measurement: state
   include:
     entities:
-      - weather.home
+      # - weather.home -> can be removed in influxdb
       #      - weather.openweathermap
       # - weather.accuweather
       #      - binary_sensor.heating_active
@@ -247,7 +249,8 @@ influxdb:
       - sensor.regen_heute
       - sensor.rel_humidity
       - sensor.hum_abs_basement
-      - sensor.smlreadertotalenergyconsumption
+      #- sensor.smlreadertotalenergyconsumption -> remove me and switch to filtered
+      - sensor.filtered_smlreadertotalenergyconsumption
       # floods the database as it comes in too often
       #      - sensor.smlreaderpower
       - sensor.influxdb_db_size
@@ -259,7 +262,7 @@ influxdb:
       - sensor.tesla_wall_connector_energy
       - binary_sensor.tesla_wall_connector_contactor_closed
       - binary_sensor.tesla_wall_connector_vehicle_connected
-      - sensor.temperature_heidelberg
+      - sensor.heidelberg_temperature
       - sensor.swa_home_outdoor_temperature
     entity_globs:
       - sensor.shellys_keller*
@@ -329,8 +332,8 @@ utility_meter:
   #
   #
   # regen_daily:
-    # source: sensor.regen_heute
-    # cycle: daily
+  # source: sensor.regen_heute
+  # cycle: daily
 
 #
 # for the spotify integration
