@@ -2,7 +2,7 @@
 default_config:
 
 homeassistant:
-# https://community.home-assistant.io/t/2024-5-tracking-down-instability-issues-caused-by-integrations/724441
+  # https://community.home-assistant.io/t/2024-5-tracking-down-instability-issues-caused-by-integrations/724441
   debug: true
   customize: !include customize.yaml
   allowlist_external_dirs:
@@ -207,7 +207,7 @@ recorder:
       - sensor.memory_use_percent
       - sensor.silvia_power_avg
       - sensor.shellys_silvia_power
-      - sensor.smlreadertotalenergyconsumption
+      # - sensor.smlreadertotalenergyconsumption
       - sensor.espresense_esppkidsgross_espresense_esppkidsgross_free_mem
       - sensor.espresense_esppkidsgross_espresense_esppkidsgross_uptime
       - binary_sensor.espresense_esppkidsgross_espresense_esppkidsgross
@@ -391,9 +391,9 @@ panel_custom:
 #
 #
 shell_command:
-#  push_to_github: "/config/gitpush.sh > /dev/null 2>&1"
+  #  push_to_github: "/config/gitpush.sh > /dev/null 2>&1"
   push_to_github: "/config/gitpush.sh &> /dev/null"
-  
+
 #
 # to show camera live feed on wall tablet: use browser_mod
 # this section was version 1
