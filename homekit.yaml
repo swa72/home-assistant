@@ -10,7 +10,7 @@
     include_entities:
       #      - script.haustur_offnen
       #- script.haustuer
-      - script.buro
+      # - script.buro
       #      - switch.wake_up_thinkpad_t430
       - switch.shellyp_dg_stefan_tisch
       - switch.shellys_silvia
@@ -43,8 +43,8 @@
       name: Klimaanlage
     climate.sleepac:
       name: Klimaanlage
-    script.buro:
-      name: Büro
+    # script.buro:
+      # name: Büro
     cover.shelly25_og_clara:
       name: Konstantin Rolladen
 #    script.haustuer:

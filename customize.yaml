@@ -31,9 +31,9 @@ binary_sensor.eg_wohnzimmer_tuer:
 sensor.gasverbrauch:
   device_class: gas
   state_class: total_increasing
-sensor.solar_energy_today:
-  device_class: energy
-  state_class: total_increasing
+#sensor.solar_energy_today:
+#  device_class: energy
+#  state_class: total_increasing
 sensor.boiler_burner_current_power:
   friendly_name: Boiler Power
 number.boiler_selected_flow_temperature:
@@ -48,5 +48,5 @@ sensor.multi_keller_gross_humidity:
 #sensor.solar_total_energy:
 #  device_class: energy
 #  state_class: total_increasing
-sensor.solar_energy_last_hour:
-  state_class: total_increasing
+#sensor.solar_energy_last_hour:
+#  state_class: total_increasing

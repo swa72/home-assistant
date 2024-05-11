@@ -214,11 +214,9 @@ recorder:
 
   include:
     entities:
-      - device_tracker.iphone
       - sensor.tesla_wall_connector_energy
       #      - camera.iphone6
-      - device_tracker.destination_location_tracker
-      - device_tracker.location_tracker
+      # - device_tracker.location_tracker
       - sensor.watermain_value
       - sensor.filtered_smlreadertotalenergyconsumption
 #
@@ -240,14 +238,12 @@ influxdb:
       #      - binary_sensor.heating_active
       #      - binary_sensor.warm_water_dhw_active
       - counter.kellerpumpe
-      - counter.dew_fans
+      - counter.dew_index
       - climate.roofac
       #      - sensor.roofac_uptime
       #      - sensor.gas3_uptime
       - climate.sleepac
       #      - sensor.sleepac_uptime
-      - sensor.regen_heute
-      - sensor.rel_humidity
       - sensor.hum_abs_basement
       #- sensor.smlreadertotalenergyconsumption -> remove me and switch to filtered
       - sensor.filtered_smlreadertotalenergyconsumption

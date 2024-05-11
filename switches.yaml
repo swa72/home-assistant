@@ -14,16 +14,16 @@
   #
 #
 #
-- platform: template
-  switches:
-    one_time_water:
-      friendly_name: OneTimeWater
-      value_template: "{{ is_state('sensor.one_time_water', 'on') }}"
-      turn_on:
-        service: script.turn_on
-        target:
-          entity_id: script.one_time_water_on
-      turn_off:
-        service: script.turn_on
-        target:
-          entity_id: script.one_time_water_off
+# - platform: template
+#   switches:
+#     one_time_water:
+#       friendly_name: OneTimeWater
+#       value_template: "{{ is_state('sensor.one_time_water', 'on') }}"
+#       turn_on:
+#         service: script.turn_on
+#         target:
+#           entity_id: script.one_time_water_on
+#       turn_off:
+#         service: script.turn_on
+#         target:
+#           entity_id: script.one_time_water_off

@@ -47,8 +47,8 @@
     #
     #
     # regen_heute:
-      # friendly_name: met.no Precipitation
-      # value_template: "{{ state_attr('weather.home', 'forecast')[0].precipitation }}"
+    # friendly_name: met.no Precipitation
+    # value_template: "{{ state_attr('weather.home', 'forecast')[0].precipitation }}"
 
 #
 # breaking change - moved to UI
@@ -103,28 +103,28 @@
 # # weather forecasts for tomorrow
 # #
 # - platform: template
-  # sensors:
-    # swaweathermetno:
-      # friendly_name: "Met.no Forecast condition"
-      # value_template: "{{ state_attr('weather.home', 'forecast')[0].condition }}"
+# sensors:
+# swaweathermetno:
+# friendly_name: "Met.no Forecast condition"
+# value_template: "{{ state_attr('weather.home', 'forecast')[0].condition }}"
 
 # - platform: template
-  # sensors:
-    # swaweathermetno_condition:
-      # friendly_name: "Met.no Forecast condition"
-      # value_template: "{{ state_attr('weather.home', 'forecast')[0].condition }}"
+# sensors:
+# swaweathermetno_condition:
+# friendly_name: "Met.no Forecast condition"
+# value_template: "{{ state_attr('weather.home', 'forecast')[0].condition }}"
 
 # - platform: template
-  # sensors:
-    # swaweathermetno_templow:
-      # friendly_name: "Met.no Forecast templow"
-      # value_template: "{{ state_attr('weather.home', 'forecast')[0].templow }}"
+# sensors:
+# swaweathermetno_templow:
+# friendly_name: "Met.no Forecast templow"
+# value_template: "{{ state_attr('weather.home', 'forecast')[0].templow }}"
 
 # - platform: template
-  # sensors:
-    # swaweathermetno_temphigh:
-      # friendly_name: "Met.no Forecast temphigh"
-      # value_template: "{{ state_attr('weather.home', 'forecast')[0].temperature }}"
+# sensors:
+# swaweathermetno_temphigh:
+# friendly_name: "Met.no Forecast temphigh"
+# value_template: "{{ state_attr('weather.home', 'forecast')[0].temperature }}"
 #
 #
 #
@@ -460,18 +460,18 @@
   sensors:
     #
     #
-    dew_eg_buro_open_window:
-      value_template: "{{ states('sensor.dewpoint_outside')|float(default=0) < states('sensor.dew_eg_buro')|float(default=0) }}"
-    dew_og_schlaf_open_window:
-      value_template: "{{ states('sensor.dewpoint_outside')|float(default=0) < states('sensor.dew_og_schlaf')|float(default=0) }}"
-    dew_og_elternbad_open_window:
-      value_template: "{{ states('sensor.dewpoint_outside')|float(default=0) < states('sensor.dew_og_elternbad')|float(default=0) }}"
-    dew_og_konstantin_open_window:
-      value_template: "{{ states('sensor.dewpoint_outside')|float(default=0) < states('sensor.dew_og_konstantin')|float(default=0) }}"
+    # dew_eg_buro_open_window:
+    #   value_template: "{{ states('sensor.dewpoint_outside')|float(default=0) < states('sensor.dew_eg_buro')|float(default=0) }}"
+    # dew_og_schlaf_open_window:
+    #   value_template: "{{ states('sensor.dewpoint_outside')|float(default=0) < states('sensor.dew_og_schlaf')|float(default=0) }}"
+    # dew_og_elternbad_open_window:
+    #   value_template: "{{ states('sensor.dewpoint_outside')|float(default=0) < states('sensor.dew_og_elternbad')|float(default=0) }}"
+    # dew_og_konstantin_open_window:
+    #   value_template: "{{ states('sensor.dewpoint_outside')|float(default=0) < states('sensor.dew_og_konstantin')|float(default=0) }}"
     dew_og_clara_open_window:
       value_template: "{{ states('sensor.dewpoint_outside')|float(default=0) < states('sensor.dew_og_clara')|float(default=0) }}"
-    dew_og_kinderbad_open_window:
-      value_template: "{{ states('sensor.dewpoint_outside')|float(default=0) < states('sensor.dew_og_kinderbad')|float(default=0) }}"
+    # dew_og_kinderbad_open_window:
+    #   value_template: "{{ states('sensor.dewpoint_outside')|float(default=0) < states('sensor.dew_og_kinderbad')|float(default=0) }}"
     #
     # entfeuchter cycles in 30min. if this stops, the device is simply full
     #
@@ -481,20 +481,20 @@
 #
 #
 #
-- platform: template
-  sensors:
-    motion_detection_maindoor:
-      value_template: >-
-        {% set p2, p1 = states('switch.garagecam_ftp')=='on', states('automation.send_a_camera_snapshot_when_motion_is_detected')=='on' -%}
-        {% if not p1 and not p2 -%}
-        0
-        {% elif p1 and not p2 -%}
-        1
-        {% elif not p1 and p2 -%}
-        2
-        {% else -%}
-        3
-        {% endif -%}
+# - platform: template
+#   sensors:
+#     motion_detection_maindoor:
+#       value_template: >-
+#         {% set p2, p1 = states('switch.garagecam_ftp')=='on', states('automation.send_a_camera_snapshot_when_motion_is_detected')=='on' -%}
+#         {% if not p1 and not p2 -%}
+#         0
+#         {% elif p1 and not p2 -%}
+#         1
+#         {% elif not p1 and p2 -%}
+#         2
+#         {% else -%}
+#         3
+#         {% endif -%}
 #
 #
 #
@@ -566,16 +566,16 @@
         {% endif %}
 
 # - platform: template
-  # sensors:
-    # gasverbrauch_forecast4:
-      # friendly_name: "Gasverbrauch bis Monatsende v3"
-      # unit_of_measurement: "m³"
-      # value_template: >-
-        # {% if is_state('sensor.gasverbrauch_forecast2', '0') %}
-        # {{ this.state | default(0, true) }}
-        # {% else %}
-        # {{ states('sensor.gasverbrauch_forecast2') }}
-        # {% endif %}
+# sensors:
+# gasverbrauch_forecast4:
+# friendly_name: "Gasverbrauch bis Monatsende v3"
+# unit_of_measurement: "m³"
+# value_template: >-
+# {% if is_state('sensor.gasverbrauch_forecast2', '0') %}
+# {{ this.state | default(0, true) }}
+# {% else %}
+# {{ states('sensor.gasverbrauch_forecast2') }}
+# {% endif %}
 
 # average gas usage per day last week if Monday
 # average gas usage per day this week
@@ -605,7 +605,7 @@
         {% endif -%}
         {% set remaining = numdays - now().day + 1%}
         {{ (states('sensor.gasverbrauch_monthly')|float(default=0)-
-        states('sensor.gasvbrauch_daily')|float(default=0) +
+        states('sensor.gasverbrauch_daily')|float(default=0) +
         (average * remaining)) | round(0)
         }}
 
@@ -641,12 +641,12 @@
 #
 # for badge view
 #
-- platform: template
-  sensors:
-    dwdoutdoortemp:
-      friendly_name: "Outdoor"
-      unit_of_measurement: "°C"
-      value_template: "{{ state_attr('weather.dwd_weather_heidelberg', 'temperature') | float(default=0) | round(0) }}"
+# - platform: template
+#   sensors:
+#     dwdoutdoortemp:
+#       friendly_name: "Outdoor"
+#       unit_of_measurement: "°C"
+#       value_template: "{{ state_attr('weather.dwd_weather_heidelberg', 'temperature') | float(default=0) | round(0) }}"
 #
 # https://espresense.com/home_assistant
 # see https://www.home-assistant.io/integrations/mqtt_room/#
@@ -683,26 +683,26 @@
     hours: 168
 
 #
-# for cover control 
+# for cover control
 #
 - platform: template
   sensors:
     cover_currentposition_dg_cover_east:
       value_template: "{{ state_attr('cover.velux_external_cover', 'current_position') | int(default=100) }}"
       unit_of_measurement: "%"
-      
+
 - platform: template
   sensors:
     cover_currentposition_dg_cover_west:
       value_template: "{{ state_attr('cover.velux_external_cover_2', 'current_position') | int(default=100) }}"
       unit_of_measurement: "%"
-      
+
 - platform: template
   sensors:
     cover_currentposition_dg_anna:
       value_template: "{{ state_attr('cover.shelly25_dg_anna_rolladen', 'current_position') | int(default=100) }}"
       unit_of_measurement: "%"
-      
+
 #  To throttle a sensor down to 1 value per minute, the window_size should be set to "00:01”.
 - platform: filter
   name: "filtered smlreadertotalenergyconsumption"
