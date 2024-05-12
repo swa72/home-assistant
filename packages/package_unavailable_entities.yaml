@@ -99,6 +99,7 @@ group:
       - update.gas3_firmware
       - update.roofac_firmware
       - update.sleepac_firmware
+      - sensor.brother_mfc_7820n_foomatic_postscript
 
 ###################################################################################################
 ## DESCRIPTION: Detailed persistent notification message - courtesy of @ThomDietrich and @warthog9
