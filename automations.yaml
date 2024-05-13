@@ -2831,3 +2831,47 @@
               badge: '{{states(''counter.notification_count'')}}'
   mode: queued
   max: 10
+- id: '1715579133932'
+  alias: Cover adjustment for next day
+  description: ''
+  trigger:
+  - platform: time
+    at: '20:00:00'
+  - platform: state
+    entity_id:
+    - input_boolean.cover_late
+    to: 'on'
+  - platform: state
+    entity_id:
+    - input_boolean.cover_late
+    to: 'off'
+  condition: []
+  action:
+  - if:
+    - condition: state
+      entity_id: input_boolean.cover_late
+      state: 'on'
+    then:
+    - service: input_datetime.set_datetime
+      metadata: {}
+      data_template:
+        entity_id: input_datetime.cover_result
+        time: '{{ states(''input_datetime.cover_weekends'') }}'
+    else:
+    - if:
+      - condition: state
+        entity_id: binary_sensor.workday_sensor_tomorrow
+        state: 'off'
+      then:
+      - service: input_datetime.set_datetime
+        metadata: {}
+        data_template:
+          entity_id: input_datetime.cover_result
+          time: '{{ states(''input_datetime.cover_weekends'') }}'
+      else:
+      - service: input_datetime.set_datetime
+        metadata: {}
+        data_template:
+          entity_id: input_datetime.cover_result
+          time: '{{ states(''input_datetime.cover_weekdays'') }}'
+  mode: single
