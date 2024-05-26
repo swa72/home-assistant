@@ -709,6 +709,24 @@
       value_template: "{{ state_attr('cover.shelly25_og_elternbad', 'current_position') | int(default=100) }}"
       unit_of_measurement: "%"
 
+- platform: template
+  sensors:
+    cover_currentposition_sz_rechts:
+      value_template: "{{ state_attr('cover.shelly25_og_schlafre', 'current_position') | int(default=100) }}"
+      unit_of_measurement: "%"
+
+- platform: template
+  sensors:
+    cover_currentposition_sz_links:
+      value_template: "{{ state_attr('cover.shelly25_og_schlafli', 'current_position') | int(default=100) }}"
+      unit_of_measurement: "%"
+
+- platform: template
+  sensors:
+    cover_currentposition_kidsgross:
+      value_template: "{{ state_attr('cover.shelly25_og_clara', 'current_position') | int(default=100) }}"
+      unit_of_measurement: "%"
+
 #  To throttle a sensor down to 1 value per minute, the window_size should be set to "00:01”.
 - platform: filter
   name: "filtered smlreadertotalenergyconsumption"

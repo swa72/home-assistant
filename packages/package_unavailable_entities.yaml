@@ -100,6 +100,12 @@ group:
       - update.roofac_firmware
       - update.sleepac_firmware
       - sensor.brother_mfc_7820n_foomatic_postscript
+      - sensor.ipadbwipro11_battery
+      - sensor.iphoneclarase2020_battery
+      - switch.garage_inside_onvif_autofocus
+      - switch.garage_inside_onvif_ir_lamp
+      - switch.garage_inside_onvif_wiper
+      - sensor.iphone15bwi_battery
 
 ###################################################################################################
 ## DESCRIPTION: Detailed persistent notification message - courtesy of @ThomDietrich and @warthog9
