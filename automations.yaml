@@ -2875,3 +2875,20 @@
           entity_id: input_datetime.cover_result
           time: '{{ states(''input_datetime.cover_weekdays'') }}'
   mode: single
+- id: '1716793797978'
+  alias: Open covers in the morning
+  description: Relies on cover_result as starting time.
+  trigger:
+  - platform: time
+    at: input_datetime.cover_result
+  condition: []
+  action:
+  - service: cover.open_cover
+    metadata: {}
+    data: {}
+    target:
+      device_id:
+      - e32a2cf25e360b03d742f33dfdc565cc
+      - 1ceac9ce935e70774a253c37eb7101f2
+      - c0a312e8298b8797fcb30cb034df42ac
+  mode: single

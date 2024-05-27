@@ -47,12 +47,12 @@ frontend:
 # # lets see more stuff in the logs from mqtt
 # homeassistant.components.mqtt: debug
 
-#
-# avoid template errors in ems-esp
-#
 logger:
-  default: warning
+  default: info
   logs:
+    #
+    # avoid template errors in ems-esp
+    #
     homeassistant.helpers.template: error
     # homeassistant.components.shell_command: debug
     # see https://github.com/home-assistant/core/issues/58653 for next line
