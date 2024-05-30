@@ -2892,3 +2892,25 @@
       - 1ceac9ce935e70774a253c37eb7101f2
       - c0a312e8298b8797fcb30cb034df42ac
   mode: single
+- id: '1717054373579'
+  alias: Send workday forecast
+  description: ''
+  trigger: []
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone15b
+    data:
+      message: Workday {{(as_timestamp(now())+ (86400*0)) | timestamp_custom("%A",true)}}
+        {{ states('binary_sensor.workday_sensor') }}{{'\n'}}{{(as_timestamp(now())+
+        (86400*1)) | timestamp_custom("%A",true)}} {{ states('binary_sensor.workday_sensor_tomorrow')
+        }}{{'\n'}}{{(as_timestamp(now())+ (86400*2)) | timestamp_custom("%A",true)}}
+        {{ states('binary_sensor.workday_sensor_p2') }}{{'\n'}}{{(as_timestamp(now())+
+        (86400*3)) | timestamp_custom("%A",true)}} {{ states('binary_sensor.workday_sensor_p3')
+        }}{{'\n'}}{{(as_timestamp(now())+ (86400*4)) | timestamp_custom("%A",true)}}
+        {{ states('binary_sensor.workday_sensor_p4') }}{{'\n'}}{{(as_timestamp(now())+
+        (86400*5)) | timestamp_custom("%A",true)}} {{ states('binary_sensor.workday_sensor_p5')
+        }}{{'\n'}}{{(as_timestamp(now())+ (86400*6)) | timestamp_custom("%A",true)}}
+        {{ states('binary_sensor.workday_sensor_p6') }}{{'\n'}}{{(as_timestamp(now())+
+        (86400*7)) | timestamp_custom("%A",true)}} {{ states('binary_sensor.workday_sensor_p7')
+        }}{{'\n'}}
+  mode: single
