@@ -27,7 +27,7 @@ chargers:
 loadpoints:
 - title: *****
   charger: wallbox
-  mode: minpv
+  mode: now
 vehicles:
  - name: T1 # no spaces or special characters
    type: template
