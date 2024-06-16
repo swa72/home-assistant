@@ -2914,3 +2914,51 @@
         (86400*7)) | timestamp_custom("%A",true)}} {{ states('binary_sensor.workday_sensor_p7')
         }}{{'\n'}}
   mode: single
+- id: '1718557344765'
+  alias: Rasen wässern
+  description: ''
+  trigger:
+  - platform: time
+    at: 08:00:00
+  - platform: time
+    at: '11:00:00'
+  - platform: time
+    at: '14:00:00'
+  - platform: time
+    at: '17:00:00'
+  - platform: time
+    at: '20:00:00'
+  - platform: time
+    at: '23:00:00'
+  condition: []
+  action:
+  - service: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.rasen_2
+  mode: single
+- id: '1718557478444'
+  alias: Beet wässern
+  description: ''
+  trigger:
+  - platform: time
+    at: 08:15:00
+  - platform: time
+    at: '11:15:00'
+  - platform: time
+    at: '14:15:00'
+  - platform: time
+    at: '17:15:00'
+  - platform: time
+    at: '20:15:00'
+  - platform: time
+    at: '23:15:00'
+  condition: []
+  action:
+  - service: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.beet
+  mode: single
