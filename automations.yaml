@@ -2962,3 +2962,18 @@
     target:
       entity_id: switch.beet
   mode: single
+- id: '1718604473257'
+  alias: Bewässerung Automatik prüfen
+  description: ''
+  trigger:
+  - platform: time
+    at: 07:45:00
+  - platform: time
+    at: '12:45:00'
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone15b
+    data:
+      title: Hinweis
+      message: Bewässerung prüfen
+  mode: single
