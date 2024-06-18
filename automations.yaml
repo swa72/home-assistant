@@ -2888,9 +2888,23 @@
     data: {}
     target:
       device_id:
-      - e32a2cf25e360b03d742f33dfdc565cc
-      - 1ceac9ce935e70774a253c37eb7101f2
       - c0a312e8298b8797fcb30cb034df42ac
+  - service: cover.set_cover_position
+    metadata: {}
+    data:
+      position: '{{ states(''sensor.vertical_cover_position_sz_links'') | int }}
+
+        '
+    target:
+      entity_id: cover.shelly25_og_schlafli
+  - service: cover.set_cover_position
+    metadata: {}
+    data:
+      position: '{{ states(''sensor.vertical_cover_position_sz_rechts'') | int }}
+
+        '
+    target:
+      entity_id: cover.shelly25_og_schlafre
   mode: single
 - id: '1717054373579'
   alias: Send workday forecast
