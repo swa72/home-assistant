@@ -2516,6 +2516,10 @@
         volume_level: 0.2
       target:
         entity_id: media_player.stefans_echo_dot
+  - service: notify.mobile_app_iphoneclarase2020
+    data:
+      message: Bitte iPhone auf die Anrichte legen.
+      title: Hinweis
   mode: single
 - id: '1710217827661'
   alias: Warnung ESPresense Geraet fehlt
