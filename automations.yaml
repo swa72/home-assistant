@@ -2995,3 +2995,37 @@
       title: Hinweis
       message: Bewässerung prüfen
   mode: single
+- id: '1719554460484'
+  alias: Run dehumidifier only during the day
+  description: ''
+  trigger:
+  - platform: time
+    at: '10:00:00'
+    id: morning
+  - platform: time
+    at: '20:00:00'
+    id: evening
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - morning
+      sequence:
+      - service: switch.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: switch.shellys_keller_entfeuchter
+    - conditions:
+      - condition: trigger
+        id:
+        - evening
+      sequence:
+      - service: switch.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: switch.shellys_keller_entfeuchter
+  mode: single
