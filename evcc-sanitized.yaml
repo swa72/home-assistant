@@ -9,38 +9,38 @@ plant: 357700821005ee07f7a93604d7c0611d9a081a56f305121a947a4a05a3cae68c
 interval: 30s
 
 meters:
-- name: grid
-  type: custom
-  power: # Leistung (W)
-    source: mqtt
-    topic: homeassistant/sensor/smartmeter/sensor/1/obis/1-0:16.7.0/255/value
-    timeout: 30s # don't accept values older than timeout
+  - name: grid
+    type: custom
+    power: # Leistung (W)
+      source: mqtt
+      topic: homeassistant/sensor/smartmeter/sensor/1/obis/1-0:16.7.0/255/value
+      timeout: 30s # don't accept values older than timeout
 mqtt:
   broker: *****
   user: *****
   password: *****
 chargers:
-- type: template
-  template: twc3 
-  host: *****
-  name: wallbox
+  - type: template
+    template: twc3
+    host: *****
+    name: wallbox
 loadpoints:
-- title: *****
-  charger: wallbox
-  mode: now
+  - title: *****
+    charger: wallbox
+    mode: off
 vehicles:
- - name: T1 # no spaces or special characters
-   type: template
-   template: tesla
-   accessToken: *****
-   refreshToken: *****
-   vin: *****
- - name: RainerR1 # no spaces or special characters
-   type: template
-   template: tesla
-   accessToken: *****
-   refreshToken: *****
-   vin: *****
+  - name: T1 # no spaces or special characters
+    type: template
+    template: tesla
+    accessToken: *****
+    refreshToken: *****
+    vin: *****
+  - name: RainerR1 # no spaces or special characters
+    type: template
+    template: tesla
+    accessToken: *****
+    refreshToken: *****
+    vin: *****
 
 site:
   title: *****
