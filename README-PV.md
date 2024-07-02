@@ -14,7 +14,7 @@ modbusproxy:
   - port: 5200 <- the external port of your HA server
     uri: 192.168.178.132:502 <- address and port of the inverter
 ```
-* Huawei Solar points to EVCC's proxy 
+* Huawei Solar integration points to EVCC's proxy 
   * `Host: homeasistant.local`
   * `Port: 5200`
   * `Slave IDs: 1`

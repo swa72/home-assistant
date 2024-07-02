@@ -17,7 +17,6 @@ meters:
     type: template
     template: huawei-dongle-powersensor
     usage: grid
-    
     modbus: tcpip
     id: 1
     host: *****
@@ -27,7 +26,6 @@ meters:
     type: template
     template: huawei-dongle-powersensor
     usage: pv
-    
     modbus: tcpip
     id: 1
     host: *****
@@ -37,7 +35,6 @@ meters:
     type: template
     template: huawei-dongle-powersensor
     usage: battery
-    
     modbus: tcpip
     id: 1
     host: *****
@@ -45,7 +42,6 @@ meters:
     timeout: 15s # optional
     storageunit: 1
     capacity: 5
-
 mqtt:
   broker: *****
   user: *****
@@ -72,7 +68,6 @@ vehicles:
     accessToken: *****
     refreshToken: *****
     vin: *****
-
 site:
   - title: *****
     meters:
