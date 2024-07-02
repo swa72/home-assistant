@@ -8,13 +8,39 @@ plant: 357700821005ee07f7a93604d7c0611d9a081a56f305121a947a4a05a3cae68c
 
 interval: 30s
 
+
+modbusproxy:
+  - port: 5200
+    uri: 192.168.178.132:502
 meters:
   - name: grid
-    type: custom
-    power: # Leistung (W)
-      source: mqtt
-      topic: homeassistant/sensor/smartmeter/sensor/1/obis/1-0:16.7.0/255/value
-      timeout: 30s # don't accept values older than timeout
+    type: template
+    template: huawei-dongle-powersensor
+    usage: grid
+    modbus: tcpip
+    id: 1
+    host: *****
+    port: 502 # Port
+    timeout: 15s # optional
+  - name: my_pv
+    type: template
+    template: huawei-dongle-powersensor
+    usage: pv
+    modbus: tcpip
+    id: 1
+    host: *****
+    port: 502 # Port
+    timeout: 15s # optional
+  - name: my_battery
+    type: template
+    template: huawei-dongle-powersensor
+    usage: battery
+    modbus: tcpip
+    id: 1
+    host: *****
+    port: 502 # Port
+    timeout: 15s # optional
+
 mqtt:
   broker: *****
   user: *****
