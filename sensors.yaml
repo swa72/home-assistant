@@ -734,3 +734,82 @@
   filters:
     - filter: time_throttle
       window_size: "00:01"
+
+#
+# solar forecast combines two strings on the garage
+#
+- platform: template
+  sensors:
+    estimated_energy_production_next_hour_garage:
+      value_template: "{{ states('sensor.energy_next_hour_2')|float + states('sensor.energy_next_hour')|float }}"
+      unit_of_measurement: "kWh"
+- platform: template
+  sensors:
+    energy_production_today_remaining_garage:
+      value_template: "{{ states('sensor.energy_production_today_remaining_2')|float + states('sensor.energy_production_today_remaining')|float }}"
+      unit_of_measurement: "kWh"
+- platform: template
+  sensors:
+    energy_current_hour_garage:
+      value_template: "{{ states('sensor.energy_current_hour_2')|float + states('sensor.energy_current_hour')|float }}"
+      unit_of_measurement: "kWh"
+- platform: template
+  sensors:
+    energy_production_today_garage:
+      value_template: "{{ states('sensor.energy_production_today_2')|float + states('sensor.energy_production_today')|float }}"
+      unit_of_measurement: "kWh"
+- platform: template
+  sensors:
+    energy_production_tomorrow_garage:
+      value_template: "{{ states('sensor.energy_production_tomorrow_2')|float + states('sensor.energy_production_tomorrow')|float }}"
+      unit_of_measurement: "kWh"
+- platform: template
+  sensors:
+    power_production_now_garage:
+      value_template: "{{ states('sensor.power_production_now_2')|float + states('sensor.power_production_now')|float }}"
+      unit_of_measurement: "W"
+- platform: template
+  sensors:
+    power_highest_peak_time_tomorrow_garage:
+      friendly_name: "Hightest peak tomorrow"
+      value_template: >
+        {% set timestamp = states('sensor.power_highest_peak_time_tomorrow') %}
+        {% if timestamp != 'unknown' %}
+          {{ as_timestamp(timestamp) | timestamp_custom('%H:%M:%S') }}
+        {% else %}
+          unknown
+        {% endif %}
+      icon_template: mdi:clock
+#
+# solar forecast total
+#
+- platform: template
+  sensors:
+    estimated_energy_production_next_hour_total:
+      value_template: "{{ states('sensor.energy_next_hour')|float + states('sensor.energy_next_hour_2')|float  + states('sensor.energy_next_hour_3')|float  + states('sensor.energy_next_hour_4')|float}}"
+      unit_of_measurement: "kWh"
+- platform: template
+  sensors:
+    energy_production_today_remaining_total:
+      value_template: "{{ states('sensor.energy_production_today_remaining')|float + states('sensor.energy_production_today_remaining_2')|float + states('sensor.energy_production_today_remaining_3')|float + states('sensor.energy_production_today_remaining_4')|float }}"
+      unit_of_measurement: "kWh"
+- platform: template
+  sensors:
+    energy_current_hour_total:
+      value_template: "{{ states('sensor.energy_current_hour')|float + states('sensor.energy_current_hour_2')|float + states('sensor.energy_current_hour_3')|float + states('sensor.energy_current_hour_4')|float  }}"
+      unit_of_measurement: "kWh"
+- platform: template
+  sensors:
+    energy_production_today_total:
+      value_template: "{{ states('sensor.energy_production_today')|float + states('sensor.energy_production_today_2')|float + states('sensor.energy_production_today_3')|float + states('sensor.energy_production_today_4')|float }}"
+      unit_of_measurement: "kWh"
+- platform: template
+  sensors:
+    energy_production_tomorrow_total:
+      value_template: "{{ states('sensor.energy_production_tomorrow')|float + states('sensor.energy_production_tomorrow_2')|float + states('sensor.energy_production_tomorrow_3')|float + states('sensor.energy_production_tomorrow_4')|float }}"
+      unit_of_measurement: "kWh"
+- platform: template
+  sensors:
+    power_production_now_total:
+      value_template: "{{ states('sensor.power_production_now')|float + states('sensor.power_production_now_2')|float + states('sensor.power_production_now_3')|float + states('sensor.power_production_now_4')|float}}"
+      unit_of_measurement: "W"
