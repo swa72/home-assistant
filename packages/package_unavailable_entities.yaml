@@ -107,6 +107,7 @@ group:
       - switch.garage_inside_onvif_wiper
       - sensor.iphone15bwi_battery
       - sensor.watermain_fwversion
+      - sensor.inverter_shutdown_time
 
 ###################################################################################################
 ## DESCRIPTION: Detailed persistent notification message - courtesy of @ThomDietrich and @warthog9

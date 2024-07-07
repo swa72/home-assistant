@@ -3003,7 +3003,7 @@
     at: '10:00:00'
     id: morning
   - platform: time
-    at: '20:00:00'
+    at: '18:00:00'
     id: evening
   condition: []
   action:

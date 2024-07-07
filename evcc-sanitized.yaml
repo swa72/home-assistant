@@ -51,20 +51,40 @@ chargers:
     template: twc3
     host: *****
     name: wallbox
+  - name: KellerEntfeuchter
+    type: template
+    template: shelly
+    host: *****
+    standbypower: 2
+    integrateddevice: true
 loadpoints:
   - title: *****
     charger: wallbox
     mode: off
+    priority: 0
+  - title: *****
+    priority: 1
+    charger: KellerEntfeuchter
+    mode: pv
+    phases: 1
+    mincurrent: 1.5
+    enable:
+      threshold: 0
+      delay: 1m
+    disable:
+      threshold: 0
+      delay: 5m
+
 vehicles:
   - name: T1 # no spaces or special characters
     type: template
-    template: tesla
+    template: tesla-command
     accessToken: *****
     refreshToken: *****
     vin: *****
   - name: RainerR1 # no spaces or special characters
     type: template
-    template: tesla
+    template: tesla-command
     accessToken: *****
     refreshToken: *****
     vin: *****

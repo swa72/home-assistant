@@ -127,6 +127,15 @@ mqtt:
       state_topic: "home-assistant/variable/last_rainfall_amount"
       value_template: "{{ value }}"
       qos: 0
+      #
+      # Sensor data provided by EVCC add-on
+      #
+    - name: "EVCC gridPower"
+      state_topic: "evcc/site/gridPower"
+      value_template: "{{ value }}"
+      unit_of_measurement: "W"
+      device_class: power
+      qos: 0
 #
 
 #
