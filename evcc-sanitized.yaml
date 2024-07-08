@@ -56,14 +56,13 @@ chargers:
 loadpoints:
   - title: *****
     charger: wallbox
-    mode: off
+    mode: pv
     priority: 0
   - title: *****
     priority: 1
     charger: KellerEntfeuchter
     mode: pv
     phases: 1
-    mincurrent: 1.5
     enable:
       threshold: 0
       delay: 1m

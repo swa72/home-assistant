@@ -813,3 +813,12 @@
     power_production_now_total:
       value_template: "{{ states('sensor.power_production_now')|float + states('sensor.power_production_now_2')|float + states('sensor.power_production_now_3')|float + states('sensor.power_production_now_4')|float}}"
       unit_of_measurement: "W"
+#
+# just to get the right display in energy board
+#
+- platform: template
+  sensors:
+    swa_inverter_input_power:
+      value_template: "{{ states('sensor.inverter_input_power')|float }}"
+      unit_of_measurement: "Wh"
+      device_class: "energy"

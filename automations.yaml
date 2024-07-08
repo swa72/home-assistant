@@ -3029,3 +3029,32 @@
         target:
           entity_id: switch.shellys_keller_entfeuchter
   mode: single
+- id: '1720415429432'
+  alias: Notify Stefan of excess PV
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: /10
+  condition:
+  - condition: time
+    after: '11:00:00'
+    before: '19:00:00'
+  - condition: numeric_state
+    entity_id: sensor.evcc_gridpower
+    below: -300
+  - condition: numeric_state
+    entity_id: sensor.batteries_state_of_capacity
+    above: 95
+  - condition: numeric_state
+    entity_id: sensor.energy_production_today_remaining_total
+    above: 2
+  - condition: template
+    value_template: ‘{{ (as_timestamp(now()) - as_timestamp(states.automation.notify_stefan_of_pv_excess.attributes.last_triggered
+      | default(0)) | int > 3599)}}’
+  action:
+  - service: script.notify_stefan
+    data:
+      title: PV
+      message: Batterie +95% und noch Überschuss vorhanden. Forecast zeigt noch {{
+        states('sensor.energy_production_today_remaining_total') | round(0)}}kWh an.
+  mode: single
