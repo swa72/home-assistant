@@ -768,6 +768,9 @@
     power_production_now_garage:
       value_template: "{{ states('sensor.power_production_now_2')|float + states('sensor.power_production_now')|float }}"
       unit_of_measurement: "W"
+#
+#
+#
 - platform: template
   sensors:
     power_highest_peak_time_tomorrow_garage:
@@ -813,6 +816,11 @@
     power_production_now_total:
       value_template: "{{ states('sensor.power_production_now')|float + states('sensor.power_production_now_2')|float + states('sensor.power_production_now_3')|float + states('sensor.power_production_now_4')|float}}"
       unit_of_measurement: "W"
+#
+# best time frame today and tomorrow
+#
+
+
 #
 # just to get the right display in energy board
 #
