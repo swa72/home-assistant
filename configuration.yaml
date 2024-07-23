@@ -100,7 +100,7 @@ ios: !include ios.yaml
 #
 # power meter
 #
-# reload in HA with "template entities", see also customize.yaml
+# reload in HA with "manually created mqtt entities", see also customize.yaml
 #
 mqtt:
   sensor:
@@ -127,15 +127,51 @@ mqtt:
       state_topic: "home-assistant/variable/last_rainfall_amount"
       value_template: "{{ value }}"
       qos: 0
+
       #
       # Sensor data provided by EVCC add-on
       #
-    - name: "EVCC gridPower"
+      # Negativ? einspeisen, Positiv? Netzbezug.
+    - name: "EVCC Grid Power"
+      unique_id: evcc_grid_power
       state_topic: "evcc/site/gridPower"
-      value_template: "{{ value }}"
       unit_of_measurement: "W"
       device_class: power
+      availability_topic: "evcc/status"
       qos: 0
+      # was kommt vom Dach?
+    - name: "EVCC PV Power"
+      unique_id: evcc_pv_power
+      state_topic: "evcc/site/pvPower"
+      #value_template: "{{ value | round(1) }}"
+      unit_of_measurement: "W"
+      availability_topic: "evcc/status"  
+      device_class: power
+      # verbrauch des Hauses ex Ladepunkte
+    - name: "EVCC Homepower"
+      unique_id: evcc_homepower
+      state_topic: "evcc/site/homePower"
+      unit_of_measurement: "W"
+      availability_topic: "evcc/status"
+      # Negativ? Batterie lädt gerade, Positiv? Batterie entlädt
+    - name: "EVCC Battery Power"
+      unique_id: evcc_battery_Power
+      state_topic: "evcc/site/batteryPower"
+      unit_of_measurement: "W"
+      availability_topic: "evcc/status"  
+      # Wallbox
+    - name: "EVCC Loadpoint1 ChargePower"
+      unique_id: evcc_loadpoint1_ChargePower
+      state_topic: "evcc/loadpoints/1/chargePower"
+      unit_of_measurement: "W"
+      availability_topic: "evcc/status"  
+      # Kellerentfeuchter
+    - name: "EVCC Loadpoint2 ChargePower"
+      unique_id: evcc_loadpoint2_ChargePower
+      state_topic: "evcc/loadpoints/2/chargePower"
+      unit_of_measurement: "W"
+      availability_topic: "evcc/status"  
+      
 #
 
 #
