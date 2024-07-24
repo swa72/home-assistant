@@ -139,14 +139,6 @@ mqtt:
       device_class: power
       availability_topic: "evcc/status"
       qos: 0
-      # was kommt vom Dach?
-    - name: "EVCC PV Power"
-      unique_id: evcc_pv_power
-      state_topic: "evcc/site/pvPower"
-      #value_template: "{{ value | round(1) }}"
-      unit_of_measurement: "W"
-      availability_topic: "evcc/status"  
-      device_class: power
       # verbrauch des Hauses ex Ladepunkte
     - name: "EVCC Homepower"
       unique_id: evcc_homepower
@@ -158,20 +150,27 @@ mqtt:
       unique_id: evcc_battery_Power
       state_topic: "evcc/site/batteryPower"
       unit_of_measurement: "W"
-      availability_topic: "evcc/status"  
+      availability_topic: "evcc/status"
       # Wallbox
     - name: "EVCC Loadpoint1 ChargePower"
       unique_id: evcc_loadpoint1_ChargePower
       state_topic: "evcc/loadpoints/1/chargePower"
       unit_of_measurement: "W"
-      availability_topic: "evcc/status"  
+      availability_topic: "evcc/status"
       # Kellerentfeuchter
     - name: "EVCC Loadpoint2 ChargePower"
       unique_id: evcc_loadpoint2_ChargePower
       state_topic: "evcc/loadpoints/2/chargePower"
       unit_of_measurement: "W"
-      availability_topic: "evcc/status"  
-      
+      availability_topic: "evcc/status"
+      # was kommt vom Dach v2?
+    - name: "EVCC PV Power2"
+      unique_id: evcc_pv_power2
+      state_topic: "evcc/site/pvPower"
+      #value_template: "{{ value | round(1) }}"
+      unit_of_measurement: "W"
+      availability_topic: "evcc/status"
+      device_class: power
 #
 
 #
