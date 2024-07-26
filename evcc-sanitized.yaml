@@ -77,7 +77,7 @@ vehicles:
     accessToken: *****
     refreshToken: *****
     vin: *****
-  - name: RainerR1 # no spaces or special characters
+  - name: R1 # no spaces or special characters
     type: template
     template: tesla-command
     accessToken: *****

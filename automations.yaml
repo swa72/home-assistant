@@ -3058,3 +3058,18 @@
       message: Batterie +95% und noch Überschuss vorhanden. Forecast zeigt noch {{
         states('sensor.energy_production_today_remaining_total') | round(0)}}kWh an.
   mode: single
+- id: '1721974754224'
+  alias: Desk button
+  description: Desk button toggle
+  trigger:
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: Desk
+  condition: []
+  action:
+  - service: switch.toggle
+    target:
+      device_id: 11fd28fdddb33523a4d5390503459222
+    data: {}
+  mode: single

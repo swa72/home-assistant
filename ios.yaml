@@ -63,4 +63,11 @@ actions:
     icon:
       icon: mdiAirConditioner
       color: "#ffffff"
-      
+  - name: Desk
+    background_color: "#555555"
+    label:
+      text: "Desk"
+      color: "#f2f3f4"
+    icon:
+      icon: desk
+      color: "#f2f3f4"
