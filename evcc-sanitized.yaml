@@ -4,7 +4,7 @@ log: debug
 levels:
   cache: error
 plant: 357700821005ee07f7a93604d7c0611d9a081a56f305121a947a4a05a3cae68c
-interval: 180s
+interval: 90s
 modbusproxy:
   - port: 5200
     uri: 192.168.178.132:502
@@ -71,18 +71,19 @@ loadpoints:
       delay: 5m
 
 vehicles:
-  - name: T1 # no spaces or special characters
-    type: template
-    template: tesla-command
-    accessToken: *****
-    refreshToken: *****
-    vin: *****
   - name: R1 # no spaces or special characters
     type: template
     template: tesla-command
     accessToken: *****
     refreshToken: *****
     vin: *****
+  - name: T1 # no spaces or special characters
+    type: template
+    template: tesla
+    accessToken: *****
+    refreshToken: *****
+    vin: *****
+    commandProxy: http://192.168.178.78:8080
 site:
   - title: *****
     meters:

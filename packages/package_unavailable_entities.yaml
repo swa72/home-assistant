@@ -108,6 +108,16 @@ group:
       - sensor.iphone15bwi_battery
       - sensor.watermain_fwversion
       - sensor.inverter_shutdown_time
+      - sensor.silvia_power_avg
+      - sensor.shelly25_og_elternbad_energy
+      - binary_sensor.shelly25_og_elternbad_overheating
+      - sensor.shelly25_og_elternbad_power
+      - cover.shelly25_og_elternbad
+      - sensor.r1_arrival_time
+      - sensor.r1_distance_to_arrival
+      - sensor.r1_time_charge_complete
+      - switch.r1_sentry_mode
+      
 
 ###################################################################################################
 ## DESCRIPTION: Detailed persistent notification message - courtesy of @ThomDietrich and @warthog9

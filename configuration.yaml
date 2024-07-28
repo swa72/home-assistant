@@ -171,6 +171,17 @@ mqtt:
       unit_of_measurement: "W"
       availability_topic: "evcc/status"
       device_class: power
+      #
+      # the following two data points are sent by an automtion every 5min. source: "Tesla Custom Integration"
+      #
+    - name: "swa-t1-soc"
+      unique_id: swa_t1_soc
+      state_topic: "home-assistant/variable/swat1soc"
+      value_template: "{{ value | float }}"
+    - name: "swa-r1-soc"
+      unique_id: swa_r1_soc
+      state_topic: "home-assistant/variable/swar1soc"
+      value_template: "{{ value | float }}"  
 #
 
 #

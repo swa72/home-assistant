@@ -3073,3 +3073,28 @@
       device_id: 11fd28fdddb33523a4d5390503459222
     data: {}
   mode: single
+- id: '1722168423460'
+  alias: Publish Tesla SOC
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: /5
+  - platform: state
+    entity_id:
+    - sensor.battery
+  - platform: state
+    entity_id:
+    - sensor.r1_battery
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      payload: '{{ states(''sensor.battery'') }}'
+      topic: home-assistant/variable/swat1soc
+      retain: false
+  - service: mqtt.publish
+    data:
+      payload: '{{ states(''sensor.r1_battery'') }}'
+      topic: home-assistant/variable/swar1soc
+      retain: false
+  mode: single
