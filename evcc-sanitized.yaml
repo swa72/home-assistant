@@ -71,18 +71,20 @@ loadpoints:
       delay: 5m
 
 vehicles:
-  - name: T1 # no spaces or special characters
-    type: template
-    template: tesla-command
-    accessToken: *****
-    refreshToken: *****
-    vin: *****
   - name: R1 # no spaces or special characters
     type: template
-    template: tesla-command
+    template: tesla
     accessToken: *****
     refreshToken: *****
     vin: *****
+    commandProxy: http://192.168.178.78:8080    
+  - name: T1 # no spaces or special characters
+    type: template
+    template: tesla
+    accessToken: *****
+    refreshToken: *****
+    vin: *****
+    commandProxy: http://192.168.178.78:8080
 site:
   - title: *****
     meters:
