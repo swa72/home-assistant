@@ -4,7 +4,7 @@ log: debug
 levels:
   cache: error
 plant: 357700821005ee07f7a93604d7c0611d9a081a56f305121a947a4a05a3cae68c
-interval: 90s
+interval: 30s
 modbusproxy:
   - port: 5200
     uri: 192.168.178.132:502
