@@ -91,6 +91,7 @@ site:
       grid: grid # grid meter
       pv: my_pv
       battery: my_battery
+    residualPower: 100  
 tariffs:
   currency: EUR # (default EUR)
   grid:
