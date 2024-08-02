@@ -1355,7 +1355,7 @@
   - service: logbook.log
     data:
       entity_id: automation.spotify_setup
-      message: Changed source to Stefans Echo Dot
+      message: Changed source to Stefans Echo Dot.
       name: automation.spotify_setup
   mode: single
 - id: '1642007555930'

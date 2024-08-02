@@ -117,6 +117,12 @@ group:
       - sensor.r1_distance_to_arrival
       - sensor.r1_time_charge_complete
       - switch.r1_sentry_mode
+      - sensor.espresense_esppkidsgross_espresense_esppkidsgross_free_mem
+      - sensor.espresense_esppkidsgross_espresense_esppkidsgross_uptime
+      - switch.fritz_box_7490_port_forward_ha
+      - sensor.fritz_dect_repeater_og
+      - sensor.processor_temperature
+      
       
 
 ###################################################################################################
