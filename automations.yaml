@@ -3040,7 +3040,7 @@
     after: '11:00:00'
     before: '19:00:00'
   - condition: numeric_state
-    entity_id: sensor.evcc_gridpower
+    entity_id: sensor.evcc_grid_power
     below: -300
   - condition: numeric_state
     entity_id: sensor.batteries_state_of_capacity
