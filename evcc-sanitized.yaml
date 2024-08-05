@@ -2,7 +2,7 @@ network:
   port: 7070
 log: debug
 levels:
-  cache: error
+  tesla: trace
 plant: 357700821005ee07f7a93604d7c0611d9a081a56f305121a947a4a05a3cae68c
 interval: 30s
 modbusproxy:
@@ -77,7 +77,7 @@ vehicles:
     accessToken: *****
     refreshToken: *****
     vin: *****
-    commandProxy: http://192.168.178.78:8080    
+    commandProxy: http://192.168.178.78:8080
   - name: T1 # no spaces or special characters
     type: template
     template: tesla
@@ -91,7 +91,7 @@ site:
       grid: grid # grid meter
       pv: my_pv
       battery: my_battery
-    residualPower: 100  
+    residualPower: 100
 tariffs:
   currency: EUR # (default EUR)
   grid:
