@@ -1358,30 +1358,6 @@
       message: Changed source to Stefans Echo Dot.
       name: automation.spotify_setup
   mode: single
-- id: '1642007555930'
-  alias: Popup camera stream on wall tablet when doorbell pressed
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.doorbell_pressed
-    to: 'on'
-  condition: []
-  action:
-  - service: button.press
-    target:
-      entity_id: button.fire_tablet_bring_to_foreground
-    data: {}
-  - service: browser_mod.more_info
-    data:
-      entity: camera.garagecam_sub
-      large: false
-      ignore_popup_card: false
-    target:
-      device_id: c7f89cc7d1b7dc68db4d82e8893a23ee
-  - service: script.alexa_doorbell_2
-    data: {}
-  mode: single
 - id: '1642090677023'
   alias: Heizung DG Stefan Offset
   description: ''
@@ -3072,29 +3048,4 @@
     target:
       device_id: 11fd28fdddb33523a4d5390503459222
     data: {}
-  mode: single
-- id: '1722168423460'
-  alias: Publish Tesla SOC
-  description: ''
-  trigger:
-  - platform: time_pattern
-    minutes: /5
-  - platform: state
-    entity_id:
-    - sensor.battery
-  - platform: state
-    entity_id:
-    - sensor.r1_battery
-  condition: []
-  action:
-  - service: mqtt.publish
-    data:
-      payload: '{{ states(''sensor.battery'') }}'
-      topic: home-assistant/variable/swat1soc
-      retain: false
-  - service: mqtt.publish
-    data:
-      payload: '{{ states(''sensor.r1_battery'') }}'
-      topic: home-assistant/variable/swar1soc
-      retain: false
   mode: single
