@@ -3049,3 +3049,23 @@
       device_id: 11fd28fdddb33523a4d5390503459222
     data: {}
   mode: single
+- id: '1723021318367'
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: /10
+  condition:
+  - condition: time
+    after: '14:00:00'
+    before: '20:00:00'
+  - condition: numeric_state
+    entity_id: sensor.energy_production_today_remaining_total
+    below: 5
+  action:
+  - service: mqtt.publish
+    data:
+      qos: '0'
+      retain: false
+      topic: evcc/site/prioritySoc/set
+      payload: '100'
+  mode: single

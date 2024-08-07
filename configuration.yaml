@@ -54,6 +54,7 @@ logger:
     # avoid template errors in ems-esp
     #
     homeassistant.helpers.template: error
+    custom_components.evcc_intg: debug
     # homeassistant.components.shell_command: debug
     # see https://github.com/home-assistant/core/issues/58653 for next line
     # homeassistant.components.fritz: debug
