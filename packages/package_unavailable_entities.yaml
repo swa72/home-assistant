@@ -122,6 +122,29 @@ group:
       - switch.fritz_box_7490_port_forward_ha
       - sensor.fritz_dect_repeater_og
       - sensor.processor_temperature
+      - number.evcc_garage_smart_cost_limit
+      - number.evcc_haus_smart_cost_limit
+      - select.evcc_buffer_soc
+      - select.evcc_garage_limit_soc
+      - select.evcc_garage_min_soc
+      - select.evcc_garage_vehicle_name
+      - select.evcc_haus_limit_soc
+      - select.evcc_haus_min_soc
+      - select.evcc_haus_vehicle_name
+      - select.evcc_priority_soc
+      - sensor.evcc_garage_charge_remaining_duration
+      - sensor.evcc_garage_charge_remaining_energy
+      - sensor.evcc_garage_charge_total_import
+      - sensor.evcc_garage_session_co2_per_kwh
+      - sensor.evcc_garage_vehicle_plans_soc
+      - sensor.evcc_garage_vehicle_plans_time
+      - sensor.evcc_haus_charge_remaining_duration
+      - sensor.evcc_haus_charge_remaining_energy
+      - sensor.evcc_haus_session_co2_per_kwh
+      - sensor.evcc_haus_vehicle_plans_soc
+      - sensor.evcc_haus_vehicle_plans_time
+      - sensor.evcc_haus_vehicle_range
+      - sensor.evcc_haus_vehicle_soc
       
       
 
