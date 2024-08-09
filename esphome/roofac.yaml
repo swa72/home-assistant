@@ -1,7 +1,6 @@
 #
 # see https://github.com/ginkage/MHI-AC-Ctrl-ESPHome
 #
-# swa 2022: file needs clean-up as name, devicename, etc are all over the place
 # 
 substitutions:
   name: roofac
@@ -11,15 +10,25 @@ substitutions:
   # Unique device name in HA (sensor names will be prefixed by this name)
   devicename: "roofac"  
 
+#  
 esphome:
   name: ${name}
   platform: ESP8266
   board: d1_mini
+  platformio_options:
+    # Run CPU at 160Mhz to fix mhi_ac_ctrl_core.loop error: -2
+    board_build.f_cpu: 160000000L  
   includes:
-    - MHI-AC-Ctrl-ESPHome-master/mhi_ac_ctrl.h
-    - MHI-AC-Ctrl-ESPHome-master/MHI-AC-Ctrl-core.h
-    - MHI-AC-Ctrl-ESPHome-master/MHI-AC-Ctrl-core.cpp
+    - MHI-AC-Ctrl-ESPHome-master-08-2024/mhi_ac_ctrl.h
+    - MHI-AC-Ctrl-ESPHome-master-08-2024/MHI-AC-Ctrl-core.h
+    - MHI-AC-Ctrl-ESPHome-master-08-2024/MHI-AC-Ctrl-core.cpp
 
+#
+packages:
+  # Comment if you encounter mhi_ac_ctrl_core.loop error: -2 errors and uncomment the legacy_framesize file
+  mhi-ac-ctrl: !include MHI-AC-Ctrl-ESPHome-master-08-2024/conf/large_framesize.yaml
+
+#
 wifi:
   ssid: !secret wlan_name
   password: !secret wlan_password
@@ -35,6 +44,7 @@ wifi:
     ssid: "${friendly_name} hotspot"
     password: "12345678"
 
+#
 captive_portal:
 
 # Enable logging
@@ -42,16 +52,19 @@ logger:
   level: DEBUG
   baud_rate: 0
 
-# 
-globals:
-  - id: room_temp_api_timeout
-    type: int
-    restore_value: no
-    initial_value: '120'
+# Enable OTA updates  
+ota:
+  - platform: esphome
+  
+#
+button:
+ - platform: restart
+   name: Restart
+   entity_category: diagnostic 
     
 # Enable Home Assistant API
 api:
-  reboot_timeout: 61s
+  reboot_timeout: 0s
   services:
     # Call the set_api_room_temperature service from HA to override the room temperature
     # If a new value has not been received after room_temp_api_timeout seconds, it will fall back to internal sensor
@@ -61,9 +74,16 @@ api:
       then:
         - lambda: |-
             return ((MhiAcCtrl*)id(${deviceid}))->set_room_temperature(value);
+    # Call the set_vanes service from HA to set the vane position
+    # Needed because the ESPHome Climate class does not support this natively
+    # Possible values: 1-4: static positions, 5: swing, 0: unknown
+    - service: set_vanes
+      variables:
+        value: int
+      then:
+        - lambda: |-
+            return ((MhiAcCtrl*)id(${deviceid}))->set_vanes(value);
             
-# Enable OTA updates  
-ota:
 
 # Enable Web server.
 web_server:
@@ -124,12 +144,3 @@ sensor:
       - name: ${devicename} indoor unit total run time
       - name: ${devicename} compressor total run time
 
-climate:
-  - platform: custom
-    lambda: |-
-      auto mhi_ac_ctrl = new MhiAcCtrl();
-      App.register_component(mhi_ac_ctrl);
-      return {mhi_ac_ctrl};
-    climates:
-      - name: "roofac"
-        id: roofac
