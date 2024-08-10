@@ -6,9 +6,9 @@ substitutions:
   name: roofac
   friendly_name: ${name}
   # Unique device ID in HA
-  deviceid: "roofac"
+  deviceid: ${name}
   # Unique device name in HA (sensor names will be prefixed by this name)
-  devicename: "roofac"  
+  devicename: ${name}
 
 #  
 esphome:
@@ -51,6 +51,9 @@ captive_portal:
 logger:
   level: DEBUG
   baud_rate: 0
+# https://github.com/ginkage/MHI-AC-Ctrl-ESPHome/issues/61  
+  logs:
+    component: ERROR  
 
 # Enable OTA updates  
 ota:
@@ -99,9 +102,8 @@ binary_sensor:
   - platform: custom
     lambda: |-
       return ((MhiAcCtrl*)id(${deviceid}))->get_binary_sensors();
-
     binary_sensors:
-      - name: ${devicename} defrost
+#      - name: ${devicename} defrost
 
 # Text sensors with general information.
 text_sensor:
@@ -127,20 +129,20 @@ sensor:
   - platform: wifi_signal
     name: ${name} WiFi Signal
     update_interval: 60s
+    
   - platform: custom
     lambda: |-
       return ((MhiAcCtrl*)id(${deviceid}))->get_sensors();
-
     # Sensor names in HA, you can change these if you want
     # Don't delete them or change their position in the list
     sensors:
-      - name: ${devicename} error code
-      - name: ${devicename} outdoor temperature
-      - name: ${devicename} return air temperature
-      - name: ${devicename} outdoor unit fan speed
-      - name: ${devicename} indoor unit fan speed
-      - name: ${devicename} current power
-      - name: ${devicename} compressor frequency
-      - name: ${devicename} indoor unit total run time
-      - name: ${devicename} compressor total run time
+#      - name: ${devicename} error code
+#      - name: ${devicename} outdoor temperature
+#      - name: ${devicename} return air temperature
+#      - name: ${devicename} outdoor unit fan speed
+#      - name: ${devicename} indoor unit fan speed
+#      - name: ${devicename} current power
+#      - name: ${devicename} compressor frequency
+#      - name: ${devicename} indoor unit total run time
+#      - name: ${devicename} compressor total run time
 
