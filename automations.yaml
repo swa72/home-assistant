@@ -36,8 +36,8 @@
   - at: '23:23'
     platform: time
   action:
-  - service: shell_command.push_to_github
-    data: {}
+  - data: {}
+    action: shell_command.push_to_github2
   mode: single
 - id: '1609858165994'
   alias: Windfanglicht bei Dunkelheit
