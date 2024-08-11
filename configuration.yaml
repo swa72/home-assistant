@@ -55,7 +55,7 @@ logger:
     #
     homeassistant.helpers.template: error
     custom_components.evcc_intg: debug
-    # homeassistant.components.shell_command: debug
+    homeassistant.components.shell_command: error
     # see https://github.com/home-assistant/core/issues/58653 for next line
     # homeassistant.components.fritz: debug
     # fritzconnection: info
@@ -433,7 +433,8 @@ panel_custom:
 shell_command:
   #  push_to_github: "/config/gitpush.sh > /dev/null 2>&1"
   push_to_github: "/config/gitpush.sh &> /dev/null"
-
+  push_to_github2: /config/gitpush.sh
+  push_to_github3: /bin/bash /config/gitpush.sh
 #
 # to show camera live feed on wall tablet: use browser_mod
 # this section was version 1
