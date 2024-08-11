@@ -1,6 +1,9 @@
 #!/bin/bash
 date >> /config/git-last.txt
 cd /config
+# evcc.yaml now resides on remote server
+scp  192.168.178.143:/etc/evcc.yaml .
+# sanitize
 egrep -v '^#|^\s+#' evcc.yaml |grep . |sed -E 's/(password|user|token|url|host|broker|accessToken|refreshToken|vin|title).*/\1: *****/' > evcc-sanitized.yaml
 git add .
 git status
