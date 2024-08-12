@@ -55,7 +55,7 @@ logger:
     #
     homeassistant.helpers.template: error
     custom_components.evcc_intg: debug
-    homeassistant.components.shell_command: error
+    homeassistant.components.shell_command: notset
     # see https://github.com/home-assistant/core/issues/58653 for next line
     # homeassistant.components.fritz: debug
     # fritzconnection: info
