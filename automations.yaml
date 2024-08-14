@@ -894,24 +894,6 @@
       is_ios: true
       notification_title: Motion person detected!
       delay: 1
-- id: '1636196197673'
-  alias: 'Wenn Person erkannt und dunkel draußen, dann LED-Fluter an '
-  description: ''
-  trigger:
-  - platform: state
-    from: 'off'
-    to: 'on'
-    entity_id: binary_sensor.garagecam_person_detected
-  condition:
-  - condition: state
-    entity_id: binary_sensor.dunkel_draussen
-    state: 'on'
-  action:
-  - type: turn_on
-    device_id: 33202a9524f56b2023ed57884e81af71
-    entity_id: switch.shelly25_garage_channel_2
-    domain: switch
-  mode: single
 - id: '1639549122553'
   alias: Notebook aus wenn an
   description: switch is a button, can be removed if button entity is available
@@ -1385,38 +1367,6 @@
 
         '
   mode: single
-- id: '1642524431688'
-  alias: Charge Firetablet
-  description: ''
-  trigger:
-  - platform: numeric_state
-    entity_id: sensor.fire_tablet_battery_level
-    above: '80'
-    id: stopcharge
-  - platform: numeric_state
-    entity_id: sensor.fire_tablet_battery_level
-    id: startcharge
-    below: '20'
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: stopcharge
-      sequence:
-      - service: switch.turn_off
-        target:
-          entity_id: switch.shellys_firetablet
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: startcharge
-      sequence:
-      - service: switch.turn_on
-        target:
-          entity_id: switch.shellys_firetablet
-    default: []
-  mode: single
 - id: '1642611883513'
   alias: 'Notify Stefan of stale entities '
   description: ''
@@ -1712,101 +1662,6 @@
           {{states(''counter.dew_index'')}}'
       enabled: false
   mode: queued
-- id: '1653590240171'
-  alias: Stefan away automatic
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - sensor.stefan_location
-    to: Away
-    id: away
-  - platform: state
-    entity_id:
-    - sensor.stefan_location
-    to: Extended Away
-    id: extendedaway
-  - platform: state
-    entity_id:
-    - sensor.stefan_location
-    to: Home
-    id: home
-  - platform: state
-    entity_id:
-    - sensor.stefan_location
-    to: Just Arrived
-    id: justarrived
-  - platform: state
-    entity_id:
-    - sensor.stefan_location
-    to: Just Left
-    id: justleft
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: home
-      sequence:
-      - service: script.notify_stefan
-        data:
-          message: Stefan is at home
-    - conditions:
-      - condition: trigger
-        id: away
-      sequence:
-      - service: script.notify_stefan
-        data:
-          message: Stefan is away
-    - conditions:
-      - condition: trigger
-        id: extendedaway
-      sequence:
-      - service: script.notify_stefan
-        data:
-          message: Stefan is extended away
-    - conditions:
-      - condition: trigger
-        id: justarrived
-      sequence:
-      - service: script.notify_stefan
-        data:
-          message: Stefan just arrived
-    - conditions:
-      - condition: trigger
-        id: justleft
-      - condition: state
-        entity_id: switch.shellyp_dg_stefan_tisch
-        state: 'on'
-      sequence:
-      - service: script.notify_stefan
-        data:
-          title: Stefan just left
-          message: Schreibtisch ist an.
-    - conditions:
-      - condition: trigger
-        id: justleft
-      - condition: state
-        entity_id: binary_sensor.roofac_on
-        state: 'on'
-      sequence:
-      - service: script.notify_stefan
-        data:
-          title: Stefan just left
-          message: Klimaanlage im DG ist an.
-    - conditions:
-      - condition: trigger
-        id: justleft
-      - condition: state
-        entity_id: binary_sensor.sleepac_on
-        state: 'on'
-      sequence:
-      - service: script.notify_stefan
-        data:
-          title: Stefan just left
-          message: Klimaanlage im Schlafzimmer ist an.
-    default: []
-  mode: single
 - id: '1655667895530'
   alias: Early espresso
   description: ''

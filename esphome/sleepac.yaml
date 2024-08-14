@@ -1,34 +1,29 @@
-#
-# see https://github.com/ginkage/MHI-AC-Ctrl-ESPHome
-#
-# 
+# Version 2.1
 substitutions:
-  name: sleepac
-  friendly_name: ${name}
+  name: "sleepac"
   # Unique device ID in HA
-  deviceid: ${name}
-  # Unique device name in HA (sensor names will be prefixed by this name)
-  devicename: ${name}
+  deviceid: "sleepac"
+  # Unique device name in HA
+  devicename: "sleepac"
+  friendly_name: "sleepac"
 
-#  
 esphome:
-  name: ${name}
+  name: ${deviceid}
+  friendly_name: ${devicename}
   platform: ESP8266
   board: d1_mini
   platformio_options:
     # Run CPU at 160Mhz to fix mhi_ac_ctrl_core.loop error: -2
-    board_build.f_cpu: 160000000L  
+    board_build.f_cpu: 160000000L
   includes:
     - MHI-AC-Ctrl-ESPHome-master-08-2024/mhi_ac_ctrl.h
     - MHI-AC-Ctrl-ESPHome-master-08-2024/MHI-AC-Ctrl-core.h
     - MHI-AC-Ctrl-ESPHome-master-08-2024/MHI-AC-Ctrl-core.cpp
 
-#
 packages:
   # Comment if you encounter mhi_ac_ctrl_core.loop error: -2 errors and uncomment the legacy_framesize file
   mhi-ac-ctrl: !include MHI-AC-Ctrl-ESPHome-master-08-2024/conf/large_framesize.yaml
 
-#
 wifi:
   ssid: !secret wlan_name
   password: !secret wlan_password
@@ -44,28 +39,22 @@ wifi:
     ssid: "${friendly_name} hotspot"
     password: "12345678"
 
-#
-captive_portal:
-
 # Enable logging
 logger:
   level: DEBUG
   baud_rate: 0
 # https://github.com/ginkage/MHI-AC-Ctrl-ESPHome/issues/61  
   logs:
-    component: ERROR  
+    component: ERROR 
 
-# Enable OTA updates  
 ota:
-  - platform: esphome
-  
-#
+  platform: esphome
+
 button:
- - platform: restart
-   name: Restart
-   entity_category: diagnostic 
-    
-# Enable Home Assistant API
+  - platform: restart
+    name: Restart
+    entity_category: diagnostic
+
 api:
   reboot_timeout: 0s
   services:
@@ -86,7 +75,6 @@ api:
       then:
         - lambda: |-
             return ((MhiAcCtrl*)id(${deviceid}))->set_vanes(value);
-            
 
 # Enable Web server.
 web_server:
@@ -97,52 +85,27 @@ time:
   - platform: homeassistant
     id: homeassistant_time
 
-#
-binary_sensor:
-  - platform: custom
-    lambda: |-
-      return ((MhiAcCtrl*)id(${deviceid}))->get_binary_sensors();
-    binary_sensors:
-#      - name: ${devicename} defrost
+# Sensors with general information.
+sensor:
+  # Uptime sensor.
+  - platform: uptime
+    name: Uptime
+
+  # WiFi Signal sensor.
+  - platform: wifi_signal
+    name: WiFi Signal
+    update_interval: 60s
 
 # Text sensors with general information.
 text_sensor:
   # Expose ESPHome version as sensor.
   - platform: version
-    name: ${name} ESPHome Version
+    name: ESPHome Version
   # Expose WiFi information as sensors.
   - platform: wifi_info
     ip_address:
-      name: ${name} IP
+      name: IP
     ssid:
-      name: ${name} SSID
+      name: SSID
     bssid:
-      name: ${name} BSSID
-
-# Sensors with general information.
-sensor:
-  # Uptime sensor.
-  - platform: uptime
-    name: ${name} Uptime
-
-  # WiFi Signal sensor.
-  - platform: wifi_signal
-    name: ${name} WiFi Signal
-    update_interval: 60s
-    
-  - platform: custom
-    lambda: |-
-      return ((MhiAcCtrl*)id(${deviceid}))->get_sensors();
-    # Sensor names in HA, you can change these if you want
-    # Don't delete them or change their position in the list
-    sensors:
-#      - name: ${devicename} error code
-#      - name: ${devicename} outdoor temperature
-#      - name: ${devicename} return air temperature
-#      - name: ${devicename} outdoor unit fan speed
-#      - name: ${devicename} indoor unit fan speed
-#      - name: ${devicename} current power
-#      - name: ${devicename} compressor frequency
-#      - name: ${devicename} indoor unit total run time
-#      - name: ${devicename} compressor total run time
-
+      name: BSSID

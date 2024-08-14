@@ -61,14 +61,14 @@ group:
       - sensor.watermain_ip
       - sensor.watermain_mac
       # old livingroom stuff
-      - binary_sensor.livingroom_file_stored
-      - binary_sensor.livingroom_motion
+      # - binary_sensor.livingroom_file_stored
+      # - binary_sensor.livingroom_motion
       - switch.livingroom_autofocus
       - switch.livingroom_ir_lamp
       - switch.livingroom_wiper
       # misc old stuff
       - siren.garagecam_siren
-      - sensor.solcast_swahome
+      # - sensor.solcast_swahome
       - sensor.hacs
       - sensor.generic_pcl_laser_printer
       - sensor.dwd_last_rainfall_amount
@@ -77,7 +77,7 @@ group:
       - light.dimmable_light_3
       - climate.dg_stefan
       - binary_sensor.updater
-      - sensor.stefans_ipad_battery
+      # - sensor.stefans_ipad_battery
       # old motion sensor
       - binary_sensor.presence_62
       - number.presence_62_duration
@@ -89,7 +89,7 @@ group:
       - binary_sensor.wintergarten_button_lock_via_ui
       - tts.home_assistant_cloud
       - sensor.cert_expiry_timestamp_swa_duckdns_org
-      - sensor.stefans_ipad_battery_2
+      # - sensor.stefans_ipad_battery_2
       - sensor.apple_watch_von_julia_battery
       - sensor.iphone_von_anna_3_battery
       - sensor.jpad_air_2_battery
@@ -105,7 +105,7 @@ group:
       - switch.garage_inside_onvif_autofocus
       - switch.garage_inside_onvif_ir_lamp
       - switch.garage_inside_onvif_wiper
-      - sensor.iphone15bwi_battery
+      #- sensor.iphone15bwi_battery
       - sensor.watermain_fwversion
       - sensor.inverter_shutdown_time
       - sensor.silvia_power_avg
