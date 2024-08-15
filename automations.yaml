@@ -72,24 +72,6 @@
           entity_id: switch.licht_windfang
     default: []
   mode: single
-- id: '1609924669215'
-  alias: q3 Wenn Volvo zuhause und lönger als 15min offen dann abschließen
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.volvo_zuhause_und_offen
-    to: 'on'
-  condition: []
-  action:
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 15
-      milliseconds: 0
-  - service: lock.lock
-    data: {}
-    entity_id: lock.su_xp1654_door_lock
-  mode: single
 - id: '1611480761802'
   alias: Wenn Garage geöffnet wird und dunkel draußen, dann Flur-EG Licht an und LED-Fluter
     an
@@ -189,22 +171,6 @@
     data:
       title: Hinweis
       message: Die Wohnzimmertür für die Katzen offen lassen.
-  mode: single
-- id: '1612604258681'
-  alias: q3 Notify, wenn  2000 Uhr und Volvo hat zu wenig Benzin
-  description: ''
-  trigger:
-  - platform: time
-    at: '20:00:00'
-  condition:
-  - condition: template
-    value_template: '{{ states(''sensor.su_xp1654_fuel_amount'') | float < 10 }}'
-  action:
-  - service: script.notify_people_who_are_present
-    data:
-      title: Hinweis
-      message: Der Volvo hat nur noch {{ states('sensor.su_xp1654_fuel_amount') }}l
-        Benzin.
   mode: single
 - id: '1612709996219'
   alias: Notify, wenn Garage zu lange offen ist
@@ -595,50 +561,6 @@
       entity_id: automation.fake_test_automation
       message: some message
       name: automation.fake_test_automation
-  mode: single
-- id: '1634980794843'
-  alias: Advanced Heating Forecast v2
-  description: Set offset temp if next day is too warm/sunny with check
-  trigger:
-  - platform: time
-    at: '23:30'
-  condition: []
-  action:
-  - service: input_text.set_value
-    target:
-      entity_id: input_text.heating_forecast_condition
-    data:
-      value: '{{ state_attr(''weather.home'', ''forecast'')[0].condition }}'
-  - service: input_number.set_value
-    target:
-      entity_id: input_number.heating_forecast_temperature
-    data:
-      value: '{{ state_attr(''weather.home'', ''forecast'')[0].temperature | float
-        }}'
-  - condition: state
-    entity_id: sensor.heating_warmnextday
-    state: warm
-  - service: logbook.log
-    data:
-      message: Tomorrow will be warm ({{states('input_text.heating_forecast_condition')}}/     {{states('input_number.heating_forecast_temperature')}}).
-        All offsets -3. If temp at night below 17, heating will likely still be off.
-      name: automation.advanced_heating_forecast_v2
-      entity_id: automation.advanced_heating_forecast_v2
-  - service: script.heating_change_offset
-    data:
-      origin: automation.advanced_heating_forecast
-      circuit: 1
-      offset: -3
-  - service: script.heating_change_offset
-    data:
-      origin: automation.advanced_heating_forecast
-      circuit: 2
-      offset: -3
-  - service: script.heating_change_offset
-    data:
-      origin: automation.advanced_heating_forecast
-      circuit: 3
-      offset: -3
   mode: single
 - id: '1634985348876'
   alias: Advanced Heating workdays v2
@@ -1339,33 +1261,6 @@
       entity_id: automation.spotify_setup
       message: Changed source to Stefans Echo Dot.
       name: automation.spotify_setup
-  mode: single
-- id: '1642090677023'
-  alias: Heizung DG Stefan Offset
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - sensor.dg_stefan_temperature
-    - sensor.multi_dg_stefan_temperature
-  condition:
-  - condition: template
-    value_template: '{% set tado_temp = states(''sensor.dg_stefan_temperature'')|float(20)
-      %} {% set room_temp = states(''sensor.multi_dg_stefan_temperature'')|float(20)
-      %} {{ (tado_temp - room_temp) | abs > 0.5 }}
-
-      '
-  action:
-  - service: tado.set_climate_temperature_offset
-    target:
-      entity_id: climate.dg_stefan
-    data:
-      offset: '{% set tado_temp = states(''sensor.dg_stefan_temperature'')|float(20)
-        %} {% set room_temp = states(''sensor.multi_dg_stefan_temperature'')|float(20)
-        %} {% set current_offset = state_attr(''climate.dg_stefan'', ''offset_celsius'')
-        %} {{ (-(tado_temp - room_temp) + current_offset)|round(1) }}
-
-        '
   mode: single
 - id: '1642611883513'
   alias: 'Notify Stefan of stale entities '

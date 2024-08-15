@@ -69,20 +69,12 @@ group:
       # misc old stuff
       - siren.garagecam_siren
       # - sensor.solcast_swahome
-      - sensor.hacs
       - sensor.generic_pcl_laser_printer
       - sensor.dwd_last_rainfall_amount
       - person.tablet
-      - media_player.julias_2_echo_dot
-      - light.dimmable_light_3
       - climate.dg_stefan
-      - binary_sensor.updater
       # - sensor.stefans_ipad_battery
       # old motion sensor
-      - binary_sensor.presence_62
-      - number.presence_62_duration
-      - sensor.lightlevel_63
-      - sensor.presence_62_battery
       - person.mieter2
       - stt.home_assistant_cloud
       - binary_sensor.wintergarten_button_lock_on_device
@@ -93,14 +85,12 @@ group:
       - sensor.apple_watch_von_julia_battery
       - sensor.iphone_von_anna_3_battery
       - sensor.jpad_air_2_battery
-      - script.notify_stefan_if_present
       - sensor.thermostat_error_code
       - conversation.home_assistant
       - update.gas3_firmware
       - update.roofac_firmware
       - update.sleepac_firmware
       - sensor.brother_mfc_7820n_foomatic_postscript
-      - sensor.ipadbwipro11_battery
       - sensor.iphoneclarase2020_battery
       - switch.garage_inside_onvif_autofocus
       - switch.garage_inside_onvif_ir_lamp
@@ -119,9 +109,7 @@ group:
       - switch.r1_sentry_mode
       - sensor.espresense_esppkidsgross_espresense_esppkidsgross_free_mem
       - sensor.espresense_esppkidsgross_espresense_esppkidsgross_uptime
-      - switch.fritz_box_7490_port_forward_ha
       - sensor.fritz_dect_repeater_og
-      - sensor.processor_temperature
       - number.evcc_garage_smart_cost_limit
       - number.evcc_haus_smart_cost_limit
       - select.evcc_buffer_soc
