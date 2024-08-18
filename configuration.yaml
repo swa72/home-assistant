@@ -256,6 +256,7 @@ recorder:
       - sensor.espresense_esppkidsgross_espresense_esppkidsgross_free_mem
       - sensor.espresense_esppkidsgross_espresense_esppkidsgross_uptime
       - binary_sensor.espresense_esppkidsgross_espresense_esppkidsgross
+      - sensor.shellys_firetablet_power
 
   include:
     entities:

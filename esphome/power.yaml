@@ -33,7 +33,11 @@ api:
 
 # over-the-air updates
 ota:
-  safe_mode: true
+  platform: esphome
+
+# 
+safe_mode:
+#  safe_mode: on # turn on later 08/2024
   reboot_timeout: 10min
   num_attempts: 5
 
