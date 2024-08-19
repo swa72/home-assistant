@@ -250,7 +250,7 @@ recorder:
       - sensor.tesla_wall_connector_grid_frequency
       - sensor.tesla_wall_connector_grid_voltage
       - sensor.memory_use_percent
-      - sensor.silvia_power_avg
+      # - sensor.silvia_power_avg
       - sensor.shellys_silvia_power
       # - sensor.smlreadertotalenergyconsumption
       - sensor.espresense_esppkidsgross_espresense_esppkidsgross_free_mem
@@ -298,8 +298,8 @@ influxdb:
       - sensor.influxdb_db_size
       - sensor.gasverbrauch
       - sensor.heidelberg_precipitation
-      - sensor.tesla_last_charge_session
-      - sensor.tesla_last_charging_session_kwh
+#      - sensor.tesla_last_charge_session
+#      - sensor.tesla_last_charging_session_kwh
       - sensor.tesla_wall_connector_state
       - sensor.tesla_wall_connector_energy
       - binary_sensor.tesla_wall_connector_contactor_closed
@@ -337,6 +337,7 @@ counter:
     icon: mdi:water-pump
 #
 # power and gas meters
+# all gas elements required for forecast
 #
 utility_meter:
   gasverbrauch_hourly:
@@ -354,23 +355,24 @@ utility_meter:
   gasverbrauch_yearly:
     source: sensor.gasverbrauch
     cycle: yearly
-  #
-  #
-  smlpower_hourly:
-    source: sensor.smlreadertotalenergyconsumption
-    cycle: hourly
-  smlpower_daily:
-    source: sensor.smlreadertotalenergyconsumption
-    cycle: daily
-  smlpower_weekly:
-    source: sensor.smlreadertotalenergyconsumption
-    cycle: weekly
-  smlpower_monthly:
-    source: sensor.smlreadertotalenergyconsumption
-    cycle: monthly
-  smlpower_yearly:
-    source: sensor.smlreadertotalenergyconsumption
-    cycle: yearly
+ #
+ #
+ #
+  # smlpower_hourly:
+    # source: sensor.smlreadertotalenergyconsumption
+    # cycle: hourly
+  # smlpower_daily:
+    # source: sensor.smlreadertotalenergyconsumption
+    # cycle: daily
+  # smlpower_weekly:
+    # source: sensor.smlreadertotalenergyconsumption
+    # cycle: weekly
+  # smlpower_monthly:
+    # source: sensor.smlreadertotalenergyconsumption
+    # cycle: monthly
+  # smlpower_yearly:
+    # source: sensor.smlreadertotalenergyconsumption
+    # cycle: yearly
   #
   #
   # regen_daily:
