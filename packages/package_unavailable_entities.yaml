@@ -135,6 +135,7 @@ group:
       - sensor.evcc_haus_vehicle_plans_time
       - sensor.evcc_haus_vehicle_range
       - sensor.evcc_haus_vehicle_soc
+      - sensor.evcc_battery_mode_value
       
       
 

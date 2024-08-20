@@ -34,15 +34,15 @@
 #
 # gives a new entity after restart
 #
-- platform: template
-  sensors:
+# - platform: template
+  # sensors:
     #
     #
     #
-    solar_angle:
-      friendly_name: "Sun angle"
-      unit_of_measurement: "degrees"
-      value_template: "{{ state_attr('sun.sun', 'elevation') }}"
+    # solar_angle:
+      # friendly_name: "Sun angle"
+      # unit_of_measurement: "degrees"
+      # value_template: "{{ state_attr('sun.sun', 'elevation') }}"
     #
     #
     #
@@ -74,16 +74,43 @@
 #
 #
 #
+# - platform: template
+  # sensors:
+    # heating_differential:
+      # friendly_name: "Flow-Ret diff"
+      # unit_of_measurement: "°C"
+      # icon_template: "mdi:format-align-middle"
+      # value_template: "{{ (states('sensor.boiler_current_flow_temperature') | float(default=0) - states('sensor.boiler_return_temperature') | float(default=0)) | round(1) }}"
+
 - platform: template
   sensors:
     heating_differential:
-      friendly_name: "Flow-Ret diff"
+      friendly_name: "Flow-Ret Differential"
       unit_of_measurement: "°C"
-      icon_template: "mdi:format-align-middle"
-      value_template: "{{ (states('sensor.boiler_current_flow_temperature') | float(default=0) - states('sensor.boiler_return_temperature') | float(default=0)) | round(1) }}"
+      icon_template: "mdi:thermometer"
+      value_template: >
+        {% set flow_temp = states('sensor.boiler_current_flow_temperature') %}
+        {% set return_temp = states('sensor.boiler_return_temperature') %}
+        {{ (flow_temp | float(0) - return_temp | float(0)) | round(1) }}
+      availability_template: "{{ has_value('sensor.boiler_current_flow_temperature') and has_value('sensor.boiler_return_temperature') }}"
 #
 #
 #
+# - platform: influxdb
+  # host: a0d7b954-influxdb
+  # port: 8086
+  # username: homeassistant
+  # password: !secret influxdb
+  # queries:
+    # - name: InfluxDb DB Size
+      # unit_of_measurement: MB
+      # value_template: "{{ (value | float(default=0) / 1024 /1024) | round(1) }}"
+      # group_function: sum
+      # measurement: '"monitor"."shard"'
+      # database: _internal
+      # where: "time > now() - 10s"
+      # field: diskBytes
+
 - platform: influxdb
   host: a0d7b954-influxdb
   port: 8086
@@ -91,8 +118,14 @@
   password: !secret influxdb
   queries:
     - name: InfluxDb DB Size
-      unit_of_measurement: MB
-      value_template: "{{ (value | float(default=0) / 1024 /1024) | round(1) }}"
+      unit_of_measurement: "MB"
+      value_template: >
+        {% set bytes = value | float %}
+        {% if bytes is not none and bytes >= 0 %}
+          {{ (bytes / 1024 / 1024) | round(1) }}
+        {% else %}
+          unavailable
+        {% endif %}
       group_function: sum
       measurement: '"monitor"."shard"'
       database: _internal
@@ -355,6 +388,8 @@
     gasverbrauch_zaehler:
       friendly_name: "Gaszähler"
       value_template: "{{ states('sensor.gasverbrauch')| float(default=0) + 142.250 }}"
+      availability_template: "{{ has_value('sensor.gasverbrauch') }}"
+
 #
 #
 #
@@ -456,8 +491,10 @@
 #
 # see https://bmcnoldy.rsmas.miami.edu/Humidity.html
 #
-- platform: template
-  sensors:
+# - platform: template
+  # sensors:
+    # entfeuchter_voll:
+      # value_template: "{{ states('sensor.shellys_keller_entfeuchter_power')| float(default=0) >= 0.0 and states('sensor.shellys_keller_entfeuchter_power')| float(default=0) < 1.0 }}"
     #
     #
     # dew_eg_buro_open_window:
@@ -475,8 +512,19 @@
     #
     # entfeuchter cycles in 30min. if this stops, the device is simply full
     #
+
+- platform: template
+  sensors:
     entfeuchter_voll:
-      value_template: "{{ states('sensor.shellys_keller_entfeuchter_power')| float(default=0) >= 0.0 and states('sensor.shellys_keller_entfeuchter_power')| float(default=0) < 1.0 }}"
+      friendly_name: "Entfeuchter Voll"
+      value_template: >
+        {% if states('sensor.shellys_keller_entfeuchter_power') | float(0) >= 0.0 and states('sensor.shellys_keller_entfeuchter_power') | float(0) < 1.0 %}
+          true
+        {% else %}
+          false
+        {% endif %}
+      availability_template: "{{ has_value('sensor.shellys_keller_entfeuchter_power') }}"
+
 
 #
 #
@@ -512,16 +560,32 @@
 #
 # https://www.ajfriesen.com/rain-warning-sensor-with-home-assistant/
 #
+# - platform: rest
+  # name: regenradar
+  # scan_interval: 300
+  # json_attributes:
+    # - raintext
+    # - rainin30min
+    # - rainin60min
+    # - rainin120min
+  # resource: !secret morgenwirdes
+  # value_template: "{{ value_json.raintext }}"
+
 - platform: rest
   name: regenradar
   scan_interval: 300
+  resource: !secret morgenwirdes
+  value_template: >
+    {% if value_json is defined and 'raintext' in value_json %}
+      {{ value_json.raintext }}
+    {% else %}
+      unavailable
+    {% endif %}
   json_attributes:
     - raintext
     - rainin30min
     - rainin60min
     - rainin120min
-  resource: !secret morgenwirdes
-  value_template: "{{ value_json.raintext }}"
 
 - platform: template
   sensors:
@@ -537,6 +601,29 @@
     rrrainin120min:
       friendly_name: "Regen in 120min"
       value_template: "{{ state_attr('sensor.regenradar', 'rainin120min') }}"
+
+- platform: template
+  sensors:
+    rrraintext:
+      friendly_name: "Vorhersage"
+      value_template: "{{ state_attr('sensor.regenradar', 'raintext') }}"
+      availability_template: "{{ has_value('sensor.regenradar') }}"
+
+    rrrainin30min:
+      friendly_name: "Regen in 30min"
+      value_template: "{{ state_attr('sensor.regenradar', 'rainin30min') }}"
+      availability_template: "{{ has_value('sensor.regenradar') }}"
+
+    rrrainin60min:
+      friendly_name: "Regen in 60min"
+      value_template: "{{ state_attr('sensor.regenradar', 'rainin60min') }}"
+      availability_template: "{{ has_value('sensor.regenradar') }}"
+
+    rrrainin120min:
+      friendly_name: "Regen in 120min"
+      value_template: "{{ state_attr('sensor.regenradar', 'rainin120min') }}"
+      availability_template: "{{ has_value('sensor.regenradar') }}"
+
 
 #
 #
@@ -608,7 +695,8 @@
         states('sensor.gasverbrauch_daily')|float(default=0) +
         (average * remaining)) | round(0)
         }}
-
+      availability_template: "{{ has_value('sensor.gasverbrauch_weekly') and has_value('sensor.gasverbrauch_daily') and has_value('sensor.gasverbrauch_monthly')}}"
+      
 # - platform: template
   # sensors:
     # entfeuchter_costs:
@@ -690,42 +778,50 @@
     cover_currentposition_dg_cover_east:
       value_template: "{{ state_attr('cover.velux_external_cover', 'current_position') | int(default=100) }}"
       unit_of_measurement: "%"
+      availability_template: "{{ state_attr('cover.velux_external_cover','current_position')|is_number }}"
 
 - platform: template
   sensors:
     cover_currentposition_dg_cover_west:
       value_template: "{{ state_attr('cover.velux_external_cover_2', 'current_position') | int(default=100) }}"
       unit_of_measurement: "%"
+      availability_template: "{{ state_attr('cover.velux_external_cover_2','current_position')|is_number }}"
 
 - platform: template
   sensors:
     cover_currentposition_dg_anna:
       value_template: "{{ state_attr('cover.shelly25_dg_anna_rolladen', 'current_position') | int(default=100) }}"
       unit_of_measurement: "%"
+      availability_template: "{{ state_attr('cover.shelly25_dg_anna_rolladen','current_position')|is_number }}"
 
 - platform: template
   sensors:
     cover_currentposition_elternbad:
       value_template: "{{ state_attr('cover.shelly25_og_elternbad', 'current_position') | int(default=100) }}"
       unit_of_measurement: "%"
+      availability_template: "{{ state_attr('cover.shelly25_og_elternbad','current_position')|is_number }}"
 
 - platform: template
   sensors:
     cover_currentposition_sz_rechts:
       value_template: "{{ state_attr('cover.shelly25_og_schlafre', 'current_position') | int(default=100) }}"
       unit_of_measurement: "%"
+      availability_template: "{{ state_attr('cover.shelly25_og_schlafre','current_position')|is_number }}"
 
 - platform: template
   sensors:
     cover_currentposition_sz_links:
       value_template: "{{ state_attr('cover.shelly25_og_schlafli', 'current_position') | int(default=100) }}"
       unit_of_measurement: "%"
+      availability_template: "{{ state_attr('cover.shelly25_og_schlafli','current_position')|is_number }}"
+      
 
 - platform: template
   sensors:
     cover_currentposition_kidsgross:
       value_template: "{{ state_attr('cover.shelly25_og_clara', 'current_position') | int(default=100) }}"
       unit_of_measurement: "%"
+      availability_template: "{{ state_attr('cover.shelly25_og_clara','current_position')|is_number }}"
 
 #  To throttle a sensor down to 1 value per minute, the window_size should be set to "00:01”.
 - platform: filter
@@ -751,31 +847,69 @@
     estimated_energy_production_next_hour_garage:
       value_template: "{{ states('sensor.energy_next_hour_2')|float + states('sensor.energy_next_hour')|float }}"
       unit_of_measurement: "kWh"
+      availability_template: "{{ has_value('sensor.energy_next_hour_2') and has_value('sensor.energy_next_hour') }}"
+
+# - platform: template
+  # sensors:
+    # energy_production_today_remaining_garage:
+      # value_template: "{{ states('sensor.energy_production_today_remaining_2')|float + states('sensor.energy_production_today_remaining')|float }}"
+      # unit_of_measurement: "kWh"
+# - platform: template
+  # sensors:
+    # energy_current_hour_garage:
+      # value_template: "{{ states('sensor.energy_current_hour_2')|float + states('sensor.energy_current_hour')|float }}"
+      # unit_of_measurement: "kWh"
+# - platform: template
+  # sensors:
+    # energy_production_today_garage:
+      # value_template: "{{ states('sensor.energy_production_today_2')|float + states('sensor.energy_production_today')|float }}"
+      # unit_of_measurement: "kWh"
+# - platform: template
+  # sensors:
+    # energy_production_tomorrow_garage:
+      # value_template: "{{ states('sensor.energy_production_tomorrow_2')|float + states('sensor.energy_production_tomorrow')|float }}"
+      # unit_of_measurement: "kWh"
+# - platform: template
+  # sensors:
+    # power_production_now_garage:
+      # value_template: "{{ states('sensor.power_production_now_2')|float + states('sensor.power_production_now')|float }}"
+      # unit_of_measurement: "W"
+
 - platform: template
   sensors:
     energy_production_today_remaining_garage:
       value_template: "{{ states('sensor.energy_production_today_remaining_2')|float + states('sensor.energy_production_today_remaining')|float }}"
       unit_of_measurement: "kWh"
+      availability_template: "{{ has_value('sensor.energy_production_today_remaining_2') and has_value('sensor.energy_production_today_remaining') }}"
+
 - platform: template
   sensors:
     energy_current_hour_garage:
       value_template: "{{ states('sensor.energy_current_hour_2')|float + states('sensor.energy_current_hour')|float }}"
       unit_of_measurement: "kWh"
+      availability_template: "{{ has_value('sensor.energy_current_hour_2') and has_value('sensor.energy_current_hour') }}"
+
 - platform: template
   sensors:
     energy_production_today_garage:
       value_template: "{{ states('sensor.energy_production_today_2')|float + states('sensor.energy_production_today')|float }}"
       unit_of_measurement: "kWh"
+      availability_template: "{{ has_value('sensor.energy_production_today_2') and has_value('sensor.energy_production_today') }}"
+
 - platform: template
   sensors:
     energy_production_tomorrow_garage:
       value_template: "{{ states('sensor.energy_production_tomorrow_2')|float + states('sensor.energy_production_tomorrow')|float }}"
       unit_of_measurement: "kWh"
+      availability_template: "{{ has_value('sensor.energy_production_tomorrow_2') and has_value('sensor.energy_production_tomorrow') }}"
+
 - platform: template
   sensors:
     power_production_now_garage:
       value_template: "{{ states('sensor.power_production_now_2')|float + states('sensor.power_production_now')|float }}"
       unit_of_measurement: "W"
+      availability_template: "{{ has_value('sensor.power_production_now_2') and has_value('sensor.power_production_now') }}"
+
 #
 #
 #
@@ -791,39 +925,86 @@
           unknown
         {% endif %}
       icon_template: mdi:clock
+      availability_template: "{{ has_value('sensor.power_highest_peak_time_tomorrow') }}"
+
 #
 # solar forecast total
 #
+# - platform: template
+  # sensors:
+    # estimated_energy_production_next_hour_total:
+      # value_template: "{{ states('sensor.energy_next_hour')|float + states('sensor.energy_next_hour_2')|float  + states('sensor.energy_next_hour_3')|float  + states('sensor.energy_next_hour_4')|float}}"
+      # unit_of_measurement: "kWh"
+# - platform: template
+  # sensors:
+    # energy_production_today_remaining_total:
+      # value_template: "{{ states('sensor.energy_production_today_remaining')|float + states('sensor.energy_production_today_remaining_2')|float + states('sensor.energy_production_today_remaining_3')|float + states('sensor.energy_production_today_remaining_4')|float }}"
+      # unit_of_measurement: "kWh"
+# - platform: template
+  # sensors:
+    # energy_current_hour_total:
+      # value_template: "{{ states('sensor.energy_current_hour')|float + states('sensor.energy_current_hour_2')|float + states('sensor.energy_current_hour_3')|float + states('sensor.energy_current_hour_4')|float  }}"
+      # unit_of_measurement: "kWh"
+# - platform: template
+  # sensors:
+    # energy_production_today_total:
+      # value_template: "{{ states('sensor.energy_production_today')|float + states('sensor.energy_production_today_2')|float + states('sensor.energy_production_today_3')|float + states('sensor.energy_production_today_4')|float }}"
+      # unit_of_measurement: "kWh"
+# - platform: template
+  # sensors:
+    # energy_production_tomorrow_total:
+      # value_template: "{{ states('sensor.energy_production_tomorrow')|float + states('sensor.energy_production_tomorrow_2')|float + states('sensor.energy_production_tomorrow_3')|float + states('sensor.energy_production_tomorrow_4')|float }}"
+      # unit_of_measurement: "kWh"
+# - platform: template
+  # sensors:
+    # power_production_now_total:
+      # value_template: "{{ states('sensor.power_production_now')|float + states('sensor.power_production_now_2')|float + states('sensor.power_production_now_3')|float + states('sensor.power_production_now_4')|float}}"
+      # unit_of_measurement: "W"
+
 - platform: template
   sensors:
     estimated_energy_production_next_hour_total:
-      value_template: "{{ states('sensor.energy_next_hour')|float + states('sensor.energy_next_hour_2')|float  + states('sensor.energy_next_hour_3')|float  + states('sensor.energy_next_hour_4')|float}}"
+      value_template: "{{ states('sensor.energy_next_hour')|float + states('sensor.energy_next_hour_2')|float + states('sensor.energy_next_hour_3')|float + states('sensor.energy_next_hour_4')|float }}"
       unit_of_measurement: "kWh"
+      availability_template: "{{ has_value('sensor.energy_next_hour') and has_value('sensor.energy_next_hour_2') and has_value('sensor.energy_next_hour_3') and has_value('sensor.energy_next_hour_4') }}"
+
 - platform: template
   sensors:
     energy_production_today_remaining_total:
       value_template: "{{ states('sensor.energy_production_today_remaining')|float + states('sensor.energy_production_today_remaining_2')|float + states('sensor.energy_production_today_remaining_3')|float + states('sensor.energy_production_today_remaining_4')|float }}"
       unit_of_measurement: "kWh"
+      availability_template: "{{ has_value('sensor.energy_production_today_remaining') and has_value('sensor.energy_production_today_remaining_2') and has_value('sensor.energy_production_today_remaining_3') and has_value('sensor.energy_production_today_remaining_4') }}"
+
 - platform: template
   sensors:
     energy_current_hour_total:
-      value_template: "{{ states('sensor.energy_current_hour')|float + states('sensor.energy_current_hour_2')|float + states('sensor.energy_current_hour_3')|float + states('sensor.energy_current_hour_4')|float  }}"
+      value_template: "{{ states('sensor.energy_current_hour')|float + states('sensor.energy_current_hour_2')|float + states('sensor.energy_current_hour_3')|float + states('sensor.energy_current_hour_4')|float }}"
       unit_of_measurement: "kWh"
+      availability_template: "{{ has_value('sensor.energy_current_hour') and has_value('sensor.energy_current_hour_2') and has_value('sensor.energy_current_hour_3') and has_value('sensor.energy_current_hour_4') }}"
+
 - platform: template
   sensors:
     energy_production_today_total:
       value_template: "{{ states('sensor.energy_production_today')|float + states('sensor.energy_production_today_2')|float + states('sensor.energy_production_today_3')|float + states('sensor.energy_production_today_4')|float }}"
       unit_of_measurement: "kWh"
+      availability_template: "{{ has_value('sensor.energy_production_today') and has_value('sensor.energy_production_today_2') and has_value('sensor.energy_production_today_3') and has_value('sensor.energy_production_today_4') }}"
+
 - platform: template
   sensors:
     energy_production_tomorrow_total:
       value_template: "{{ states('sensor.energy_production_tomorrow')|float + states('sensor.energy_production_tomorrow_2')|float + states('sensor.energy_production_tomorrow_3')|float + states('sensor.energy_production_tomorrow_4')|float }}"
       unit_of_measurement: "kWh"
+      availability_template: "{{ has_value('sensor.energy_production_tomorrow') and has_value('sensor.energy_production_tomorrow_2') and has_value('sensor.energy_production_tomorrow_3') and has_value('sensor.energy_production_tomorrow_4') }}"
+
 - platform: template
   sensors:
     power_production_now_total:
-      value_template: "{{ states('sensor.power_production_now')|float + states('sensor.power_production_now_2')|float + states('sensor.power_production_now_3')|float + states('sensor.power_production_now_4')|float}}"
+      value_template: "{{ states('sensor.power_production_now')|float + states('sensor.power_production_now_2')|float + states('sensor.power_production_now_3')|float + states('sensor.power_production_now_4')|float }}"
       unit_of_measurement: "W"
+      availability_template: "{{ has_value('sensor.power_production_now') and has_value('sensor.power_production_now_2') and has_value('sensor.power_production_now_3') and has_value('sensor.power_production_now_4') }}"
+
+
+
 #
 # best time frame today and tomorrow
 #

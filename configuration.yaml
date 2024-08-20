@@ -82,21 +82,31 @@ tts:
 #
 #
 zone: !include zones.yaml
+#
 group: !include groups.yaml
+#
 automation: !include automations.yaml
+#
 script: !include scripts.yaml
+#
 scene: !include scenes.yaml
+# 
 notify: !include notifications.yaml
+#
 sensor: !include sensors.yaml
 #device_tracker: !include devicetrackers.yaml
 #alert: !include alerts.yaml
 http: !include http.yaml
+#
 cover: !include covers.yaml
 # deprecated yaml with 2022.9
 #volvooncall: !include volvo.yaml
 switch: !include switches.yaml
+#
 homekit: !include homekit.yaml
+#
 template: !include_dir_merge_list templates/
+#
 ios: !include ios.yaml
 
 #
@@ -435,10 +445,8 @@ panel_custom:
 #
 #
 shell_command:
-  #  push_to_github: "/config/gitpush.sh > /dev/null 2>&1"
   push_to_github: "/config/gitpush.sh &> /dev/null"
-  push_to_github2: /config/gitpush.sh
-  push_to_github3: /bin/bash /config/gitpush.sh
+
 #
 # to show camera live feed on wall tablet: use browser_mod
 # this section was version 1
@@ -452,15 +460,15 @@ shell_command:
 #
 #
 #
-rest:
-  - authentication: basic
-    username: ""
-    password: ""
-    scan_interval: 90
-    resource: http://192.168.178.36/api/1/vitals
-    sensor:
-      - name: "Tesla last charge session"
-        value_template: "{{ value_json.session_energy_wh }}"
-        device_class: energy
-        state_class: total_increasing
-        unit_of_measurement: "Wh"
+# rest:
+  # - authentication: basic
+    # username: ""
+    # password: ""
+    # scan_interval: 90
+    # resource: http://192.168.178.36/api/1/vitals
+    # sensor:
+      # - name: "Tesla last charge session"
+        # value_template: "{{ value_json.session_energy_wh }}"
+        # device_class: energy
+        # state_class: total_increasing
+        # unit_of_measurement: "Wh"
