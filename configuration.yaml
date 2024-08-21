@@ -94,13 +94,17 @@ scene: !include scenes.yaml
 notify: !include notifications.yaml
 #
 sensor: !include sensors.yaml
+#
 #device_tracker: !include devicetrackers.yaml
+#
 #alert: !include alerts.yaml
+#
 http: !include http.yaml
 #
 cover: !include covers.yaml
 # deprecated yaml with 2022.9
 #volvooncall: !include volvo.yaml
+#
 switch: !include switches.yaml
 #
 homekit: !include homekit.yaml

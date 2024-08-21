@@ -2768,6 +2768,7 @@
     data: {}
   mode: single
 - id: '1723021318367'
+  alias: Setze Prio Hausbatterie auf 100 nach 1400 Uhr
   description: ''
   trigger:
   - platform: time_pattern
@@ -2780,10 +2781,31 @@
     entity_id: sensor.energy_production_today_remaining_total
     below: 5
   action:
-  - service: mqtt.publish
-    data:
+  - data:
       qos: '0'
       retain: false
       topic: evcc/site/prioritySoc/set
       payload: '100'
+    action: mqtt.publish
+  mode: single
+- id: '1724244737181'
+  alias: Setze Prio Hausbatterie auf 50 nach 0900 Uhr
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: /10
+  condition:
+  - condition: time
+    after: 09:00:00
+    before: '14:00:00'
+  - condition: numeric_state
+    entity_id: sensor.energy_production_today_remaining_total
+    above: 10
+  action:
+  - data:
+      qos: '0'
+      retain: false
+      topic: evcc/site/prioritySoc/set
+      payload: '50'
+    action: mqtt.publish
   mode: single
