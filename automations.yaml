@@ -2745,12 +2745,17 @@
   - condition: template
     value_template: '{{ (as_timestamp(now()) - as_timestamp(states.automation.notify_stefan_of_pv_excess.attributes.last_triggered
       | default(0)) | int > 3599)}}'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: binary_sensor.tesla_wall_connector_contactor_closed
+      state: 'on'
   action:
-  - service: script.notify_stefan
-    data:
+  - data:
       title: PV
       message: Batterie +95% und noch Überschuss vorhanden. Forecast zeigt noch {{
         states('sensor.energy_production_today_remaining_total') | round(0)}}kWh an.
+    action: script.notify_stefan
   mode: single
 - id: '1721974754224'
   alias: Desk button
