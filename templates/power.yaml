@@ -12,6 +12,8 @@
       template: power
     availability: "{{ has_value('sensor.smlreadercounter') }}"
 
+# sensor.smlreadercounter kommt aus "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:1.8.0/255/value"
+
 # - sensor:
   # - unique_id: smlreadertotalenergyconsumption
     # name: Total Power Energy
