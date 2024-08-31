@@ -124,6 +124,7 @@ mqtt:
       state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:96.50.1/1/value"
     - name: "SMLReaderDeviceID"
       state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:96.1.0/255/value"
+# Zählerstand Bezug      
     - name: "SMLReaderCounter"
       state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:1.8.0/255/value"
       unit_of_measurement: "kWh"
@@ -132,6 +133,7 @@ mqtt:
       state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:16.7.0/255/value"
       unit_of_measurement: "W"
       device_class: power
+# Zählerstand Lieferung      
     - name: "SMLReaderLieferung"
       state_topic: "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:2.8.0/255/value"
       unit_of_measurement: "kWh"
