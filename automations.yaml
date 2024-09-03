@@ -264,63 +264,6 @@
         title: Hinweis
         message: Freezer im Büro ist (zu lange) offen.
   mode: single
-- id: '1620553045155'
-  alias: Wenn zu warm im DG oder 0900 Uhr und Stefan im Office, frage Stefan ob AC
-    angestellt werden soll
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.stefan_working_in_office
-    to: 'on'
-  - platform: time
-    at: 09:00:00
-  condition:
-  - condition: template
-    value_template: '{{states("sensor.multi_dg_stefan_temperature") | float >= 23}}'
-  - condition: state
-    entity_id: binary_sensor.stefan_working_in_office
-    state: 'on'
-  - condition: template
-    value_template: '{{ is_state(''automation.notify_stefan_zu_heiss_in_dg'', ''off'')  }}'
-  action:
-  - alias: q1 Set up variables for the actions
-    variables:
-      action_on: '{{ ''ON_'' ~ context.id }}'
-      action_nothing: '{{ ''NOTHING_'' ~ context.id }}'
-  - alias: q1 Ask a question
-    service: notify.mobile_app_iphone15b
-    data:
-      message: Temp too hot in office. Turn on AC?
-      data:
-        actions:
-        - action: '{{ action_on }}'
-          title: 'On'
-        - action: '{{ action_nothing }}'
-          title: No thanks
-  - alias: q1 Wait for a response
-    wait_for_trigger:
-    - platform: event
-      event_type: mobile_app_notification_action
-      event_data:
-        action: '{{ action_on }}'
-    - platform: event
-      event_type: mobile_app_notification_action
-      event_data:
-        action: '{{ action_nothing }}'
-  - alias: q1 Perform the action
-    choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ wait.trigger.event.data.action == action_on}}'
-      sequence:
-      - service: script.turn_on_ac_at_stefans_office
-        data: {}
-    - conditions:
-      - condition: template
-        value_template: '{{ wait.trigger.event.data.action == action_nothing }}'
-      sequence:
-  mode: single
-  max: 10
 - id: '1623348230796'
   alias: Wenn Nacht, dann lasse Pool Pumpe laufen
   description: ''
@@ -1941,54 +1884,6 @@
       message: N/A
       title: 'Bewässerung beendet: {{ trigger.entity_id }}'
   mode: single
-- id: '1688653635979'
-  alias: Stefan returned home
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - person.stefan
-    from: not_home
-    to: home
-  condition: []
-  action:
-  - alias: q1 Set up variables for the actions
-    variables:
-      action_on: '{{ ''ON_'' ~ context.id }}'
-      action_nothing: '{{ ''NOTHING_'' ~ context.id }}'
-  - alias: q1 Ask a question
-    service: notify.mobile_app_iphone15b
-    data:
-      message: Haustür öffnen?
-      data:
-        actions:
-        - action: '{{ action_on }}'
-          title: Ja.
-        - action: '{{ action_nothing }}'
-          title: Nein, danke.
-  - alias: q1 Wait for a response
-    wait_for_trigger:
-    - platform: event
-      event_type: mobile_app_notification_action
-      event_data:
-        action: '{{ action_on }}'
-    - platform: event
-      event_type: mobile_app_notification_action
-      event_data:
-        action: '{{ action_nothing }}'
-  - alias: q1 Perform the action
-    choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ wait.trigger.event.data.action == action_on}}'
-      sequence:
-      - service: script.haustuer
-        data: {}
-    - conditions:
-      - condition: template
-        value_template: '{{ wait.trigger.event.data.action == action_nothing }}'
-      sequence:
-  mode: restart
 - id: '1689592142929'
   alias: Notify Stefan of meter problem
   description: ''
@@ -2822,3 +2717,144 @@
       payload: '50'
     action: mqtt.publish
   mode: single
+- id: '1725362790985'
+  alias: Stefan returned home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - person.stefan
+    from: not_home
+    to: home
+  condition: []
+  action:
+  - alias: q1 Set up variables for the actions
+    variables:
+      action_on: '{{ ''ON_'' ~ context.id }}'
+      action_nothing: '{{ ''NOTHING_'' ~ context.id }}'
+  - alias: q1 Ask a question
+    data:
+      message: Haustür öffnen?
+      data:
+        actions:
+        - action: '{{ action_on }}'
+          title: Ja.
+        - action: '{{ action_nothing }}'
+          title: Nein, danke.
+    action: notify.mobile_app_iphone15b
+  - alias: q1 Wait for a response
+    wait_for_trigger:
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ action_on }}'
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ action_nothing }}'
+  - alias: q1 Perform the action
+    choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.event.data.action == action_on}}'
+      sequence:
+      - data: {}
+        action: script.haustuer
+  mode: restart
+- id: '1725363245805'
+  alias: Julia returned home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - person.julia
+    from: not_home
+    to: home
+  condition: []
+  action:
+  - alias: q1 Set up variables for the actions
+    variables:
+      action_on: '{{ ''ON_'' ~ context.id }}'
+      action_nothing: '{{ ''NOTHING_'' ~ context.id }}'
+  - alias: q1 Ask a question
+    data:
+      message: Haustür öffnen?
+      data:
+        actions:
+        - action: '{{ action_on }}'
+          title: Ja.
+        - action: '{{ action_nothing }}'
+          title: Nein, danke.
+    action: notify.mobile_app_jphone
+  - alias: q1 Wait for a response
+    wait_for_trigger:
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ action_on }}'
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ action_nothing }}'
+  - alias: q1 Perform the action
+    choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.event.data.action == action_on}}'
+      sequence:
+      - data: {}
+        action: script.haustuer
+  mode: restart
+- id: '1725363408023'
+  alias: Wenn zu warm im DG oder 0900 Uhr und Stefan im Office, frage Stefan ob AC
+    angestellt werden soll
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.stefan_working_in_office
+    to: 'on'
+  - platform: time
+    at: 09:00:00
+  condition:
+  - condition: template
+    value_template: '{{states("sensor.multi_dg_stefan_temperature") | float >= 23}}'
+  - condition: state
+    entity_id: binary_sensor.stefan_working_in_office
+    state: 'on'
+  - condition: template
+    value_template: '{{ is_state(''automation.notify_stefan_zu_heiss_in_dg'', ''off'')  }}'
+  action:
+  - alias: q1 Set up variables for the actions
+    variables:
+      action_on: '{{ ''ON_'' ~ context.id }}'
+      action_nothing: '{{ ''NOTHING_'' ~ context.id }}'
+  - alias: q1 Ask a question
+    data:
+      message: Temp too hot in office. Turn on AC?
+      data:
+        actions:
+        - action: '{{ action_on }}'
+          title: 'On'
+        - action: '{{ action_nothing }}'
+          title: No thanks
+    action: notify.mobile_app_iphone15b
+  - alias: q1 Wait for a response
+    wait_for_trigger:
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ action_on }}'
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ action_nothing }}'
+  - alias: q1 Perform the action
+    choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.event.data.action == action_on}}'
+      sequence:
+      - data: {}
+        action: script.turn_on_ac_at_stefans_office
+  mode: single
+  max: 10

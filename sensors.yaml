@@ -833,6 +833,14 @@
 
 #  To throttle a sensor down to 1 value per minute, the window_size should be set to "00:01”.
 - platform: filter
+  name: "filtered sensor.smlreaderpower"
+  entity_id: sensor.smlreaderpower
+  filters:
+    - filter: time_throttle
+      window_size: "00:01"
+
+#  To throttle a sensor down to 1 value per minute, the window_size should be set to "00:01”.
+- platform: filter
   name: "filtered shellysfiretabletpower"
   entity_id: sensor.shellys_firetablet_power
   filters:
