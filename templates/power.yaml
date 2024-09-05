@@ -12,6 +12,18 @@
       template: power
     availability: "{{ has_value('sensor.smlreadercounter') }}"
 
+- sensor:
+  - unique_id: smlreadertotalenergydelivery
+    name: Total Power Energy Delivery
+    unit_of_measurement: "kWh"
+    device_class: energy
+    state_class: total_increasing
+    state: "{{ ((states('sensor.smlreaderlieferung') | float) * 0.001) }}"
+    attributes:
+      template: power
+    availability: "{{ has_value('sensor.smlreaderlieferung') }}"
+
+
 # sensor.smlreadercounter kommt aus "homeassistant/sensor/smartmeter/sensor/1/obis/1-0:1.8.0/255/value"
 
 # - sensor:

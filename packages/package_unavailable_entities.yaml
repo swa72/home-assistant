@@ -136,6 +136,22 @@ group:
       - sensor.evcc_haus_vehicle_range
       - sensor.evcc_haus_vehicle_soc
       - sensor.evcc_battery_mode_value
+##
+      - select.boiler_reset
+      - number.thermostat_hc1_room_humidity_from_remote
+      - number.thermostat_hc1_room_temperature_from_remote
+      - number.thermostat_hc2_room_humidity_from_remote
+      - number.thermostat_hc2_room_temperature_from_remote
+      - number.thermostat_hc3_room_humidity_from_remote
+      - number.thermostat_hc3_room_temperature_from_remote
+      - binary_sensor.system_status
+      - sensor.system_version
+##
+      - sensor.node_elitedesk_containers_running
+##
+      - sensor.evcc_netzeinspeisung_integral_compensation
+##
+      - notify.tibber
       
       
 
