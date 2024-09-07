@@ -2858,3 +2858,21 @@
         action: script.turn_on_ac_at_stefans_office
   mode: single
   max: 10
+- id: '1725688670446'
+  alias: Notify, wenn Spuelmaschine fertig
+  description: ''
+  use_blueprint:
+    path: sbyx/notify-or-do-something-when-an-appliance-like-a-dishwasher-or-washing-machine-finishes.yaml
+    input:
+      power_sensor: sensor.shellys_dishwasher_power
+      starting_threshold: 1300
+      starting_hysteresis: 10
+      finishing_threshold: 9
+      actions:
+      - data:
+          title: Hinweis
+          message: Spülmaschine ist fertig seit {{ '{:02}:{:02}'.format(now().hour,
+            now().minute) }}.
+        action: script.notify_stefan
+      pre_actions:
+      - delay: '1'
