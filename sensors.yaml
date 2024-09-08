@@ -1011,7 +1011,12 @@
       unit_of_measurement: "W"
       availability_template: "{{ has_value('sensor.power_production_now') and has_value('sensor.power_production_now_2') and has_value('sensor.power_production_now_3') and has_value('sensor.power_production_now_4') }}"
 
-
+- platform: filter
+  name: "Power Average"
+  entity_id: sensor.evcc_home_power
+  filters:
+    - filter: time_simple_moving_average
+      window_size: "00:05"
 
 #
 # best time frame today and tomorrow
@@ -1027,3 +1032,4 @@
       # value_template: "{{ states('sensor.inverter_input_power')|float }}"
       # unit_of_measurement: "Wh"
       # device_class: "energy"
+
