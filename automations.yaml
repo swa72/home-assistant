@@ -2240,107 +2240,107 @@
       entity_id: input_boolean.family_away
       state: 'on'
     then:
-    - service: notify.persistent_notification
-      metadata: {}
+    - metadata: {}
       data:
         message: Familie ist abwesend.
-    - service: automation.turn_off
-      metadata: {}
+      action: notify.persistent_notification
+    - metadata: {}
       data: {}
       target:
         entity_id: automation.warnung_espresense_geraet_fehlt
-    - service: automation.turn_off
-      metadata: {}
+      action: automation.turn_off
+    - metadata: {}
       data: {}
       target:
         entity_id: automation.warnung_konstantin_geraet_fehlt
-    - service: automation.turn_off
-      metadata: {}
+      action: automation.turn_off
+    - metadata: {}
       data: {}
       target:
         entity_id: automation.advanced_heating_workdays_v2
-    - service: automation.turn_off
-      metadata: {}
+      action: automation.turn_off
+    - metadata: {}
       data: {}
       target:
         entity_id: automation.advanced_heating_hc2hc1_v3
-    - service: select.select_option
-      metadata: {}
+      action: automation.turn_off
+    - metadata: {}
       data:
         option: 'off'
       target:
-        entity_id: select.thermostat_dhw_mode
-    - service: select.select_option
-      metadata: {}
+        entity_id: select.thermostat_dhw2_mode
+      action: select.select_option
+    - metadata: {}
       data:
         option: manual
       target:
         entity_id: select.thermostat_hc1_mode
-    - service: select.select_option
-      metadata: {}
+      action: select.select_option
+    - metadata: {}
       data:
         option: manual
       target:
         entity_id: select.thermostat_hc2_mode
-    - service: select.select_option
-      metadata: {}
+      action: select.select_option
+    - metadata: {}
       data:
         option: manual
       target:
         entity_id: select.thermostat_hc3_mode
+      action: select.select_option
   - if:
     - condition: state
       entity_id: input_boolean.family_away
       state: 'off'
     then:
-    - service: notify.persistent_notification
-      metadata: {}
+    - metadata: {}
       data:
         message: Familie ist anwesend.
-    - service: automation.turn_on
-      metadata: {}
+      action: notify.persistent_notification
+    - metadata: {}
       data: {}
       target:
         entity_id: automation.warnung_espresense_geraet_fehlt
-    - service: automation.turn_on
-      metadata: {}
+      action: automation.turn_on
+    - metadata: {}
       data: {}
       target:
         entity_id: automation.warnung_konstantin_geraet_fehlt
-    - service: automation.turn_on
-      metadata: {}
+      action: automation.turn_on
+    - metadata: {}
       data: {}
       target:
         entity_id: automation.advanced_heating_workdays_v2
-    - service: automation.turn_on
-      metadata: {}
+      action: automation.turn_on
+    - metadata: {}
       data: {}
       target:
         entity_id: automation.advanced_heating_hc2hc1_v3
-    - service: select.select_option
-      metadata: {}
+      action: automation.turn_on
+    - metadata: {}
       data:
         option: own prog
       target:
-        entity_id: select.thermostat_dhw_mode
-    - service: select.select_option
-      metadata: {}
+        entity_id: select.thermostat_dhw2_mode
+      action: select.select_option
+    - metadata: {}
       data:
         option: auto
       target:
         entity_id: select.thermostat_hc1_mode
-    - service: select.select_option
-      metadata: {}
+      action: select.select_option
+    - metadata: {}
       data:
         option: auto
       target:
         entity_id: select.thermostat_hc2_mode
-    - service: select.select_option
-      metadata: {}
+      action: select.select_option
+    - metadata: {}
       data:
         option: auto
       target:
         entity_id: select.thermostat_hc3_mode
+      action: select.select_option
   mode: single
 - id: '1713514008301'
   alias: Rolladensteuerung Schlafzimmer runter
@@ -2867,12 +2867,34 @@
       power_sensor: sensor.shellys_dishwasher_power
       starting_threshold: 1300
       starting_hysteresis: 10
-      finishing_threshold: 9
+      finishing_threshold: 2
       actions:
       - data:
           title: Hinweis
           message: Spülmaschine ist fertig seit {{ '{:02}:{:02}'.format(now().hour,
             now().minute) }}.
-        action: script.notify_stefan
+        action: script.notify_people_who_are_present
+      - action: script.alexa_tts_spulmaschine_ist_fertig
+        metadata: {}
+        data: {}
       pre_actions:
       - delay: '1'
+- id: '1725891098786'
+  alias: Notify, wenn Trockner fertig
+  description: Trockner fertig
+  use_blueprint:
+    path: Sbyx/notify-or-do-something-when-an-appliance-like-a-dishwasher-or-washing-machine-finishes.yaml
+    input:
+      finishing_hysteresis: 10
+      power_sensor: sensor.shellys_dryer_power
+      starting_threshold: 600
+      starting_hysteresis: 5
+      finishing_threshold: 300
+      actions:
+      - data:
+          title: Hinweis
+          message: Trockner ist fertig seit {{ '{:02}:{:02}'.format(now().hour, now().minute)
+            }}.
+        action: script.notify_people_who_are_present
+      - data: {}
+        action: script.alexa_tts_trockner_ist_fertig
