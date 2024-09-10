@@ -2888,8 +2888,8 @@
       finishing_hysteresis: 10
       power_sensor: sensor.shellys_dryer_power
       starting_threshold: 600
-      starting_hysteresis: 5
-      finishing_threshold: 300
+      starting_hysteresis: 3
+      finishing_threshold: 400
       actions:
       - data:
           title: Hinweis
