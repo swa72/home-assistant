@@ -47,12 +47,12 @@
     search: "Silvia"
 #    track: true
 
-- cal_id: ngj325mmipl03it0fdplrua52o@group.calendar.google.com
-  entities:
-  - device_id: elisa
-    ignore_availability: true
-    name: Elisa
-#    track: false
+# - cal_id: ngj325mmipl03it0fdplrua52o@group.calendar.google.com
+  # entities:
+  # - device_id: elisa
+    # ignore_availability: true
+    # name: Elisa
+# #    track: false
 
 - cal_id: nngc9v8phgbvbihu172r1l9sns3avdkv@import.calendar.google.com
   entities:
@@ -101,3 +101,9 @@
   - device_id: familie
     ignore_availability: true
     name: Familie
+
+- cal_id: ac09f8e4539e1012b0ca85f898f845e10ed78cfbdfe41b59cae8daff58c343c3@group.calendar.google.com
+  entities:
+  - device_id: haus
+    ignore_availability: true
+    name: Haus

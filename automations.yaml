@@ -759,37 +759,6 @@
       is_ios: true
       notification_title: Doorbell pressed!
       delay: 1
-- id: '1640186426874'
-  alias: Kalender Silvia
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: calendar.ha_silvia
-    to: 'on'
-    id: an
-  - platform: state
-    entity_id: calendar.ha_silvia
-    id: aus
-    to: 'off'
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: an
-      sequence:
-      - service: switch.turn_on
-        target:
-          entity_id: switch.shellys_silvia
-    - conditions:
-      - condition: trigger
-        id: aus
-      sequence:
-      - service: switch.turn_off
-        target:
-          entity_id: switch.shellys_silvia
-    default: []
-  mode: single
 - id: '1640281201989'
   alias: Kalender Schreibtisch
   description: ''
@@ -2898,3 +2867,34 @@
         action: script.notify_people_who_are_present
       - data: {}
         action: script.alexa_tts_trockner_ist_fertig
+- id: '1726120333516'
+  alias: Kalender Silvia
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: calendar.ha_silvia
+    to: 'on'
+    id: an
+  - platform: state
+    entity_id: calendar.ha_silvia
+    id: aus
+    to: 'off'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: an
+      sequence:
+      - target:
+          entity_id: switch.shellys_silvia
+        action: switch.turn_on
+    - conditions:
+      - condition: trigger
+        id: aus
+      sequence:
+      - target:
+          entity_id: switch.shellys_silvia
+        action: switch.turn_off
+    default: []
+  mode: single
