@@ -1007,3 +1007,23 @@ alexa_tts_trockner_ist_fertig:
     action: media_player.volume_set
   mode: single
   description: ''
+clara_zimmer_aufraumen:
+  alias: Clara Zimmer aufräumen
+  sequence:
+  - data:
+      volume_level: 0.5
+    entity_id: media_player.claras_echo_dot
+    action: media_player.volume_set
+  - data:
+      target: media_player.claras_echo_dot
+      message: Clara, bitte räume das Zimmer auf.
+      data:
+        type: tts
+    action: notify.alexa_media
+  - data:
+      volume_level: 0.2
+    target:
+      entity_id: media_player.claras_echo_dot
+    action: media_player.volume_set
+  mode: single
+  description: ''
