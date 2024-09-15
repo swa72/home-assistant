@@ -666,16 +666,18 @@ heating_set_room_temp_low:
 play_swr3:
   alias: Play swr3
   sequence:
-  - service: media_player.volume_set
-    data:
+  - data:
       volume_level: 0.15
     target:
-      entity_id: media_player.stefans_echo_dot
-  - service: media_player.play_media
-    data:
-      entity_id: media_player.stefans_echo_dot
+      entity_id:
+      - media_player.konstantins_echo_dot
+    action: media_player.volume_set
+  - data:
       media_content_id: play SWR3 on tunein
       media_content_type: custom
+    action: media_player.play_media
+    target:
+      entity_id: media_player.konstantins_echo_dot
   mode: single
 play_lounge:
   alias: Play lounge
@@ -1016,14 +1018,132 @@ clara_zimmer_aufraumen:
     action: media_player.volume_set
   - data:
       target: media_player.claras_echo_dot
-      message: Clara, bitte räume das Zimmer auf.
+      message: Lieber Clara, bitte Zimmer aufräumen.
       data:
         type: tts
     action: notify.alexa_media
   - data:
-      volume_level: 0.2
+      volume_level: 0.15
     target:
       entity_id: media_player.claras_echo_dot
     action: media_player.volume_set
+  mode: single
+  description: ''
+konstantin_zimmer_aufraumen:
+  alias: Konstantin Zimmer aufräumen
+  sequence:
+  - data:
+      volume_level: 0.5
+    entity_id: media_player.konstantins_echo_dot
+    action: media_player.volume_set
+  - data:
+      target: media_player.konstantins_echo_dot
+      message: Lieber Konstantin, bitte Zimmer aufräumen.
+      data:
+        type: tts
+    action: notify.alexa_media
+  - data:
+      volume_level: 0.15
+    target:
+      entity_id: media_player.konstantins_echo_dot
+    action: media_player.volume_set
+  mode: single
+  description: ''
+clara_lautstarke_setzen:
+  alias: Clara Lautstärke setzen
+  sequence:
+  - data:
+      volume_level: 0.15
+    target:
+      entity_id: media_player.claras_echo_dot
+    action: media_player.volume_set
+  mode: single
+  description: ''
+konstantin_lautstarke_setzen:
+  alias: Konstantin Lautstärke setzen
+  sequence:
+  - data:
+      volume_level: 0.15
+    target:
+      entity_id: media_player.konstantins_echo_dot
+    action: media_player.volume_set
+  mode: single
+  description: ''
+clara_tur_zu_und_musik_leiser:
+  alias: Clara Tür zu und Musik leiser
+  sequence:
+  - data:
+      volume_level: 0.5
+    entity_id: media_player.claras_echo_dot
+    action: media_player.volume_set
+  - data:
+      target: media_player.claras_echo_dot
+      message: Lieber Clara, bitte Tür schließen und Musik leiser machen.
+      data:
+        type: tts
+    action: notify.alexa_media
+  - data:
+      volume_level: 0.15
+    target:
+      entity_id: media_player.claras_echo_dot
+    action: media_player.volume_set
+  mode: single
+  description: ''
+  icon: mdi:volume-off
+konstantin_tur_zu_und_musik_leiser:
+  alias: Konstantin Tür zu und Musik leiser
+  sequence:
+  - data:
+      volume_level: 0.5
+    entity_id: media_player.konstantins_echo_dot
+    action: media_player.volume_set
+  - data:
+      target: media_player.konstantins_echo_dot
+      message: Lieber Konstantin, bitte Tür schließen und Musik leiser machen.
+      data:
+        type: tts
+    action: notify.alexa_media
+  - data:
+      volume_level: 0.15
+    target:
+      entity_id: media_player.konstantins_echo_dot
+    action: media_player.volume_set
+  mode: single
+  description: ''
+  icon: mdi:volume-off
+konstantin_overrule_volume_for_300s:
+  alias: Konstantin overrule volume for 300s
+  sequence:
+  - repeat:
+      count: 10
+      sequence:
+      - data:
+          volume_level: 0.15
+        target:
+          entity_id: media_player.konstantins_echo_dot
+        action: media_player.volume_set
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 30
+          milliseconds: 0
+  mode: single
+  description: ''
+clara_overrule_volume_for_300s:
+  alias: Clara overrule volume for 300s
+  sequence:
+  - repeat:
+      count: 10
+      sequence:
+      - data:
+          volume_level: 0.15
+        target:
+          entity_id: media_player.claras_echo_dot
+        action: media_player.volume_set
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 30
+          milliseconds: 0
   mode: single
   description: ''

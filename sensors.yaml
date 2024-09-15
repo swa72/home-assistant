@@ -1033,3 +1033,14 @@
       # unit_of_measurement: "Wh"
       # device_class: "energy"
 
+- platform: template
+  sensors:
+    echo_clara_volume:
+      value_template: "{{ state_attr('media_player.claras_echo_dot', 'volume_level') }}"
+      availability_template: "{{ has_value('media_player.claras_echo_dot') }}"
+
+- platform: template
+  sensors:
+    echo_konstantin_volume:
+      value_template: "{{ state_attr('media_player.konstantins_echo_dot', 'volume_level') }}"
+      availability_template: "{{ has_value('media_player.konstantins_echo_dot') }}"
