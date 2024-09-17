@@ -1009,46 +1009,6 @@ alexa_tts_trockner_ist_fertig:
     action: media_player.volume_set
   mode: single
   description: ''
-clara_zimmer_aufraumen:
-  alias: Clara Zimmer aufräumen
-  sequence:
-  - data:
-      volume_level: 0.5
-    entity_id: media_player.claras_echo_dot
-    action: media_player.volume_set
-  - data:
-      target: media_player.claras_echo_dot
-      message: Lieber Clara, bitte Zimmer aufräumen.
-      data:
-        type: tts
-    action: notify.alexa_media
-  - data:
-      volume_level: 0.15
-    target:
-      entity_id: media_player.claras_echo_dot
-    action: media_player.volume_set
-  mode: single
-  description: ''
-konstantin_zimmer_aufraumen:
-  alias: Konstantin Zimmer aufräumen
-  sequence:
-  - data:
-      volume_level: 0.5
-    entity_id: media_player.konstantins_echo_dot
-    action: media_player.volume_set
-  - data:
-      target: media_player.konstantins_echo_dot
-      message: Lieber Konstantin, bitte Zimmer aufräumen.
-      data:
-        type: tts
-    action: notify.alexa_media
-  - data:
-      volume_level: 0.15
-    target:
-      entity_id: media_player.konstantins_echo_dot
-    action: media_player.volume_set
-  mode: single
-  description: ''
 clara_lautstarke_setzen:
   alias: Clara Lautstärke setzen
   sequence:
@@ -1070,7 +1030,7 @@ konstantin_lautstarke_setzen:
   mode: single
   description: ''
 clara_tur_zu_und_musik_leiser:
-  alias: Clara Tür zu und Musik leiser
+  alias: Clara Tür zu
   sequence:
   - data:
       volume_level: 0.5
@@ -1078,7 +1038,7 @@ clara_tur_zu_und_musik_leiser:
     action: media_player.volume_set
   - data:
       target: media_player.claras_echo_dot
-      message: Lieber Clara, bitte Tür schließen und Musik leiser machen.
+      message: Liebe Clara, bitte Tür schließen.
       data:
         type: tts
     action: notify.alexa_media
@@ -1091,7 +1051,7 @@ clara_tur_zu_und_musik_leiser:
   description: ''
   icon: mdi:volume-off
 konstantin_tur_zu_und_musik_leiser:
-  alias: Konstantin Tür zu und Musik leiser
+  alias: Konstantin Tür zu
   sequence:
   - data:
       volume_level: 0.5
@@ -1099,7 +1059,7 @@ konstantin_tur_zu_und_musik_leiser:
     action: media_player.volume_set
   - data:
       target: media_player.konstantins_echo_dot
-      message: Lieber Konstantin, bitte Tür schließen und Musik leiser machen.
+      message: Lieber Konstantin, bitte Tür schließen.
       data:
         type: tts
     action: notify.alexa_media
@@ -1145,5 +1105,29 @@ clara_overrule_volume_for_300s:
           minutes: 0
           seconds: 30
           milliseconds: 0
+  mode: single
+  description: ''
+spotify_jazz_bar:
+  alias: Spotify jazz bar
+  sequence:
+  - target:
+      entity_id: media_player.spotify_swa72
+    data:
+      volume_level: 0.15
+    action: media_player.volume_set
+  - target:
+      entity_id: media_player.spotify_swa72
+    data:
+      media_content_id: https://open.spotify.com/playlist/37i9dQZF1DWXwi9yXPDI9y?si=f17fe2ce00c34af0
+      media_content_type: playlist
+    action: media_player.play_media
+  - target:
+      entity_id: media_player.spotify_swa72
+    data:
+      shuffle: true
+    action: media_player.shuffle_set
+  - data:
+      entity_id: media_player.spotify_swa72
+    action: media_player.media_next_track
   mode: single
   description: ''

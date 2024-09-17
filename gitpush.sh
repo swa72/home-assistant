@@ -5,6 +5,7 @@ cd /config
 scp  192.168.178.143:/etc/evcc.yaml .
 # sanitize
 egrep -v '^#|^\s+#' evcc.yaml |grep . |sed -E 's/(password|user|token|url|host|broker|accessToken|refreshToken|vin|title).*/\1: *****/' > evcc-sanitized.yaml
+egrep -v '^#|^\s+#' google_calendars.yaml |grep . |sed -E 's/(password|user|token|cal_id).*/\1: *****/' > google_calendars.yaml-sanitized.yaml
 git add .
 git status
 # Commit changes with message with current date stamp

@@ -116,6 +116,8 @@ group:
       - select.evcc_garage_limit_soc
       - select.evcc_garage_min_soc
       - select.evcc_garage_vehicle_name
+      - sensor.evcc_haus_session_price
+      - sensor.evcc_haus_session_price_per_kwh
       - select.evcc_haus_limit_soc
       - select.evcc_haus_min_soc
       - select.evcc_haus_vehicle_name
@@ -152,7 +154,23 @@ group:
       - sensor.evcc_netzeinspeisung_integral_compensation
 ##
       - notify.tibber
+##
+      - switch.claras_echo_dot_repeat_switch
+      - switch.konstantins_echo_dot_repeat_switch
+## after time is up, these also disappear
+      - sensor.echo_konstantin_volume
+      - sensor.echo_clara_volume
+      - switch.konstantins_echo_dot_do_not_disturb_switch
+      - switch.konstantins_echo_dot_shuffle_switch
+      - media_player.konstantins_echo_dot
+      - switch.claras_echo_dot_shuffle_switch
+      - switch.claras_echo_dot_do_not_disturb_switch
       
+##
+      - select.r1_heated_seat_rear_center     
+      - select.r1_heated_seat_rear_left
+      - select.r1_heated_seat_rear_right
+      - select.r1_heated_steering_wheel   
       
 
 ###################################################################################################

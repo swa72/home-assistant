@@ -31,10 +31,15 @@
         min) offen. Temperatur unter 15°C.'
   mode: single
 - id: l1k3
-  alias: Wenn Mitternacht, push HA configuration to GitHub repo
+  alias: Push HA configuration regularly to GitHub repo
   trigger:
-  - at: '23:23'
-    platform: time
+  - platform: time_pattern
+    hours: '2'
+    minutes: '8'
+  condition:
+  - condition: time
+    after: 06:00:00
+    before: 00:00:00
   action:
   - data: {}
     action: shell_command.push_to_github
