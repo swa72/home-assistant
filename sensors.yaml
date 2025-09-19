@@ -745,7 +745,7 @@
   name: "iPhone 11 BWI"
   state_topic: "espresense/devices/bwi_iphone11"
   timeout: 60
-  away_timeout: 120
+  away_timeout: 60
 
 - platform: mqtt_room
   # the ID you discovered
@@ -753,7 +753,7 @@
   name: "iPad Rot"
   state_topic: "espresense/devices/ipad_rot"
   timeout: 60
-  away_timeout: 120
+  away_timeout: 60
 
 - platform: mqtt_room
   # the ID you discovered
@@ -761,7 +761,15 @@
   name: "iPhone Clara"
   state_topic: "espresense/devices/claraiphone2020"
   timeout: 60
-  away_timeout: 120
+  away_timeout: 60
+
+- platform: mqtt_room
+  # the ID you discovered
+  device_id: "iphonekonstantin"
+  name: "iPhone Konstantin"
+  state_topic: "espresense/devices/iphonekonstantin"
+  timeout: 60
+  away_timeout: 60
 
 - platform: statistics
   name: "Total Gas consumption last 7 days"

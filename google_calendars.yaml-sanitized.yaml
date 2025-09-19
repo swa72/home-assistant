@@ -74,3 +74,8 @@
   - device_id: haus
     ignore_availability: true
     name: Haus
+- cal_id: *****
+  entities:
+  - device_id: heidelberg_college_eltern_und_sus
+    ignore_availability: true
+    name: Heidelberg College (Eltern und SuS)

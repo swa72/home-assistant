@@ -34,7 +34,7 @@ template:
                 |rejectattr('entity_id','search','9456b1a3_208a3c42')
                 |rejectattr('entity_id','search','iphone6')
                 |rejectattr('entity_id','search','boiler_dhw_')
-                 |rejectattr('entity_id','search','adguard')
+                |rejectattr('entity_id','search','adguard')
                 |rejectattr('entity_id','search','og_aussen')
                 |rejectattr('entity_id','search','sensor.pool|update.pool_firmware')
                 |rejectattr('entity_id','search','poolpump')
@@ -138,6 +138,7 @@ group:
       - sensor.evcc_haus_vehicle_range
       - sensor.evcc_haus_vehicle_soc
       - sensor.evcc_battery_mode_value
+      - number.evcc_battery_grid_charge_limit
 ##
       - select.boiler_reset
       - number.thermostat_hc1_room_humidity_from_remote
@@ -163,6 +164,7 @@ group:
       - switch.konstantins_echo_dot_do_not_disturb_switch
       - switch.konstantins_echo_dot_shuffle_switch
       - media_player.konstantins_echo_dot
+      - media_player.claras_echo_dot
       - switch.claras_echo_dot_shuffle_switch
       - switch.claras_echo_dot_do_not_disturb_switch
       
@@ -171,7 +173,84 @@ group:
       - select.r1_heated_seat_rear_left
       - select.r1_heated_seat_rear_right
       - select.r1_heated_steering_wheel   
+##
+      - sensor.qemu_homeassistant_vm_100_last_boot
+##
+      - sensor.shellys_wanderer_energy
+      - update.shellys_wanderer_firmware_update
+      - binary_sensor.shellys_wanderer_overheating
+      - binary_sensor.shellys_wanderer_overpowering
+      - binary_sensor.shellys_wanderer_overvoltage
+      - binary_sensor.shellys_wanderer_overcurrent
+      - sensor.shellys_wanderer_power
+      - switch.shellys_wanderer
+#
+#
+      - sensor.jphone_battery
+      - sensor.stefans_ipad_battery
+      - sensor.ipadbwipro11_battery
+      - sensor.annas_ipad_battery
+      - sensor.iphone_von_anna_2_battery
+      - sensor.iphone_von_konstantin_battery
+      - sensor.jphone_battery_2
+      - switch.this_device_do_not_disturb_switch_3
+      - switch.this_device_do_not_disturb_switch_2
+      - switch.this_device_do_not_disturb_switch_3
+      - sensor.spotify_swa72_song_tempo
+#
+#
+#
+      - select.batteries_capacity_control_mode
+      - sensor.batteries_fixed_charging_periods
+      - sensor.batteries_time_of_use_periods
+      - sensor.evcc_garage_phases_enabled
+      - sensor.evcc_haus_phases_enabled
+##
+      - switch.thermostat_dhw2_charge
+      - number.thermostat_dhw2_charge_duration
+      - select.thermostat_dhw2_circulation_pump_mode
+      - switch.thermostat_dhw2_daily_heating
+      - number.thermostat_dhw2_daily_heating_time
+      - switch.thermostat_dhw2_disinfecting
+      - select.thermostat_dhw2_disinfection_day
+      - number.thermostat_dhw2_disinfection_time
+      - sensor.thermostat_dhw2_extra
+      - select.thermostat_dhw2_mode
+      - number.thermostat_dhw2_set_low_temperature
+      - number.thermostat_dhw2_set_temperature
+      - binary_sensor.system_ntp_status
+      - sensor.evcc_garage_effective_plan_time
+      - sensor.evcc_garage_plan_projected_end
+      - sensor.evcc_garage_plan_projected_start
+      - sensor.evcc_garage_pv_remaining
+      - sensor.evcc_haus_effective_plan_time
+      - sensor.evcc_haus_plan_projected_end
+      - sensor.evcc_haus_plan_projected_start
+      - sensor.evcc_haus_pv_remaining
+##
+      - sensor.wintergardenac_compressor_total_run_time
+      - sensor.wintergardenac_indoor_unit_total_run_time
+      - select.boiler_maintenance_scheduled
+      - text.boiler_next_maintenance_date
+      - number.boiler_time_to_next_maintenance
+## no more temp in door sensors
+      - sensor.fenster_eg_gaeste_temperature
+      - sensor.eg_wohnzimmer_glas_tuer_temperature
+      - sensor.haustur_temperature
+      - sensor.kellertur_temperature
+      - sensor.stefan_ost_temperature
+      - sensor.stefan_west_temperature
+      - sensor.eg_freezer_temperature
+      - sensor.og_clara_temperature
+##
+      - select.evcc_haus_phases_configured
+      - binary_sensor.evcc_haus_connected
+      - binary_sensor.evcc_haus_vehicle_climater_active
+      - binary_sensor.evcc_haus_vehicle_detection_active
+      - sensor.evcc_haus_vehicle_odometer
+      - binary_sensor.evcc_haus_vehicle_welcome_active
       
+
 
 ###################################################################################################
 ## DESCRIPTION: Detailed persistent notification message - courtesy of @ThomDietrich and @warthog9

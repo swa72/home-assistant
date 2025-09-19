@@ -2,28 +2,27 @@
 
 My first attempt at running a home automation system was a Shelly device integrated to HomeKit - worked nicely. Then I fiddled around with running https://homebridge.io/ on my Raspberry 4, moved over to https://hoobs.org/ and realized that there must be something better. Luckily I found Home Assistant.
 
-## My goal
-
-Have a nice and easy interface for the house on the iPad (no need for my wife and kids to access any of the Home Assistant stuff). Have an advanced interface to the house for myself.
-
 This file is intended for me to document the quirks I had during setup and for others to learn and avoid them.
 
 ## My setup
 
-* Router Fritz!Box 7490 with open external port 443 to the Raspberry 4 (no DynDNS on fritz.box)
-* A doorbell/intercom Auerswald TFS-Universal plus directly hooked up to the Fritzbox
-  * additionally the Raspberry has a USB modem attached (phone line connected to Fritzbox) and the [Phone Modem integration](https://www.home-assistant.io/integrations/modem_callerid/) signals HA when the door button was pressed
-* Raspberry 4 running more or less the latest Home Assistant version
-  * initially connected thru wifi, later moved to ethernet and directly connected to the Fritzbox
-  * conbee USB stick to [manage ZigBee network](README-zigbee.md)
-* a Tesla Gen 3 Wall Connector, so I can whether the car charges (and how much)
+* Router Fritz!Box 7490 
+* an old EliteDesk 800 G3 Mini PC, running Proxmox and Home Assistant inside a VM
+* [a solar roof system managed by EVCC](README-PV.md)
+* Conbee USB stick to [manage ZigBee network](README-zigbee.md)
+* a Tesla Gen 3 Wall Connector to charge my Tesla
 * [a Buderus Logamax Plus GB192i heating controlled with EMS-ESP](README-heating.md)
 * [a Cyble pulse sensor that reads my gas meter with an ESP](esphome/README-gas.md)
 * [an ESP8266 that reads my power meter](README-powermeter.md)
+* a Shelly device that [counts how many espressos I pulled from my Rancilio Silvia](README-espresso.md).
 * Mitsubishi Heavy Industries (MHI) air conditioner
   * SRK25ZS-W controlled with ESP (https://github.com/ginkage/MHI-AC-Ctrl-ESPHome)
   * SRK20ZS-W controlled with ESP (https://github.com/ginkage/MHI-AC-Ctrl-ESPHome)
+  * SRK50ZS-WF controlled with ESP (https://github.com/ginkage/MHI-AC-Ctrl-ESPHome)
   * Note to myself: compile the yaml file first, then connect the device to the USB port of the ThinkPad X1 to flash it
+* A doorbell/intercom Auerswald TFS-Universal plus directly hooked up to the Fritzbox
+  * additionally the Mini PC has a USB modem attached (phone line connected to Fritzbox) and the [Phone Modem integration](https://www.home-assistant.io/integrations/modem_callerid/) signals HA when the door button was pressed
+  * nice to say "Hey Siri! open the front door" and the door buzzes
 * two fans to keep my basement dry (sort of), [controlled by dew point](README-basement.md)
 * an Amazon Echo dot to announce things and play stuff from Spotify ([described below](#amazon-echo-dot-and-spotify))
 * Shelly 2.5 devices control my roller shutters
@@ -39,7 +38,6 @@ This file is intended for me to document the quirks I had during setup and for o
 		* reflash with ESPHome
 * a Reolink E1 pro camera (described below)
 * a Reolink RLC-511WA camera (described below)
-* Regular backup to ~a samba share~ Google Drive (described below)
 * Regular updates to git (described below)
 * I run a bunch of add-ons, described in the following sections.
 

@@ -1,12 +1,16 @@
-# Intro
+# EVCC
 I have recently bought a solar system. And what could be better than have HA control the entire thing. We need ...
-* EVCC add-on to control charging of my Tesla
+* [EVCC](https://evcc.io/) running in a separate VM
+* [EVCC add-on](https://github.com/marq24/ha-evcc) to control charging of my Tesla
 * Huawei Solar Integration to have fancy dashboards
+* [a TeslaBLEProxy to send commands to my Tesla](https://github.com/wimaha/TeslaBleHttpProxy)
 
 Note that the inverter can only have one active Modbus connection. To avoid timeouts, we connect the ensemble in the following way.
 No need to install an additional proxy.
 
-Inverter <> Dongle <> EVCC <> Huawei Solar
+Inverter <> Dongle <> EVCC <> Huawei Solar Integration <> HA
+
+<img src="./image/pv-overview.png">
 
 * `evcc.yaml` contains a section that provides a Modbus proxy
 ```

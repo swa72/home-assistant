@@ -6,6 +6,7 @@ homeassistant:
   debug: true
   customize: !include customize.yaml
   allowlist_external_dirs:
+    - /config
     - /config/temp
   customize_glob:
     "binary_sensor.fenster*":
@@ -114,6 +115,15 @@ template: !include_dir_merge_list templates/
 ios: !include ios.yaml
 
 #
+# for creating reminders in apple reminders
+#
+calendar:
+  - platform: caldav
+    url: https://caldav.icloud.com/
+    username: !secret icloud_name
+    password: !secret icloud_specific_password
+
+#
 # power meter
 #
 # reload in HA with "manually created mqtt entities", see also customize.yaml
@@ -156,13 +166,13 @@ mqtt:
       # Sensor data provided by EVCC add-on
       #
       # Negativ? einspeisen, Positiv? Netzbezug.
-    - name: "EVCC Grid Power"
-      unique_id: evcc_grid_power
-      state_topic: "evcc/site/gridPower"
-      unit_of_measurement: "W"
-      device_class: power
-      availability_topic: "evcc/status"
-      qos: 0
+#    - name: "EVCC Grid Power"
+#      unique_id: evcc_grid_power
+#      state_topic: "evcc/site/gridPower"
+#      unit_of_measurement: "W"
+#      device_class: power
+#      availability_topic: "evcc/status"
+#      qos: 0
       # verbrauch des Hauses ex Ladepunkte
     - name: "EVCC Homepower"
       unique_id: evcc_homepower
@@ -224,7 +234,7 @@ input_text:
 # use https://community.home-assistant.io/t/how-to-keep-your-recorder-database-size-under-control/295795
 #
 recorder:
-  db_url: !secret db_url
+# db_url: !secret db_url
   purge_keep_days: 4
   exclude:
     entity_globs:
@@ -279,6 +289,9 @@ recorder:
       - sensor.espresense_esppkidsgross_espresense_esppkidsgross_uptime
       - binary_sensor.espresense_esppkidsgross_espresense_esppkidsgross
       - sensor.shellys_firetablet_power
+      - sensor.boiler_flame_current
+      - sensor.shellys_keller_pumpe_treppe_power
+      - sensor.load_5m
 
   include:
     entities:

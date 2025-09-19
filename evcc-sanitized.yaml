@@ -37,7 +37,7 @@ meters:
     port: 502 # Port
     timeout: 15s # optional
     storageunit: 1
-    capacity: 5
+    capacity: 10
 mqtt:
   broker: *****
   user: *****
@@ -61,7 +61,7 @@ loadpoints:
   - title: *****
     priority: 1
     charger: KellerEntfeuchter
-    mode: pv
+    mode: off # formerly PV
     phases: 1
     enable:
       threshold: 0
@@ -74,6 +74,7 @@ vehicles:
   - name: R1
     type: template
     template: tesla
+    clientId: *****
     commandProxy: http://192.168.178.78:8080
     accessToken: *****
     refreshToken: *****
@@ -81,6 +82,7 @@ vehicles:
   - name: T1
     type: template
     template: tesla
+    clientId: *****
     commandProxy: http://192.168.178.78:8080
     accessToken: *****
     refreshToken: *****

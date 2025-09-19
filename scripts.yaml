@@ -1,11 +1,19 @@
 alexa_doorbell:
   alias: Alexa Sound
   sequence:
-  - service: media_player.play_media
-    data:
+  - data:
+      volume_level: 0.6
+      entity_id: media_player.stefans_echo_dot
+    action: media_player.volume_set
+  - data:
       entity_id: media_player.stefans_echo_dot
       media_content_type: sound
       media_content_id: amzn_sfx_doorbell_chime_01
+    action: media_player.play_media
+  - data:
+      volume_level: 0.15
+      entity_id: media_player.stefans_echo_dot
+    action: media_player.volume_set
   mode: single
 alexa_wama_fertig:
   alias: Alexa tts Waschmaschine ist fertig.
@@ -83,7 +91,7 @@ notify_parents:
     data:
       title: '{{ title }}'
       message: '{{ message }}'
-  - service: notify.mobile_app_jphone
+  - service: notify.mobile_app_jphone16
     data:
       title: '{{ title }}'
       message: '{{ message }}'
@@ -110,30 +118,30 @@ notify_people_who_are_present:
       - condition: template
         value_template: '{{ is_state(''person.stefan'', ''home'') }}'
       sequence:
-      - service: notify.mobile_app_iphone15b
-        data:
+      - data:
           title: '{{ title }}'
           message: '{{ message }}'
+        action: notify.mobile_app_iphone15b
   - choose:
     - conditions:
       - condition: template
         value_template: '{{ is_state(''person.julia'', ''home'') and is_state(''input_boolean.swa_debug_mode'',
           ''off'') }}'
       sequence:
-      - service: notify.mobile_app_jphone
-        data:
+      - data:
           title: '{{ title }}'
           message: '{{ message }}'
+        action: notify.mobile_app_jphone16
   - choose:
     - conditions:
       - condition: template
         value_template: '{{ is_state(''person.anna'', ''home'') and is_state(''input_boolean.swa_debug_mode'',
           ''off'') }}'
       sequence:
-      - service: notify.mobile_app_iphone_von_anna
-        data:
+      - data:
           title: '{{ title }}'
           message: '{{ message }}'
+        action: notify.mobile_app_iphone_von_anna
   mode: parallel
   max: 10
 notify_people:
@@ -154,7 +162,7 @@ notify_people:
         value_template: '{{ 1==1 and is_state(''input_boolean.swa_debug_mode'', ''off'')
           }}'
       sequence:
-      - service: notify.mobile_app_jphone
+      - service: notify.mobile_app_jphone16
         data:
           title: '{{ title }}'
           message: '{{ message }}'
@@ -193,7 +201,7 @@ urgent_notify_people_who_are_present:
         value_template: '{{ is_state(''person.julia'', ''home'') and is_state(''input_boolean.swa_debug_mode'',
           ''off'') }}'
       sequence:
-      - service: notify.mobile_app_jphone
+      - service: notify.mobile_app_jphone16
         data:
           title: '{{ title }}'
           message: '{{ message }}'
@@ -244,7 +252,7 @@ urgent_notify_people:
         value_template: '{{ 1==1 and is_state(''input_boolean.swa_debug_mode'', ''off'')
           }}'
       sequence:
-      - service: notify.mobile_app_jphone
+      - service: notify.mobile_app_jphone16
         data:
           title: '{{ title }}'
           message: '{{ message }}'
@@ -1110,6 +1118,11 @@ clara_overrule_volume_for_300s:
 spotify_jazz_bar:
   alias: Spotify jazz bar
   sequence:
+  - action: media_player.select_source
+    target:
+      entity_id: media_player.spotify_swa72
+    data:
+      source: Stefans Echo Dot
   - target:
       entity_id: media_player.spotify_swa72
     data:
@@ -1130,4 +1143,130 @@ spotify_jazz_bar:
       entity_id: media_player.spotify_swa72
     action: media_player.media_next_track
   mode: single
+  description: ''
+tesla_basic_fast_charge:
+  alias: Tesla basic fast charge
+  sequence:
+  - action: number.set_value
+    metadata: {}
+    data:
+      value: '25'
+    target:
+      entity_id: number.evcc_garage_limit_soc
+  - action: select.select_option
+    metadata: {}
+    data:
+      option: now
+    target:
+      entity_id: select.evcc_garage_mode
+  description: ''
+turn_on_ac_at_wintergarden:
+  sequence:
+  - target:
+      entity_id: climate.wintergardenac_wintergardenac
+    data:
+      fan_mode: auto
+    action: climate.set_fan_mode
+  - target:
+      entity_id: climate.wintergardenac_wintergardenac
+    data:
+      temperature: 22
+      hvac_mode: cool
+    action: climate.set_temperature
+  alias: Turn on AC at wintergarden
+  mode: restart
+  description: ''
+add_reminder:
+  sequence:
+  - action: notify.mobile_app_iphone15b
+    metadata: {}
+    data:
+      data:
+        shortcut:
+          name: HA 2 Reminder
+          input: "{\n  \"title\": \"Milch kaufen\",\n  \"due_date\": \"2025-08-22\",\n
+            \ \"due_time\": \"18:00\",\n  \"list\": \"Erinnerungen\"\n } \n"
+          ignore_result: ignore
+      message: HA triggered shortcut
+  alias: Add reminder
+  description: ''
+boost_ev_until_10_is_reached:
+  sequence:
+  - if:
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: select.evcc_garage_vehicle_name
+        state: R1
+      - condition: state
+        entity_id: select.evcc_garage_vehicle_name
+        state: T1
+    then:
+    - repeat:
+        sequence:
+        - if:
+          - condition: state
+            entity_id: switch.evcc_garage_battery_boost
+            state: 'off'
+          then:
+          - action: switch.turn_on
+            metadata: {}
+            data: {}
+            target:
+              entity_id: switch.evcc_garage_battery_boost
+        - delay:
+            hours: 0
+            minutes: 1
+            seconds: 0
+            milliseconds: 0
+        while:
+        - condition: numeric_state
+          entity_id: sensor.evcc_battery_soc
+          above: 11
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.evcc_garage_battery_boost
+  alias: Boost EV until 10% is reached
+  description: ''
+boost_ev_until_60_is_reached:
+  sequence:
+  - if:
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: select.evcc_garage_vehicle_name
+        state: R1
+      - condition: state
+        entity_id: select.evcc_garage_vehicle_name
+        state: T1
+    then:
+    - repeat:
+        sequence:
+        - if:
+          - condition: state
+            entity_id: switch.evcc_garage_battery_boost
+            state: 'off'
+          then:
+          - action: switch.turn_on
+            metadata: {}
+            data: {}
+            target:
+              entity_id: switch.evcc_garage_battery_boost
+        - delay:
+            hours: 0
+            minutes: 1
+            seconds: 0
+            milliseconds: 0
+        while:
+        - condition: numeric_state
+          entity_id: sensor.evcc_battery_soc
+          above: 61
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.evcc_garage_battery_boost
+  alias: Boost EV until 60% is reached
   description: ''

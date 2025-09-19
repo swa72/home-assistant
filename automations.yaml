@@ -270,19 +270,21 @@
         message: Freezer im Büro ist (zu lange) offen.
   mode: single
 - id: '1623348230796'
-  alias: Wenn Nacht, dann lasse Pool Pumpe laufen
+  alias: Wenn 11 Uhr oder 23 Uhr, dann lasse Pool Pumpe laufen
   description: ''
-  trigger:
-  - platform: time
-    at: '23:00'
-  condition: []
-  action:
+  triggers:
+  - at: '11:00'
+    trigger: time
+  - trigger: time
+    at: '23:00:00'
+  conditions: []
+  actions:
   - type: turn_on
     device_id: 0890c146d5a406d9af64dcbe0662bd4e
     entity_id: switch.shellys_poolpump
     domain: switch
   - delay:
-      hours: 6
+      hours: 2
       minutes: 0
       seconds: 0
       milliseconds: 0
@@ -481,18 +483,14 @@
 - id: '1634985348876'
   alias: Advanced Heating workdays v2
   description: Set temp low during Julia's workdays, skip holidays
-  trigger:
-  - platform: time
-    at: 07:00
+  triggers:
+  - at: 07:00
     id: morning
-  - platform: time
-    id: noon
+    trigger: time
+  - id: noon
     at: '12:00'
-  condition:
-  - condition: state
-    entity_id: calendar.ferien
-    state: 'off'
-  action:
+    trigger: time
+  actions:
   - choose:
     - conditions:
       - condition: trigger
@@ -502,13 +500,13 @@
         - wed
         - fri
       sequence:
-      - service: script.heating_set_room_temp_low
-        data: {}
-      - service: logbook.log
-        data:
+      - data: {}
+        action: script.heating_set_room_temp_low
+      - data:
           entity_id: automation.advanced_heating_workdays_v2
           name: automation.advanced_heating_workdays_v2
           message: Started script.heating_set_room_temp_low
+        action: logbook.log
     - conditions:
       - condition: trigger
         id: noon
@@ -517,13 +515,13 @@
         - wed
         - fri
       sequence:
-      - service: script.heating_set_room_temp_high
-        data: {}
-      - service: logbook.log
-        data:
+      - data: {}
+        action: script.heating_set_room_temp_high
+      - data:
           entity_id: automation.advanced_heating_workdays_v2
           name: automation.advanced_heating_workdays_v2
           message: Started script.heating_set_room_temp_high
+        action: logbook.log
     default: []
   mode: single
 - id: '1634985436165'
@@ -767,36 +765,33 @@
 - id: '1640281201989'
   alias: Kalender Schreibtisch
   description: ''
-  trigger:
-  - platform: state
-    entity_id: calendar.ha_schreibtisch
+  triggers:
+  - entity_id: calendar.ha_schreibtisch
     to: 'on'
     id: an
-  - platform: state
-    entity_id:
+    trigger: state
+  - entity_id:
     - calendar.ha_schreibtisch
     id: aus
     to: 'off'
-  - platform: time
-    at: '22:00'
+    trigger: state
+  - at: '22:00'
     id: ausaus
-  condition: []
-  action:
+    trigger: time
+  conditions: []
+  actions:
   - choose:
     - conditions:
       - condition: trigger
         id: an
       - condition: state
-        entity_id: calendar.ferien
-        state: 'off'
-      - condition: state
         entity_id: person.stefan
         state: home
       sequence:
-      - service: switch.turn_on
-        target:
+      - target:
           entity_id: switch.shellyp_dg_stefan_tisch
         data: {}
+        action: switch.turn_on
     - conditions:
       - condition: or
         conditions:
@@ -808,10 +803,10 @@
         entity_id: binary_sensor.stefan_working_in_office
         state: 'off'
       sequence:
-      - service: switch.turn_off
-        target:
+      - target:
           entity_id: switch.shellyp_dg_stefan_tisch
         data: {}
+        action: switch.turn_off
     default: []
   mode: single
 - id: '1640540334226'
@@ -864,10 +859,10 @@
   alias: Heizung KidsGross Wochentags runterregeln
   description: Regelt die Heizung von 0700-1130 auf 19 Grad. Läuft nicht an Wochenende
     und in Ferien.
-  trigger:
-  - platform: time
-    at: 07:00
-  condition:
+  triggers:
+  - at: 07:00
+    trigger: time
+  conditions:
   - condition: time
     weekday:
     - mon
@@ -875,25 +870,22 @@
     - wed
     - thu
     - fri
-  - condition: state
-    entity_id: calendar.ferien
-    state: 'off'
-  action:
-  - service: tado.set_climate_timer
-    target:
+  actions:
+  - target:
       entity_id: climate.kidsgross
     data:
       time_period: 04:30:00
       temperature: 19
+    action: tado.set_climate_timer
   mode: single
 - id: '1640796447418'
   alias: Heizung KidsKlein Wochentags runterregeln
   description: Regelt die Heizung von 0700-1130 auf 19 Grad. Läuft nicht an Wochenende
     und in Ferien.
-  trigger:
-  - platform: time
-    at: 07:00
-  condition:
+  triggers:
+  - at: 07:00
+    trigger: time
+  conditions:
   - condition: time
     weekday:
     - mon
@@ -901,16 +893,13 @@
     - wed
     - thu
     - fri
-  - condition: state
-    entity_id: calendar.ferien
-    state: 'off'
-  action:
-  - service: tado.set_climate_timer
-    data:
+  actions:
+  - data:
       time_period: 04:30:00
       temperature: 19
     target:
       entity_id: climate.kidsklein
+    action: tado.set_climate_timer
   mode: single
 - id: '1640852446580'
   alias: 'Heizung KidsGross Offset '
@@ -1012,7 +1001,7 @@
       notification_message: Look who is there :-)
       motion_sensor: binary_sensor.doorbell_pressed
       camera: camera.garagecam_sub
-      notify_device: b772f74b67a6ee614fe789c89d285156
+      notify_device: d0cfcc7eb1ae9303013b576f39d340e4
       is_ios: true
       notification_title: Doorbell pressed!
       delay: 1
@@ -1495,26 +1484,27 @@
 - id: '1664826413987'
   alias: HA started
   description: Notify Stefan that HA started.
-  trigger:
-  - platform: homeassistant
-    event: start
-  condition: []
-  action:
-  - service: script.notify_stefan
-    data:
+  triggers:
+  - event: start
+    trigger: homeassistant
+  conditions: []
+  actions:
+  - data:
       message: HA started.
       title: Info
+    action: script.notify_stefan
   - delay:
       hours: 0
       minutes: 5
       seconds: 0
       milliseconds: 0
-  - service: climate.turn_off
-    data: {}
+  - data: {}
     target:
       entity_id:
       - climate.roofac
       - climate.sleepac
+      - climate.wintergardenac_wintergardenac
+    action: climate.turn_off
   mode: single
 - id: '1665475720792'
   alias: Silvia Running Or Not
@@ -1820,17 +1810,17 @@
 - id: '1687625943302'
   alias: SZ Klima in der Nacht aus
   description: ''
-  trigger:
-  - platform: time
-    at: 00:30:00
-  condition:
+  triggers:
+  - at: 02:30:00
+    trigger: time
+  conditions:
   - condition: template
     value_template: '{{ states(''climate.sleepac'') != ''off'' }} '
-  action:
-  - service: climate.turn_off
-    data: {}
+  actions:
+  - data: {}
     target:
       entity_id: climate.sleepac
+    action: climate.turn_off
   mode: single
 - id: '1687710708216'
   alias: Irrigation Notification
@@ -2007,20 +1997,20 @@
         target:
           device_id: 5929cf4364fb0096bd6b45f8d450cc79
 - id: '1710175526937'
-  alias: Warnung Geraet fehlt auf Anrichte
+  alias: Warnung iPhone Clara fehlt auf Anrichte
   description: ''
-  trigger:
-  - platform: time_pattern
-    hours: 18
+  triggers:
+  - hours: 18
     minutes: /15
-  - platform: time_pattern
-    hours: 19
+    trigger: time_pattern
+  - hours: 19
     minutes: /15
-  - platform: time_pattern
-    hours: 20
+    trigger: time_pattern
+  - hours: 20
     minutes: /15
-  condition: []
-  action:
+    trigger: time_pattern
+  conditions: []
+  actions:
   - if:
     - condition: numeric_state
       entity_id: sensor.ipad_rot
@@ -2030,26 +2020,26 @@
       after: '18:29:00'
       before: '20:16:00'
     then:
-    - service: script.notify_stefan_only_if_really_present
-      metadata: {}
+    - metadata: {}
       data:
         title: Hinweis
         message: Das iPad von Konstantin fehlt auf der Anrichte.
-    - service: media_player.volume_set
-      data:
+      action: script.notify_stefan_only_if_really_present
+    - data:
         volume_level: 0.5
       entity_id: media_player.stefans_echo_dot
-    - service: notify.alexa_media
-      data:
+      action: media_player.volume_set
+    - data:
         target: media_player.stefans_echo_dot
         message: Das iPad von Konstantin fehlt auf der Anrichte.
         data:
           type: tts
-    - service: media_player.volume_set
-      data:
+      action: notify.alexa_media
+    - data:
         volume_level: 0.2
       target:
         entity_id: media_player.stefans_echo_dot
+      action: media_player.volume_set
   - if:
     - condition: numeric_state
       entity_id: sensor.iphone_clara
@@ -2059,30 +2049,26 @@
       after: '19:29:00'
       before: '20:16:00'
     then:
-    - service: script.notify_stefan_only_if_really_present
-      metadata: {}
+    - metadata: {}
       data:
         title: Hinweis
         message: Das iPhone von Clara fehlt auf der Anrichte.
-    - service: media_player.volume_set
-      data:
+      action: script.notify_stefan_only_if_really_present
+    - data:
         volume_level: 0.5
       entity_id: media_player.stefans_echo_dot
-    - service: notify.alexa_media
-      data:
+      action: media_player.volume_set
+    - data:
         target: media_player.stefans_echo_dot
         message: Das iPhone von Clara fehlt auf der Anrichte.
         data:
           type: tts
-    - service: media_player.volume_set
-      data:
+      action: notify.alexa_media
+    - data:
         volume_level: 0.2
       target:
         entity_id: media_player.stefans_echo_dot
-  - service: notify.mobile_app_iphoneclarase2020
-    data:
-      message: Bitte iPhone auf die Anrichte legen.
-      title: Hinweis
+      action: media_player.volume_set
   mode: single
 - id: '1710217827661'
   alias: Warnung ESPresense Geraet fehlt
@@ -2196,19 +2182,19 @@
 - id: '1713471830418'
   alias: Family away
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - input_boolean.family_away
     from: 'on'
     to: 'off'
-  - platform: state
-    entity_id:
+    trigger: state
+  - entity_id:
     - input_boolean.family_away
     from: 'off'
     to: 'on'
-  condition: []
-  action:
+    trigger: state
+  conditions: []
+  actions:
   - if:
     - condition: state
       entity_id: input_boolean.family_away
@@ -2242,25 +2228,25 @@
       data:
         option: 'off'
       target:
-        entity_id: select.thermostat_dhw2_mode
+        entity_id: select.thermostat_dhw_operating_mode
       action: select.select_option
     - metadata: {}
       data:
         option: manual
       target:
-        entity_id: select.thermostat_hc1_mode
+        entity_id: select.thermostat_hc1_operating_mode
       action: select.select_option
     - metadata: {}
       data:
         option: manual
       target:
-        entity_id: select.thermostat_hc2_mode
+        entity_id: select.thermostat_hc2_operating_mode
       action: select.select_option
     - metadata: {}
       data:
         option: manual
       target:
-        entity_id: select.thermostat_hc3_mode
+        entity_id: select.thermostat_hc3_operating_mode
       action: select.select_option
   - if:
     - condition: state
@@ -2295,25 +2281,25 @@
       data:
         option: own prog
       target:
-        entity_id: select.thermostat_dhw2_mode
+        entity_id: select.thermostat_dhw_operating_mode
       action: select.select_option
     - metadata: {}
       data:
         option: auto
       target:
-        entity_id: select.thermostat_hc1_mode
+        entity_id: select.thermostat_hc1_operating_mode
       action: select.select_option
     - metadata: {}
       data:
         option: auto
       target:
-        entity_id: select.thermostat_hc2_mode
+        entity_id: select.thermostat_hc2_operating_mode
       action: select.select_option
     - metadata: {}
       data:
         option: auto
       target:
-        entity_id: select.thermostat_hc3_mode
+        entity_id: select.thermostat_hc3_operating_mode
       action: select.select_option
   mode: single
 - id: '1713514008301'
@@ -2595,10 +2581,10 @@
 - id: '1720415429432'
   alias: Notify Stefan of excess PV
   description: ''
-  trigger:
-  - platform: time_pattern
-    minutes: /10
-  condition:
+  triggers:
+  - minutes: /10
+    trigger: time_pattern
+  conditions:
   - condition: time
     after: '11:00:00'
     before: '19:00:00'
@@ -2619,7 +2605,7 @@
     - condition: state
       entity_id: binary_sensor.tesla_wall_connector_contactor_closed
       state: 'on'
-  action:
+  actions:
   - data:
       title: PV
       message: Batterie +95% und noch Überschuss vorhanden. Forecast zeigt noch {{
@@ -2668,12 +2654,12 @@
     action: mqtt.publish
   mode: single
 - id: '1724244737181'
-  alias: Setze Prio Hausbatterie auf 50% nach 0900 Uhr
+  alias: Setze Prio Hausbatterie auf 80% nach 0900 Uhr
   description: ''
-  trigger:
-  - platform: time_pattern
-    minutes: /10
-  condition:
+  triggers:
+  - minutes: /10
+    trigger: time_pattern
+  conditions:
   - condition: time
     after: 09:00:00
     before: '14:00:00'
@@ -2683,12 +2669,12 @@
   - condition: state
     entity_id: select.evcc_priority_soc
     state: '100'
-  action:
+  actions:
   - data:
       qos: '0'
       retain: false
       topic: evcc/site/prioritySoc/set
-      payload: '50'
+      payload: '80'
     action: mqtt.publish
   mode: single
 - id: '1725362790985'
@@ -2759,7 +2745,7 @@
           title: Ja.
         - action: '{{ action_nothing }}'
           title: Nein, danke.
-    action: notify.mobile_app_jphone
+    action: notify.mobile_app_jphone16
   - alias: q1 Wait for a response
     wait_for_trigger:
     - platform: event
@@ -2902,4 +2888,385 @@
           entity_id: switch.shellys_silvia
         action: switch.turn_off
     default: []
+  mode: single
+- id: '1727519347582'
+  alias: Warnung iPhone Konstantin fehlt auf Anrichte
+  description: iPhone Konstantin fehlt auf Anrichte
+  trigger:
+  - platform: time_pattern
+    hours: 19
+    minutes: /15
+  condition: []
+  action:
+  - if:
+    - condition: numeric_state
+      entity_id: sensor.iphone_konstantin
+      attribute: distance
+      above: 2
+    - condition: time
+      after: '18:59:00'
+      before: '19:31:00'
+    then:
+    - metadata: {}
+      data:
+        title: Hinweis
+        message: Das iPhone von Konstantin fehlt auf der Anrichte.
+      action: script.notify_stefan_only_if_really_present
+    - data:
+        volume_level: 0.4
+      entity_id: media_player.stefans_echo_dot
+      action: media_player.volume_set
+    - data:
+        target: media_player.stefans_echo_dot
+        message: Das iPhone von Konstantin fehlt auf der Anrichte.
+        data:
+          type: tts
+      action: notify.alexa_media
+    - data:
+        volume_level: 0.15
+      target:
+        entity_id: media_player.stefans_echo_dot
+      action: media_player.volume_set
+    - data:
+        message: Bitte iPhone auf die Anrichte legen.
+        title: Hinweis
+      action: notify.mobile_app_iphone_von_konstantin
+  mode: single
+- id: '1727519654350'
+  alias: Warnung iPhone Clara fehlt auf Anrichte
+  description: Warnung iPhone Clara fehlt auf Anrichte
+  triggers:
+  - hours: 20
+    minutes: /15
+    trigger: time_pattern
+  conditions: []
+  actions:
+  - if:
+    - condition: numeric_state
+      entity_id: sensor.iphone_clara
+      attribute: distance
+      above: 2
+    - condition: time
+      after: '20:14:00'
+      before: '20:46:00'
+    then:
+    - metadata: {}
+      data:
+        title: Hinweis
+        message: Das iPhone von Clara fehlt auf der Anrichte.
+      action: script.notify_stefan_only_if_really_present
+    - data:
+        volume_level: 0.4
+      entity_id: media_player.stefans_echo_dot
+      action: media_player.volume_set
+    - data:
+        target: media_player.stefans_echo_dot
+        message: Das iPhone von Clara fehlt auf der Anrichte.
+        data:
+          type: tts
+      action: notify.alexa_media
+    - data:
+        volume_level: 0.15
+      target:
+        entity_id: media_player.stefans_echo_dot
+      action: media_player.volume_set
+    - action: notify.mobile_app_iphoneclara11
+      data: {}
+  mode: single
+- id: '1728645588975'
+  alias: Doorbell rings when pressed
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.doorbell_pressed
+    to: 'on'
+    from: 'off'
+  conditions: []
+  actions:
+  - action: script.alexa_doorbell
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1728835750545'
+  alias: Schreibtisch aus, wenn Stefan nicht mehr zu Hause
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - person.stefan
+    from: home
+    to:
+    for:
+      hours: 0
+      minutes: 20
+      seconds: 0
+  conditions:
+  - condition: state
+    entity_id: switch.shellyp_dg_stefan_tisch
+    state: 'on'
+  actions:
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.shellyp_dg_stefan_tisch
+  - action: notify.persistent_notification
+    metadata: {}
+    data:
+      title: Hinweis
+      message: Schreibtisch ausgeschaltet.
+  mode: single
+- id: '1730792678317'
+  alias: Laufenden Heizlüfter aus, wenn Temp erreicht
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.multi_og_kinderbad_temperature
+    above: 22
+  conditions:
+  - condition: state
+    entity_id: switch.shellys_heizluefter
+    state: 'on'
+  actions:
+  - action: switch.turn_off
+    target:
+      entity_id: switch.shellys_heizluefter
+    data: {}
+  mode: single
+- id: '1734507975261'
+  alias: Tidy recorder
+  description: 'Purges certain entities data older then 2 '
+  triggers:
+  - trigger: time
+    at: 00:01:00
+  conditions: []
+  actions:
+  - action: recorder.purge_entities
+    data:
+      keep_days: 2
+      entity_id:
+      - sensor.smlreadertotalenergyconsumption
+  mode: single
+- id: '1736505228024'
+  alias: Set watermeter to previous value
+  description: ''
+  triggers:
+  - trigger: time_pattern
+    hours: '21'
+    minutes: '30'
+    seconds: '00'
+  - event: start
+    trigger: homeassistant
+  conditions: []
+  actions:
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  - action: mqtt.publish
+    metadata: {}
+    data:
+      topic: watermain/ctrl/set_prevalue
+      payload: '{"numbersname": "main", "value": -1}'
+  mode: single
+- id: '1746433265036'
+  alias: Notify Stefan if distance ge 50km
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.home_stefan_distance
+    above: 50000
+  conditions: []
+  actions:
+  - action: script.notify_stefan
+    data:
+      title: Hinweis
+      message: Stefan weiter als 50km entfernt.
+  mode: single
+- id: '1746456241891'
+  alias: Notify Stefan if distance lt 50km
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.home_stefan_distance
+    below: 49999.9
+  conditions: []
+  actions:
+  - action: script.notify_stefan
+    data:
+      title: Hinweis
+      message: Stefan weniger als 50km entfernt.
+  mode: single
+- id: '1747208673393'
+  alias: Wintergarten AC an, wenn zu warm
+  description: ''
+  triggers:
+  - trigger: time_pattern
+    hours: '9'
+    enabled: true
+  - trigger: time_pattern
+    hours: '10'
+    enabled: true
+  - trigger: time_pattern
+    hours: '11'
+    enabled: true
+  - trigger: numeric_state
+    entity_id:
+    - sensor.thermostat_hc1_current_room_temperature
+    above: 25
+  conditions:
+  - condition: state
+    entity_id: climate.wintergardenac_wintergardenac
+    state: 'off'
+  actions:
+  - alias: q1 Set up variables for the actions
+    variables:
+      action_on: '{{ ''ON_'' ~ context.id }}'
+      action_nothing: '{{ ''NOTHING_'' ~ context.id }}'
+  - alias: q1 Ask a question
+    data:
+      message: Wintergarten über 25°. AC anstellen?
+      data:
+        actions:
+        - action: '{{ action_on }}'
+          title: Ja.
+        - action: '{{ action_nothing }}'
+          title: Nein, danke.
+    action: notify.mobile_app_iphone15b
+  - alias: q1 Wait for a response
+    wait_for_trigger:
+    - event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ action_on }}'
+      trigger: event
+    - event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ action_nothing }}'
+      trigger: event
+  - alias: q1 Perform the action
+    choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.event.data.action == action_on}}'
+      sequence:
+      - data: {}
+        action: script.turn_on_ac_at_wintergarden
+- id: '1747308760789'
+  alias: Wintergarten AC an, wenn zu warm (Julia)
+  description: ''
+  triggers:
+  - trigger: time_pattern
+    minutes: /15
+    hours: '13'
+    enabled: false
+  - trigger: numeric_state
+    entity_id:
+    - sensor.thermostat_hc1_current_room_temperature
+    above: 25
+  conditions: []
+  actions:
+  - alias: q1 Set up variables for the actions
+    variables:
+      action_on: '{{ ''ON_'' ~ context.id }}'
+      action_nothing: '{{ ''NOTHING_'' ~ context.id }}'
+  - alias: q1 Ask a question
+    data:
+      message: Wintergarten über 25°. AC anstellen?
+      data:
+        actions:
+        - action: '{{ action_on }}'
+          title: Ja.
+        - action: '{{ action_nothing }}'
+          title: Nein, danke.
+    action: notify.mobile_app_jphone16
+  - alias: q1 Wait for a response
+    wait_for_trigger:
+    - event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ action_on }}'
+      trigger: event
+    - event_type: mobile_app_notification_action
+      event_data:
+        action: '{{ action_nothing }}'
+      trigger: event
+  - alias: q1 Perform the action
+    choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ wait.trigger.event.data.action == action_on}}'
+      sequence:
+      - data: {}
+        action: script.turn_on_ac_at_wintergarden
+  mode: single
+- id: '1747737131878'
+  alias: Notify Stefan if Wintergarden AC is running at 1600 or 1800
+  description: ''
+  triggers:
+  - trigger: time
+    at: '16:00:00'
+  - trigger: time
+    at: '18:00:00'
+  conditions:
+  - condition: state
+    entity_id: climate.wintergardenac_wintergardenac
+    state: cool
+  actions:
+  - data:
+      title: Hinweis
+      message: AC im Wintergarten läuft noch.
+    action: script.notify_stefan
+  mode: single
+- id: '1752061771729'
+  alias: Set ACs to Cool Mode on Turn On
+  description: ''
+  triggers:
+  - entity_id:
+    - climate.roofac
+    - climate.wintergardenac_wintergardenac
+    - climate.sleepac
+    from: 'off'
+    to: heat_cool
+    trigger: state
+  conditions: []
+  actions:
+  - target:
+      entity_id: '{{ trigger.entity_id }}'
+    data:
+      hvac_mode: cool
+    action: climate.set_hvac_mode
+- id: '1753334827157'
+  alias: Notify Stefan if Tesla BLE is no longer online
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.teslable
+    from: 'on'
+    to:
+  conditions: []
+  actions:
+  - action: script.notify_stefan
+    data:
+      title: Hinweis
+      message: Tesla BLE no longer online.
+  mode: single
+- id: '1756048483080'
+  alias: Turn on dehumidifier in EVCC
+  description: ''
+  triggers:
+  - trigger: time_pattern
+    hours: /2
+    minutes: '9'
+  conditions: []
+  actions:
+  - action: select.select_option
+    metadata: {}
+    data:
+      option: Solar
+    target:
+      entity_id: select.evcc_haus_mode
   mode: single
