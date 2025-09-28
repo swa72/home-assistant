@@ -32,15 +32,13 @@
   mode: single
 - id: l1k3
   alias: Push HA configuration regularly to GitHub repo
-  trigger:
-  - platform: time_pattern
-    hours: '2'
+  description: ''
+  triggers:
+  - hours: '2'
     minutes: '8'
-  condition:
-  - condition: time
-    after: 06:00:00
-    before: 00:00:00
-  action:
+    trigger: time_pattern
+  conditions: []
+  actions:
   - data: {}
     action: shell_command.push_to_github
   mode: single
@@ -726,7 +724,7 @@
       notification_message: '{{ motion_sensor_name }} detected movement!'
       motion_sensor: binary_sensor.garagecam_person
       camera: camera.garagecam_sub
-      notify_device: fb01246b7faea05d42d7df1ff8e71a1b
+      notify_device: bac3892bdac72c2122c02692fc0a7bd2
       is_ios: true
       notification_title: Motion person detected!
       delay: 1
@@ -758,7 +756,7 @@
       notification_message: Look who is there :-)
       motion_sensor: binary_sensor.doorbell_pressed
       camera: camera.garagecam_sub
-      notify_device: fb01246b7faea05d42d7df1ff8e71a1b
+      notify_device: bac3892bdac72c2122c02692fc0a7bd2
       is_ios: true
       notification_title: Doorbell pressed!
       delay: 1
@@ -1236,29 +1234,29 @@
 - id: '1652541844794'
   alias: Wenn SZ abends zu warm, turn on A/C
   description: ''
-  trigger:
-  - platform: time
-    at: '19:00:00'
-  condition:
+  triggers:
+  - at: '19:00:00'
+    trigger: time
+  conditions:
   - condition: numeric_state
     entity_id: sensor.multi_og_schlaf_temperature
     above: '24'
-  action:
-  - service: notify.mobile_app_iphone15b
-    data:
+  actions:
+  - data:
       title: Hinweis
       data:
         actions:
         - action: Turn_On_AC
           title: Turn On AC Now
       message: Schlafzimmer zu warm. Long tap for action.
+    action: notify.mobile_app_swaphone16
   - wait_for_trigger:
-    - platform: event
-      event_type: ios.notification_action_fired
+    - event_type: ios.notification_action_fired
       event_data:
         actionName: Turn_On_AC
-  - service: script.turn_on_ac_at_parents_sleeping_room
-    data: {}
+      trigger: event
+  - data: {}
+    action: script.turn_on_ac_at_parents_sleeping_room
   mode: restart
 - id: '1652542876674'
   alias: Last one left ...
@@ -2459,28 +2457,6 @@
     target:
       entity_id: cover.shelly25_og_schlafre
   mode: single
-- id: '1717054373579'
-  alias: Send workday forecast
-  description: ''
-  trigger: []
-  condition: []
-  action:
-  - service: notify.mobile_app_iphone15b
-    data:
-      message: Workday {{(as_timestamp(now())+ (86400*0)) | timestamp_custom("%A",true)}}
-        {{ states('binary_sensor.workday_sensor') }}{{'\n'}}{{(as_timestamp(now())+
-        (86400*1)) | timestamp_custom("%A",true)}} {{ states('binary_sensor.workday_sensor_tomorrow')
-        }}{{'\n'}}{{(as_timestamp(now())+ (86400*2)) | timestamp_custom("%A",true)}}
-        {{ states('binary_sensor.workday_sensor_p2') }}{{'\n'}}{{(as_timestamp(now())+
-        (86400*3)) | timestamp_custom("%A",true)}} {{ states('binary_sensor.workday_sensor_p3')
-        }}{{'\n'}}{{(as_timestamp(now())+ (86400*4)) | timestamp_custom("%A",true)}}
-        {{ states('binary_sensor.workday_sensor_p4') }}{{'\n'}}{{(as_timestamp(now())+
-        (86400*5)) | timestamp_custom("%A",true)}} {{ states('binary_sensor.workday_sensor_p5')
-        }}{{'\n'}}{{(as_timestamp(now())+ (86400*6)) | timestamp_custom("%A",true)}}
-        {{ states('binary_sensor.workday_sensor_p6') }}{{'\n'}}{{(as_timestamp(now())+
-        (86400*7)) | timestamp_custom("%A",true)}} {{ states('binary_sensor.workday_sensor_p7')
-        }}{{'\n'}}
-  mode: single
 - id: '1718557344765'
   alias: Rasen wässern
   description: ''
@@ -2532,14 +2508,14 @@
 - id: '1718604473257'
   alias: Bewässerung Automatik prüfen
   description: ''
-  trigger:
-  - platform: time
-    at: 07:45:00
-  - platform: time
-    at: '12:45:00'
-  condition: []
-  action:
-  - service: notify.mobile_app_iphone15b
+  triggers:
+  - at: 07:45:00
+    trigger: time
+  - at: '12:45:00'
+    trigger: time
+  conditions: []
+  actions:
+  - action: script.notify_stefan
     data:
       title: Hinweis
       message: Bewässerung prüfen
@@ -2680,14 +2656,14 @@
 - id: '1725362790985'
   alias: Stefan returned home
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - person.stefan
     from: not_home
     to: home
-  condition: []
-  action:
+    trigger: state
+  conditions: []
+  actions:
   - alias: q1 Set up variables for the actions
     variables:
       action_on: '{{ ''ON_'' ~ context.id }}'
@@ -2701,17 +2677,17 @@
           title: Ja.
         - action: '{{ action_nothing }}'
           title: Nein, danke.
-    action: notify.mobile_app_iphone15b
+    action: notify.mobile_app_swaphone16
   - alias: q1 Wait for a response
     wait_for_trigger:
-    - platform: event
-      event_type: mobile_app_notification_action
+    - event_type: mobile_app_notification_action
       event_data:
         action: '{{ action_on }}'
-    - platform: event
-      event_type: mobile_app_notification_action
+      trigger: event
+    - event_type: mobile_app_notification_action
       event_data:
         action: '{{ action_nothing }}'
+      trigger: event
   - alias: q1 Perform the action
     choose:
     - conditions:
@@ -2769,13 +2745,13 @@
   alias: Wenn zu warm im DG oder 0900 Uhr und Stefan im Office, frage Stefan ob AC
     angestellt werden soll
   description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.stefan_working_in_office
+  triggers:
+  - entity_id: binary_sensor.stefan_working_in_office
     to: 'on'
-  - platform: time
-    at: 09:00:00
-  condition:
+    trigger: state
+  - at: 09:00:00
+    trigger: time
+  conditions:
   - condition: template
     value_template: '{{states("sensor.multi_dg_stefan_temperature") | float >= 23}}'
   - condition: state
@@ -2783,7 +2759,7 @@
     state: 'on'
   - condition: template
     value_template: '{{ is_state(''automation.notify_stefan_zu_heiss_in_dg'', ''off'')  }}'
-  action:
+  actions:
   - alias: q1 Set up variables for the actions
     variables:
       action_on: '{{ ''ON_'' ~ context.id }}'
@@ -2797,17 +2773,17 @@
           title: 'On'
         - action: '{{ action_nothing }}'
           title: No thanks
-    action: notify.mobile_app_iphone15b
+    action: notify.mobile_app_swaphone16
   - alias: q1 Wait for a response
     wait_for_trigger:
-    - platform: event
-      event_type: mobile_app_notification_action
+    - event_type: mobile_app_notification_action
       event_data:
         action: '{{ action_on }}'
-    - platform: event
-      event_type: mobile_app_notification_action
+      trigger: event
+    - event_type: mobile_app_notification_action
       event_data:
         action: '{{ action_nothing }}'
+      trigger: event
   - alias: q1 Perform the action
     choose:
     - conditions:
@@ -3136,7 +3112,7 @@
           title: Ja.
         - action: '{{ action_nothing }}'
           title: Nein, danke.
-    action: notify.mobile_app_iphone15b
+    action: notify.mobile_app_swaphone16
   - alias: q1 Wait for a response
     wait_for_trigger:
     - event_type: mobile_app_notification_action
@@ -3269,4 +3245,109 @@
       option: Solar
     target:
       entity_id: select.evcc_haus_mode
+  mode: single
+- id: '1758471328033'
+  alias: Batterie Priorität einstellen
+  description: 'Stellt die SoC-Werte abhängig von der PV-Prognose dynamisch ein. Bei
+    viel Sonne → niedrige SoC-Werte mit kleinem Abstand. Bei wenig Sonne → höhere
+    SoC-Werte mit größerem Abstand. Außerdem wird sichergestellt: priority_soc ≤ buffer_soc
+    ≤ buffer_start_soc.
+
+    '
+  triggers:
+  - trigger: time_pattern
+    minutes: /5
+  conditions:
+  - condition: time
+    after: 05:00:00
+    before: '22:00:00'
+  actions:
+  - variables:
+      scale: "{% if states.sensor.evcc_forecast_solar.attributes.scale == 'unknown'
+        %}\n  1\n{% else %}\n  {{ states.sensor.evcc_forecast_solar.attributes.scale
+        }}\n{% endif %}\n"
+      prognose_kwh: '{{ ((states.sensor.evcc_forecast_solar.attributes.today.energy
+        | float(0)) * scale | float(0)) / 1000 }}
+
+        '
+      battery_capacity_kwh: '{{ states(''sensor.evcc_battery_capacity'') | float(20)
+        }}
+
+        '
+      prognose_prozent: '{{ (prognose_kwh / battery_capacity_kwh * 100) | round(0)
+        }}
+
+        '
+      erlaubte_werte:
+      - 0
+      - 5
+      - 10
+      - 15
+      - 20
+      - 25
+      - 30
+      - 35
+      - 40
+      - 45
+      - 50
+      - 55
+      - 60
+      - 65
+      - 70
+      - 75
+      - 80
+      - 85
+      - 90
+      - 95
+      - 100
+      priority_soc_unbegrenzt: '{{ (100 - prognose_prozent) | int }}
+
+        '
+      priority_soc: '{{ erlaubte_werte | select(''ge'', priority_soc_unbegrenzt) |
+        list | min }}
+
+        '
+      abstand: "{% if prognose_prozent > 100 %}\n  5\n{% elif prognose_prozent > 70
+        %}\n  10\n{% elif prognose_prozent > 40 %}\n  15\n{% else %}\n  20\n{% endif
+        %}\n"
+      buffer_soc: '{{ [priority_soc + abstand, 100] | min }}
+
+        '
+      buffer_start_soc: '{{ [buffer_soc + abstand, 100] | min }}
+
+        '
+      current_priority_soc: '{{ states(''select.evcc_priority_soc'') | int(0) }}
+
+        '
+      current_buffer_soc: '{{ states(''select.evcc_buffer_soc'') | int(0) }}
+
+        '
+      current_buffer_start_soc: '{{ states(''select.evcc_buffer_start_soc'') | int(0)
+        }}
+
+        '
+      priority_soc_final: '{{ [priority_soc, current_buffer_soc] | min }}
+
+        '
+      buffer_soc_final: '{{ [buffer_soc, current_buffer_start_soc] | min }}
+
+        '
+      buffer_start_soc_final: '{{ [buffer_start_soc, 100] | min }}
+
+        '
+  - target:
+      entity_id: select.evcc_priority_soc
+    data:
+      option: '{{ priority_soc_final }}'
+    action: select.select_option
+  - target:
+      entity_id: select.evcc_buffer_soc
+    data:
+      option: '{{ buffer_soc_final }}'
+    action: select.select_option
+  - target:
+      entity_id: select.evcc_buffer_start_soc
+    data:
+      option: '{{ buffer_start_soc_final }}'
+    action: select.select_option
   mode: single

@@ -10,8 +10,8 @@ modbusproxy:
     uri: 192.168.178.132:502
 meters:
   - name: grid
-    type: template
-    template: huawei-dongle-powersensor
+    type: templat: *****
+    templat: *****
     usage: grid
     modbus: tcpip
     id: 1
@@ -19,8 +19,8 @@ meters:
     port: 502 # Port
     timeout: 15s # optional
   - name: my_pv
-    type: template
-    template: huawei-dongle-powersensor
+    type: templat: *****
+    templat: *****
     usage: pv
     modbus: tcpip
     id: 1
@@ -28,8 +28,8 @@ meters:
     port: 502 # Port
     timeout: 15s # optional
   - name: my_battery
-    type: template
-    template: huawei-dongle-powersensor
+    type: templat: *****
+    templat: *****
     usage: battery
     modbus: tcpip
     id: 1
@@ -43,13 +43,13 @@ mqtt:
   user: *****
   password: *****
 chargers:
-  - type: template
-    template: twc3
+  - type: templat: *****
+    templat: *****
     host: *****
     name: wallbox
   - name: KellerEntfeuchter
-    type: template
-    template: shelly
+    type: templat: *****
+    templat: *****
     host: *****
     standbypower: 2
     integrateddevice: true
@@ -72,16 +72,16 @@ loadpoints:
 
 vehicles:
   - name: R1
-    type: template
-    template: tesla
+    type: templat: *****
+    templat: *****
     clientId: *****
     commandProxy: http://192.168.178.78:8080
     accessToken: *****
     refreshToken: *****
     vin: *****
   - name: T1
-    type: template
-    template: tesla
+    type: templat: *****
+    templat: *****
     clientId: *****
     commandProxy: http://192.168.178.78:8080
     accessToken: *****
@@ -100,4 +100,34 @@ tariffs:
   grid:
     type: fixed
     price: 0.294 # [currency]/kWh
+  solar:
+    - type: templat: *****
+      templat: *****
+      lat: *****
+      lon: *****
+      dec: 12
+      kwp: 2.64
+      az: 326
+    - type: templat: *****
+      templat: *****
+      lat: *****
+      lon: *****
+      dec: 8
+      kwp: 2.64
+      az: 147
+    - type: templat: *****
+      templat: *****
+      lat: *****
+      lon: *****
+      dec: 42
+      kwp: 2.2
+      az: 128
+    - type: templat: *****
+      templat: *****
+      lat: *****
+      lon: *****
+      dec: 43
+      kwp: 3.08
+      az: 219
+
 sponsortoken: *****

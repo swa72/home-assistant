@@ -78,29 +78,26 @@ alexa_tts_katzentur_offnen:
 notify_stefan:
   alias: Notify stefan
   sequence:
-  - service: notify.mobile_app_iphone15b
-    data:
-      title: '{{ title }}'
-      message: '{{ message }}'
+  - action: notify.mobile_app_swaphone16
+    data: {}
   mode: queued
   max: 10
 notify_parents:
   alias: Notify parents
   sequence:
-  - service: notify.mobile_app_iphone15b
-    data:
+  - data:
       title: '{{ title }}'
       message: '{{ message }}'
-  - service: notify.mobile_app_jphone16
-    data:
+    action: notify.mobile_app_swaPhone16
+  - data:
       title: '{{ title }}'
       message: '{{ message }}'
+    action: notify.mobile_app_jphone17
   mode: single
 urgent_notify_stefan:
   alias: Notify stefan critically
   sequence:
-  - service: notify.mobile_app_iphone15b
-    data:
+  - data:
       title: '{{ title }}'
       message: '{{ message }}'
       data:
@@ -109,6 +106,7 @@ urgent_notify_stefan:
             name: default
             critical: 1
             volume: 0.3
+    action: notify.mobile_app_swaphone16
   mode: single
 notify_people_who_are_present:
   alias: Notify people who are present
@@ -121,7 +119,7 @@ notify_people_who_are_present:
       - data:
           title: '{{ title }}'
           message: '{{ message }}'
-        action: notify.mobile_app_iphone15b
+        action: notify.mobile_app_swaphone16
   - choose:
     - conditions:
       - condition: template
@@ -131,7 +129,7 @@ notify_people_who_are_present:
       - data:
           title: '{{ title }}'
           message: '{{ message }}'
-        action: notify.mobile_app_jphone16
+        action: notify.mobile_app_jphone17
   - choose:
     - conditions:
       - condition: template
@@ -144,39 +142,6 @@ notify_people_who_are_present:
         action: notify.mobile_app_iphone_von_anna
   mode: parallel
   max: 10
-notify_people:
-  alias: Notify people
-  sequence:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ 1==1 }}'
-      sequence:
-      - service: notify.mobile_app_iphone15b
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ 1==1 and is_state(''input_boolean.swa_debug_mode'', ''off'')
-          }}'
-      sequence:
-      - service: notify.mobile_app_jphone16
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ 1==1 and is_state(''input_boolean.swa_debug_mode'', ''off'')
-          }}'
-      sequence:
-      - service: notify.mobile_app_iphone_von_anna
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-  mode: single
 urgent_notify_people_who_are_present:
   alias: Notify people urgently who are present
   sequence:
@@ -185,8 +150,7 @@ urgent_notify_people_who_are_present:
       - condition: template
         value_template: '{{ is_state(''person.stefan'', ''home'') }}'
       sequence:
-      - service: notify.mobile_app_iphone15b
-        data:
+      - data:
           title: '{{ title }}'
           message: '{{ message }}'
           data:
@@ -195,14 +159,14 @@ urgent_notify_people_who_are_present:
                 name: default
                 critical: 1
                 volume: 0.3
+        action: notify.mobile_app_swaphone16
   - choose:
     - conditions:
       - condition: template
         value_template: '{{ is_state(''person.julia'', ''home'') and is_state(''input_boolean.swa_debug_mode'',
           ''off'') }}'
       sequence:
-      - service: notify.mobile_app_jphone16
-        data:
+      - data:
           title: '{{ title }}'
           message: '{{ message }}'
           data:
@@ -211,14 +175,14 @@ urgent_notify_people_who_are_present:
                 name: default
                 critical: 1
                 volume: 0.3
+        action: notify.mobile_app_jphone17
   - choose:
     - conditions:
       - condition: template
         value_template: '{{ is_state(''person.anna'', ''home'') and is_state(''input_boolean.swa_debug_mode'',
           ''off'') }}'
       sequence:
-      - service: notify.mobile_app_iphone_von_anna
-        data:
+      - data:
           title: '{{ title }}'
           message: '{{ message }}'
           data:
@@ -227,57 +191,7 @@ urgent_notify_people_who_are_present:
                 name: default
                 critical: 1
                 volume: 0.3
-  mode: single
-urgent_notify_people:
-  alias: Notify people urgently
-  sequence:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ 1==1 }}'
-      sequence:
-      - service: notify.mobile_app_iphone15b
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-          data:
-            push:
-              sound:
-                name: default
-                critical: 1
-                volume: 0.3
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ 1==1 and is_state(''input_boolean.swa_debug_mode'', ''off'')
-          }}'
-      sequence:
-      - service: notify.mobile_app_jphone16
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-          data:
-            push:
-              sound:
-                name: default
-                critical: 1
-                volume: 0.3
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ 1==1 and is_state(''input_boolean.swa_debug_mode'', ''off'')
-          }}'
-      sequence:
-      - service: notify.mobile_app_iphone_von_anna
-        data:
-          title: '{{ title }}'
-          message: '{{ message }}'
-          data:
-            push:
-              sound:
-                name: default
-                critical: 1
-                volume: 0.3
+        action: notify.mobile_app_iphone_von_anna
   mode: single
 erinnere_stefan_ans_trinken:
   alias: Erinnere Stefan ans Trinken
@@ -954,10 +868,10 @@ notify_stefan_only_if_really_present:
       - condition: template
         value_template: '{{ is_state(''person.stefan'', ''home'') }}'
       sequence:
-      - service: notify.mobile_app_iphone15b
-        data:
+      - data:
           title: '{{ title }}'
           message: '{{ message }}'
+        action: notify.mobile_app_swaphone16
   mode: queued
   max: 10
 haustuer:
@@ -1175,20 +1089,6 @@ turn_on_ac_at_wintergarden:
     action: climate.set_temperature
   alias: Turn on AC at wintergarden
   mode: restart
-  description: ''
-add_reminder:
-  sequence:
-  - action: notify.mobile_app_iphone15b
-    metadata: {}
-    data:
-      data:
-        shortcut:
-          name: HA 2 Reminder
-          input: "{\n  \"title\": \"Milch kaufen\",\n  \"due_date\": \"2025-08-22\",\n
-            \ \"due_time\": \"18:00\",\n  \"list\": \"Erinnerungen\"\n } \n"
-          ignore_result: ignore
-      message: HA triggered shortcut
-  alias: Add reminder
   description: ''
 boost_ev_until_10_is_reached:
   sequence:
