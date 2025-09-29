@@ -2700,14 +2700,14 @@
 - id: '1725363245805'
   alias: Julia returned home
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - person.julia
     from: not_home
     to: home
-  condition: []
-  action:
+    trigger: state
+  conditions: []
+  actions:
   - alias: q1 Set up variables for the actions
     variables:
       action_on: '{{ ''ON_'' ~ context.id }}'
@@ -2721,17 +2721,17 @@
           title: Ja.
         - action: '{{ action_nothing }}'
           title: Nein, danke.
-    action: notify.mobile_app_jphone16
+    action: notify.mobile_app_jphone17
   - alias: q1 Wait for a response
     wait_for_trigger:
-    - platform: event
-      event_type: mobile_app_notification_action
+    - event_type: mobile_app_notification_action
       event_data:
         action: '{{ action_on }}'
-    - platform: event
-      event_type: mobile_app_notification_action
+      trigger: event
+    - event_type: mobile_app_notification_action
       event_data:
         action: '{{ action_nothing }}'
+      trigger: event
   - alias: q1 Perform the action
     choose:
     - conditions:
@@ -3158,7 +3158,7 @@
           title: Ja.
         - action: '{{ action_nothing }}'
           title: Nein, danke.
-    action: notify.mobile_app_jphone16
+    action: notify.mobile_app_jphone17
   - alias: q1 Wait for a response
     wait_for_trigger:
     - event_type: mobile_app_notification_action
