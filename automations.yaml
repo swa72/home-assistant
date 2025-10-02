@@ -2758,7 +2758,8 @@
     entity_id: binary_sensor.stefan_working_in_office
     state: 'on'
   - condition: template
-    value_template: '{{ is_state(''automation.notify_stefan_zu_heiss_in_dg'', ''off'')  }}'
+    value_template: '{{ is_state(''automation.wenn_zu_warm_im_dg_oder_0900_uhr_und_stefan_im_office_frage_stefan_ob_ac_angestellt_werden_soll'',
+      ''off'')  }}'
   actions:
   - alias: q1 Set up variables for the actions
     variables:
