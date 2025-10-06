@@ -79,7 +79,9 @@ notify_stefan:
   alias: Notify stefan
   sequence:
   - action: notify.mobile_app_swaphone16
-    data: {}
+    data:
+      title: '{{ title }}'
+      message: '{{ message }}'
   mode: queued
   max: 10
 notify_parents:

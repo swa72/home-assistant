@@ -3243,7 +3243,7 @@
   - action: select.select_option
     metadata: {}
     data:
-      option: Solar
+      option: pv
     target:
       entity_id: select.evcc_haus_mode
   mode: single
@@ -3351,4 +3351,16 @@
     data:
       option: '{{ buffer_start_soc_final }}'
     action: select.select_option
+  mode: single
+- id: '1759644128089'
+  alias: dummy
+  description: ''
+  triggers: []
+  conditions: []
+  actions:
+  - action: script.notify_stefan
+    metadata: {}
+    data:
+      message: HA started.
+      title: Info
   mode: single
