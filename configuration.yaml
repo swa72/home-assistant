@@ -473,6 +473,11 @@ shell_command:
   push_to_github: "/config/gitpush.sh &> /dev/null"
 
 #
+# monitor batteries in da house
+#
+battery_notes:
+
+#
 # to show camera live feed on wall tablet: use browser_mod
 # this section was version 1
 #browser_mod:

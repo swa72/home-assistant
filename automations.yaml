@@ -3099,6 +3099,9 @@
   - condition: state
     entity_id: climate.wintergardenac_wintergardenac
     state: 'off'
+  - condition: numeric_state
+    entity_id: sensor.thermostat_hc1_current_room_temperature
+    above: 24
   actions:
   - alias: q1 Set up variables for the actions
     variables:
@@ -3144,7 +3147,10 @@
     entity_id:
     - sensor.thermostat_hc1_current_room_temperature
     above: 25
-  conditions: []
+  conditions:
+  - condition: numeric_state
+    entity_id: sensor.thermostat_hc1_current_room_temperature
+    above: 24
   actions:
   - alias: q1 Set up variables for the actions
     variables:
