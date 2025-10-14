@@ -35,6 +35,7 @@ template:
                 |rejectattr('entity_id','search','iphone6')
                 |rejectattr('entity_id','search','boiler_dhw_')
                 |rejectattr('entity_id','search','adguard')
+                |rejectattr('entity_id','seach','_battery_last_replaced')
                 |rejectattr('entity_id','search','og_aussen')
                 |rejectattr('entity_id','search','sensor.pool|update.pool_firmware')
                 |rejectattr('entity_id','search','poolpump')
