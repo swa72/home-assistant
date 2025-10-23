@@ -4,7 +4,7 @@ cd /config
 # evcc.yaml now resides on remote server
 scp  192.168.178.143:/etc/evcc.yaml .
 # sanitize
-egrep -v '^#|^\s+#' evcc.yaml |grep . |sed -E 's/(password|user|token|url|host|broker|accessToken|refreshToken|vin|clientId|title|lat|lon).*/\1: *****/' > evcc-sanitized.yaml
+egrep -v '^#|^\s+#' evcc.yaml |grep . |sed -E 's/(password|user|token|url|host|broker|accessToken|refreshToken|vin|clientId|title|lat:|lon:).*/\1: *****/' > evcc-sanitized.yaml
 egrep -v '^#|^\s+#' google_calendars.yaml |grep . |sed -E 's/(password|user|token|cal_id).*/\1: *****/' > google_calendars.yaml-sanitized.yaml
 git add .
 git status

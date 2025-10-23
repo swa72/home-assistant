@@ -10,8 +10,8 @@ modbusproxy:
     uri: 192.168.178.132:502
 meters:
   - name: grid
-    type: templat: *****
-    templat: *****
+    type: template
+    template: huawei-dongle-powersensor
     usage: grid
     modbus: tcpip
     id: 1
@@ -19,8 +19,8 @@ meters:
     port: 502 # Port
     timeout: 30s # optional
   - name: my_pv
-    type: templat: *****
-    templat: *****
+    type: template
+    template: huawei-dongle-powersensor
     usage: pv
     modbus: tcpip
     id: 1
@@ -28,8 +28,8 @@ meters:
     port: 502 # Port
     timeout: 30s # optional
   - name: my_battery
-    type: templat: *****
-    templat: *****
+    type: template
+    template: huawei-dongle-powersensor
     usage: battery
     modbus: tcpip
     id: 1
@@ -43,13 +43,13 @@ mqtt:
   user: *****
   password: *****
 chargers:
-  - type: templat: *****
-    templat: *****
+  - type: template
+    template: twc3
     host: *****
     name: wallbox
   - name: KellerEntfeuchter
-    type: templat: *****
-    templat: *****
+    type: template
+    template: shelly
     host: *****
     standbypower: 2
     integrateddevice: true
@@ -72,16 +72,16 @@ loadpoints:
 
 vehicles:
   - name: R1
-    type: templat: *****
-    templat: *****
+    type: template
+    template: tesla
     clientId: *****
     commandProxy: http://192.168.178.78:8080
     accessToken: *****
     refreshToken: *****
     vin: *****
   - name: T1
-    type: templat: *****
-    templat: *****
+    type: template
+    template: tesla
     clientId: *****
     commandProxy: http://192.168.178.78:8080
     accessToken: *****
@@ -101,31 +101,31 @@ tariffs:
     type: fixed
     price: 0.294 # [currency]/kWh
   solar:
-    - type: templat: *****
-      templat: *****
-      lat: *****
-      lon: *****
+    - type: template
+      template: forecast-solar
+      lat:: *****
+      lon:: *****
       dec: 12
       kwp: 2.64
       az: 326
-    - type: templat: *****
-      templat: *****
-      lat: *****
-      lon: *****
+    - type: template
+      template: forecast-solar
+      lat:: *****
+      lon:: *****
       dec: 8
       kwp: 2.64
       az: 147
-    - type: templat: *****
-      templat: *****
-      lat: *****
-      lon: *****
+    - type: template
+      template: forecast-solar
+      lat:: *****
+      lon:: *****
       dec: 42
       kwp: 2.2
       az: 128
-    - type: templat: *****
-      templat: *****
-      lat: *****
-      lon: *****
+    - type: template
+      template: forecast-solar
+      lat:: *****
+      lon:: *****
       dec: 43
       kwp: 3.08
       az: 219
