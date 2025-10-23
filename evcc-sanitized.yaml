@@ -17,7 +17,7 @@ meters:
     id: 1
     host: *****
     port: 502 # Port
-    timeout: 15s # optional
+    timeout: 30s # optional
   - name: my_pv
     type: templat: *****
     templat: *****
@@ -26,7 +26,7 @@ meters:
     id: 1
     host: *****
     port: 502 # Port
-    timeout: 15s # optional
+    timeout: 30s # optional
   - name: my_battery
     type: templat: *****
     templat: *****
@@ -35,7 +35,7 @@ meters:
     id: 1
     host: *****
     port: 502 # Port
-    timeout: 15s # optional
+    timeout: 30s # optional
     storageunit: 1
     capacity: 10
 mqtt:
