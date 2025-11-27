@@ -18,21 +18,21 @@ alexa_doorbell:
 alexa_wama_fertig:
   alias: Alexa tts Waschmaschine ist fertig.
   sequence:
-  - service: media_player.volume_set
-    data:
+  - data:
       volume_level: 0.5
     entity_id: media_player.stefans_echo_dot
-  - service: notify.alexa_media
-    data:
+    action: media_player.volume_set
+  - data:
       target: media_player.stefans_echo_dot
       message: Liebe Julia, die Waschmaschine ist fertig.
       data:
         type: tts
-  - service: media_player.volume_set
-    data:
+    action: notify.alexa_media_stefans_echo_dot
+  - data:
       volume_level: 0.2
     target:
       entity_id: media_player.stefans_echo_dot
+    action: media_player.volume_set
   mode: single
 clara_tur_zu_und_leiser:
   alias: Call Clara Tür zu und leiser
@@ -905,7 +905,7 @@ alexa_tts_spulmaschine_ist_fertig:
       message: Liebe Julia, die Spülmaschine ist fertig.
       data:
         type: tts
-    action: notify.alexa_media
+    action: notify.alexa_media_stefans_echo_dot
   - data:
       volume_level: 0.2
     target:
@@ -925,7 +925,7 @@ alexa_tts_trockner_ist_fertig:
       message: Liebe Julia, der Trockner ist fertig.
       data:
         type: tts
-    action: notify.alexa_media
+    action: notify.alexa_media_stefans_echo_dot
   - data:
       volume_level: 0.2
     target:

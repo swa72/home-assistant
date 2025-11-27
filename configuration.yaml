@@ -3,7 +3,7 @@ default_config:
 
 homeassistant:
   # https://community.home-assistant.io/t/2024-5-tracking-down-instability-issues-caused-by-integrations/724441
-  debug: true
+  debug: false
   customize: !include customize.yaml
   allowlist_external_dirs:
     - /config
@@ -56,7 +56,7 @@ logger:
     # avoid template errors in ems-esp
     #
     homeassistant.helpers.template: error
-    custom_components.evcc_intg: debug
+    # custom_components.evcc_intg: debug
     homeassistant.components.shell_command: notset
     # see https://github.com/home-assistant/core/issues/58653 for next line
     # homeassistant.components.fritz: debug

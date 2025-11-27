@@ -640,48 +640,48 @@
 - id: '1634996229621'
   alias: Advanced Heating HC2 v2
   description: ''
-  trigger:
-  - platform: time_pattern
-    minutes: /20
-  condition:
+  triggers:
+  - minutes: /20
+    trigger: time_pattern
+  conditions:
   - condition: time
     after: 05:00
     before: '22:00'
   - condition: template
     value_template: '{{ states(''sensor.thermostat_damped_outdoor_temperature'')|float
       <=10 }}'
-  action:
+  actions:
   - choose:
     - conditions:
       - condition: template
         value_template: '{{ states(''sensor.heating_hc2'') == "ok" and states(''number.thermostat_hc2_offset_temperature'')|float
           != 0 }}'
       sequence:
-      - service: script.heating_change_offset
-        data:
+      - data:
           origin: automation.advanced_heating_hc2
           circuit: 2
           offset: 0
+        action: script.heating_change_offset
     - conditions:
       - condition: template
         value_template: '{{ states(''sensor.heating_hc2'') == "too-warm" and states(''number.thermostat_hc2_offset_temperature'')|float
           != -3 }}'
       sequence:
-      - service: script.heating_change_offset
-        data:
+      - data:
           origin: automation.advanced_heating_hc2
           circuit: 2
           offset: -3
+        action: script.heating_change_offset
     - conditions:
       - condition: template
         value_template: '{{ states(''sensor.heating_hc2'') == "too-cold" and states(''number.thermostat_hc2_offset_temperature'')|float
           != 3 }}'
       sequence:
-      - service: script.heating_change_offset
-        data:
-          origin: automation.advanced_heating_hc2
+      - data:
+          origin: automation.advanced_heating_hc2_v2
           circuit: 2
           offset: 3
+        action: script.heating_change_offset
     default: []
   mode: queued
   max: 10
@@ -2032,7 +2032,7 @@
         message: Das iPad von Konstantin fehlt auf der Anrichte.
         data:
           type: tts
-      action: notify.alexa_media
+      action: notify.alexa_media_stefans_echo_dot
     - data:
         volume_level: 0.2
       target:
@@ -2061,7 +2061,7 @@
         message: Das iPhone von Clara fehlt auf der Anrichte.
         data:
           type: tts
-      action: notify.alexa_media
+      action: notify.alexa_media_stefans_echo_dot
     - data:
         volume_level: 0.2
       target:
@@ -2869,12 +2869,12 @@
 - id: '1727519347582'
   alias: Warnung iPhone Konstantin fehlt auf Anrichte
   description: iPhone Konstantin fehlt auf Anrichte
-  trigger:
-  - platform: time_pattern
-    hours: 19
+  triggers:
+  - hours: 19
     minutes: /15
-  condition: []
-  action:
+    trigger: time_pattern
+  conditions: []
+  actions:
   - if:
     - condition: numeric_state
       entity_id: sensor.iphone_konstantin
@@ -2898,7 +2898,7 @@
         message: Das iPhone von Konstantin fehlt auf der Anrichte.
         data:
           type: tts
-      action: notify.alexa_media
+      action: notify.alexa_media_stefans_echo_dot
     - data:
         volume_level: 0.15
       target:
@@ -2941,7 +2941,7 @@
         message: Das iPhone von Clara fehlt auf der Anrichte.
         data:
           type: tts
-      action: notify.alexa_media
+      action: notify.alexa_media_stefans_echo_dot
     - data:
         volume_level: 0.15
       target:
