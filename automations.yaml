@@ -3230,7 +3230,10 @@
     - binary_sensor.teslable
     from: 'on'
     to:
-  conditions: []
+  conditions:
+  - condition: time
+    after: 07:30:00
+    before: 06:00:00
   actions:
   - action: script.notify_stefan
     data:
