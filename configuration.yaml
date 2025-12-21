@@ -102,7 +102,9 @@ sensor: !include sensors.yaml
 #
 http: !include http.yaml
 #
-cover: !include covers.yaml
+# 12/2025 remove deprecated definitions, move to template\cover.yaml
+# cover: !include covers.yaml
+
 # deprecated yaml with 2022.9
 #volvooncall: !include volvo.yaml
 #
@@ -216,7 +218,8 @@ stream:
 #
 #
 input_boolean: !include input_booleans.yaml
-binary_sensor: !include binary_sensors.yaml
+# 12/2025 remove deprecated definitions, move to template\binary.yaml
+# binary_sensor: !include binary_sensors.yaml
 rest_command: !include rest_commands.yaml
 #
 #

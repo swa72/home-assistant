@@ -106,3 +106,13 @@ tempsensors:
     - sensor.multi_og_kinderbad_temperature
     - sensor.multi_og_konstantin_temperature
     - sensor.multi_og_schlaf_temperature
+
+#
+# was covers.yaml
+#
+Eltern-Schlafzimmer:
+  name: Eltern-Schlafzimmer
+  entities:
+    - cover.shelly25_og_schlafli
+    - cover.shelly25_og_schlafre
+    - cover.shelly25_og_elternbad
