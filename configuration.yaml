@@ -207,6 +207,14 @@ mqtt:
       unit_of_measurement: "W"
       availability_topic: "evcc/status"
       device_class: power
+#
+# replaces the old sensor
+#
+    - name: InfluxDB DB Size
+      unit_of_measurement: 'MB'
+      icon: hass:chart-line
+      state_topic: "home-assistant/sensor/dbsize"
+      value_template: "{{ (value.split('\t')[0]|int(0)/1000)|round(3) }}"
 
 #
 # for camera stuff to work

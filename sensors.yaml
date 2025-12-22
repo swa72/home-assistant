@@ -82,17 +82,18 @@
       # icon_template: "mdi:format-align-middle"
       # value_template: "{{ (states('sensor.boiler_current_flow_temperature') | float(default=0) - states('sensor.boiler_return_temperature') | float(default=0)) | round(1) }}"
 
-- platform: template
-  sensors:
-    heating_differential:
-      friendly_name: "Flow-Ret Differential"
-      unit_of_measurement: "°C"
-      icon_template: "mdi:thermometer"
-      value_template: >
-        {% set flow_temp = states('sensor.boiler_current_flow_temperature') %}
-        {% set return_temp = states('sensor.boiler_return_temperature') %}
-        {{ (flow_temp | float(0) - return_temp | float(0)) | round(1) }}
-      availability_template: "{{ has_value('sensor.boiler_current_flow_temperature') and has_value('sensor.boiler_return_temperature') }}"
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_differential:
+      # friendly_name: "Flow-Ret Differential"
+      # unit_of_measurement: "°C"
+      # icon_template: "mdi:thermometer"
+      # value_template: >
+        # {% set flow_temp = states('sensor.boiler_current_flow_temperature') %}
+        # {% set return_temp = states('sensor.boiler_return_temperature') %}
+        # {{ (flow_temp | float(0) - return_temp | float(0)) | round(1) }}
+      # availability_template: "{{ has_value('sensor.boiler_current_flow_temperature') and has_value('sensor.boiler_return_temperature') }}"
 #
 #
 #
@@ -111,26 +112,26 @@
       # where: "time > now() - 10s"
       # field: diskBytes
 
-- platform: influxdb
-  host: a0d7b954-influxdb
-  port: 8086
-  username: homeassistant
-  password: !secret influxdb
-  queries:
-    - name: InfluxDb DB Size
-      unit_of_measurement: "MB"
-      value_template: >
-        {% set bytes = value | float %}
-        {% if bytes is not none and bytes >= 0 %}
-          {{ (bytes / 1024 / 1024) | round(1) }}
-        {% else %}
-          unavailable
-        {% endif %}
-      group_function: sum
-      measurement: '"monitor"."shard"'
-      database: _internal
-      where: "time > now() - 10s"
-      field: diskBytes
+# - platform: influxdb
+  # host: a0d7b954-influxdb
+  # port: 8086
+  # username: homeassistant
+  # password: !secret influxdb
+  # queries:
+    # - name: InfluxDb DB Size
+      # unit_of_measurement: "MB"
+      # value_template: >
+        # {% set bytes = value | float %}
+        # {% if bytes is not none and bytes >= 0 %}
+          # {{ (bytes / 1024 / 1024) | round(1) }}
+        # {% else %}
+          # unavailable
+        # {% endif %}
+      # group_function: sum
+      # measurement: '"monitor"."shard"'
+      # database: _internal
+      # where: "time > now() - 10s"
+      # field: diskBytes
 
 # #
 # # weather forecasts for tomorrow
@@ -161,330 +162,352 @@
 #
 #
 #
-- platform: template
-  sensors:
-    heating_room_0wz:
-      friendly_name: "0.EG Wohnzimmer 21-22.5"
-      value_template: >-
-        {% if states('sensor.thermostat_hc1_current_room_temperature') | float(default=0) <= 21.0 %}
-          too-cold
-        {% elif states('sensor.thermostat_hc1_current_room_temperature') | float(default=0) > 22.5 %}
-          too-warm
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_room_0wz:
+      # friendly_name: "0.EG Wohnzimmer 21-22.5"
+      # value_template: >-
+        # {% if states('sensor.thermostat_hc1_current_room_temperature') | float(default=0) <= 21.0 %}
+          # too-cold
+        # {% elif states('sensor.thermostat_hc1_current_room_temperature') | float(default=0) > 22.5 %}
+          # too-warm
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_room_2stefan:
-      friendly_name: "2.DG Stefan 21-22"
-      value_template: >-
-        {% if states('sensor.multi_dg_stefan_temperature') | float(default=0) <= 21.0 %}
-          too-cold
-        {% elif states('sensor.multi_dg_stefan_temperature') | float(default=0) >= 22.0 %}
-          too-warm
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_room_2stefan:
+      # friendly_name: "2.DG Stefan 21-22"
+      # value_template: >-
+        # {% if states('sensor.multi_dg_stefan_temperature') | float(default=0) <= 21.0 %}
+          # too-cold
+        # {% elif states('sensor.multi_dg_stefan_temperature') | float(default=0) >= 22.0 %}
+          # too-warm
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_room_1elternschlaf:
-      friendly_name: "1.OG Elternschlaf 19-21"
-      value_template: >-
-        {% if states('sensor.multi_og_schlaf_temperature') | float(default=0) <= 19.0 %}
-          too-cold
-        {% elif states('sensor.multi_og_schlaf_temperature') | float(default=0) >= 21.0 %}
-          too-warm
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_room_1elternschlaf:
+      # friendly_name: "1.OG Elternschlaf 19-21"
+      # value_template: >-
+        # {% if states('sensor.multi_og_schlaf_temperature') | float(default=0) <= 19.0 %}
+          # too-cold
+        # {% elif states('sensor.multi_og_schlaf_temperature') | float(default=0) >= 21.0 %}
+          # too-warm
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_room_1elternbad:
-      friendly_name: "1.OG Elternbad 20-22"
-      value_template: >-
-        {% if states('sensor.multi_og_elternbad_temperature') | float(default=0) <= 20.0 %}
-          too-cold
-        {% elif states('sensor.multi_og_elternbad_temperature') | float(default=0) >= 22.0 %}
-          too-warm
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_room_1elternbad:
+      # friendly_name: "1.OG Elternbad 20-22"
+      # value_template: >-
+        # {% if states('sensor.multi_og_elternbad_temperature') | float(default=0) <= 20.0 %}
+          # too-cold
+        # {% elif states('sensor.multi_og_elternbad_temperature') | float(default=0) >= 22.0 %}
+          # too-warm
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_room_1clara:
-      friendly_name: "1.OG Clara 20-22"
-      value_template: >-
-        {% if states('sensor.multi_og_clara_temperature') | float(default=0) <= 20.0 %}
-          too-cold
-        {% elif states('sensor.multi_og_clara_temperature') | float(default=0) >= 22.0 %}
-          too-warm
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_room_1clara:
+      # friendly_name: "1.OG Clara 20-22"
+      # value_template: >-
+        # {% if states('sensor.multi_og_clara_temperature') | float(default=0) <= 20.0 %}
+          # too-cold
+        # {% elif states('sensor.multi_og_clara_temperature') | float(default=0) >= 22.0 %}
+          # too-warm
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_room_1konstantin:
-      friendly_name: "1.OG Konstantin 19-22"
-      value_template: >-
-        {% if states('sensor.multi_og_konstantin_temperature') | float(default=0) <= 19.0 %}
-          too-cold
-        {% elif states('sensor.multi_og_konstantin_temperature') | float(default=0) >= 22.0 %}
-          too-warm
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_room_1konstantin:
+      # friendly_name: "1.OG Konstantin 19-22"
+      # value_template: >-
+        # {% if states('sensor.multi_og_konstantin_temperature') | float(default=0) <= 19.0 %}
+          # too-cold
+        # {% elif states('sensor.multi_og_konstantin_temperature') | float(default=0) >= 22.0 %}
+          # too-warm
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_room_2anna:
-      friendly_name: "2.DG Anna 21-22"
-      value_template: >-
-        {% if states('sensor.multi_dg_anna_temperature') | float(default=0) <= 21.0 %}
-          too-cold
-        {% elif states('sensor.multi_dg_anna_temperature') | float(default=0) >= 22.0 %}
-          too-warm
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_room_2anna:
+      # friendly_name: "2.DG Anna 21-22"
+      # value_template: >-
+        # {% if states('sensor.multi_dg_anna_temperature') | float(default=0) <= 21.0 %}
+          # too-cold
+        # {% elif states('sensor.multi_dg_anna_temperature') | float(default=0) >= 22.0 %}
+          # too-warm
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_room_0egburo:
-      friendly_name: "0.EG Büro 19-22"
-      value_template: >-
-        {% if states('sensor.multi_eg_buro_temperature') | float(default=0) <= 19.0 %}
-          too-cold
-        {% elif states('sensor.multi_eg_buro_temperature') | float(default=0) >= 22.0 %}
-          too-warm
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_room_0egburo:
+      # friendly_name: "0.EG Büro 19-22"
+      # value_template: >-
+        # {% if states('sensor.multi_eg_buro_temperature') | float(default=0) <= 19.0 %}
+          # too-cold
+        # {% elif states('sensor.multi_eg_buro_temperature') | float(default=0) >= 22.0 %}
+          # too-warm
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_hc3:
-      friendly_name: "Circuit HC3 Anna,Stefan"
-      value_template: >-
-        {% set p0 = states('sensor.heating_room_2anna') == "too-warm" %}
-        {% set p1 = states('sensor.heating_room_2anna') == "ok" %}
-        {% set p2 = states('sensor.heating_room_2anna') == "too-cold" %}
-        {% set p3 = states('sensor.heating_room_2stefan') == "too-warm" %}
-        {% set p4 = states('sensor.heating_room_2stefan') == "ok" %}
-        {% set p5 = states('sensor.heating_room_2stefan') == "too-cold" %}
-        {% if (p0 or p3) %}
-          too-warm
-        {% elif (p2 or p5) %}
-          too-cold
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_hc3:
+      # friendly_name: "Circuit HC3 Anna,Stefan"
+      # value_template: >-
+        # {% set p0 = states('sensor.heating_room_2anna') == "too-warm" %}
+        # {% set p1 = states('sensor.heating_room_2anna') == "ok" %}
+        # {% set p2 = states('sensor.heating_room_2anna') == "too-cold" %}
+        # {% set p3 = states('sensor.heating_room_2stefan') == "too-warm" %}
+        # {% set p4 = states('sensor.heating_room_2stefan') == "ok" %}
+        # {% set p5 = states('sensor.heating_room_2stefan') == "too-cold" %}
+        # {% if (p0 or p3) %}
+          # too-warm
+        # {% elif (p2 or p5) %}
+          # too-cold
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_hc1:
-      friendly_name: "Circuit HC1 Cold: EG-Büro,EG-WZ,Clara,Konstantin Warm: EG-WZ"
-      value_template: >-
-        {% set p0 = states('sensor.heating_room_0egburo') == "too-warm" %}
-        {% set p1 = states('sensor.heating_room_0egburo') == "ok" %}
-        {% set p2 = states('sensor.heating_room_0egburo') == "too-cold" %}
-        {% set p3 = states('sensor.heating_room_0wz') == "too-warm" %}
-        {% set p4 = states('sensor.heating_room_0wz') == "ok" %}
-        {% set p5 = states('sensor.heating_room_0wz') == "too-cold" %}
-        {% set p6 = states('sensor.heating_room_1clara') == "too-warm" %}
-        {% set p7 = states('sensor.heating_room_1clara') == "ok" %}
-        {% set p8 = states('sensor.heating_room_1clara') == "too-cold" %}
-        {% set p9 = states('sensor.heating_room_1konstantin') == "too-warm" %}
-        {% set p10 = states('sensor.heating_room_1konstantin') == "ok" %}
-        {% set p11 = states('sensor.heating_room_1konstantin') == "too-cold" %}
-        {% if (p2 or p5 or p8 or p11) %}
-          too-cold
-        {% elif (p3) %}
-          too-warm
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_hc1:
+      # friendly_name: "Circuit HC1 Cold: EG-Büro,EG-WZ,Clara,Konstantin Warm: EG-WZ"
+      # value_template: >-
+        # {% set p0 = states('sensor.heating_room_0egburo') == "too-warm" %}
+        # {% set p1 = states('sensor.heating_room_0egburo') == "ok" %}
+        # {% set p2 = states('sensor.heating_room_0egburo') == "too-cold" %}
+        # {% set p3 = states('sensor.heating_room_0wz') == "too-warm" %}
+        # {% set p4 = states('sensor.heating_room_0wz') == "ok" %}
+        # {% set p5 = states('sensor.heating_room_0wz') == "too-cold" %}
+        # {% set p6 = states('sensor.heating_room_1clara') == "too-warm" %}
+        # {% set p7 = states('sensor.heating_room_1clara') == "ok" %}
+        # {% set p8 = states('sensor.heating_room_1clara') == "too-cold" %}
+        # {% set p9 = states('sensor.heating_room_1konstantin') == "too-warm" %}
+        # {% set p10 = states('sensor.heating_room_1konstantin') == "ok" %}
+        # {% set p11 = states('sensor.heating_room_1konstantin') == "too-cold" %}
+        # {% if (p2 or p5 or p8 or p11) %}
+          # too-cold
+        # {% elif (p3) %}
+          # too-warm
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_hc2:
-      friendly_name: "Circuit HC2: Elternbad"
-      value_template: >-
-        {% set p0 = states('sensor.heating_room_1elternbad') == "too-warm" %}
-        {% set p1 = states('sensor.heating_room_1elternbad') == "ok" %}
-        {% set p2 = states('sensor.heating_room_1elternbad') == "too-cold" %}
-        {% if (p2) %}
-          too-cold
-        {% elif (p0) %}
-          too-warm
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_hc2:
+      # friendly_name: "Circuit HC2: Elternbad"
+      # value_template: >-
+        # {% set p0 = states('sensor.heating_room_1elternbad') == "too-warm" %}
+        # {% set p1 = states('sensor.heating_room_1elternbad') == "ok" %}
+        # {% set p2 = states('sensor.heating_room_1elternbad') == "too-cold" %}
+        # {% if (p2) %}
+          # too-cold
+        # {% elif (p0) %}
+          # too-warm
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 # wenn
 # - hc1 too warm
 # - hc2 ok or too warm
 # - outdoor temp ge x°C
 #
-- platform: template
-  sensors:
-    heating_hc2vshc1:
-      friendly_name: "Circuit HC2 vs HC1"
-      value_template: >-
-        {% set p0 = states('sensor.heating_hc1') == "too-warm" %}
-        {% set p1 = states('sensor.heating_hc2') == "too-warm" %}
-        {% set p2 = states('sensor.heating_hc2') == "ok" %}
-        {% set p3 = states('sensor.thermostat_damped_outdoor_temperature') | float(default=0) >= 8.0 %}
-        {% if p0 and p3 and (p1 or p2) %}
-          too-warm
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_hc2vshc1:
+      # friendly_name: "Circuit HC2 vs HC1"
+      # value_template: >-
+        # {% set p0 = states('sensor.heating_hc1') == "too-warm" %}
+        # {% set p1 = states('sensor.heating_hc2') == "too-warm" %}
+        # {% set p2 = states('sensor.heating_hc2') == "ok" %}
+        # {% set p3 = states('sensor.thermostat_damped_outdoor_temperature') | float(default=0) >= 8.0 %}
+        # {% if p0 and p3 and (p1 or p2) %}
+          # too-warm
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_warmnextday:
-      friendly_name: "Heating: too sunny/warm outside"
-      value_template: >-
-        {% set p1 = states('sensor.thermostat_damped_outdoor_temperature') | float(default=0) >= 0.0 %}
-        {% set p2 = states('input_text.heating_forecast_condition') == "sunny" %}
-        {% set p3 = states('input_number.heating_forecast_temperature')| float(default=0) >= states('input_number.heating_forecast_temperatureclip')|float(default=0) %}
-        {% if (p1) and (p2 or p3) %}
-          warm
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_warmnextday:
+      # friendly_name: "Heating: too sunny/warm outside"
+      # value_template: >-
+        # {% set p1 = states('sensor.thermostat_damped_outdoor_temperature') | float(default=0) >= 0.0 %}
+        # {% set p2 = states('input_text.heating_forecast_condition') == "sunny" %}
+        # {% set p3 = states('input_number.heating_forecast_temperature')| float(default=0) >= states('input_number.heating_forecast_temperatureclip')|float(default=0) %}
+        # {% if (p1) and (p2 or p3) %}
+          # warm
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    gasverbrauch_zaehler:
-      friendly_name: "Gaszähler"
-      value_template: "{{ states('sensor.gasverbrauch')| float(default=0) + 142.250 }}"
-      availability_template: "{{ has_value('sensor.gasverbrauch') }}"
-
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # gasverbrauch_zaehler:
+      # friendly_name: "Gaszähler"
+      # value_template: "{{ states('sensor.gasverbrauch')| float(default=0) + 142.250 }}"
+      # availability_template: "{{ has_value('sensor.gasverbrauch') }}"
 #
 #
 #
-- platform: template
-  sensors:
-    heating_daytime:
-      friendly_name: "True, if during the day ie 0520-2159"
-      value_template: >-
-        {% set p1 = now().hour > 21 or now().hour < 5 %}
-        {% if not p1 %}
-          true
-        {% else %}
-          false
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_daytime:
+      # friendly_name: "True, if during the day ie 0520-2159"
+      # value_template: >-
+        # {% set p1 = now().hour > 21 or now().hour < 5 %}
+        # {% if not p1 %}
+        # {% if not p1 %}
+          # true
+        # {% else %}
+          # false
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_hc1_trigger:
-      friendly_name: "Circuit HC1 day"
-      value_template: >-
-        {% set p12 = states('sensor.heating_daytime') == "true" %}
-        {% if p12 %}
-          {{ states('sensor.heating_hc1') }}
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_hc1_trigger:
+      # friendly_name: "Circuit HC1 day"
+      # value_template: >-
+        # {% set p12 = states('sensor.heating_daytime') == "true" %}
+        # {% if p12 %}
+          # {{ states('sensor.heating_hc1') }}
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_hc2_trigger:
-      friendly_name: "Circuit HC2 day"
-      value_template: >-
-        {% set p12 = states('sensor.heating_daytime') == "true" %}
-        {% if p12 %}
-          {{ states('sensor.heating_hc2') }}
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_hc2_trigger:
+      # friendly_name: "Circuit HC2 day"
+      # value_template: >-
+        # {% set p12 = states('sensor.heating_daytime') == "true" %}
+        # {% if p12 %}
+          # {{ states('sensor.heating_hc2') }}
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_hc3_trigger:
-      friendly_name: "Circuit HC3 day"
-      value_template: >-
-        {% set p12 = states('sensor.heating_daytime') == "true" %}
-        {% if p12 %}
-          {{ states('sensor.heating_hc3') }}
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_hc3_trigger:
+      # friendly_name: "Circuit HC3 day"
+      # value_template: >-
+        # {% set p12 = states('sensor.heating_daytime') == "true" %}
+        # {% if p12 %}
+          # {{ states('sensor.heating_hc3') }}
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_hc2vshc1_trigger:
-      friendly_name: "Circuit hc2vshc1 day"
-      value_template: >-
-        {% set p12 = states('sensor.heating_daytime') == "true" %}
-        {% if p12 %}
-          {{ states('sensor.heating_hc2vshc1') }}
-        {% else %}
-          ok
-        {% endif %}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_hc2vshc1_trigger:
+      # friendly_name: "Circuit hc2vshc1 day"
+      # value_template: >-
+        # {% set p12 = states('sensor.heating_daytime') == "true" %}
+        # {% if p12 %}
+          # {{ states('sensor.heating_hc2vshc1') }}
+        # {% else %}
+          # ok
+        # {% endif %}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_hc2_delta:
-      friendly_name: "Circuit h2 delta"
-      value_template: >-
-        {{ states('sensor.thermostat_hc2_target_flow_temperature')|float(default=0) - states('sensor.thermostat_hc1_target_flow_temperature')|float(default=0) }}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_hc2_delta:
+      # friendly_name: "Circuit h2 delta"
+      # value_template: >-
+        # {{ states('sensor.thermostat_hc2_target_flow_temperature')|float(default=0) - states('sensor.thermostat_hc1_target_flow_temperature')|float(default=0) }}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_forecast_temperature:
-      value_template: >-
-        {{ states('input_number.heating_forecast_temperature')|float(default=0) }}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_forecast_temperature:
+      # value_template: >-
+        # {{ states('input_number.heating_forecast_temperature')|float(default=0) }}
 #
 #
 #
-- platform: template
-  sensors:
-    heating_forecast_condition:
-      value_template: >-
-        {{ states('input_text.heating_forecast_condition') }}
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # heating_forecast_condition:
+      # value_template: >-
+        # {{ states('input_text.heating_forecast_condition') }}
 
 #
 # dew point calculations for basement
@@ -513,19 +536,18 @@
     # entfeuchter cycles in 30min. if this stops, the device is simply full
     #
 
-- platform: template
-  sensors:
-    entfeuchter_voll:
-      friendly_name: "Entfeuchter Voll"
-      value_template: >
-        {% if states('sensor.shellys_keller_entfeuchter_power') | float(0) >= 0.0 and states('sensor.shellys_keller_entfeuchter_power') | float(0) < 1.0 %}
-          true
-        {% else %}
-          false
-        {% endif %}
-      availability_template: "{{ has_value('sensor.shellys_keller_entfeuchter_power') }}"
-
-
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # entfeuchter_voll:
+      # friendly_name: "Entfeuchter Voll"
+      # value_template: >
+        # {% if states('sensor.shellys_keller_entfeuchter_power') | float(0) >= 0.0 and states('sensor.shellys_keller_entfeuchter_power') | float(0) < 1.0 %}
+          # true
+        # {% else %}
+          # false
+        # {% endif %}
+      # availability_template: "{{ has_value('sensor.shellys_keller_entfeuchter_power') }}"
 #
 #
 #
@@ -587,42 +609,43 @@
     - rainin60min
     - rainin120min
 
-- platform: template
-  sensors:
-    rrraintext:
-      friendly_name: "Vorhersage"
-      value_template: "{{ state_attr('sensor.regenradar', 'raintext') }}"
-    rrrainin30min:
-      friendly_name: "Regen in 30min"
-      value_template: "{{ state_attr('sensor.regenradar', 'rainin30min') }}"
-    rrrainin60min:
-      friendly_name: "Regen in 60min"
-      value_template: "{{ state_attr('sensor.regenradar', 'rainin60min') }}"
-    rrrainin120min:
-      friendly_name: "Regen in 120min"
-      value_template: "{{ state_attr('sensor.regenradar', 'rainin120min') }}"
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # rrraintext:
+      # friendly_name: "Vorhersage"
+      # value_template: "{{ state_attr('sensor.regenradar', 'raintext') }}"
+    # rrrainin30min:
+      # friendly_name: "Regen in 30min"
+      # value_template: "{{ state_attr('sensor.regenradar', 'rainin30min') }}"
+    # rrrainin60min:
+      # friendly_name: "Regen in 60min"
+      # value_template: "{{ state_attr('sensor.regenradar', 'rainin60min') }}"
+    # rrrainin120min:
+      # friendly_name: "Regen in 120min"
+      # value_template: "{{ state_attr('sensor.regenradar', 'rainin120min') }}"
 
-- platform: template
-  sensors:
-    rrraintext:
-      friendly_name: "Vorhersage"
-      value_template: "{{ state_attr('sensor.regenradar', 'raintext') }}"
-      availability_template: "{{ has_value('sensor.regenradar') }}"
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # rrraintext:
+      # friendly_name: "Vorhersage"
+      # value_template: "{{ state_attr('sensor.regenradar', 'raintext') }}"
+      # availability_template: "{{ has_value('sensor.regenradar') }}"
+    # rrrainin30min:
+      # friendly_name: "Regen in 30min"
+      # value_template: "{{ state_attr('sensor.regenradar', 'rainin30min') }}"
+      # availability_template: "{{ has_value('sensor.regenradar') }}"
 
-    rrrainin30min:
-      friendly_name: "Regen in 30min"
-      value_template: "{{ state_attr('sensor.regenradar', 'rainin30min') }}"
-      availability_template: "{{ has_value('sensor.regenradar') }}"
+    # rrrainin60min:
+      # friendly_name: "Regen in 60min"
+      # value_template: "{{ state_attr('sensor.regenradar', 'rainin60min') }}"
+      # availability_template: "{{ has_value('sensor.regenradar') }}"
 
-    rrrainin60min:
-      friendly_name: "Regen in 60min"
-      value_template: "{{ state_attr('sensor.regenradar', 'rainin60min') }}"
-      availability_template: "{{ has_value('sensor.regenradar') }}"
-
-    rrrainin120min:
-      friendly_name: "Regen in 120min"
-      value_template: "{{ state_attr('sensor.regenradar', 'rainin120min') }}"
-      availability_template: "{{ has_value('sensor.regenradar') }}"
+    # rrrainin120min:
+      # friendly_name: "Regen in 120min"
+      # value_template: "{{ state_attr('sensor.regenradar', 'rainin120min') }}"
+      # availability_template: "{{ has_value('sensor.regenradar') }}"
 
 
 #
@@ -668,34 +691,35 @@
 # average gas usage per day this week
 # number of remaining days in current month
 # actual calculation
-- platform: template
-  sensors:
-    gasverbrauch_forecast2:
-      friendly_name_template: "Gasverbrauch bis Monatsende"
-      unit_of_measurement: "m³"
-      value_template: >-
-        {% if now().weekday() == 0 -%}
-        {% set average=state_attr('sensor.gasverbrauch_weekly','last_period')|float(default=0)/ 7  -%}
-        {% else -%}
-        {% set average=(states('sensor.gasverbrauch_weekly')|float(default=0) - 
-        states('sensor.gasverbrauch_daily')|float(default=0)) /
-        (now().weekday())-%}
-        {% endif -%}
-        {% if now().month in [1,3,5,7,8,10,12] -%}
-        {% set numdays=31 -%} 
-        {% elif now().month in [4,6,9,11] -%}
-        {% set numdays=30 -%}
-        {% elif now().month == 2 and ((now().year-2000) % 4 >0) -%}
-        {% set numdays=28 -%}
-        {% elif now().month == 2 and ((now().year-2000) % 4 == 0) -%}
-        {% set numdays=29 -%}
-        {% endif -%}
-        {% set remaining = numdays - now().day + 1%}
-        {{ (states('sensor.gasverbrauch_monthly')|float(default=0)-
-        states('sensor.gasverbrauch_daily')|float(default=0) +
-        (average * remaining)) | round(0)
-        }}
-      availability_template: "{{ has_value('sensor.gasverbrauch_weekly') and has_value('sensor.gasverbrauch_daily') and has_value('sensor.gasverbrauch_monthly')}}"
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # gasverbrauch_forecast2:
+      # friendly_name_template: "Gasverbrauch bis Monatsende"
+      # unit_of_measurement: "m³"
+      # value_template: >-
+        # {% if now().weekday() == 0 -%}
+        # {% set average=state_attr('sensor.gasverbrauch_weekly','last_period')|float(default=0)/ 7  -%}
+        # {% else -%}
+        # {% set average=(states('sensor.gasverbrauch_weekly')|float(default=0) - 
+        # states('sensor.gasverbrauch_daily')|float(default=0)) /
+        # (now().weekday())-%}
+        # {% endif -%}
+        # {% if now().month in [1,3,5,7,8,10,12] -%}
+        # {% set numdays=31 -%} 
+        # {% elif now().month in [4,6,9,11] -%}
+        # {% set numdays=30 -%}
+        # {% elif now().month == 2 and ((now().year-2000) % 4 >0) -%}
+        # {% set numdays=28 -%}
+        # {% elif now().month == 2 and ((now().year-2000) % 4 == 0) -%}
+        # {% set numdays=29 -%}
+        # {% endif -%}
+        # {% set remaining = numdays - now().day + 1%}
+        # {{ (states('sensor.gasverbrauch_monthly')|float(default=0)-
+        # states('sensor.gasverbrauch_daily')|float(default=0) +
+        # (average * remaining)) | round(0)
+        # }}
+      # availability_template: "{{ has_value('sensor.gasverbrauch_weekly') and has_value('sensor.gasverbrauch_daily') and has_value('sensor.gasverbrauch_monthly')}}"
       
 # - platform: template
   # sensors:
@@ -781,55 +805,55 @@
 #
 # for cover control
 #
-- platform: template
-  sensors:
-    cover_currentposition_dg_cover_east:
-      value_template: "{{ state_attr('cover.velux_external_cover', 'current_position') | int(default=100) }}"
-      unit_of_measurement: "%"
-      availability_template: "{{ state_attr('cover.velux_external_cover','current_position')|is_number }}"
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # cover_currentposition_dg_cover_east:
+      # value_template: "{{ state_attr('cover.velux_external_cover', 'current_position') | int(default=100) }}"
+      # unit_of_measurement: "%"
+      # availability_template: "{{ state_attr('cover.velux_external_cover','current_position')|is_number }}"
 
-- platform: template
-  sensors:
-    cover_currentposition_dg_cover_west:
-      value_template: "{{ state_attr('cover.velux_external_cover_2', 'current_position') | int(default=100) }}"
-      unit_of_measurement: "%"
-      availability_template: "{{ state_attr('cover.velux_external_cover_2','current_position')|is_number }}"
+# - platform: template
+  # sensors:
+    # cover_currentposition_dg_cover_west:
+      # value_template: "{{ state_attr('cover.velux_external_cover_2', 'current_position') | int(default=100) }}"
+      # unit_of_measurement: "%"
+      # availability_template: "{{ state_attr('cover.velux_external_cover_2','current_position')|is_number }}"
 
-- platform: template
-  sensors:
-    cover_currentposition_dg_anna:
-      value_template: "{{ state_attr('cover.shelly25_dg_anna_rolladen', 'current_position') | int(default=100) }}"
-      unit_of_measurement: "%"
-      availability_template: "{{ state_attr('cover.shelly25_dg_anna_rolladen','current_position')|is_number }}"
+# - platform: template
+  # sensors:
+    # cover_currentposition_dg_anna:
+      # value_template: "{{ state_attr('cover.shelly25_dg_anna_rolladen', 'current_position') | int(default=100) }}"
+      # unit_of_measurement: "%"
+      # availability_template: "{{ state_attr('cover.shelly25_dg_anna_rolladen','current_position')|is_number }}"
 
-- platform: template
-  sensors:
-    cover_currentposition_elternbad:
-      value_template: "{{ state_attr('cover.shelly25_og_elternbad', 'current_position') | int(default=100) }}"
-      unit_of_measurement: "%"
-      availability_template: "{{ state_attr('cover.shelly25_og_elternbad','current_position')|is_number }}"
+# - platform: template
+  # sensors:
+    # cover_currentposition_elternbad:
+      # value_template: "{{ state_attr('cover.shelly25_og_elternbad', 'current_position') | int(default=100) }}"
+      # unit_of_measurement: "%"
+      # availability_template: "{{ state_attr('cover.shelly25_og_elternbad','current_position')|is_number }}"
 
-- platform: template
-  sensors:
-    cover_currentposition_sz_rechts:
-      value_template: "{{ state_attr('cover.shelly25_og_schlafre', 'current_position') | int(default=100) }}"
-      unit_of_measurement: "%"
-      availability_template: "{{ state_attr('cover.shelly25_og_schlafre','current_position')|is_number }}"
+# - platform: template
+  # sensors:
+    # cover_currentposition_sz_rechts:
+      # value_template: "{{ state_attr('cover.shelly25_og_schlafre', 'current_position') | int(default=100) }}"
+      # unit_of_measurement: "%"
+      # availability_template: "{{ state_attr('cover.shelly25_og_schlafre','current_position')|is_number }}"
 
-- platform: template
-  sensors:
-    cover_currentposition_sz_links:
-      value_template: "{{ state_attr('cover.shelly25_og_schlafli', 'current_position') | int(default=100) }}"
-      unit_of_measurement: "%"
-      availability_template: "{{ state_attr('cover.shelly25_og_schlafli','current_position')|is_number }}"
+# - platform: template
+  # sensors:
+    # cover_currentposition_sz_links:
+      # value_template: "{{ state_attr('cover.shelly25_og_schlafli', 'current_position') | int(default=100) }}"
+      # unit_of_measurement: "%"
+      # availability_template: "{{ state_attr('cover.shelly25_og_schlafli','current_position')|is_number }}"
       
-
-- platform: template
-  sensors:
-    cover_currentposition_kidsgross:
-      value_template: "{{ state_attr('cover.shelly25_og_clara', 'current_position') | int(default=100) }}"
-      unit_of_measurement: "%"
-      availability_template: "{{ state_attr('cover.shelly25_og_clara','current_position')|is_number }}"
+# - platform: template
+  # sensors:
+    # cover_currentposition_kidsgross:
+      # value_template: "{{ state_attr('cover.shelly25_og_clara', 'current_position') | int(default=100) }}"
+      # unit_of_measurement: "%"
+      # availability_template: "{{ state_attr('cover.shelly25_og_clara','current_position')|is_number }}"
 
 #  To throttle a sensor down to 1 value per minute, the window_size should be set to "00:01”.
 - platform: filter
@@ -858,12 +882,13 @@
 #
 # solar forecast combines two strings on the garage
 #
-- platform: template
-  sensors:
-    estimated_energy_production_next_hour_garage:
-      value_template: "{{ states('sensor.energy_next_hour_2')|float + states('sensor.energy_next_hour')|float }}"
-      unit_of_measurement: "kWh"
-      availability_template: "{{ has_value('sensor.energy_next_hour_2') and has_value('sensor.energy_next_hour') }}"
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # estimated_energy_production_next_hour_garage:
+      # value_template: "{{ states('sensor.energy_next_hour_2')|float + states('sensor.energy_next_hour')|float }}"
+      # unit_of_measurement: "kWh"
+      # availability_template: "{{ has_value('sensor.energy_next_hour_2') and has_value('sensor.energy_next_hour') }}"
 
 # - platform: template
   # sensors:
@@ -891,57 +916,57 @@
       # value_template: "{{ states('sensor.power_production_now_2')|float + states('sensor.power_production_now')|float }}"
       # unit_of_measurement: "W"
 
-- platform: template
-  sensors:
-    energy_production_today_remaining_garage:
-      value_template: "{{ states('sensor.energy_production_today_remaining_2')|float + states('sensor.energy_production_today_remaining')|float }}"
-      unit_of_measurement: "kWh"
-      availability_template: "{{ has_value('sensor.energy_production_today_remaining_2') and has_value('sensor.energy_production_today_remaining') }}"
+# - platform: template
+  # sensors:
+    # energy_production_today_remaining_garage:
+      # value_template: "{{ states('sensor.energy_production_today_remaining_2')|float + states('sensor.energy_production_today_remaining')|float }}"
+      # unit_of_measurement: "kWh"
+      # availability_template: "{{ has_value('sensor.energy_production_today_remaining_2') and has_value('sensor.energy_production_today_remaining') }}"
 
-- platform: template
-  sensors:
-    energy_current_hour_garage:
-      value_template: "{{ states('sensor.energy_current_hour_2')|float + states('sensor.energy_current_hour')|float }}"
-      unit_of_measurement: "kWh"
-      availability_template: "{{ has_value('sensor.energy_current_hour_2') and has_value('sensor.energy_current_hour') }}"
+# - platform: template
+  # sensors:
+    # energy_current_hour_garage:
+      # value_template: "{{ states('sensor.energy_current_hour_2')|float + states('sensor.energy_current_hour')|float }}"
+      # unit_of_measurement: "kWh"
+      # availability_template: "{{ has_value('sensor.energy_current_hour_2') and has_value('sensor.energy_current_hour') }}"
 
-- platform: template
-  sensors:
-    energy_production_today_garage:
-      value_template: "{{ states('sensor.energy_production_today_2')|float + states('sensor.energy_production_today')|float }}"
-      unit_of_measurement: "kWh"
-      availability_template: "{{ has_value('sensor.energy_production_today_2') and has_value('sensor.energy_production_today') }}"
+# - platform: template
+  # sensors:
+    # energy_production_today_garage:
+      # value_template: "{{ states('sensor.energy_production_today_2')|float + states('sensor.energy_production_today')|float }}"
+      # unit_of_measurement: "kWh"
+      # availability_template: "{{ has_value('sensor.energy_production_today_2') and has_value('sensor.energy_production_today') }}"
 
-- platform: template
-  sensors:
-    energy_production_tomorrow_garage:
-      value_template: "{{ states('sensor.energy_production_tomorrow_2')|float + states('sensor.energy_production_tomorrow')|float }}"
-      unit_of_measurement: "kWh"
-      availability_template: "{{ has_value('sensor.energy_production_tomorrow_2') and has_value('sensor.energy_production_tomorrow') }}"
+# - platform: template
+  # sensors:
+    # energy_production_tomorrow_garage:
+      # value_template: "{{ states('sensor.energy_production_tomorrow_2')|float + states('sensor.energy_production_tomorrow')|float }}"
+      # unit_of_measurement: "kWh"
+      # availability_template: "{{ has_value('sensor.energy_production_tomorrow_2') and has_value('sensor.energy_production_tomorrow') }}"
 
-- platform: template
-  sensors:
-    power_production_now_garage:
-      value_template: "{{ states('sensor.power_production_now_2')|float + states('sensor.power_production_now')|float }}"
-      unit_of_measurement: "W"
-      availability_template: "{{ has_value('sensor.power_production_now_2') and has_value('sensor.power_production_now') }}"
+# - platform: template
+  # sensors:
+    # power_production_now_garage:
+      # value_template: "{{ states('sensor.power_production_now_2')|float + states('sensor.power_production_now')|float }}"
+      # unit_of_measurement: "W"
+      # availability_template: "{{ has_value('sensor.power_production_now_2') and has_value('sensor.power_production_now') }}"
 
 #
 #
 #
-- platform: template
-  sensors:
-    power_highest_peak_time_tomorrow_garage:
-      friendly_name: "Hightest peak tomorrow"
-      value_template: >
-        {% set timestamp = states('sensor.power_highest_peak_time_tomorrow') %}
-        {% if timestamp != 'unknown' %}
-          {{ as_timestamp(timestamp) | timestamp_custom('%H:%M:%S') }}
-        {% else %}
-          unknown
-        {% endif %}
-      icon_template: mdi:clock
-      availability_template: "{{ has_value('sensor.power_highest_peak_time_tomorrow') }}"
+# - platform: template
+  # sensors:
+    # power_highest_peak_time_tomorrow_garage:
+      # friendly_name: "Hightest peak tomorrow"
+      # value_template: >
+        # {% set timestamp = states('sensor.power_highest_peak_time_tomorrow') %}
+        # {% if timestamp != 'unknown' %}
+          # {{ as_timestamp(timestamp) | timestamp_custom('%H:%M:%S') }}
+        # {% else %}
+          # unknown
+        # {% endif %}
+      # icon_template: mdi:clock
+      # availability_template: "{{ has_value('sensor.power_highest_peak_time_tomorrow') }}"
 
 #
 # solar forecast total
@@ -977,47 +1002,47 @@
       # value_template: "{{ states('sensor.power_production_now')|float + states('sensor.power_production_now_2')|float + states('sensor.power_production_now_3')|float + states('sensor.power_production_now_4')|float}}"
       # unit_of_measurement: "W"
 
-- platform: template
-  sensors:
-    estimated_energy_production_next_hour_total:
-      value_template: "{{ states('sensor.energy_next_hour')|float + states('sensor.energy_next_hour_2')|float + states('sensor.energy_next_hour_3')|float + states('sensor.energy_next_hour_4')|float }}"
-      unit_of_measurement: "kWh"
-      availability_template: "{{ has_value('sensor.energy_next_hour') and has_value('sensor.energy_next_hour_2') and has_value('sensor.energy_next_hour_3') and has_value('sensor.energy_next_hour_4') }}"
+# - platform: template
+  # sensors:
+    # estimated_energy_production_next_hour_total:
+      # value_template: "{{ states('sensor.energy_next_hour')|float + states('sensor.energy_next_hour_2')|float + states('sensor.energy_next_hour_3')|float + states('sensor.energy_next_hour_4')|float }}"
+      # unit_of_measurement: "kWh"
+      # availability_template: "{{ has_value('sensor.energy_next_hour') and has_value('sensor.energy_next_hour_2') and has_value('sensor.energy_next_hour_3') and has_value('sensor.energy_next_hour_4') }}"
 
-- platform: template
-  sensors:
-    energy_production_today_remaining_total:
-      value_template: "{{ states('sensor.energy_production_today_remaining')|float + states('sensor.energy_production_today_remaining_2')|float + states('sensor.energy_production_today_remaining_3')|float + states('sensor.energy_production_today_remaining_4')|float }}"
-      unit_of_measurement: "kWh"
-      availability_template: "{{ has_value('sensor.energy_production_today_remaining') and has_value('sensor.energy_production_today_remaining_2') and has_value('sensor.energy_production_today_remaining_3') and has_value('sensor.energy_production_today_remaining_4') }}"
+# - platform: template
+  # sensors:
+    # energy_production_today_remaining_total:
+      # value_template: "{{ states('sensor.energy_production_today_remaining')|float + states('sensor.energy_production_today_remaining_2')|float + states('sensor.energy_production_today_remaining_3')|float + states('sensor.energy_production_today_remaining_4')|float }}"
+      # unit_of_measurement: "kWh"
+      # availability_template: "{{ has_value('sensor.energy_production_today_remaining') and has_value('sensor.energy_production_today_remaining_2') and has_value('sensor.energy_production_today_remaining_3') and has_value('sensor.energy_production_today_remaining_4') }}"
 
-- platform: template
-  sensors:
-    energy_current_hour_total:
-      value_template: "{{ states('sensor.energy_current_hour')|float + states('sensor.energy_current_hour_2')|float + states('sensor.energy_current_hour_3')|float + states('sensor.energy_current_hour_4')|float }}"
-      unit_of_measurement: "kWh"
-      availability_template: "{{ has_value('sensor.energy_current_hour') and has_value('sensor.energy_current_hour_2') and has_value('sensor.energy_current_hour_3') and has_value('sensor.energy_current_hour_4') }}"
+# - platform: template
+  # sensors:
+    # energy_current_hour_total:
+      # value_template: "{{ states('sensor.energy_current_hour')|float + states('sensor.energy_current_hour_2')|float + states('sensor.energy_current_hour_3')|float + states('sensor.energy_current_hour_4')|float }}"
+      # unit_of_measurement: "kWh"
+      # availability_template: "{{ has_value('sensor.energy_current_hour') and has_value('sensor.energy_current_hour_2') and has_value('sensor.energy_current_hour_3') and has_value('sensor.energy_current_hour_4') }}"
 
-- platform: template
-  sensors:
-    energy_production_today_total:
-      value_template: "{{ states('sensor.energy_production_today')|float + states('sensor.energy_production_today_2')|float + states('sensor.energy_production_today_3')|float + states('sensor.energy_production_today_4')|float }}"
-      unit_of_measurement: "kWh"
-      availability_template: "{{ has_value('sensor.energy_production_today') and has_value('sensor.energy_production_today_2') and has_value('sensor.energy_production_today_3') and has_value('sensor.energy_production_today_4') }}"
+# - platform: template
+  # sensors:
+    # energy_production_today_total:
+      # value_template: "{{ states('sensor.energy_production_today')|float + states('sensor.energy_production_today_2')|float + states('sensor.energy_production_today_3')|float + states('sensor.energy_production_today_4')|float }}"
+      # unit_of_measurement: "kWh"
+      # availability_template: "{{ has_value('sensor.energy_production_today') and has_value('sensor.energy_production_today_2') and has_value('sensor.energy_production_today_3') and has_value('sensor.energy_production_today_4') }}"
 
-- platform: template
-  sensors:
-    energy_production_tomorrow_total:
-      value_template: "{{ states('sensor.energy_production_tomorrow')|float + states('sensor.energy_production_tomorrow_2')|float + states('sensor.energy_production_tomorrow_3')|float + states('sensor.energy_production_tomorrow_4')|float }}"
-      unit_of_measurement: "kWh"
-      availability_template: "{{ has_value('sensor.energy_production_tomorrow') and has_value('sensor.energy_production_tomorrow_2') and has_value('sensor.energy_production_tomorrow_3') and has_value('sensor.energy_production_tomorrow_4') }}"
+# - platform: template
+  # sensors:
+    # energy_production_tomorrow_total:
+      # value_template: "{{ states('sensor.energy_production_tomorrow')|float + states('sensor.energy_production_tomorrow_2')|float + states('sensor.energy_production_tomorrow_3')|float + states('sensor.energy_production_tomorrow_4')|float }}"
+      # unit_of_measurement: "kWh"
+      # availability_template: "{{ has_value('sensor.energy_production_tomorrow') and has_value('sensor.energy_production_tomorrow_2') and has_value('sensor.energy_production_tomorrow_3') and has_value('sensor.energy_production_tomorrow_4') }}"
 
-- platform: template
-  sensors:
-    power_production_now_total:
-      value_template: "{{ states('sensor.power_production_now')|float + states('sensor.power_production_now_2')|float + states('sensor.power_production_now_3')|float + states('sensor.power_production_now_4')|float }}"
-      unit_of_measurement: "W"
-      availability_template: "{{ has_value('sensor.power_production_now') and has_value('sensor.power_production_now_2') and has_value('sensor.power_production_now_3') and has_value('sensor.power_production_now_4') }}"
+# - platform: template
+  # sensors:
+    # power_production_now_total:
+      # value_template: "{{ states('sensor.power_production_now')|float + states('sensor.power_production_now_2')|float + states('sensor.power_production_now_3')|float + states('sensor.power_production_now_4')|float }}"
+      # unit_of_measurement: "W"
+      # availability_template: "{{ has_value('sensor.power_production_now') and has_value('sensor.power_production_now_2') and has_value('sensor.power_production_now_3') and has_value('sensor.power_production_now_4') }}"
 
 - platform: filter
   name: "Power Average"
@@ -1041,14 +1066,15 @@
       # unit_of_measurement: "Wh"
       # device_class: "energy"
 
-- platform: template
-  sensors:
-    echo_clara_volume:
-      value_template: "{{ state_attr('media_player.claras_echo_dot', 'volume_level') }}"
-      availability_template: "{{ has_value('media_player.claras_echo_dot') }}"
+# 2025/12 moved to separate file
+# - platform: template
+  # sensors:
+    # echo_clara_volume:
+      # value_template: "{{ state_attr('media_player.claras_echo_dot', 'volume_level') }}"
+      # availability_template: "{{ has_value('media_player.claras_echo_dot') }}"
 
-- platform: template
-  sensors:
-    echo_konstantin_volume:
-      value_template: "{{ state_attr('media_player.konstantins_echo_dot', 'volume_level') }}"
-      availability_template: "{{ has_value('media_player.konstantins_echo_dot') }}"
+# - platform: template
+  # sensors:
+    # echo_konstantin_volume:
+      # value_template: "{{ state_attr('media_player.konstantins_echo_dot', 'volume_level') }}"
+      # availability_template: "{{ has_value('media_player.konstantins_echo_dot') }}"
