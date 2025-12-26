@@ -1,391 +1,140 @@
 ###################################################################################################
-## Package - Unavailable Entities Sensor
-## Count and list entities with a state of unknown or unavailable
-## Home Assistant v2022.5 required. See README for customization options.
-## https://github.com/jazzyisj/unavailable-entities-sensor/blob/main/README.md
+## PACKAGE: Unavailable Entities Sensor v2.4
+## DESCRIPTION: Count and list entities with a state of unknown or unavailable
+## REQUIREMENTS: Home Assistant v2024.8
+## USAGE: https://github.com/jazzyisj/unavailable-entities-sensor/blob/main/README.md
 ###################################################################################################
 
-# REQUIRED - This is the template sensor
+#REQUIRED - List of disabled device entities
+command_line:
+  sensor:
+      name: Disabled Device Entities
+      unique_id: disabled_device_entities
+      json_attributes:
+        - entities
+      value_template: "{{ value_json.entities | length }}"
+      command: 'jq ''.data.entities |= map(select(.disabled_by? != null) | {entity_id: .entity_id}) | del(.data.deleted_entities) | flatten | .[3]'' < .storage/core.entity_registry'
 
-# grab the device id from the URL
+#REQUIRED - Count of unavailable entities
 template:
   - sensor:
       - name: "Unavailable Entities"
         unique_id: unavailable_entities
-        icon: "{{ iif(states(this.entity_id)|int(-1) > 0,'mdi:alert-circle','mdi:check-circle') }}"
+        icon: "{{ iif(states(this.entity_id)|int(-1) > 0, 'mdi:alert-circle', 'mdi:check-circle') }}"
         state_class: measurement
-        unit_of_measurement: entities
         state: >
-          {% set entities = state_attr(this.entity_id,'entity_id') %}
-          {{ entities|count if entities != none else none }}
-        attributes:
-          entity_id: >
-            {% set ignore_seconds = 60 %}
-            {% set ignored = state_attr('group.ignored_unavailable_entities','entity_id') %}
-            {% set ignore_ts = (now().timestamp() - ignore_seconds)|as_datetime %}
-            {% set entities = states
-                |rejectattr('domain','in',['button','event','group','input_button','input_text','scene'])
-                |rejectattr('last_changed','ge',ignore_ts)
-                |rejectattr('entity_id','search','device_tracker')
-                |rejectattr('entity_id','search','battery_state')
-                |rejectattr('entity_id','search','internet_access')
-                |rejectattr('entity_id','search','reboot')
-                |rejectattr('entity_id','search','731a166f_25d1d5bb')
-                |rejectattr('entity_id','search','9456b1a3_208a3c42')
-                |rejectattr('entity_id','search','iphone6')
-                |rejectattr('entity_id','search','boiler_dhw_')
-                |rejectattr('entity_id','search','adguard')
-                |rejectattr('entity_id','search','_battery_last_replaced')
-                |rejectattr('entity_id','search','og_aussen')
-                |rejectattr('entity_id','search','sensor.pool|update.pool_firmware')
-                |rejectattr('entity_id','search','poolpump')
-                |rejectattr('entity_id','search','light.ikea_repeater')
-                |rejectattr('entity_id','search','_next_alarm|_next_reminder|_next_timer')
-                |rejectattr('entity_id','search','switch.stefans_echo_dot_')
-                |rejectattr('entity_id','in',device_entities('34a8863578f67244135e8b206921bce6'))
-                |rejectattr('entity_id','search','sensor.browser')%}
-            {% set entities =  entities|rejectattr('entity_id','in',ignored) if ignored != none else entities %}
-            {{ entities|map(attribute='entity_id')|reject('has_value')|list|sort }}
+          {% set entities = state_attr('group.unavailable_entities', 'entity_id') %}
+          {{ entities | count if entities != none else -1 }}
 
-# OPTIONAL - Add entities you want to ignore to this group.
-
+#REQUIRED - Group of individually ignored entities
 group:
-  ignored_unavailable_entities:
+  ignored_entities:
     entities:
-      # old tesla stuff
-      - sensor.arrival_time
-      - sensor.distance_to_arrival
-      - sensor.time_charge_complete
-      # old watermain reader stuff
-      - sensor.watermain_hostname
-      - sensor.watermain_interval
-      - sensor.watermain_ip
-      - sensor.watermain_mac
-      # old livingroom stuff
-      # - binary_sensor.livingroom_file_stored
-      # - binary_sensor.livingroom_motion
-      - switch.livingroom_autofocus
-      - switch.livingroom_ir_lamp
-      - switch.livingroom_wiper
-      # misc old stuff
-      - siren.garagecam_siren
-      # - sensor.solcast_swahome
-      - sensor.generic_pcl_laser_printer
-      - sensor.dwd_last_rainfall_amount
-      - person.tablet
-      - climate.dg_stefan
-      # - sensor.stefans_ipad_battery
-      # old motion sensor
-      - person.mieter2
-      - stt.home_assistant_cloud
-      - binary_sensor.wintergarten_button_lock_on_device
-      - binary_sensor.wintergarten_button_lock_via_ui
-      - tts.home_assistant_cloud
-      - sensor.cert_expiry_timestamp_swa_duckdns_org
-      # - sensor.stefans_ipad_battery_2
-      - sensor.apple_watch_von_julia_battery
-      - sensor.iphone_von_anna_3_battery
-      - sensor.jpad_air_2_battery
-      - sensor.thermostat_error_code
-      - conversation.home_assistant
-      - update.gas3_firmware
-      - update.roofac_firmware
-      - update.sleepac_firmware
-      - sensor.brother_mfc_7820n_foomatic_postscript
-      - sensor.iphoneclarase2020_battery
-      - switch.garage_inside_onvif_autofocus
-      - switch.garage_inside_onvif_ir_lamp
-      - switch.garage_inside_onvif_wiper
-      #- sensor.iphone15bwi_battery
-      - sensor.watermain_fwversion
-      - sensor.inverter_shutdown_time
-      - sensor.silvia_power_avg
-      - sensor.shelly25_og_elternbad_energy
-      - binary_sensor.shelly25_og_elternbad_overheating
-      - sensor.shelly25_og_elternbad_power
-      - cover.shelly25_og_elternbad
-      - sensor.r1_arrival_time
-      - sensor.r1_distance_to_arrival
-      - sensor.r1_time_charge_complete
-      - switch.r1_sentry_mode
-      - sensor.espresense_esppkidsgross_espresense_esppkidsgross_free_mem
-      - sensor.espresense_esppkidsgross_espresense_esppkidsgross_uptime
-      - sensor.fritz_dect_repeater_og
-      - number.evcc_garage_smart_cost_limit
-      - number.evcc_haus_smart_cost_limit
-      - select.evcc_buffer_soc
-      - select.evcc_garage_limit_soc
-      - select.evcc_garage_min_soc
-      - select.evcc_garage_vehicle_name
-      - sensor.evcc_haus_session_price
-      - sensor.evcc_haus_session_price_per_kwh
-      - select.evcc_haus_limit_soc
-      - select.evcc_haus_min_soc
-      - select.evcc_haus_vehicle_name
-      - select.evcc_priority_soc
       - sensor.evcc_garage_charge_remaining_duration
       - sensor.evcc_garage_charge_remaining_energy
       - sensor.evcc_garage_charge_total_import
+      - sensor.evcc_garage_effective_plan_time
+      - sensor.evcc_garage_phases_enabled
+      - sensor.evcc_garage_plan_projected_end
+      - sensor.evcc_garage_plan_projected_start
+      - sensor.evcc_garage_pv_remaining
       - sensor.evcc_garage_session_co2_per_kwh
-      - sensor.evcc_garage_session_price
-      - sensor.evcc_garage_session_price_per_kwh
       - sensor.evcc_garage_vehicle_plans_soc
       - sensor.evcc_garage_vehicle_plans_time
       - sensor.evcc_haus_charge_remaining_duration
       - sensor.evcc_haus_charge_remaining_energy
-      - sensor.evcc_haus_session_co2_per_kwh
-      - sensor.evcc_haus_vehicle_plans_soc
-      - sensor.evcc_haus_vehicle_plans_time
-      - sensor.evcc_haus_vehicle_range
-      - sensor.evcc_haus_vehicle_soc
-      - sensor.evcc_battery_mode_value
-      - number.evcc_battery_grid_charge_limit
-##
-      - select.boiler_reset
-      - number.thermostat_hc1_room_humidity_from_remote
-      - number.thermostat_hc1_room_temperature_from_remote
-      - number.thermostat_hc2_room_humidity_from_remote
-      - number.thermostat_hc2_room_temperature_from_remote
-      - number.thermostat_hc3_room_humidity_from_remote
-      - number.thermostat_hc3_room_temperature_from_remote
-      - binary_sensor.system_status
-      - sensor.system_version
-##
-      - sensor.node_elitedesk_containers_running
-##
-      - sensor.evcc_netzeinspeisung_integral_compensation
-##
-      - notify.tibber
-##
-      - switch.claras_echo_dot_repeat_switch
-      - switch.konstantins_echo_dot_repeat_switch
-## after time is up, these also disappear
-      - sensor.echo_konstantin_volume
-      - sensor.echo_clara_volume
-      - switch.konstantins_echo_dot_do_not_disturb_switch
-      - switch.konstantins_echo_dot_shuffle_switch
-      - media_player.konstantins_echo_dot
-      - media_player.claras_echo_dot
-      - switch.claras_echo_dot_shuffle_switch
-      - switch.claras_echo_dot_do_not_disturb_switch
-      
-##
-      - select.r1_heated_seat_rear_center     
-      - select.r1_heated_seat_rear_left
-      - select.r1_heated_seat_rear_right
-      - select.r1_heated_steering_wheel   
-##
-      - sensor.qemu_homeassistant_vm_100_last_boot
-##
-      - sensor.shellys_wanderer_energy
-      - update.shellys_wanderer_firmware_update
-      - binary_sensor.shellys_wanderer_overheating
-      - binary_sensor.shellys_wanderer_overpowering
-      - binary_sensor.shellys_wanderer_overvoltage
-      - binary_sensor.shellys_wanderer_overcurrent
-      - sensor.shellys_wanderer_power
-      - switch.shellys_wanderer
-#
-#
-      - sensor.jphone_battery
-      - sensor.stefans_ipad_battery
-      - sensor.ipadbwipro11_battery
-      - sensor.annas_ipad_battery
-      - sensor.iphone_von_anna_2_battery
-      - sensor.iphone_von_konstantin_battery
-      - sensor.jphone_battery_2
-      - switch.this_device_do_not_disturb_switch_3
-      - switch.this_device_do_not_disturb_switch_2
-      - switch.this_device_do_not_disturb_switch_3
-      - sensor.spotify_swa72_song_tempo
-#
-#
-#
-      - select.batteries_capacity_control_mode
-      - sensor.batteries_fixed_charging_periods
-      - sensor.batteries_time_of_use_periods
-      - sensor.evcc_garage_phases_enabled
-      - sensor.evcc_haus_phases_enabled
-##
-      - switch.thermostat_dhw2_charge
-      - number.thermostat_dhw2_charge_duration
-      - select.thermostat_dhw2_circulation_pump_mode
-      - switch.thermostat_dhw2_daily_heating
-      - number.thermostat_dhw2_daily_heating_time
-      - switch.thermostat_dhw2_disinfecting
-      - select.thermostat_dhw2_disinfection_day
-      - number.thermostat_dhw2_disinfection_time
-      - sensor.thermostat_dhw2_extra
-      - select.thermostat_dhw2_mode
-      - number.thermostat_dhw2_set_low_temperature
-      - number.thermostat_dhw2_set_temperature
-      - binary_sensor.system_ntp_status
-      - sensor.evcc_garage_effective_plan_time
-      - sensor.evcc_garage_plan_projected_end
-      - sensor.evcc_garage_plan_projected_start
-      - sensor.evcc_garage_pv_remaining
       - sensor.evcc_haus_effective_plan_time
+      - sensor.evcc_haus_phases_enabled
       - sensor.evcc_haus_plan_projected_end
       - sensor.evcc_haus_plan_projected_start
       - sensor.evcc_haus_pv_remaining
-##
-      - sensor.wintergardenac_compressor_total_run_time
-      - sensor.wintergardenac_indoor_unit_total_run_time
-      - select.boiler_maintenance_scheduled
-      - text.boiler_next_maintenance_date
-      - number.boiler_time_to_next_maintenance
-## no more temp in door sensors
-      - sensor.fenster_eg_gaeste_temperature
-      - sensor.eg_wohnzimmer_glas_tuer_temperature
-      - sensor.haustur_temperature
-      - sensor.kellertur_temperature
-      - sensor.stefan_ost_temperature
-      - sensor.stefan_west_temperature
-      - sensor.eg_freezer_temperature
-      - sensor.og_clara_temperature
-##
-      - select.evcc_haus_phases_configured
-      - binary_sensor.evcc_haus_connected
-      - binary_sensor.evcc_haus_vehicle_climater_active
-      - binary_sensor.evcc_haus_vehicle_detection_active
-      - sensor.evcc_haus_vehicle_odometer
-      - binary_sensor.evcc_haus_vehicle_welcome_active
+      - sensor.evcc_haus_session_co2_per_kwh
+      - sensor.evcc_tariff_co2
+      - sensor.evcc_tariff_co2_home
+      - sensor.evcc_tariff_co2_loadpoints
+      - sensor.evcc_tariff_feed_in
       
-
-
-###################################################################################################
-## DESCRIPTION: Detailed persistent notification message - courtesy of @ThomDietrich and @warthog9
-###################################################################################################
+#REQUIRED - Create and update the monitored entities group. Updates once per minute.
 automation:
+  - id: update_unavailable_entities_group
+    alias: "Update Unavailable Entities Group"
+    description: "Update unavailable entities group."
+    mode: single
+    max_exceeded: silent
+    triggers:
+      - trigger: event
+        event_type: call_service
+        event_data:
+          domain: group
+          service: reload
+
+      - trigger: time_pattern
+        minutes: "/1"
+    actions:
+      - action: group.set
+        data:
+          object_id: unavailable_entities
+          entities: >
+            {% set ignore_seconds = 60 %}
+            {% set ignore_label = 'ignored' %}
+            {% set ignored_domains = ['button', 'conversation', 'event', 'group', 'image',
+                'input_button', 'input_text', 'remote', 'tts', 'scene', 'stt', 'update'] %}
+            {% set ignore_ts = (now().timestamp() - ignore_seconds)|as_datetime %}
+            {% set disabled_device_entities = state_attr('sensor.disabled_device_entities', 'entities')
+                | regex_replace(find='\[|\]|\{|\}|\'entity_id\':', replace='') %}
+            {% set ignored_devices = label_devices(ignore_label | lower) %}
+            {% set ignored_device_entities = namespace(value=[]) %}
+            {% for device in ignored_devices %}
+              {% set ignored_device_entities.value = ignored_device_entities.value + device_entities(device) %}
+            {% endfor %}
+            {{ states
+                | rejectattr('domain', 'in', ignored_domains)
+                | rejectattr('entity_id', 'in', disabled_device_entities)
+                | rejectattr('entity_id', 'in', state_attr('group.ignored_entities', 'entity_id'))
+                | rejectattr('entity_id', 'in', ['group.unavailable_entities', 'group.ignored_entities'])
+                | rejectattr('entity_id', 'in', ignored_device_entities.value)
+                | rejectattr('entity_id', 'in', label_entities(ignore_label | lower))
+                | rejectattr('last_changed', 'ge', ignore_ts)
+                | rejectattr('entity_id', 'contains', 'disk_elitedesk')
+                | rejectattr('entity_id', 'contains', 'fritz_box_7490')
+                | rejectattr('entity_id', 'contains', 'echo_dot')     
+                | rejectattr('entity_id','search','.r1_')
+                | rejectattr('entity_id','search','.iphoneclara11')
+                | rejectattr('entity_id','search','.riphone')
+                | rejectattr('entity_id','search','.this_device')
+                | rejectattr('entity_id','search','_internet_access')
+                | rejectattr('entity_id','search','device_tracker')
+                | rejectattr('entity_id','search','battery_state')
+                | selectattr('state', 'in', ['unknown', 'unavailable'])
+                | map(attribute='entity_id') | list | sort }}
+
+  #OPTIONAL - Example notfication automation to demonstrate how you can utilize this sensor. (See example folder for more.)
   - id: unavailable_entities_notification
     alias: "Unavailable Entities Notification"
     description: "Create persistent notification if unavailable entities, dismiss if none."
     mode: restart
-    trigger:
-      - platform: state
-        entity_id: sensor.unavailable_entities
+    triggers:
+      - trigger: state
+        entity_id: group.unavailable_entities
         attribute: entity_id
         to: ~
-        for: 1
-    condition:
+        for: 5 # throttle triggers and prevent blank notifications
+    conditions:
       - condition: template
         alias: "Sensor state is a valid numerical value"
-        value_template: >
-          {{ is_number(trigger.from_state.state)
-              and is_number(trigger.to_state.state) }}
-    action:
+        value_template: "{{ is_number(states('sensor.unavailable_entities')) }}"
+    actions:
       - if:
           - condition: numeric_state
             entity_id: sensor.unavailable_entities
             below: 1
         then:
-          - service: persistent_notification.dismiss
+          - action: persistent_notification.dismiss
             data:
               notification_id: unavailable_entities
         else:
-          - service: persistent_notification.create
+          - action: persistent_notification.create
             data:
               notification_id: unavailable_entities
               title: "Unavailable Entities"
-              message: >
-                {% set ns = namespace(result=[]) %}
-                {% for s in expand(state_attr('sensor.unavailable_entities', 'entity_id')) %}
-                  {% set ns.result = ns.result + [
-                      device_attr(s.entity_id, "name") ~ "|" ~ device_id(s.entity_id) ~ "|- **" ~ s.name ~ "**\n"
-                      ~ "  - *entity_id*: " ~ s.entity_id ~ "\n"
-                      ~ "  - *state*: " ~ s.state ~ "\n"
-                    ]
-                  %}
-                {% endfor %}
-                {% set ns.result = ns.result | sort %}
-                {% set lastdev = namespace( id="" ) %}
-                {% set tarr = ns.result %}
-                {% set ns.result = [] %}
-                {% for item in tarr %}
-                  {% set dev = namespace( id="" ) %}
-                  {% set entity = namespace( data="" ) %}
-                  {% set dev.id = item.split("|")[1] %}
-                  {% set entity.data = item.split("|")[2] %}
-                  {% if lastdev.id != dev.id %}
-                    {% if dev.id != 'None' %}
-                      {% set ns.result = ns.result + [ "**<a href=\"/config/devices/device/" ~ dev.id ~ "\">" ~ device_attr(dev.id, "name") ~ "</a>**" ] %}
-                    {% else %}
-                      {% set ns.result = ns.result + [ "**Non-Device Entities**" ] %}
-                    {% endif %}
-                    {% set lastdev.id = dev.id %}
-                  {% endif %}
-                  {% set ns.result = ns.result + [ entity.data ] %}
-                {% endfor %}
-                {{ ns.result | join('\n') }}
-
-# OPTIONAL Example automation to demonstrate how you can utilize this sensor
-
-# automation:
-#   - id: unavailable_entities_notification
-#     alias: "Unavailable Entities Notification"
-#     description: "Create persistent notification if unavailable entities, dismiss if none."
-#     mode: restart
-#     trigger:
-#       - platform: state
-#         entity_id: sensor.unavailable_entities
-#         attribute: entity_id
-#         to: ~
-#     condition:
-#       - condition: template
-#         alias: "Sensor state is a valid numerical value"
-#         value_template: >
-#           {{ is_number(trigger.from_state.state)
-#               and is_number(trigger.to_state.state) }}
-#     action:
-#       - if:
-#           - condition: numeric_state
-#             entity_id: sensor.unavailable_entities
-#             below: 1
-#         then:
-#           - service: persistent_notification.dismiss
-#             data:
-#               notification_id: unavailable_entities
-#         else:
-#           - service: persistent_notification.create
-#             data:
-#               notification_id: unavailable_entities
-#               title: "Unavailable Entities"
-#               message: "{{ state_attr('sensor.unavailable_entities','entity_id')|join('\n') }}"
-
-#           # OPTIONAL Detailed persistent notification message - courtesy of @ThomDietrich and @warthog9
-
-#           # - service: persistent_notification.create
-#           #   data:
-#           #     notification_id: unavailable_entities2
-#           #     title: "Unavailable Entities"
-#           #     message: >
-#           #       {% set ns = namespace(result=[]) %}
-#           #       {% for s in expand(state_attr('sensor.unavailable_entities', 'entity_id')) %}
-#           #         {% set ns.result = ns.result + [
-#           #             device_attr(s.entity_id, "name") ~ "|" ~ device_id(s.entity_id) ~ "|- **" ~ s.name ~ "**\n"
-#           #             ~ "  - *entity_id*: " ~ s.entity_id ~ "\n"
-#           #             ~ "  - *state*: " ~ s.state ~ "\n"
-#           #           ]
-#           #         %}
-#           #       {% endfor %}
-
-#           #       {% set ns.result = ns.result | sort %}
-#           #       {% set lastdev = namespace( id="" ) %}
-#           #       {% set tarr = ns.result %}
-#           #       {% set ns.result = [] %}
-#           #       {% for item in tarr %}
-#           #         {% set dev = namespace( id="" ) %}
-#           #         {% set entity = namespace( data="" ) %}
-#           #         {% set dev.id = item.split("|")[1] %}
-#           #         {% set entity.data = item.split("|")[2] %}
-#           #         {% if lastdev.id != dev.id %}
-#           #           {% if dev.id != 'None' %}
-#           #             {% set ns.result = ns.result + [ "**<a href=\"/config/devices/device/" ~ dev.id ~ "\">" ~ device_attr(dev.id, "name") ~ "</a>**" ] %}
-#           #           {% else %}
-#           #             {% set ns.result = ns.result + [ "**Non-Device Entities**" ] %}
-#           #           {% endif %}
-#           #           {% set lastdev.id = dev.id %}
-#           #         {% endif %}
-#           #         {% set ns.result = ns.result + [ entity.data ] %}
-#           #       {% endfor %}
-#           #       {{ ns.result | join('\n') }}
+              message: "{{ state_attr('group.unavailable_entities', 'entity_id') | join('\n') }}"
