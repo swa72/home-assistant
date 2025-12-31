@@ -53,17 +53,13 @@ group:
       - sensor.evcc_tariff_co2_home
       - sensor.evcc_tariff_co2_loadpoints
       - sensor.evcc_tariff_feed_in
-#      
       - binary_sensor.boiler_dhw_active
       - binary_sensor.boiler_dhw_charging
       - binary_sensor.boiler_dhw_recharging
       - binary_sensor.boiler_dhw_temperature_ok
       - binary_sensor.doors
       - binary_sensor.fenster_anna
-      - binary_sensor.fenster_anna_battery_plus_low
       - binary_sensor.fenster_sw
-      - binary_sensor.fenster_sw_battery_plus_low
-      - binary_sensor.multi_sensor_dg_anna_battery_plus_low
       - binary_sensor.shelly25_og_clara_overheating
       - binary_sensor.swaphone16_focus
       - binary_sensor.system_ntp_status
@@ -119,36 +115,17 @@ group:
       - sensor.charging_rate
       - sensor.dew_difference
       - sensor.dewpoint_basement
-      - sensor.dg_bad_multi_battery_last_replaced
       - sensor.distance_to_arrival
-      - sensor.eg_wohnzimmer_glas_tuer_battery_last_replaced
       - sensor.energy_added
-      - sensor.fenster_anna_battery_plus
-      - sensor.fenster_dachbad_battery_last_replaced
-      - sensor.fenster_dachbad_battery_plus
-      - sensor.fenster_eggaeste_battery_last_replaced
-      - sensor.fenster_o_battery_last_replaced
-      - sensor.fenster_og_clara_battery_last_replaced
-      - sensor.fenster_sw_battery_last_replaced
-      - sensor.fenster_sw_battery_plus
-      - sensor.haustur_battery_last_replaced
       - sensor.ipadbwipro11_battery
       - sensor.iphone_von_anna_2_battery
       - sensor.iphone_von_konstantin_battery_2
       - sensor.jphone16_battery_2
-      - sensor.multi_dg_anna_battery_level
-      - sensor.multi_dg_anna_humidity
-      - sensor.multi_dg_anna_pressure
-      - sensor.multi_dg_anna_temperature
       - sensor.multi_og_aussen_humidity
       - sensor.multi_og_aussen_pressure
       - sensor.multi_og_aussen_temperature
-      - sensor.multi_sensor_dg_anna_battery_last_replaced
-      - sensor.multi_sensor_dg_anna_battery_plus
-      - sensor.multi_sensor_eg_buro_battery_last_replaced
       - sensor.odometer
       - sensor.og_aussen_battery_level
-      - sensor.og_kinderbad_multi_battery_last_replaced
       - sensor.pool_bssid
       - sensor.pool_esphome_version
       - sensor.pool_ip
@@ -191,9 +168,6 @@ group:
       - sensor.tpms_front_right
       - sensor.tpms_rear_left
       - sensor.tpms_rear_right
-      - sensor.tradfri_on_off_switch1_battery_last_replaced
-      - sensor.va1992765952_battery_last_replaced
-      - sensor.va2343973888_battery_last_replaced
       - sensor.watermain_fwversion
       - sensor.watermain_hostname
       - sensor.watermain_interval
@@ -221,7 +195,13 @@ group:
       - switch.valet_mode
       - switch.wintergarten
       - text.boiler_next_maintenance_date
-      
+      - binary_sensor.eg_freezer
+      - select.evcc_garage_limit_soc
+      - select.evcc_garage_min_soc
+      - sensor.echo_clara_volume
+      - sensor.eg_freezer_battery_level
+      - sensor.heating_room_2anna
+
 #REQUIRED - Create and update the monitored entities group. Updates once per minute.
 automation:
   - id: update_unavailable_entities_group
@@ -273,6 +253,7 @@ automation:
                 | rejectattr('entity_id','search','_internet_access')
                 | rejectattr('entity_id','search','device_tracker')
                 | rejectattr('entity_id','search','battery_state')
+                | rejectattr('entity_id','search','battery_last_replaced')
                 | selectattr('state', 'in', ['unknown', 'unavailable'])
                 | map(attribute='entity_id') | list | sort }}
 
