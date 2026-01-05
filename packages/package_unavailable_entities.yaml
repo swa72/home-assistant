@@ -88,7 +88,6 @@ group:
       - number.thermostat_hc3_room_temperature_from_remote
       - person.mieter2
       - person.tablet
-      - select.batteries_capacity_control_mode
       - select.boiler_maintenance_scheduled
       - select.boiler_reset
       - select.cabin_overheat_protection
@@ -103,8 +102,6 @@ group:
       - sensor.annas_ipad_battery
       - sensor.apple_watch_von_julia_battery
       - sensor.arrival_time
-      - sensor.batteries_fixed_charging_periods
-      - sensor.batteries_time_of_use_periods
       - sensor.boiler_dhw_active_time
       - sensor.boiler_dhw_current_tap_water_flow
       - sensor.boiler_dhw_set_temperature
