@@ -68,7 +68,6 @@ group:
       - binary_sensor.wintergarten_button_lock_via_ui
       - cover.shelly25_og_clara
       - lock.doors
-      - notify.tibber
       - number.boiler_time_to_next_maintenance
       - number.charge_limit
       - number.charging_amps
