@@ -79,3 +79,8 @@
   - device_id: heidelberg_college_eltern_und_sus
     ignore_availability: true
     name: Heidelberg College (Eltern und SuS)
+- cal_id: *****
+  entities:
+  - device_id: christa_waldherr_googlemail_com
+    ignore_availability: true
+    name: christa.waldherr@googlemail.com
