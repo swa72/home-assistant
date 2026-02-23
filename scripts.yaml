@@ -947,7 +947,7 @@ konstantin_lautstarke_setzen:
   alias: Konstantin Lautstärke setzen
   sequence:
   - data:
-      volume_level: 0.15
+      volume_level: 0.2
     target:
       entity_id: media_player.konstantins_echo_dot
     action: media_player.volume_set
