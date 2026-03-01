@@ -937,7 +937,7 @@ clara_lautstarke_setzen:
   alias: Clara Lautstärke setzen
   sequence:
   - data:
-      volume_level: 0.15
+      volume_level: 0.2
     target:
       entity_id: media_player.claras_echo_dot
     action: media_player.volume_set
@@ -1002,7 +1002,7 @@ konstantin_overrule_volume_for_300s:
       count: 10
       sequence:
       - data:
-          volume_level: 0.15
+          volume_level: 0.2
         target:
           entity_id: media_player.konstantins_echo_dot
         action: media_player.volume_set
@@ -1020,7 +1020,7 @@ clara_overrule_volume_for_300s:
       count: 10
       sequence:
       - data:
-          volume_level: 0.15
+          volume_level: 0.2
         target:
           entity_id: media_player.claras_echo_dot
         action: media_player.volume_set
