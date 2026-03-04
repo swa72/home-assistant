@@ -3373,3 +3373,78 @@
       message: HA started.
       title: Info
   mode: single
+- id: '1772520427753'
+  alias: EVCC Notifications - Erweitert
+  triggers:
+  - webhook_id: evcc_notify
+    trigger: webhook
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ ''gestartet'' in trigger.query.title }}'
+      sequence:
+      - data:
+          title: '{{ trigger.query.title }}'
+          message: '{{ trigger.query.message }}'
+          data:
+            tag: evcc_charging
+            color: '#4CAF50'
+            icon_url: https://evcc.io/icon.png
+            actions:
+            - action: STOP_CHARGING
+              title: Laden stoppen
+            - action: OPEN_EVCC
+              title: EVCC öffnen
+        action: notify.mobile_app_swaphone16
+    - conditions:
+      - condition: template
+        value_template: '{{ ''beendet'' in trigger.query.title }}'
+      sequence:
+      - data:
+          title: '{{ trigger.query.title }}'
+          message: '{{ trigger.query.message }}'
+          data:
+            tag: evcc_charging
+            color: '#2196F3'
+            actions:
+            - action: VIEW_STATS
+              title: Statistiken
+        action: notify.mobile_app_swaphone16
+    - conditions:
+      - condition: template
+        value_template: '{{ ''Fehler'' in trigger.query.title or ''Error'' in trigger.query.title
+          }}'
+      sequence:
+      - data:
+          title: '{{ trigger.query.title }}'
+          message: '{{ trigger.query.message }}'
+          data:
+            tag: evcc_error
+            color: '#F44336'
+            importance: high
+        action: notify.mobile_app_swaphone16
+    default:
+    - data:
+        title: '{{ trigger.query.title }}'
+        message: '{{ trigger.query.message }}'
+        data:
+          tag: evcc
+          group: EVCC
+      action: notify.mobile_app_swaphone16
+- id: '1772522724386'
+  alias: Notification if charger plugged out
+  description: ''
+  triggers:
+  - entity_id:
+    - binary_sensor.tesla_wall_connector_vehicle_connected
+    from: 'on'
+    to: 'off'
+    trigger: state
+  conditions: []
+  actions:
+  - action: script.notify_stefan
+    data:
+      title: Hinweis
+      message: Wallbox unplugged.
+  mode: single
