@@ -3382,11 +3382,11 @@
   - choose:
     - conditions:
       - condition: template
-        value_template: '{{ ''gestartet'' in trigger.query.title }}'
+        value_template: '{{ ''verbunden'' in trigger.json.title }}'
       sequence:
       - data:
-          title: '{{ trigger.query.title }}'
-          message: '{{ trigger.query.message }}'
+          title: '{{ trigger.json.title }}'
+          message: '{{ trigger.json.message }}'
           data:
             tag: evcc_charging
             color: '#4CAF50'
@@ -3399,11 +3399,11 @@
         action: notify.mobile_app_swaphone16
     - conditions:
       - condition: template
-        value_template: '{{ ''beendet'' in trigger.query.title }}'
+        value_template: '{{ ''getrennt'' in trigger.json.title }}'
       sequence:
       - data:
-          title: '{{ trigger.query.title }}'
-          message: '{{ trigger.query.message }}'
+          title: '{{ trigger.json.title }}'
+          message: '{{ trigger.json.message }}'
           data:
             tag: evcc_charging
             color: '#2196F3'
@@ -3413,12 +3413,12 @@
         action: notify.mobile_app_swaphone16
     - conditions:
       - condition: template
-        value_template: '{{ ''Fehler'' in trigger.query.title or ''Error'' in trigger.query.title
+        value_template: '{{ ''Fehler'' in trigger.json.title or ''Error'' in trigger.json.title
           }}'
       sequence:
       - data:
-          title: '{{ trigger.query.title }}'
-          message: '{{ trigger.query.message }}'
+          title: '{{ trigger.json.title }}'
+          message: '{{ trigger.json.message }}'
           data:
             tag: evcc_error
             color: '#F44336'
@@ -3426,8 +3426,8 @@
         action: notify.mobile_app_swaphone16
     default:
     - data:
-        title: '{{ trigger.query.title }}'
-        message: '{{ trigger.query.message }}'
+        title: '{{ trigger.json.title }}'
+        message: '{{ trigger.json.message }}'
         data:
           tag: evcc
           group: EVCC
