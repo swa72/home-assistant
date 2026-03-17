@@ -197,6 +197,75 @@ group:
       - sensor.echo_clara_volume
       - sensor.eg_freezer_battery_level
       - sensor.heating_room_2anna
+      - sensor.evcc_batterie_entladen
+      - select.evcc_haus_limit_soc
+      - select.evcc_haus_min_soc
+      - sensor.evcc_batterie_entladen_integral
+      - sensor.evcc_batterie_laden
+      - sensor.evcc_batterie_laden_integral
+      - sensor.evcc_battery_mode_value
+      - sensor.evcc_battery_power
+      - sensor.evcc_haus_session_price
+      - sensor.evcc_haus_session_price_per_kwh
+      - sensor.evcc_haus_vehicle_plans_soc
+      - sensor.evcc_haus_vehicle_plans_time
+      - sensor.swa_home_automatic_geofencing
+      - sensor.swa_home_geofencing_mode
+      - sensor.swa_home_outdoor_temperature
+      - sensor.swa_home_solar_percentage
+      - sensor.swa_home_tado_mode
+      - sensor.swa_home_weather_condition
+      - sensor.storage_elitedesk_local_disk_used_percentage
+      - sensor.storage_elitedesk_local_lvm_disk_used_percentage
+      - sensor.storage_elitedesk_local_lvm_node
+      - sensor.storage_elitedesk_local_node
+      - sensor.storage_elitedesk_vmbackup2_disk_used_percentage
+      - sensor.storage_elitedesk_vmbackup2_node
+      - text.watchman_ignored_labels
+      - binary_sensor.va1563309312_battery_plus_low
+      - binary_sensor.va1563309312_connection_state
+      - binary_sensor.va1992765952_battery_plus_low
+      - binary_sensor.va1992765952_connection_state
+      - binary_sensor.va2343973888_battery_plus_low
+      - binary_sensor.va2343973888_connection_state
+      - binary_sensor.ib1173828608_connection_state
+      - binary_sensor.kidsgross_early_start
+      - binary_sensor.kidsgross_link
+      - binary_sensor.kidsgross_open_window
+      - binary_sensor.kidsgross_overlay
+      - binary_sensor.kidsgross_power
+      - binary_sensor.kidsklein_early_start
+      - binary_sensor.kidsklein_link
+      - binary_sensor.kidsklein_open_window
+      - binary_sensor.kidsklein_overlay
+      - binary_sensor.kidsklein_power
+      - binary_sensor.og_elternbad_early_start
+      - binary_sensor.og_elternbad_link
+      - binary_sensor.og_elternbad_open_window
+      - binary_sensor.og_elternbad_overlay
+      - binary_sensor.og_elternbad_power
+      - media_player.spotify_swa72
+      - sensor.kidsgross_heating
+      - sensor.kidsgross_humidity
+      - sensor.kidsgross_tado_mode
+      - sensor.kidsgross_temperature
+      - sensor.kidsklein_heating
+      - sensor.kidsklein_humidity
+      - sensor.kidsklein_tado_mode
+      - sensor.kidsklein_temperature
+      - sensor.og_elternbad_heating
+      - sensor.og_elternbad_humidity
+      - sensor.og_elternbad_tado_mode
+      - sensor.og_elternbad_temperature
+      - sensor.qemu_fileserver_vm_101_last_boot
+      - sensor.stefans_ipad_battery
+      - sensor.tradfri_on_off_switch_battery
+      - sensor.watchman_missing_services
+      - switch.kidsgross_child_lock
+      - switch.kidsklein_child_lock
+      - switch.og_elternbad_child_lock
+      - sensor.heidelberg_time_forecast_values_2
+
 
 #REQUIRED - Create and update the monitored entities group. Updates once per minute.
 automation:
