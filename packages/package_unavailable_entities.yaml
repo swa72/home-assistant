@@ -265,7 +265,15 @@ group:
       - switch.kidsklein_child_lock
       - switch.og_elternbad_child_lock
       - sensor.heidelberg_time_forecast_values_2
-
+      - sensor.evcc_cstotal_garage_charge_duration
+      - sensor.evcc_cstotal_garage_charged_energy
+      - sensor.evcc_cstotal_garage_cost
+      - sensor.evcc_cstotal_haus_charge_duration
+      - sensor.evcc_cstotal_haus_charged_energy
+      - sensor.evcc_cstotal_haus_cost
+      - sensor.evcc_cstotal_t1_charge_duration
+      - sensor.evcc_cstotal_t1_charged_energy
+      - sensor.evcc_cstotal_t1_cost
 
 #REQUIRED - Create and update the monitored entities group. Updates once per minute.
 automation:

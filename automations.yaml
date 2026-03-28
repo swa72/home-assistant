@@ -1432,15 +1432,15 @@
 - id: '1655667895530'
   alias: Early espresso
   description: ''
-  trigger:
-  - platform: time
-    at: 05:30:00
-  condition: []
-  action:
-  - service: switch.turn_on
-    data: {}
+  triggers:
+  - at: 05:30:00
+    trigger: time
+  conditions: []
+  actions:
+  - data: {}
+    action: switch.turn_on
     target:
-      device_id: bc58f97050eebd88ad0456555080e14a
+      entity_id: switch.shellys_silvia
   mode: single
 - id: '1656754284656'
   alias: Rolladen um 1100 runter wenn warm
