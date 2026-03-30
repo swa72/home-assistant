@@ -2207,11 +2207,13 @@
       target:
         entity_id: automation.warnung_espresense_geraet_fehlt
       action: automation.turn_off
+      enabled: false
     - metadata: {}
       data: {}
       target:
         entity_id: automation.warnung_konstantin_geraet_fehlt
       action: automation.turn_off
+      enabled: false
     - metadata: {}
       data: {}
       target:
@@ -2260,11 +2262,13 @@
       target:
         entity_id: automation.warnung_espresense_geraet_fehlt
       action: automation.turn_on
+      enabled: false
     - metadata: {}
       data: {}
       target:
         entity_id: automation.warnung_konstantin_geraet_fehlt
       action: automation.turn_on
+      enabled: false
     - metadata: {}
       data: {}
       target:
