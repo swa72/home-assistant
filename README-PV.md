@@ -2,26 +2,9 @@
 I have recently bought a solar system. And what could be better than have HA control the entire thing. We need ...
 * [EVCC](https://evcc.io/) running in a separate VM
 * [EVCC add-on](https://github.com/marq24/ha-evcc) to control charging of my Tesla
-* Huawei Solar Integration to have fancy dashboards
+* ~~Huawei Solar Integration to have fancy dashboards~~
 * [a TeslaBLEProxy to send commands to my Tesla](https://github.com/wimaha/TeslaBleHttpProxy)
-
-Note that the inverter can only have one active Modbus connection. To avoid timeouts, we connect the ensemble in the following way.
-No need to install an additional proxy.
-
-Inverter <> Dongle <> EVCC <> Huawei Solar Integration <> HA
 
 <img src="./image/pv-overview.png">
 
-* `evcc.yaml` contains a section that provides a Modbus proxy
-```
-modbusproxy:
-  - port: 5200 <- the external port of your HA server
-    uri: 192.168.178.132:502 <- address and port of the inverter
-```
-* Huawei Solar integration points to EVCC's proxy 
-  * `Host: homeasistant.local`
-  * `Port: 5200`
-  * `Slave IDs: 1`
-  * `Advanced: elevate permissions [x]`
-
-You'll find the entire code in [evcc-sanitized.yaml](./evcc-sanitized.yaml).
+You'll find the entire code in [evcc-sanitized.yaml](./evcc-sanitized.yaml). Note that this version is probably outdated as most of the config is changed in the UI itself.
