@@ -84,3 +84,8 @@
   - device_id: christa_waldherr_googlemail_com
     ignore_availability: true
     name: christa.waldherr@googlemail.com
+- cal_id: *****
+  entities:
+  - device_id: golf
+    ignore_availability: true
+    name: Golf
