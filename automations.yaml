@@ -2464,26 +2464,26 @@
 - id: '1718557344765'
   alias: Rasen wässern
   description: ''
-  trigger:
-  - platform: time
-    at: 08:00:00
-  - platform: time
-    at: '11:00:00'
-  - platform: time
-    at: '14:00:00'
-  - platform: time
-    at: '17:00:00'
-  - platform: time
-    at: '20:00:00'
-  - platform: time
-    at: '23:00:00'
-  condition: []
-  action:
-  - service: switch.turn_on
-    metadata: {}
+  triggers:
+  - at: 08:00:00
+    trigger: time
+  - at: '11:00:00'
+    trigger: time
+  - at: '14:00:00'
+    trigger: time
+  - at: '17:00:00'
+    trigger: time
+  - at: '20:00:00'
+    trigger: time
+  - at: '23:00:00'
+    trigger: time
+  conditions: []
+  actions:
+  - metadata: {}
     data: {}
     target:
-      entity_id: switch.rasen_2
+      entity_id: switch.rasen
+    action: switch.turn_on
   mode: single
 - id: '1718557478444'
   alias: Beet wässern
