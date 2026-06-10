@@ -274,7 +274,22 @@ group:
       - sensor.evcc_cstotal_t1_charge_duration
       - sensor.evcc_cstotal_t1_charged_energy
       - sensor.evcc_cstotal_t1_cost
-
+      - sensor.evcc_eingang_charge_remaining_duration
+      - sensor.evcc_eingang_charge_remaining_energy
+      - sensor.evcc_eingang_effective_plan_time
+      - sensor.evcc_eingang_phases_enabled
+      - sensor.evcc_eingang_plan_projected_end
+      - sensor.evcc_eingang_plan_projected_start
+      - sensor.evcc_eingang_pv_remaining
+      - sensor.evcc_eingang_session_co2_per_kwh
+      - sensor.evcc_eingang_session_price
+      - sensor.evcc_eingang_session_price_per_kwh
+      - sensor.evcc_eingang_vehicle_plans_soc
+      - sensor.evcc_eingang_vehicle_plans_time
+      - number.evcc_eingang_smart_cost_limit
+      - select.evcc_eingang_limit_soc
+      - select.evcc_eingang_min_soc
+      
 #REQUIRED - Create and update the monitored entities group. Updates once per minute.
 automation:
   - id: update_unavailable_entities_group
