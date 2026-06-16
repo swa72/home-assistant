@@ -342,6 +342,7 @@ automation:
                 | rejectattr('entity_id','search','device_tracker')
                 | rejectattr('entity_id','search','battery_state')
                 | rejectattr('entity_id','search','battery_last_replaced')
+                | rejectattr('entity_id', 'in',integration_entities('tado'))
                 | selectattr('state', 'in', ['unknown', 'unavailable'])
                 | map(attribute='entity_id') | list | sort }}
 
