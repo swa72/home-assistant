@@ -289,6 +289,47 @@ group:
       - number.evcc_eingang_smart_cost_limit
       - select.evcc_eingang_limit_soc
       - select.evcc_eingang_min_soc
+      - binary_sensor.iphone12_von_konstantin_focus
+      - binary_sensor.multi_sensor_og_clara_battery_plus_low
+      - binary_sensor.og_kinderbad_multi_battery_plus_low
+      - notify.ipadbwipro11
+      - notify.iphone12_von_konstantin
+      - notify.iphone15b
+      - notify.iphone_115
+      - notify.iphone_von_anna
+      - notify.iphone_von_konstantin
+      - notify.iphonebwi12
+      - notify.jphone
+      - notify.stefans_ipad
+      - sensor.echo_konstantin_volume
+      - sensor.epson_et_4850_series_black_ink
+      - sensor.epson_et_4850_series_cyan_ink
+      - sensor.epson_et_4850_series_magenta_ink
+      - sensor.epson_et_4850_series_yellow_ink
+      - sensor.iphone12_von_konstantin_activity
+      - sensor.iphone12_von_konstantin_audio_output
+      - sensor.iphone12_von_konstantin_average_active_pace
+      - sensor.iphone12_von_konstantin_bssid
+      - sensor.iphone12_von_konstantin_connection_type
+      - sensor.iphone12_von_konstantin_distance
+      - sensor.iphone12_von_konstantin_floors_ascended
+      - sensor.iphone12_von_konstantin_floors_descended
+      - sensor.iphone12_von_konstantin_last_update_trigger
+      - sensor.iphone12_von_konstantin_pressure
+      - sensor.iphone12_von_konstantin_sim_1
+      - sensor.iphone12_von_konstantin_sim_2
+      - sensor.iphone12_von_konstantin_ssid
+      - sensor.iphone12_von_konstantin_steps
+      - sensor.iphone12_von_konstantin_storage
+      - sensor.iphone_von_konstantin_battery
+      - sensor.og_elternbad_vertical_climate_debug_elternbad
+      - sensor.og_kinderbad_multi_battery_level
+      - sensor.og_kinderbad_multi_battery_plus
+      - sensor.og_schlaf_vertical_climate_debug_sz_links
+      - sensor.shelly25_og_elternbad_energy
+      - sensor.shelly25_og_elternbad_power
+      - sensor.vertical_climate_debug_sz_rechts
+      - sensor.watermain_rate_per_digitalization_round
       
 #REQUIRED - Create and update the monitored entities group. Updates once per minute.
 automation:
