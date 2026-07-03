@@ -14,15 +14,16 @@
 # Example configuration.yaml entry from https://www.home-assistant.io/integrations/smtp/
 # create an app password, see https://support.google.com/mail/answer/185833
 # used in tesla notification
-- platform: smtp
-  name: email_notification
-  server: "smtp.gmail.com"
-  port: 587
-  timeout: 15
-  sender: !secret my_email
-  encryption: starttls
-  username: !secret my_email
-  password: !secret my_email_app_password
-  recipient: !secret my_email
-  sender_name: "HA" #optional
-  debug: true
+# This stops working in version 2027.1.0. Please address before upgrading.
+# - platform: smtp
+  # name: email_notification
+  # server: "smtp.gmail.com"
+  # port: 587
+  # timeout: 15
+  # sender: !secret my_email
+  # encryption: starttls
+  # username: !secret my_email
+  # password: !secret my_email_app_password
+  # recipient: !secret my_email
+  # sender_name: "HA" #optional
+  # debug: true
