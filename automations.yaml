@@ -3456,23 +3456,27 @@
   alias: Rasen wässen vorne
   description: Rasen wässen vorne
   triggers:
-  - at: 08:00:00
-    trigger: time
-  - at: '11:00:00'
-    trigger: time
-  - at: '14:00:00'
-    trigger: time
-  - at: '17:00:00'
-    trigger: time
-  - at: '20:00:00'
-    trigger: time
-  - at: '23:00:00'
-    trigger: time
-  conditions: []
+  - hours: /1
+    minutes: '3'
+    trigger: time_pattern
+  conditions:
+  - condition: time
+    after: 07:00:00
+    before: '23:05:00'
   actions:
   - metadata: {}
     data: {}
     target:
       entity_id: switch.rasen
     action: switch.turn_on
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - metadata: {}
+    data: {}
+    target:
+      entity_id: switch.rasen
+    action: switch.turn_off
   mode: single
