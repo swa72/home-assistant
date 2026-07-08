@@ -89,8 +89,6 @@ automation:
                 | rejectattr('entity_id', 'contains', 'battery_last_replaced')
                 | rejectattr('entity_id', 'contains', 'device_tracker')
                 | rejectattr('entity_id', 'contains', 'riphone')
-                | rejectattr('entity_id', 'contains', 'sensor.r1')
-                | rejectattr('entity_id', 'contains', 'select.r1')
                 | selectattr('state', 'in', ['unknown', 'unavailable'])
                 | map(attribute='entity_id') | list | sort }}
 
