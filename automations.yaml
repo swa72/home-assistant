@@ -3461,7 +3461,7 @@
     trigger: time_pattern
   conditions:
   - condition: time
-    after: 07:00:00
+    after: '10:00:00'
     before: '23:05:00'
   actions:
   - metadata: {}
@@ -3471,7 +3471,7 @@
     action: switch.turn_on
   - delay:
       hours: 0
-      minutes: 5
+      minutes: 4
       seconds: 0
       milliseconds: 0
   - metadata: {}
