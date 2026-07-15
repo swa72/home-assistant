@@ -2462,28 +2462,32 @@
       entity_id: cover.shelly25_og_schlafre
   mode: single
 - id: '1718557344765'
-  alias: Rasen wässern hinten
+  alias: Rasen regelmäßig wässern hinten
   description: ''
   triggers:
-  - at: 08:00:00
-    trigger: time
-  - at: '11:00:00'
-    trigger: time
-  - at: '14:00:00'
-    trigger: time
-  - at: '17:00:00'
-    trigger: time
-  - at: '20:00:00'
-    trigger: time
-  - at: '23:00:00'
-    trigger: time
-  conditions: []
+  - hours: /2
+    minutes: '30'
+    trigger: time_pattern
+  conditions:
+  - condition: time
+    after: '10:00:00'
+    before: '22:35:00'
   actions:
   - metadata: {}
     data: {}
     target:
       entity_id: switch.rasen_2
     action: switch.turn_on
+  - delay:
+      hours: 0
+      minutes: 6
+      seconds: 0
+      milliseconds: 0
+  - metadata: {}
+    data: {}
+    target:
+      entity_id: switch.rasen_2
+    action: switch.turn_off
   mode: single
 - id: '1718557478444'
   alias: Beet wässern
@@ -3453,10 +3457,10 @@
       message: Wallbox unplugged.
   mode: single
 - id: '1780919957969'
-  alias: Rasen wässen vorne
+  alias: Rasen regelmäßig wässen vorne
   description: Rasen wässen vorne
   triggers:
-  - hours: /1
+  - hours: /2
     minutes: '3'
     trigger: time_pattern
   conditions:
