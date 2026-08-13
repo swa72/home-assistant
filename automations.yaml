@@ -75,29 +75,6 @@
           entity_id: switch.licht_windfang
     default: []
   mode: single
-- id: '1611480761802'
-  alias: Wenn Garage geöffnet wird und dunkel draußen, dann Flur-EG Licht an und LED-Fluter
-    an
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.garagentur
-    from: 'off'
-    to: 'on'
-  condition:
-  - condition: state
-    entity_id: binary_sensor.dunkel_draussen
-    state: 'on'
-  action:
-  - type: turn_on
-    device_id: d824de0a6c667da98e0f508d5d4129e5
-    entity_id: switch.eg_flur_licht
-    domain: switch
-  - type: turn_on
-    device_id: 33202a9524f56b2023ed57884e81af71
-    entity_id: switch.shelly25_garage_channel_2
-    domain: switch
-  mode: single
 - id: '1611495931370'
   alias: Wenn Kellerpumpe Treppe anläuft, dann Zähler erhöhen
   description: ''
@@ -278,8 +255,8 @@
   conditions: []
   actions:
   - type: turn_on
-    device_id: 0890c146d5a406d9af64dcbe0662bd4e
-    entity_id: switch.shellys_poolpump
+    device_id: 50ee36251c2f599c8d926129e9434aeb
+    entity_id: 2888496a1d1451293f1def92106ef567
     domain: switch
   - delay:
       hours: 2
@@ -287,8 +264,8 @@
       seconds: 0
       milliseconds: 0
   - type: turn_off
-    device_id: 0890c146d5a406d9af64dcbe0662bd4e
-    entity_id: switch.shellys_poolpump
+    device_id: 50ee36251c2f599c8d926129e9434aeb
+    entity_id: 2888496a1d1451293f1def92106ef567
     domain: switch
   mode: single
 - id: '1626027211313'
@@ -413,51 +390,6 @@
     data:
       title: Hinweis
       message: Waschmaschine ist noch immer an.
-  mode: single
-- id: '1632671280558'
-  alias: Advanced Monitor Stefan
-  description: ''
-  trigger:
-  - platform: time
-    at: '21:00'
-  condition:
-  - condition: or
-    conditions:
-    - condition: device
-      device_id: 5bf5071ab5a3fc16e59cf627ced76b85
-      domain: climate
-      entity_id: climate.roofac
-      type: is_hvac_mode
-      hvac_mode: heat_cool
-    - condition: device
-      device_id: 5bf5071ab5a3fc16e59cf627ced76b85
-      domain: climate
-      entity_id: climate.roofac
-      type: is_hvac_mode
-      hvac_mode: cool
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: binary_sensor.fenster_sw
-      state: 'on'
-      for:
-        hours: 0
-        minutes: 11
-        seconds: 0
-        milliseconds: 0
-    - condition: state
-      entity_id: binary_sensor.fenster_o
-      state: 'on'
-      for:
-        hours: 0
-        minutes: 11
-        seconds: 0
-        milliseconds: 0
-  action:
-  - service: script.notify_stefan
-    data:
-      title: Hinweis
-      message: Klimaanlage im DG läuft noch.
   mode: single
 - id: '1633366928831'
   alias: Fake test automation
@@ -1946,31 +1878,31 @@
 - id: '1702141770373'
   alias: eMail notification charger plugged in
   description: ''
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - binary_sensor.tesla_wall_connector_vehicle_connected
     from: 'off'
     to: 'on'
-  condition: []
-  action:
-  - service: camera.snapshot
-    target:
-      device_id: 25690f6e83a880a4b64af9e64ba94b4e
+    trigger: state
+  conditions: []
+  actions:
+  - target:
+      device_id: d3d14dbfe822b6c00322da0f36f66beb
     data:
       filename: /config/temp/garagegam-foo.jpg
+    action: camera.snapshot
   - delay:
       hours: 0
       minutes: 0
       seconds: 10
       milliseconds: 0
-  - service: notify.email_notification
-    data:
+  - data:
       message: Tesla charger plugged in
       title: Tesla charger plugged in
       data:
         images:
         - /config/temp/garagegam-foo.jpg
+    action: notify.email_notification
   mode: single
 - id: '1706004056913'
   alias: Turn on heating in Kinderbad using Blueprint
@@ -1983,17 +1915,18 @@
       - condition: numeric_state
         entity_id: sensor.multi_og_kinderbad_temperature
         below: 22
-      - service: switch.turn_on
+      - target:
+          device_id:
+          - c1bcedf6cdbe83103e96e41338284f49
+        data: {}
+        action: switch.turn_on
+      button_off_short:
+      - metadata: {}
+        data: {}
         target:
           device_id:
-          - 5929cf4364fb0096bd6b45f8d450cc79
-        data: {}
-      button_off_short:
-      - service: switch.turn_off
-        metadata: {}
-        data: {}
-        target:
-          device_id: 5929cf4364fb0096bd6b45f8d450cc79
+          - c1bcedf6cdbe83103e96e41338284f49
+        action: switch.turn_off
 - id: '1710175526937'
   alias: Warnung iPhone Clara fehlt auf Anrichte
   description: ''
@@ -2433,33 +2366,32 @@
 - id: '1716793797978'
   alias: Open covers in the morning
   description: Relies on cover_result as starting time.
-  trigger:
-  - platform: time
-    at: input_datetime.cover_result
-  condition: []
-  action:
-  - service: cover.open_cover
-    metadata: {}
+  triggers:
+  - at: input_datetime.cover_result
+    trigger: time
+  conditions: []
+  actions:
+  - metadata: {}
     data: {}
     target:
-      device_id:
-      - c0a312e8298b8797fcb30cb034df42ac
-  - service: cover.set_cover_position
-    metadata: {}
+      device_id: 366bbf38f1f43e6cabe2a773241066b9
+    action: cover.open_cover
+  - metadata: {}
     data:
       position: '{{ states(''sensor.vertical_cover_position_sz_links'') | int }}
 
         '
     target:
       entity_id: cover.shelly25_og_schlafli
-  - service: cover.set_cover_position
-    metadata: {}
+    action: cover.set_cover_position
+  - metadata: {}
     data:
       position: '{{ states(''sensor.vertical_cover_position_sz_rechts'') | int }}
 
         '
     target:
       entity_id: cover.shelly25_og_schlafre
+    action: cover.set_cover_position
   mode: single
 - id: '1718557344765'
   alias: Rasen regelmäßig wässern hinten
@@ -2599,17 +2531,18 @@
 - id: '1721974754224'
   alias: Desk button
   description: Desk button toggle
-  trigger:
-  - platform: event
-    event_type: ios.action_fired
+  triggers:
+  - event_type: ios.action_fired
     event_data:
       actionName: Desk
-  condition: []
-  action:
-  - service: switch.toggle
-    target:
-      device_id: 11fd28fdddb33523a4d5390503459222
+    trigger: event
+  conditions: []
+  actions:
+  - target:
+      device_id:
+      - ddcd1c7d32f2de49b622e3c0f32e67b9
     data: {}
+    action: switch.toggle
   mode: single
 - id: '1723021318367'
   alias: Setze Prio Hausbatterie auf 100% nach 1400 Uhr

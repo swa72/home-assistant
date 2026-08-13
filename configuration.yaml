@@ -101,7 +101,8 @@ sensor: !include sensors.yaml
 #
 #alert: !include alerts.yaml
 #
-http: !include http.yaml
+# deprecated
+# http: !include http.yaml
 #
 # 12/2025 remove deprecated definitions, move to template\cover.yaml
 # cover: !include covers.yaml
