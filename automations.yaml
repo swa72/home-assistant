@@ -1896,13 +1896,29 @@
       minutes: 0
       seconds: 10
       milliseconds: 0
-  - data:
-      message: Tesla charger plugged in
+  - action: smtp.send_message
+    metadata: {}
+    target:
+      entity_id: notify.ha_stefan_waldherr
+    data:
       title: Tesla charger plugged in
-      data:
-        images:
-        - /config/temp/garagegam-foo.jpg
-    action: notify.email_notification
+      attachments:
+      - media_source:
+          media_content_id: media-source://camera/camera.mpeggaragecam
+          media_content_type: image/jpeg
+          metadata:
+            title: mpeggaragecam
+            thumbnail: /api/camera_proxy/camera.mpeggaragecam
+            media_class: video
+            children_media_class:
+            navigateIds:
+            - {}
+            - media_content_type: app
+              media_content_id: media-source://camera
+        content_id: snapshot
+      message: Tesla charger plugged in
+      html: "<html>\n <body>\n<img src=\"cid:snapshot\" alt=\"snapshot\">\n </body>\n
+        </html>"
   mode: single
 - id: '1706004056913'
   alias: Turn on heating in Kinderbad using Blueprint
