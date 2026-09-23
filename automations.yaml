@@ -123,13 +123,19 @@
       starting_hysteresis: '3'
       finishing_threshold: '40'
       actions:
-      - service: script.notify_people_who_are_present
-        data:
+      - data:
           title: Hinweis
           message: Waschmaschine ist fertig seit {{ '{:02}:{:02}'.format(now().hour,
             now().minute) }}.
-      - service: script.alexa_wama_fertig
-        data: {}
+        action: script.notify_people_who_are_present
+      - data: {}
+        action: script.alexa_wama_fertig
+      pre_actions:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 1
+          milliseconds: 0
 - id: '1612602466906'
   alias: Notify, wenn Katzentuer abends geschlossen
   description: ''
@@ -2792,6 +2798,12 @@
         action: script.notify_people_who_are_present
       - data: {}
         action: script.alexa_tts_trockner_ist_fertig
+      pre_actions:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 1
+          milliseconds: 0
 - id: '1726120333516'
   alias: Kalender Silvia
   description: ''
@@ -3433,4 +3445,32 @@
     target:
       entity_id: switch.rasen
     action: switch.turn_off
+  mode: single
+- id: '1790068870417'
+  alias: TeslaBLE - neu starten
+  description: 'Startet den Shelly neu, wenn TeslaBLE mindestens 5 Minuten unavailable
+    oder unknown ist.
+
+    '
+  triggers:
+  - trigger: template
+    value_template: '{{ states(''binary_sensor.teslable'') in [''unavailable'', ''unknown'']
+      }}
+
+      '
+    for:
+      minutes: 5
+  actions:
+  - action: script.notify_stefan
+    data:
+      title: Hinweis
+      message: Tesla BLE no longer online. Neustart.
+  - action: switch.turn_off
+    target:
+      entity_id: switch.shellys_kuehlschrank_buero
+  - delay:
+      minutes: 3
+  - action: switch.turn_on
+    target:
+      entity_id: switch.shellys_kuehlschrank_buero
   mode: single

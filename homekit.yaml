@@ -24,8 +24,8 @@
       - cover.windows
       - cover.charger_door
   entity_config:
-    cover.eltern_schlafzimmer:
-      name: Schlafzimmer
+#    cover.eltern_schlafzimmer:
+#      name: Schlafzimmer
     cover.garage_door:
       name: Garagentor
     cover.haustuer:
