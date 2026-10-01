@@ -463,116 +463,116 @@
 - id: '1634985436165'
   alias: Advanced Heating Reset offsets v2
   description: Reset offsets with check
-  trigger:
-  - platform: time
-    at: '23:05'
-  condition: []
-  action:
-  - service: script.heating_change_offset
-    data:
-      origin: automation.advanced_heating_resetoffsets
+  triggers:
+  - at: '23:05'
+    trigger: time
+  conditions: []
+  actions:
+  - data:
+      origin: automation.advanced_heating_reset_offsets_v2
       circuit: 1
       offset: 0
-  - service: script.heating_change_offset
-    data:
-      origin: automation.advanced_heating_resetoffsets
+    action: script.heating_change_offset
+  - data:
+      origin: automation.advanced_heating_reset_offsets_v2
       circuit: 2
       offset: 0
-  - service: script.heating_change_offset
-    data:
-      origin: automation.advanced_heating_resetoffsets
+    action: script.heating_change_offset
+  - data:
+      origin: automation.advanced_heating_reset_offsets_v2
       circuit: 3
       offset: 0
+    action: script.heating_change_offset
   mode: single
 - id: '1634986084052'
   alias: Advanced Heating HC3  v2
   description: ''
-  trigger:
-  - platform: time_pattern
-    minutes: /20
-  condition:
+  triggers:
+  - minutes: /20
+    trigger: time_pattern
+  conditions:
   - condition: time
     after: 05:00
     before: '22:00'
-  action:
+  actions:
   - choose:
     - conditions:
       - condition: template
         value_template: '{{ states(''sensor.heating_hc3'') == "ok" and states(''number.thermostat_hc3_offset_temperature'')|float
           != 0 }}'
       sequence:
-      - service: script.heating_change_offset
-        data:
-          origin: automation.advanced_heating_hc3
+      - data:
+          origin: automation.advanced_heating_hc3_v2
           circuit: 3
           offset: 0
+        action: script.heating_change_offset
     - conditions:
       - condition: template
         value_template: '{{ states(''sensor.heating_hc3'') == "too-warm" and states(''number.thermostat_hc3_offset_temperature'')|float
           != -3 }}'
       sequence:
-      - service: script.heating_change_offset
-        data:
-          origin: automation.advanced_heating_hc3
+      - data:
+          origin: aautomation.advanced_heating_hc3_v2
           circuit: 3
           offset: -3
+        action: script.heating_change_offset
     - conditions:
       - condition: template
         value_template: '{{ states(''sensor.heating_hc3'') == "too-cold" and states(''number.thermostat_hc3_offset_temperature'')|float
           != 3 }}'
       sequence:
-      - service: script.heating_change_offset
-        data:
-          origin: automation.advanced_heating_hc3
+      - data:
+          origin: automation.advanced_heating_hc3_v2
           circuit: 3
           offset: 3
+        action: script.heating_change_offset
     default: []
   mode: queued
   max: 10
 - id: '1634986156492'
   alias: Advanced Heating HC1 v2
   description: ''
-  trigger:
-  - platform: time_pattern
-    minutes: /20
-  condition:
+  triggers:
+  - minutes: /20
+    trigger: time_pattern
+  conditions:
   - condition: time
     after: 05:00
     before: '22:00'
-  action:
+  actions:
   - choose:
     - conditions:
       - condition: template
         value_template: '{{ states(''sensor.heating_hc1'') == "ok" and states(''number.thermostat_hc1_offset_temperature'')|float
           != 0 }}'
       sequence:
-      - service: script.heating_change_offset
-        data:
-          origin: automation.advanced_heating_hc1
+      - data:
+          origin: automation.advanced_heating_hc1_v2
           circuit: 1
           offset: 0
+        action: script.heating_change_offset
     - conditions:
       - condition: template
         value_template: '{{ states(''sensor.heating_hc1'') == "too-warm" and states(''number.thermostat_hc1_offset_temperature'')|float
           != -3 }}'
       sequence:
-      - service: script.heating_change_offset
-        data:
-          origin: automation.advanced_heating_hc1
+      - data:
+          origin: automation.advanced_heating_hc1_v2
           circuit: 1
           offset: -3
+        action: script.heating_change_offset
     - conditions:
       - condition: template
         value_template: '{{ states(''sensor.heating_hc1'') == "too-cold" and states(''number.thermostat_hc1_offset_temperature'')|float
           != 3 }}'
       sequence:
-      - service: script.heating_change_offset
-        data:
-          origin: automation.advanced_heating_hc1
+      - data:
+          origin: aautomation.advanced_heating_hc1_v2
           circuit: 1
           offset: 3
+        action: script.heating_change_offset
     default:
-    - service: alarm_control_panel.alarm_arm_away
+    - action: alarm_control_panel.alarm_arm_away
   mode: queued
   max: 10
 - id: '1634996229621'
@@ -596,7 +596,7 @@
           != 0 }}'
       sequence:
       - data:
-          origin: automation.advanced_heating_hc2
+          origin: automation.advanced_heating_hc2_v2
           circuit: 2
           offset: 0
         action: script.heating_change_offset
@@ -606,7 +606,7 @@
           != -3 }}'
       sequence:
       - data:
-          origin: automation.advanced_heating_hc2
+          origin: automation.advanced_heating_hc2_v2
           circuit: 2
           offset: -3
         action: script.heating_change_offset
@@ -3454,8 +3454,8 @@
     '
   triggers:
   - trigger: template
-    value_template: '{{ states(''binary_sensor.teslable'') in [''unavailable'', ''unknown'']
-      }}
+    value_template: '{{ states(''binary_sensor.teslable'') in [''unavailable'', ''unknown'',
+      ''off''] }}
 
       '
     for:
