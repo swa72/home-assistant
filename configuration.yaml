@@ -365,17 +365,18 @@ influxdb:
       - sensor.multi*
       - sensor.dew*
       - sensor.heating*
+      - sensor.boiler*
+      - sensor.mixer*
+      - sensor.thermostat*
       - binary_sensor.boiler*
       - binary_sensor.mixer*
-      - binary_sensor.solar*
+      - binary_sensor.thermostat*
       - number.boiler*
       - number.mixer*
       - number.thermostat*
-      - number.solar*
       - select.boiler*
       - select.mixer*
       - select.thermostat*
-      - select.solar*
 #
 #
 counter:
