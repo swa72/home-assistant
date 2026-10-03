@@ -29,9 +29,9 @@ template:
 #REQUIRED - Group of individually ignored entities
 group:
   ignored_entities:
-    entities:
-      - binary_sensor.boiler_dhw_active
-      - binary_sensor.boiler_dhw_charging
+    entities: []
+#      - binary_sensor.boiler_dhw_active
+#      - binary_sensor.boiler_dhw_charging
       
 #REQUIRED - Create and update the monitored entities group. Updates once per minute.
 automation:
