@@ -94,14 +94,12 @@ einfahrt:
 tempsensors:
   name: All temp sensors which are monitored
   entities:
-    - sensor.multi_dg_anna_temperature
     - sensor.multi_dg_bad_temperature
     - sensor.multi_dg_stefan_temperature
     - sensor.multi_eg_buro_temperature
     - sensor.multi_keller_gross_temperature
     - sensor.multi_keller_wasch_temperature
     - sensor.multi_og_aussen_temperature
-    - sensor.multi_og_clara_temperature
     - sensor.multi_og_elternbad_temperature
     - sensor.multi_og_kinderbad_temperature
     - sensor.multi_og_konstantin_temperature

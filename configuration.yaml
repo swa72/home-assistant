@@ -333,10 +333,8 @@ influxdb:
       #      - binary_sensor.warm_water_dhw_active
       - counter.kellerpumpe
       - counter.dew_index
-      - climate.roofac
       #      - sensor.roofac_uptime
       #      - sensor.gas3_uptime
-      - climate.sleepac
       #      - sensor.sleepac_uptime
       - sensor.hum_abs_basement
       #- sensor.smlreadertotalenergyconsumption -> remove me and switch to filtered
@@ -354,20 +352,21 @@ influxdb:
       - binary_sensor.tesla_wall_connector_vehicle_connected
       - sensor.heidelberg_temperature
       - sensor.swa_home_outdoor_temperature
+      - sensor.kidsgross_temperature
+      - sensor.kidsklein_temperature
+      - sensor.og_elternbad_temperature
+      - sensor.solar_globalstrahlung
+      - sensor.solar_dni
+      - sensor.solar_dhi
+      
     entity_globs:
       - sensor.shellys_keller*
       - sensor.boiler*
       - sensor.mixer*
       - sensor.thermostat*
-      - sensor.solar*
-      # - sensor.accuweather*
-      # - sensor.openweathermap*
       - sensor.multi*
       - sensor.dew*
       - sensor.heating*
-      - sensor.boiler*
-      - sensor.mixer*
-      - sensor.thermostat*
       - binary_sensor.boiler*
       - binary_sensor.mixer*
       - binary_sensor.thermostat*
@@ -377,6 +376,12 @@ influxdb:
       - select.boiler*
       - select.mixer*
       - select.thermostat*
+      - switch.boiler*
+      - switch.mixer*
+      - switch.thermostat*
+      - climate.*
+
+      
 #
 #
 counter:
@@ -486,6 +491,56 @@ panel_custom:
 shell_command:
   push_to_github: "/config/gitpush.sh &> /dev/null"
 
+rest:
+  - resource: "https://api.open-meteo.com/v1/forecast"
+    scan_interval: 900
+    params:
+      latitude: "{{ state_attr('zone.home', 'latitude') }}"
+      longitude: "{{ state_attr('zone.home', 'longitude') }}"
+      current: "shortwave_radiation"
+      timezone: "Europe/Berlin"
+      models: "icon_d2"
+
+    sensor:
+      - name: "Solar Globalstrahlung"
+        unique_id: solar_globalstrahlung
+        value_template: "{{ value_json.current.shortwave_radiation | float(0) }}"
+        unit_of_measurement: "W/m²"
+        device_class: irradiance
+        state_class: measurement
+
+
+rest:
+  - resource: "https://api.open-meteo.com/v1/forecast"
+    scan_interval: 900
+    params:
+      latitude: "{{ state_attr('zone.home', 'latitude') }}"
+      longitude: "{{ state_attr('zone.home', 'longitude') }}"
+      current: "shortwave_radiation,direct_normal_irradiance,diffuse_radiation"
+      timezone: "Europe/Berlin"
+      models: "icon_d2"
+
+    sensor:
+      - name: "Solar Globalstrahlung"
+        unique_id: solar_globalstrahlung
+        value_template: "{{ value_json.current.shortwave_radiation | float(0) }}"
+        unit_of_measurement: "W/m²"
+        device_class: irradiance
+        state_class: measurement
+
+      - name: "Solar DNI"
+        unique_id: solar_dni
+        value_template: "{{ value_json.current.direct_normal_irradiance | float(0) }}"
+        unit_of_measurement: "W/m²"
+        device_class: irradiance
+        state_class: measurement
+
+      - name: "Solar DHI"
+        unique_id: solar_dhi
+        value_template: "{{ value_json.current.diffuse_radiation | float(0) }}"
+        unit_of_measurement: "W/m²"
+        device_class: irradiance
+        state_class: measurement
 #
 # to show camera live feed on wall tablet: use browser_mod
 # this section was version 1

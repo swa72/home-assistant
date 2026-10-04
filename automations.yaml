@@ -864,33 +864,6 @@
 
         '
   mode: single
-- id: '1640852486884'
-  alias: Heizung KidsKlein Offset
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - sensor.kidsklein_temperature
-    - sensor.multi_og_clara_temperature
-  condition:
-  - condition: template
-    value_template: '{% set tado_temp = states(''sensor.kidsklein_temperature'')|float(20)
-      %} {% set room_temp = states(''sensor.multi_og_clara_temperature'')|float(20)
-      %} {{ (tado_temp - room_temp) | abs > 0.5 }}
-
-      '
-  action:
-  - service: tado.set_climate_temperature_offset
-    target:
-      entity_id: climate.kidsklein
-    data:
-      offset: '{% set tado_temp = states(''sensor.kidsklein_temperature'')|float(20)
-        %} {% set room_temp = states(''sensor.multi_og_clara_temperature'')|float(20)
-        %} {% set current_offset = state_attr(''climate.kidsklein'', ''offset_celsius'')
-        %} {{ (-(tado_temp - room_temp) + current_offset)|round(1) }}
-
-        '
-  mode: single
 - id: '1641313703802'
   alias: Advanced Heating HC2HC1 v3
   description: Keep flow temp of HC2 below HC1 between 0500 and 2200. Check every
