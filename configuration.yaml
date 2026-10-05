@@ -358,7 +358,9 @@ influxdb:
       - sensor.solar_globalstrahlung
       - sensor.solar_dni
       - sensor.solar_dhi
-      
+      - sensor.windgeschwindigkeit_10m
+      - sensor.windrichtung_10m
+      - sensor.windboeen_10m      
     entity_globs:
       - sensor.shellys_keller*
       - sensor.boiler*
@@ -494,53 +496,88 @@ shell_command:
 rest:
   - resource: "https://api.open-meteo.com/v1/forecast"
     scan_interval: 900
+
     params:
       latitude: "{{ state_attr('zone.home', 'latitude') }}"
       longitude: "{{ state_attr('zone.home', 'longitude') }}"
-      current: "shortwave_radiation"
+      current: "shortwave_radiation,direct_normal_irradiance,diffuse_radiation,wind_speed_10m,wind_direction_10m,wind_gusts_10m"
       timezone: "Europe/Berlin"
       models: "icon_d2"
+      wind_speed_unit: "kmh"
 
     sensor:
       - name: "Solar Globalstrahlung"
         unique_id: solar_globalstrahlung
-        value_template: "{{ value_json.current.shortwave_radiation | float(0) }}"
+        value_template: "{{ value_json.current.shortwave_radiation }}"
+        availability: >
+          {{ value_json.current is defined
+             and value_json.current.shortwave_radiation is defined
+             and value_json.current.shortwave_radiation is not none }}
         unit_of_measurement: "W/m²"
         device_class: irradiance
         state_class: measurement
-
-
-rest:
-  - resource: "https://api.open-meteo.com/v1/forecast"
-    scan_interval: 900
-    params:
-      latitude: "{{ state_attr('zone.home', 'latitude') }}"
-      longitude: "{{ state_attr('zone.home', 'longitude') }}"
-      current: "shortwave_radiation,direct_normal_irradiance,diffuse_radiation"
-      timezone: "Europe/Berlin"
-      models: "icon_d2"
-
-    sensor:
-      - name: "Solar Globalstrahlung"
-        unique_id: solar_globalstrahlung
-        value_template: "{{ value_json.current.shortwave_radiation | float(0) }}"
-        unit_of_measurement: "W/m²"
-        device_class: irradiance
-        state_class: measurement
+        force_update: true
 
       - name: "Solar DNI"
         unique_id: solar_dni
-        value_template: "{{ value_json.current.direct_normal_irradiance | float(0) }}"
+        value_template: "{{ value_json.current.direct_normal_irradiance }}"
+        availability: >
+          {{ value_json.current is defined
+             and value_json.current.direct_normal_irradiance is defined
+             and value_json.current.direct_normal_irradiance is not none }}
         unit_of_measurement: "W/m²"
         device_class: irradiance
         state_class: measurement
+        force_update: true
 
       - name: "Solar DHI"
         unique_id: solar_dhi
-        value_template: "{{ value_json.current.diffuse_radiation | float(0) }}"
+        value_template: "{{ value_json.current.diffuse_radiation }}"
+        availability: >
+          {{ value_json.current is defined
+             and value_json.current.diffuse_radiation is defined
+             and value_json.current.diffuse_radiation is not none }}
         unit_of_measurement: "W/m²"
         device_class: irradiance
         state_class: measurement
+        force_update: true
+
+      - name: "Windgeschwindigkeit 10m"
+        unique_id: windgeschwindigkeit_10m
+        value_template: "{{ value_json.current.wind_speed_10m }}"
+        availability: >
+          {{ value_json.current is defined
+             and value_json.current.wind_speed_10m is defined
+             and value_json.current.wind_speed_10m is not none }}
+        unit_of_measurement: "km/h"
+        device_class: wind_speed
+        state_class: measurement
+        force_update: true
+
+      - name: "Windrichtung 10m"
+        unique_id: windrichtung_10m
+        value_template: "{{ value_json.current.wind_direction_10m }}"
+        availability: >
+          {{ value_json.current is defined
+             and value_json.current.wind_direction_10m is defined
+             and value_json.current.wind_direction_10m is not none }}
+        unit_of_measurement: "°"
+        device_class: wind_direction
+        state_class: measurement_angle
+        force_update: true
+
+      - name: "Windboeen 10m"
+        unique_id: windboeen_10m
+        value_template: "{{ value_json.current.wind_gusts_10m }}"
+        availability: >
+          {{ value_json.current is defined
+             and value_json.current.wind_gusts_10m is defined
+             and value_json.current.wind_gusts_10m is not none }}
+        unit_of_measurement: "km/h"
+        device_class: wind_speed
+        state_class: measurement
+        force_update: true
+
 #
 # to show camera live feed on wall tablet: use browser_mod
 # this section was version 1

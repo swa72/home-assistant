@@ -102,7 +102,7 @@ tempsensors:
     - sensor.multi_og_aussen_temperature
     - sensor.multi_og_elternbad_temperature
     - sensor.multi_og_kinderbad_temperature
-    - sensor.multi_og_konstantin_temperature
+    - sensor.multi_dg_anna_temperature
     - sensor.multi_og_schlaf_temperature
 
 #
