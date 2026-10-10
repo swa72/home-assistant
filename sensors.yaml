@@ -763,37 +763,37 @@
 # https://espresense.com/home_assistant
 # see https://www.home-assistant.io/integrations/mqtt_room/#
 # One entry for each beacon you want to track
-- platform: mqtt_room
-  # the ID you discovered
-  device_id: "bwi_iphone11"
-  name: "iPhone 11 BWI"
-  state_topic: "espresense/devices/bwi_iphone11"
-  timeout: 60
-  away_timeout: 60
+# - platform: mqtt_room
+  # # the ID you discovered
+  # device_id: "bwi_iphone11"
+  # name: "iPhone 11 BWI"
+  # state_topic: "espresense/devices/bwi_iphone11"
+  # timeout: 60
+  # away_timeout: 60
 
-- platform: mqtt_room
-  # the ID you discovered
-  device_id: "ipad_rot"
-  name: "iPad Rot"
-  state_topic: "espresense/devices/ipad_rot"
-  timeout: 60
-  away_timeout: 60
+# - platform: mqtt_room
+  # # the ID you discovered
+  # device_id: "ipad_rot"
+  # name: "iPad Rot"
+  # state_topic: "espresense/devices/ipad_rot"
+  # timeout: 60
+  # away_timeout: 60
 
-- platform: mqtt_room
-  # the ID you discovered
-  device_id: "claraiphone2020"
-  name: "iPhone Clara"
-  state_topic: "espresense/devices/claraiphone2020"
-  timeout: 60
-  away_timeout: 60
+# - platform: mqtt_room
+  # # the ID you discovered
+  # device_id: "claraiphone2020"
+  # name: "iPhone Clara"
+  # state_topic: "espresense/devices/claraiphone2020"
+  # timeout: 60
+  # away_timeout: 60
 
-- platform: mqtt_room
-  # the ID you discovered
-  device_id: "iphonekonstantin"
-  name: "iPhone Konstantin"
-  state_topic: "espresense/devices/iphonekonstantin"
-  timeout: 60
-  away_timeout: 60
+# - platform: mqtt_room
+  # # the ID you discovered
+  # device_id: "iphonekonstantin"
+  # name: "iPhone Konstantin"
+  # state_topic: "espresense/devices/iphonekonstantin"
+  # timeout: 60
+  # away_timeout: 60
 
 - platform: statistics
   name: "Total Gas consumption last 7 days"
