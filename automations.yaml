@@ -3168,7 +3168,7 @@
   - action: select.select_option
     metadata: {}
     data:
-      option: pv
+      option: smart
     target:
       entity_id: select.evcc_haus_mode
   mode: single
