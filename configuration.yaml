@@ -492,6 +492,8 @@ panel_custom:
 #
 shell_command:
   push_to_github: "/config/gitpush.sh &> /dev/null"
+  acp_export: python3 /config/temp/export_acp.py
+  fritz_audit_export: python3 /config/temp/export_fritz_audit.py
 
 rest:
   - resource: "https://api.open-meteo.com/v1/forecast"

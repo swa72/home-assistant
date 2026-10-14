@@ -3420,3 +3420,67 @@
     target:
       entity_id: switch.shellys_kuehlschrank_buero
   mode: single
+- id: '1791899856559'
+  alias: ACP – Diagnose in Datei exportieren
+  description: Exportiert ACP-Konfiguration und relevante Zustände nach /config/temp.
+  triggers: []
+  conditions: []
+  actions:
+  - action: notify.send_message
+    target:
+      entity_id: notify.acp_export_snapshot
+    data:
+      message: "{%- macro json_safe(value) -%}\n  {%- if value is mapping -%}\n    {\n
+        \   {%- for key, item in value.items() -%}\n      {{ key | string | to_json
+        }}:{{ json_safe(item) }}\n      {{- ',' if not loop.last else '' -}}\n    {%-
+        endfor -%}\n    }\n  {%- elif value is string -%}\n    {{- value | to_json
+        -}}\n  {%- elif value is none -%}\n    null\n  {%- elif value is boolean -%}\n
+        \   {{- 'true' if value else 'false' -}}\n  {%- elif value is number -%}\n
+        \   {{- value | to_json -}}\n  {%- elif value.isoformat is defined -%}\n    {{-
+        value.isoformat() | to_json -}}\n  {%- elif value is iterable -%}\n    [\n
+        \   {%- for item in value -%}\n      {{- json_safe(item) -}}\n      {{- ','
+        if not loop.last else '' -}}\n    {%- endfor -%}\n    ]\n  {%- else -%}\n
+        \   {{- value | string | to_json -}}\n  {%- endif -%}\n{%- endmacro -%}\n{%-
+        set acp_ids =\n  (integration_entities('adaptive_cover_pro') | list)\n  +
+        (integration_entities('adaptive_cover') | list)\n-%}\n{%- set existing =\n
+        \ states | map(attribute='entity_id') | list\n-%}\n{%- set ns = namespace(\n
+        \ ids=acp_ids + ['sun.sun'],\n  rows=[]\n) -%}\n{%- for s in states -%}\n
+        \ {%- set domain = s.entity_id.split('.')[0] -%}\n  {%- set label = (s.entity_id
+        ~ ' ' ~ s.name) | lower -%}\n  {%- set device_class =\n    s.attributes.get('device_class',
+        '')\n  -%}\n\n  {%- if domain in ['cover', 'weather']\n    or (domain == 'sensor'
+        and device_class in [\n      'irradiance',\n      'illuminance',\n      'temperature',\n
+        \     'wind_speed'\n    ])\n    or (domain == 'sensor' and (\n      'solar'
+        in label\n      or 'irradiance' in label\n      or 'globalstrahlung' in label\n
+        \     or 'cloud' in label\n      or 'bewölk' in label\n    ))\n  -%}\n    {%-
+        set ns.ids = ns.ids + [s.entity_id] -%}\n  {%- endif -%}\n{%- endfor -%}\n{%-
+        for pass_number in range(2) -%}\n  {%- set selected = ns.ids | unique | list
+        -%}\n  {%- for s in states -%}\n    {%- if s.entity_id in selected -%}\n      {%-
+        set refs = json_safe(dict(s.attributes))\n        | regex_findall('[a-z_]+\\\\.[a-z0-9_]+')\n
+        \     -%}\n      {%- for ref in refs -%}\n        {%- if ref in existing -%}\n
+        \         {%- set ns.ids = ns.ids + [ref] -%}\n        {%- endif -%}\n      {%-
+        endfor -%}\n    {%- endif -%}\n  {%- endfor -%}\n{%- endfor -%}\n{%- set selected
+        = ns.ids | unique | list -%} {%- for s in states -%}\n  {%- if s.entity_id
+        in selected -%}\n    {%- set ns.rows = ns.rows + [{\n      'entity_id': s.entity_id,\n
+        \     'state': s.state,\n      'last_changed': s.last_changed.isoformat(),\n
+        \     'last_updated': s.last_updated.isoformat(),\n      'attributes': dict(s.attributes)\n
+        \   }] -%}\n  {%- endif -%}\n{%- endfor -%}\n{{- json_safe({\n  'schema':
+        'acp_snapshot_v1',\n  'exported_at': now().isoformat(),\n  'acp_entity_ids':
+        acp_ids,\n  'entities': ns.rows\n}) -}}"
+  - action: shell_command.acp_export
+    response_variable: export_result
+  - if:
+    - condition: template
+      value_template: '{{ export_result.returncode == 0 }}'
+    then:
+    - action: persistent_notification.create
+      data:
+        title: ACP-Export fertig
+        message: 'Datei erstellt: {{ export_result.stdout | trim }}'
+        notification_id: acp_export
+    else:
+    - action: persistent_notification.create
+      data:
+        title: ACP-Export fehlgeschlagen
+        message: '{{ export_result.stderr }}'
+        notification_id: acp_export
+  mode: single
