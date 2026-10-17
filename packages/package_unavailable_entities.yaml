@@ -86,6 +86,8 @@ automation:
                 | rejectattr('entity_id', 'contains', 'iphoneclara11')
                 | rejectattr('entity_id', 'contains', 'swaphone16')
                 | rejectattr('entity_id', 'contains', 'riphone')
+                | rejectattr('entity_id', 'contains', 'calendar.stefan_waldherr')
+                | rejectattr('entity_id', 'contains', 'todo.stefan_waldherr')
                 | rejectattr('entity_id', 'in', integration_entities('tesla_custom'))
                 | rejectattr('entity_id', 'in', integration_entities('battery_notes'))
                 | rejectattr('entity_id', 'in', integration_entities('fritz'))
