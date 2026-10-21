@@ -66,6 +66,13 @@ automation:
             {% for device in ignored_devices %}
               {% set ignored_device_entities.value = ignored_device_entities.value + device_entities(device) %}
             {% endfor %}
+            {% set excluded = namespace(entities=[]) %}
+            {% for entity in states %}
+              {% set entry = config_entry_id(entity.entity_id) %}
+              {% if entry and config_entry_attr(entry, 'domain') == 'proxmoxve' %}
+                {% set excluded.entities = excluded.entities + [entity.entity_id] %}
+              {% endif %}
+            {% endfor %}
             {{ states
                 | rejectattr('domain', 'in', ignored_domains)
                 | rejectattr('entity_id', 'in', disabled_device_entities)
@@ -94,6 +101,7 @@ automation:
                 | rejectattr('entity_id', 'in', integration_entities('mobile_app'))
                 | rejectattr('entity_id', 'in', integration_entities('tado'))
                 | rejectattr('entity_id', 'in', integration_entities('ipp'))
+                | rejectattr('entity_id', 'in', excluded.entities)
                 | rejectattr('entity_id', 'contains', '_internet_access')
                 | rejectattr('entity_id', 'in',
                     integration_entities('icloud') | select('search', '_battery') | list)
