@@ -873,8 +873,8 @@
 
 #  To throttle a sensor down to 1 value per minute, the window_size should be set to "00:01”.
 - platform: filter
-  name: "filtered shellysfiretabletpower"
-  entity_id: sensor.shellys_firetablet_power
+  name: "filtered shellyselitedeskpower"
+  entity_id: sensor.shellys_elitedesk_power
   filters:
     - filter: time_throttle
       window_size: "00:01"

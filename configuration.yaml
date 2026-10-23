@@ -301,7 +301,7 @@ recorder:
       - sensor.espresense_esppkidsgross_espresense_esppkidsgross_free_mem
       - sensor.espresense_esppkidsgross_espresense_esppkidsgross_uptime
       - binary_sensor.espresense_esppkidsgross_espresense_esppkidsgross
-      - sensor.shellys_firetablet_power
+      - sensor.shellys_elitedesk_power
       - sensor.boiler_flame_current
       - sensor.shellys_keller_pumpe_treppe_power
       - sensor.load_5m
