@@ -288,56 +288,56 @@
   alias: Advanced Heating Monitor_
   description: Sends message to Stefan if heating shows non-regular codes,  checks
     pressure, sets NTP time at night
-  trigger:
-  - platform: state
-    entity_id: sensor.boiler_service_code
+  triggers:
+  - entity_id: sensor.boiler_service_code
     to: 6A
     for:
       hours: 0
       minutes: 10
       seconds: 0
     id: servicecode
-  - platform: time
-    at: 00:01
+    trigger: state
+  - at: 00:01
     id: setntp
-  - platform: numeric_state
-    entity_id: sensor.boiler_system_pressure
-    below: '1.9'
+    trigger: time
+  - entity_id: sensor.boiler_system_pressure
+    below: '1.8'
     id: heizungsdruck
     for:
       hours: 1
       minutes: 0
       seconds: 0
       milliseconds: 0
-  condition: []
-  action:
+    trigger: numeric_state
+  conditions: []
+  actions:
   - choose:
     - conditions:
       - condition: trigger
         id: servicecode
       sequence:
-      - service: script.notify_stefan
-        data:
+      - data:
           title: Heating
           message: 'Service Code: {{ states(''sensor.boiler_service_code'') }} Service
             Code Number: {{ states(''sensor.boiler_service_code_number'') }}'
+        action: script.notify_stefan
     - conditions:
       - condition: trigger
         id: setntp
       sequence:
-      - service: mqtt.publish
-        data:
+      - data:
           topic: ems-esp/thermostat
           payload: '{"cmd":"datetime","data":"ntp"}'
           qos: '1'
+        action: mqtt.publish
     - conditions:
       - condition: trigger
         id: heizungsdruck
       sequence:
-      - service: notify.persistent_notification
-        data:
+      - data:
           title: Heating
           message: Heizungsdruck über 1h unter 1.9 bar.
+        action: notify.persistent_notification
   mode: single
 - id: '1632288672635'
   alias: Notify, if basement dehumidifier is full
@@ -793,8 +793,7 @@
   mode: single
 - id: '1640788626220'
   alias: Heizung KidsGross Wochentags runterregeln
-  description: Regelt die Heizung von 0700-1130 auf 19 Grad. Läuft nicht an Wochenende
-    und in Ferien.
+  description: Regelt die Heizung Wochentags runter.
   triggers:
   - at: 07:00
     trigger: time
@@ -810,14 +809,13 @@
   - target:
       entity_id: climate.kidsgross
     data:
-      time_period: 04:30:00
-      temperature: 19
+      time_period: 05:00:00
+      temperature: 20
     action: tado.set_climate_timer
   mode: single
 - id: '1640796447418'
   alias: Heizung KidsKlein Wochentags runterregeln
-  description: Regelt die Heizung von 0700-1130 auf 19 Grad. Läuft nicht an Wochenende
-    und in Ferien.
+  description: 'Regelt die Heizung Wochentags runter. '
   triggers:
   - at: 07:00
     trigger: time
@@ -831,8 +829,8 @@
     - fri
   actions:
   - data:
-      time_period: 04:30:00
-      temperature: 19
+      time_period: 05:00:00
+      temperature: 20
     target:
       entity_id: climate.kidsklein
     action: tado.set_climate_timer
