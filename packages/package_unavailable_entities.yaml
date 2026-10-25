@@ -113,6 +113,7 @@ automation:
                 | rejectattr('entity_id', 'contains', 'sleepac')
                 | rejectattr('entity_id', 'contains', '_overheating')
                 | rejectattr('entity_id', 'contains', '_overpowering') 
+                | rejectattr('entity_id', 'search', '^((binary_sensor|sensor|switch)\.boiler_dhw_|switch\.mixer_hc[123]_dhw_priority$)')
                 | rejectattr('entity_id', 'search', '^number\.thermostat_hc[123]_room_(humidity|temperature)_from_remote$')
                 | rejectattr('entity_id', 'in', [
                     'sensor.annas_ipad_battery',
