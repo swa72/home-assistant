@@ -851,9 +851,9 @@
 # - platform: template
   # sensors:
     # cover_currentposition_kidsgross:
-      # value_template: "{{ state_attr('cover.shelly25_og_clara', 'current_position') | int(default=100) }}"
+      # value_template: "{{ state_attr('cover.shelly25_og_kidsgross', 'current_position') | int(default=100) }}"
       # unit_of_measurement: "%"
-      # availability_template: "{{ state_attr('cover.shelly25_og_clara','current_position')|is_number }}"
+      # availability_template: "{{ state_attr('cover.shelly25_og_kidsgross','current_position')|is_number }}"
 
 #  To throttle a sensor down to 1 value per minute, the window_size should be set to "00:01”.
 - platform: filter

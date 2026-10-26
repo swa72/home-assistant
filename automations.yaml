@@ -626,16 +626,16 @@
 - id: '1635933038164'
   alias: Advanced Rolladen KidsGross
   description: Rolladensteuerung KidsGross zeitgesteuert Wochentags/Wochenende
-  trigger:
-  - platform: sun
-    event: sunset
+  triggers:
+  - event: sunset
     offset: 00:30:00
     id: abends1
-  - platform: time
-    at: '19:45'
+    trigger: sun
+  - at: '19:45'
     id: abends2
-  condition: []
-  action:
+    trigger: time
+  conditions: []
+  actions:
   - choose:
     - conditions:
       - condition: or
@@ -645,11 +645,11 @@
         - condition: trigger
           id: abends2
       sequence:
-      - service: cover.set_cover_position
-        data:
+      - data:
           position: 5
         target:
-          entity_id: cover.shelly25_og_clara
+          entity_id: cover.shelly25_og_kidsgross
+        action: cover.set_cover_position
     default: []
   mode: queued
   max: 10
