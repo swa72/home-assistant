@@ -336,7 +336,7 @@
       sequence:
       - data:
           title: Heating
-          message: Heizungsdruck über 1h unter 1.9 bar.
+          message: Heizungsdruck über 1h unter 1.8 bar.
         action: notify.persistent_notification
   mode: single
 - id: '1632288672635'
@@ -3481,4 +3481,51 @@
         title: ACP-Export fehlgeschlagen
         message: '{{ export_result.stderr }}'
         notification_id: acp_export
+  mode: single
+- id: hk3_remote_temperature_stefan
+  alias: HK3 Fernthermostat – Temperatur Stefan einspeisen
+  description: Hält HK3-Raumeinfluss auf 1 K, stellt HK3 bei Bedarf auf den EMS-ESP-Fernthermostat
+    RC100 und überträgt Stefans Raumtemperatur.
+  triggers:
+  - trigger: time_pattern
+    seconds: /30
+  conditions: []
+  actions:
+  - condition: numeric_state
+    entity_id: sensor.multi_dg_stefan_temperature
+    above: -1
+    below: 101
+  - choose:
+    - conditions:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: number.thermostat_hc3_room_influence
+          state: '1'
+      sequence:
+      - action: number.set_value
+        target:
+          entity_id: number.thermostat_hc3_room_influence
+        data:
+          value: 1
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: select.thermostat_hc3_control_device
+        state:
+        - RC310
+        - RC200
+        - RC100H
+        - TC100
+      sequence:
+      - action: select.select_option
+        target:
+          entity_id: select.thermostat_hc3_control_device
+        data:
+          option: RC100
+  - action: number.set_value
+    target:
+      entity_id: number.thermostat_hc3_room_temperature_from_remote
+    data:
+      value: '{{ states(''sensor.multi_dg_stefan_temperature'') | float }}'
   mode: single
