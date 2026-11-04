@@ -1505,25 +1505,25 @@
       enabled: false
   mode: single
 - id: '1671871958843'
-  alias: Notify, wenn 2000 Uhr und Tesla weniger als 300km
+  alias: Notify, wenn 2000 Uhr und Tesla weniger als 100km
   description: ''
-  trigger:
-  - platform: time
-    at: '20:00:00'
-  - platform: time
-    at: 08:30:00
-  condition:
+  triggers:
+  - at: '20:00:00'
+    trigger: time
+  - at: 08:30:00
+    trigger: time
+  conditions:
   - condition: template
-    value_template: '{{ states(''sensor.range'') | float < 300 }}'
+    value_template: '{{ states(''sensor.range'') | float < 100 }}'
   - condition: template
     value_template: '{{ states(''device_tracker.location_tracker'') == ''home'' }}'
   - condition: template
     value_template: '{{ states(''binary_sensor.charger'') == ''off'' }}'
-  action:
-  - service: script.notify_people_who_are_present
-    data:
+  actions:
+  - data:
       title: Hinweis
       message: Der Tesla hat nur noch {{ states('sensor.range') | round(0)}}km Reichweite.
+    action: script.notify_people_who_are_present
   mode: single
 - id: '1672679486579'
   alias: Notify people to clean Silvia
@@ -3484,13 +3484,33 @@
   mode: single
 - id: hk3_remote_temperature_stefan
   alias: HK3 Fernthermostat – Temperatur Stefan einspeisen
-  description: Hält HK3-Raumeinfluss auf 1 K, stellt HK3 bei Bedarf auf den EMS-ESP-Fernthermostat
-    RC100 und überträgt Stefans Raumtemperatur.
+  description: Überträgt bei gültigem Sensorwert die Temperatur aus Stefan an HK3,
+    hält den Raumeinfluss auf 1 K und benachrichtigt bei Ausfall oder ungültigem Messwert.
   triggers:
   - trigger: time_pattern
     seconds: /30
+    id: refresh
+  - trigger: state
+    entity_id: sensor.multi_dg_stefan_temperature
+    id: sensor_update
   conditions: []
   actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: sensor_update
+      - condition: template
+        value_template: '{% set old = trigger.from_state.state if trigger.from_state
+          is not none else '''' %}{% set new = trigger.to_state.state if trigger.to_state
+          is not none else '''' %}{{ is_number(old) and (old | float > -1) and (old
+          | float < 101) and (not is_number(new) or (new | float <= -1) or (new |
+          float >= 101)) }}'
+      sequence:
+      - action: script.urgent_notify_stefan
+        data:
+          title: 'HK3: Temperaturfühler'
+          message: Der Sensor Stefan liefert keinen gültigen Temperaturwert ({{ states('sensor.multi_dg_stefan_temperature')
+            }}). HK3 erhält derzeit keinen aktuellen Fernfühlerwert.
   - condition: numeric_state
     entity_id: sensor.multi_dg_stefan_temperature
     above: -1
@@ -3528,4 +3548,94 @@
       entity_id: number.thermostat_hc3_room_temperature_from_remote
     data:
       value: '{{ states(''sensor.multi_dg_stefan_temperature'') | float }}'
+  mode: single
+- id: '1793691452097'
+  alias: Notify, wenn 2000 Uhr und Audi weniger als 100km
+  description: ''
+  triggers:
+  - at: '20:00:00'
+    trigger: time
+  - at: 08:30:00
+    trigger: time
+  conditions:
+  - condition: template
+    value_template: '{{ states(''sensor.garage_q6_etron_electric_range'') | float
+      < 100 }}'
+  - condition: template
+    value_template: '{{ states(''device_tracker.location_tracker'') == ''home'' }}'
+  - condition: template
+    value_template: '{{ states(''binary_sensor.charger'') == ''off'' }}'
+  actions:
+  - data:
+      title: Hinweis
+      message: Der Audi hat nur noch {{ states('sensor.garage_q6_etron_electric_range')
+        | round(0)}}km Reichweite.
+    action: script.notify_people_who_are_present
+  mode: single
+- id: hk1_remote_temperature_eg_buro
+  alias: HK1 Fernthermostat – Temperatur EG-Büro einspeisen
+  description: Überträgt bei gültigem Sensorwert die Temperatur aus EG-Büro an HK1,
+    hält den Raumeinfluss auf 1 K und benachrichtigt bei Ausfall oder ungültigem Messwert.
+  triggers:
+  - trigger: time_pattern
+    seconds: /30
+    id: refresh
+  - trigger: state
+    entity_id: sensor.multi_eg_buro_temperature
+    id: sensor_update
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: sensor_update
+      - condition: template
+        value_template: '{% set old = trigger.from_state.state if trigger.from_state
+          is not none else '''' %}{% set new = trigger.to_state.state if trigger.to_state
+          is not none else '''' %}{{ is_number(old) and (old | float > -1) and (old
+          | float < 101) and (not is_number(new) or (new | float <= -1) or (new |
+          float >= 101)) }}'
+      sequence:
+      - action: script.urgent_notify_stefan
+        data:
+          title: 'HK1: Temperaturfühler'
+          message: Der Sensor EG-Büro liefert keinen gültigen Temperaturwert ({{ states('sensor.multi_eg_buro_temperature')
+            }}). HK1 erhält derzeit keinen aktuellen Fernfühlerwert.
+  - condition: numeric_state
+    entity_id: sensor.multi_eg_buro_temperature
+    above: -1
+    below: 101
+  - choose:
+    - conditions:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: number.thermostat_hc1_room_influence
+          state: '1'
+      sequence:
+      - action: number.set_value
+        target:
+          entity_id: number.thermostat_hc1_room_influence
+        data:
+          value: 1
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: select.thermostat_hc1_control_device
+        state:
+        - RC310
+        - RC200
+        - RC100H
+        - TC100
+      sequence:
+      - action: select.select_option
+        target:
+          entity_id: select.thermostat_hc1_control_device
+        data:
+          option: RC100
+  - action: number.set_value
+    target:
+      entity_id: number.thermostat_hc1_room_temperature_from_remote
+    data:
+      value: '{{ states(''sensor.multi_eg_buro_temperature'') | float }}'
   mode: single
