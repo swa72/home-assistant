@@ -92,6 +92,7 @@ automation:
                 | rejectattr('entity_id', 'contains', 'iphone12_von_konstantin')
                 | rejectattr('entity_id', 'contains', 'iphoneclara11')
                 | rejectattr('entity_id', 'contains', 'ipadbwipro11')
+                | rejectattr('entity_id', 'contains', 'annas_ipad')
                 | rejectattr('entity_id', 'contains', 'airpods_pro_von_julia_2')
                 | rejectattr('entity_id', 'contains', 'swaphone16')
                 | rejectattr('entity_id', 'contains', 'riphone')
