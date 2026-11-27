@@ -360,7 +360,8 @@ influxdb:
       - sensor.solar_dhi
       - sensor.windgeschwindigkeit_10m
       - sensor.windrichtung_10m
-      - sensor.windboeen_10m      
+      - sensor.windboeen_10m    
+      - sensor.wintergardenac_return_air_temperature      
     entity_globs:
       - sensor.shellys_keller*
       - sensor.boiler*
